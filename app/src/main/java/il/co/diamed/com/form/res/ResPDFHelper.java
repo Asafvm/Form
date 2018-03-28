@@ -1,6 +1,8 @@
 package il.co.diamed.com.form.res;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +12,15 @@ import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ResourceBundle;
 
 import il.co.diamed.com.form.PDFActivity;
@@ -25,6 +32,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import static android.app.PendingIntent.getActivity;
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by asafv on 3/27/2018.
@@ -77,4 +85,8 @@ public class ResPDFHelper extends PdfDocument {
     public static void drawText(Canvas canvas, String text, int xOffset, int yOffset, Paint paint) {
         canvas.drawText(text, xOffset, yOffset, paint);
     }
+
+
+
+
 }
