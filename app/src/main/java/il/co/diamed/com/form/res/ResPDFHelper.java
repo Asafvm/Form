@@ -38,7 +38,7 @@ import static android.content.ContentValues.TAG;
  * Created by asafv on 3/27/2018.
  */
 
-public class ResPDFHelper extends PdfDocument {
+public class ResPDFHelper extends PdfDocument{
     private final static int pageWidth = 597;   //8.3 * 72
     private final static int pageHeight = 842;  //11.7 * 72
 
