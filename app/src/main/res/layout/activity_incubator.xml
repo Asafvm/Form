@@ -27,10 +27,11 @@
 
     <RadioGroup
         android:id="@+id/type"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/location">
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        >
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,10 +85,34 @@
         app:layout_constraintTop_toBottomOf="@id/serial"
         app:layout_constraintLeft_toRightOf="@id/time"/>
 
+    <Switch
+        android:id="@+id/incFanSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/checkIncFan"
+        android:layout_marginTop="35dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        app:layout_constraintLeft_toRightOf="@+id/incRubberSwitch"
+        app:layout_constraintBottom_toTopOf="@id/serial"
+        android:visibility="invisible"
+        />
+    <Switch
+        android:id="@+id/incRubberSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/checkIncRubber"
+        android:layout_marginTop="35dp"
+        android:paddingLeft="20dp"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        app:layout_constraintLeft_toRightOf="@id/type"
+        app:layout_constraintBottom_toTopOf="@id/serial"
+        android:visibility="invisible"
+        />
 
     <Button
         android:id="@+id/submit"
-        android:text="submit"
+        android:text="@string/submitForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/techname"/>

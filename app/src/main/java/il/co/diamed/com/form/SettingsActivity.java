@@ -1,8 +1,10 @@
 package il.co.diamed.com.form;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -17,6 +19,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
@@ -110,6 +113,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         // Trigger the listener immediately with the preference's
         // current value.
+
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -132,6 +136,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+
 
     /**
      * {@inheritDoc}
@@ -212,8 +218,36 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("show_signature_confirmation"));
+            bindPreferenceSummaryToValue(findPreference("techName"));
             bindPreferenceSummaryToValue(findPreference("signature"));
+
+            final Preference sign = (findPreference("signature"));
+            sign.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(sign.getIntent(),1234);
+                    return true;
+                }
+            });
+
         }
+
+
+        public void onActivityResult(int reqCode, int resCode, Intent data) {
+            if (reqCode == 1234) {
+                Preference sign = (findPreference("signature"));
+                Bundle bundle = data.getExtras();
+
+                sign.setSummary(bundle.getString("url"));
+                SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
+                SharedPreferences.Editor spedit = pfsettings.edit();
+
+                spedit.putString("signature",bundle.getString("url"));
+                spedit.commit();
+            }
+        }
+
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
