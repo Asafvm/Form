@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,115 +7,265 @@
     android:background="#eeeeee"
     tools:context="il.co.diamed.com.form.IncubatorActivity">
 
-
-
-    <DatePicker
-        android:id="@+id/date"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:datePickerMode="spinner"
-        android:calendarViewShown="false"
-        />
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@id/divider1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
 
-    <EditText
-        android:id="@+id/location"
-        android:hint="@string/formLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/date"/>
+        app:layout_constraintVertical_weight="1">
 
-    <RadioGroup
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/location"
-        >
-        <RadioButton
+        <DatePicker
+            android:id="@+id/formDate"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/formMainLocation" />
+
+
+        <EditText
+            android:id="@+id/formMainLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/incTypeSI"
-            />
-        <RadioButton
+            android:hint="@string/formMainLocation"
+            android:paddingTop="25dp"
+            app:layout_constraintBottom_toTopOf="@id/formRoomLocation"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintLeft_toRightOf="@id/formDate"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/formRoomLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/incTypeSII"
-            />
-        <RadioButton
+            android:layout_marginBottom="20dp"
+            android:hint="@string/formRoomLocation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintLeft_toRightOf="@id/formDate"
+            app:layout_constraintTop_toBottomOf="@id/formMainLocation" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/midLayout"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/midLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        app:layout_constraintBottom_toTopOf="@id/divider2"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintVertical_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvDeviceModel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/incTypeL"
-            />
-    </RadioGroup>
+            android:text="@string/incType"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rgModelSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/etDeviceSerial"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
+
+            <RadioButton
+                android:id="@+id/si"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/incTypeSI" />
+
+            <RadioButton
+                android:id="@+id/sii"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/incTypeSII" />
+
+            <RadioButton
+                android:id="@+id/l"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/incTypeL" />
+        </RadioGroup>
 
 
-    <EditText
-        android:id="@+id/serial"
-        android:hint="@string/formSerial"
+        <TextView
+            android:id="@+id/tvDeviceSerial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/tvDeviceSerial"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/etDeviceSerial"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/etDeviceSerial"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+
+        <EditText
+            android:id="@+id/etDeviceSerial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/formSerial"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tvDeviceSerial"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/lowLayout"
+        app:layout_constraintTop_toBottomOf="@id/midLayout" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/type"/>
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@id/divider3"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintVertical_weight="2">
 
 
-    <EditText
-        android:id="@+id/temp"
-        android:hint="@string/incTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/serial"
-        app:layout_constraintRight_toLeftOf="@id/time"/>
+        <ImageView
+            android:id="@+id/icTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_thermometer"
+
+            app:layout_constraintBottom_toBottomOf="@id/temp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/temp" />
 
 
-    <EditText
-        android:id="@+id/time"
-        android:hint="@string/formTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/serial"
-        app:layout_constraintLeft_toRightOf="@id/temp"/>
+        <EditText
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/incTemp"
+            android:textAlignment="textEnd"
+
+            app:layout_constraintRight_toLeftOf="@id/icTemp"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
+        <ImageView
+            android:id="@+id/icTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_lock_idle_alarm"
+            app:layout_constraintBottom_toBottomOf="@id/time"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/time" />
 
-    <EditText
-        android:id="@+id/techname"
-        android:hint="@string/formTechName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/serial"
-        app:layout_constraintLeft_toRightOf="@id/time"/>
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/formTime"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/icTime"
+            app:layout_constraintTop_toBottomOf="@id/temp" />
 
-    <Switch
-        android:id="@+id/incFanSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/checkIncFan"
-        android:layout_marginTop="35dp"
-        android:paddingLeft="20dp"
-        app:layout_constraintTop_toBottomOf="@id/location"
-        app:layout_constraintLeft_toRightOf="@+id/incRubberSwitch"
-        app:layout_constraintBottom_toTopOf="@id/serial"
-        android:visibility="invisible"
-        />
-    <Switch
-        android:id="@+id/incRubberSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/checkIncRubber"
-        android:layout_marginTop="35dp"
-        android:paddingLeft="20dp"
-        app:layout_constraintTop_toBottomOf="@id/location"
-        app:layout_constraintLeft_toRightOf="@id/type"
-        app:layout_constraintBottom_toTopOf="@id/serial"
-        android:visibility="invisible"
-        />
 
-    <Button
-        android:id="@+id/submit"
-        android:text="@string/submitForm"
+        <Switch
+            android:id="@+id/incFanSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/checkIncFan"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/incRubberSwitch"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/incRubberSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+
+            android:text="@string/checkIncRubber"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/incFanSwitch" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintTop_toBottomOf="@id/lowLayout" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/techname"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider3">
 
+        <EditText
+            android:id="@+id/formTechName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/formTechName"
+            app:layout_constraintBottom_toTopOf="@id/formSubmitButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/formSubmitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submitForm"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>

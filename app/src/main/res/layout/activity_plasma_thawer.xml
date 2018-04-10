@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlasmaThawerActivity">
+
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/form_header" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/midLayout"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/midLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        app:layout_constraintBottom_toTopOf="@id/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/divider1"
+        app:layout_constraintVertical_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvDeviceModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ptType"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/rgModelSelect"
+            app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rgModelSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/etDeviceSerial"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tvDeviceModel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
+
+            <RadioButton
+                android:id="@+id/dh4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pt_dh4" />
+
+            <RadioButton
+                android:id="@+id/dh8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pt_dh8" />
+
+        </RadioGroup>
+
+
+        <TextView
+            android:id="@+id/tvDeviceSerial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/incSerial"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/etDeviceSerial"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/etDeviceSerial"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+
+        <EditText
+            android:id="@+id/etDeviceSerial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/formSerial"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tvDeviceSerial"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/lowLayout"
+        app:layout_constraintTop_toBottomOf="@id/midLayout" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/lowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="15dp"
+        app:layout_constraintBottom_toTopOf="@id/divider3"
+        app:layout_constraintTop_toBottomOf="@id/divider2">
+
+
+        <ImageView
+            android:id="@+id/icTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_thermometer"
+
+            app:layout_constraintBottom_toBottomOf="@id/ptTemp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ptTemp" />
+
+
+        <EditText
+            android:id="@+id/ptTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/incTemp"
+            android:textAlignment="textEnd"
+
+            app:layout_constraintRight_toLeftOf="@id/icTemp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/ptExpectedTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/incTemp"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toTopOf="@id/centFanSwitch"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ptExpectedTemp"
+            app:layout_constraintBottom_toBottomOf="@id/ptExpectedTemp"
+            app:layout_constraintLeft_toRightOf="@id/ptExpectedTemp"
+             />
+
+
+
+
+        <ImageView
+            android:id="@+id/icTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_lock_idle_alarm"
+            app:layout_constraintBottom_toBottomOf="@id/ptTime"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ptTime" />
+
+        <EditText
+            android:id="@+id/ptTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/ptTime"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toTopOf="@id/ptWaterCheck"
+            app:layout_constraintRight_toLeftOf="@id/icTime"
+            app:layout_constraintTop_toBottomOf="@id/ptTemp" />
+
+
+        <Switch
+            android:id="@+id/ptWaterCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/ptWaterCheck"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ptTime" />
+
+
+        <Switch
+            android:id="@+id/ptOilCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/ptOilCheck"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ptWaterCheck" />
+
+
+        <Switch
+            android:id="@+id/ptAlarmCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/ptAlarmCheck"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ptOilCheck"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintTop_toBottomOf="@id/lowLayout" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/form_footer" />
+
+</android.support.constraint.ConstraintLayout>

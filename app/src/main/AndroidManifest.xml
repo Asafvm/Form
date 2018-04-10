@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,15 +29,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Intent filter to capture System Browser calling back to our app after Sign In -->
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Add in your scheme/host from registered redirect URI -->
+                <!-- By default, the scheme should be similar to 'msal[appId]' -->
+                <data
+                    android:host="auth"
+                    android:scheme="msalb3131887-d338-4d8d-a0fb-89c5db805612" />
+            </intent-filter>
+        </activity>
         <activity android:name=".DeviceActivity" />
         <activity android:name=".IncubatorActivity" />
         <activity android:name=".PDFActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".CaptureSignature"
-            android:theme="@style/theme.Transparent"
-            ></activity>
+        <activity
+            android:name=".CaptureSignature"
+            android:theme="@style/theme.Transparent" />
+        <activity
+            android:name=".LoginActivity2"
+            android:label="@string/title_activity_login2" />
+        <activity android:name=".CentrifugeActivity" />
+        <activity android:name=".PlasmaThawerActivity"></activity>
     </application>
 
 </manifest>

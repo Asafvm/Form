@@ -7,28 +7,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.DatePicker;
 
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfCopy;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfEFStream;
-import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -40,13 +29,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 import il.co.diamed.com.form.res.Tuple;
-
-import static android.content.ContentValues.TAG;
 
 public class PDFActivity extends AppCompatActivity {
     private File pdfFile;   //iText var
@@ -84,6 +69,8 @@ public class PDFActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("addImage: ", e.getMessage());
         }
+
+        finish();
     }
 
 
@@ -101,16 +88,16 @@ public class PDFActivity extends AppCompatActivity {
         PdfContentByte cb = stamper.getOverContent(1);
 
 
-        Image image = getImageFromPNG("checkmark.png", 10, 10);
-
+        Image image = getImageFromPNG("checkmark.png");
+        image.scalePercent(2);
         //add checkmarks
         for (int i = 0; i < checkmarks.size(); i++) {
             image.setAbsolutePosition(checkmarks.get(i).getX(), checkmarks.get(i).getY());
             cb.addImage(image);
         }
         image = Image.getInstance(signature);
-        image.scalePercent(6);
-        image.setAbsolutePosition(155, 30);
+        image.scalePercent(8);
+        image.setAbsolutePosition(125, 33);
         cb.addImage(image);
         //add text
 
@@ -119,14 +106,14 @@ public class PDFActivity extends AppCompatActivity {
         //cb.getPdfWriter().setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
 
         //test
-        ColumnText ct = new ColumnText(stamper.getUnderContent(0));
+        ColumnText ct;// = new ColumnText(stamper.getUnderContent(0));
 
 
         for (int i = 0; i < corText.size(); i++) {
 
             cb = stamper.getOverContent(1);
             ct = new ColumnText(cb);
-            if(i==1 || i==7)
+            if(i<=1)
                 ct.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
             else
                 ct.setRunDirection(PdfWriter.RUN_DIRECTION_LTR);
@@ -171,7 +158,7 @@ public class PDFActivity extends AppCompatActivity {
         reader.close();
     }
 
-    private Image getImageFromPNG(String url, int width, int height) {
+    private Image getImageFromPNG(String url){//}, int width, int height) {
 
         InputStream ims = null;
         try {
@@ -187,7 +174,7 @@ public class PDFActivity extends AppCompatActivity {
             }
         }
         Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
-        Bitmap bmp = Bitmap.createScaledBitmap(bmpOrigin, width, height, true);
+        Bitmap bmp = Bitmap.createScaledBitmap(bmpOrigin, bmpOrigin.getWidth(), bmpOrigin.getHeight(), true);
         ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream2);
         Image image = null;

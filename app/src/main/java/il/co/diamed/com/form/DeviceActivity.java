@@ -2,18 +2,16 @@ package il.co.diamed.com.form;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toolbar;
+import android.widget.TextView;
 
 public class DeviceActivity extends AppCompatActivity {
 
@@ -26,16 +24,34 @@ public class DeviceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device);
 
 
+        Button incButton = (Button)findViewById(R.id.idInc);
+        Button centButton = (Button)findViewById(R.id.idCent);
+        Button plasmaButton = (Button)findViewById(R.id.plasma);
 
-        Button btn = (Button)findViewById(R.id.id37si);
-
-        btn.setOnClickListener(new View.OnClickListener(){
+        incButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(),IncubatorActivity.class);
                 startActivity(intent);
             }
         });
+
+        centButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), CentrifugeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        plasmaButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -73,7 +89,12 @@ public class DeviceActivity extends AppCompatActivity {
 
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        // Respond when the drawer is opened
+                        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+                        String name = sp.getString("techName",null);
+                        if(name!=null || name!="") {
+                            TextView et = findViewById(R.id.nav_header);
+                            et.setText(R.string.helloHeader + name);
+                        }
                     }
 
                     @Override

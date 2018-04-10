@@ -1,3 +1,4 @@
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
@@ -14,8 +15,18 @@
 
     <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
          design guidelines. -->
-    <Preference android:title="@string/pref_title_system_sync_settings">
-        <intent android:action="android.settings.SYNC_SETTINGS" />
+    <Preference android:title="@string/pref_title_system_sync_settings"
+        android:key="pref_sync">
+
+        <intent
+            android:maxLines="1"
+            android:defaultValue="@string/pref_not_synced"
+            android:inputType="textCapWords"
+            android:action="android.intent.action.VIEW"
+            android:targetClass="il.co.diamed.com.form.LoginActivity2"
+            android:targetPackage="il.co.diamed.com.form"
+            />
     </Preference>
 
 </PreferenceScreen>
+
