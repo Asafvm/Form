@@ -12,12 +12,24 @@
         android:capitalize="characters"
         android:defaultValue="@string/fullName"
         android:inputType="textCapWords"
-        android:summary="הכנס שם מלא"
+        android:summary="@string/defaultTechName"
         android:key="techName"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/fullName" />
+
+
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/defaulteMail"
+        android:inputType="textCapWords"
+        android:summary="@string/defaulteMail"
+        android:key="techeMail"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/techeMail" />
 
     <!-- Allows the user to choose a ringtone in the 'notification' category. -->
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
@@ -27,7 +39,7 @@
         android:maxLines="1"
         android:defaultValue="@string/pref_default_signnotfound"
         android:inputType="textCapWords"
-        android:summary="לחץ כדי להקליט חתימה"
+        android:summary="@string/defaultSignature"
         >
 
         <intent

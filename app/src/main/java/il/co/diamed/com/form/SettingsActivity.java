@@ -11,9 +11,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -21,6 +24,8 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,6 +41,7 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
+
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -89,6 +95,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     };
 
+
     /**
      * Helper method to determine if the device has an extra-large screen. For
      * example, 10" tablets are extra-large.
@@ -136,7 +143,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
 
 
     /**
@@ -219,13 +225,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             //bindPreferenceSummaryToValue(findPreference("show_signature_confirmation"));
             bindPreferenceSummaryToValue(findPreference("techName"));
+            bindPreferenceSummaryToValue(findPreference("techeMail"));
             bindPreferenceSummaryToValue(findPreference("signature"));
+
 
             final Preference sign = (findPreference("signature"));
             sign.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(sign.getIntent(),1234);
+                    startActivityForResult(sign.getIntent(), 1234);
                     return true;
                 }
             });
@@ -234,19 +242,21 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 
         public void onActivityResult(int reqCode, int resCode, Intent data) {
+            Log.e("sett: ", "got a result");
             if (reqCode == 1234) {
                 Preference sign = (findPreference("signature"));
                 Bundle bundle = data.getExtras();
 
                 sign.setSummary(bundle.getString("url"));
+
                 SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
                 SharedPreferences.Editor spedit = pfsettings.edit();
 
                 spedit.putString("signature",bundle.getString("url"));
                 spedit.commit();
             }
-        }
 
+        }
 
 
         @Override
@@ -277,6 +287,53 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+
+
+            final Preference sync = (findPreference("pref_sync"));
+            sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+
+                    startActivityForResult(sync.getIntent().putExtra("log",0), 4321);
+                    return true;
+                }
+            });
+        }
+
+        public void onActivityResult(int reqCode, int resCode, Intent data) {
+            Log.e("sett: ", "got a result "+resCode);
+
+            if (reqCode == 4321) {
+                if (resCode == RESULT_OK) {
+                    Log.e("sett: ", "got microResult");
+                    Bundle bundle = data.getExtras();
+                    //Log.e("set: ",bundle.getString("fullName"));
+                    //Log.e("set: "-,bundle.getString("eMail"));
+
+
+                    SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
+                    SharedPreferences.Editor spedit = pfsettings.edit();
+                    String name = pfsettings.getString("techName",null);
+                    Log.e("set name: ",name);
+                    if(name == null || name=="")
+                        spedit.putString("techName",bundle.getString("fullName"));
+
+                    spedit.putString("techeMail",bundle.getString("eMail"));
+                    spedit.commit();
+
+               /*
+                SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
+                SharedPreferences.Editor spedit = pfsettings.edit();
+                spedit.putString("techName",bundle.getString("fullName"));
+                spedit.putString("techeMail",bundle.getString("eMail"));
+                spedit.commit();*/
+                }else {
+                    Log.e("set: ", "signin faild");
+                    //Preference sync = (findPreference("pref_sync"));
+                    //startActivityForResult(sync.getIntent().putExtra("log", 1), 4444);
+                }
+            }
         }
 
         @Override

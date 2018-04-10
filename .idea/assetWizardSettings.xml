@@ -62,8 +62,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_tools" />
-                            <entry key="sourceFile" value="C:\Users\asafv" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_thermometer" />
+                            <entry key="sourceFile" value="C:\Users\asafv\Downloads\thermometer.svg" />
                           </map>
                         </option>
                       </PersistentState>
