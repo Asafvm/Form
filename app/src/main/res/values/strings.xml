@@ -126,7 +126,7 @@
     <string name="defaultTechName">הכנס שם מלא</string>
     <string name="techeMail">דואר אלקטרוני</string>
     <string name="defaultSignature">לחץ כדי להקליט חתימה</string>
-    <string name="helloHeader">שלום,</string>
+    <string name="helloHeader">שלום, </string>
     <string name="pref_not_synced">לא מסונכרן</string>
     <string name="signButton">התנתק</string>
     <string name="centType6S">6S</string>
@@ -146,8 +146,7 @@
     <string name="tvDeviceSerial">מספר סידורי</string>
     <string name="centExpectedTime">מהירות\nצפויה</string>
     <string name="Diacent">ID-Diacent12</string>
-    <string name="diacent">Diacent12</string>
-    <string name="diacentCW">Diacent CW</string>
+    <string name="diacent">Diacent 12 / CW</string>
     <string name="ih500">IH-500</string>
     <string name="ih1000">IH-1000</string>
     <string name="docon">Docon</string>
@@ -165,6 +164,36 @@
     <string name="ptOilCheck">שימון וחיזוק צירים\nבסלי המנות</string>
     <string name="ptAlarmCheck">בדיקת\nהתראות</string>
     <string name="ptTime">10</string>
+    <string name="centTypedia12">12</string>
+    <string name="centTypediaCW">CW</string>
+    <string name="diacentType">ID-Diacent</string>
+    <string name="centSpeed1000">1000 סל\"ד</string>
+    <string name="centSpeed2000">2000 סל\"ד</string>
+    <string name="centSpeed3000">3000 סל\"ד</string>
+    <string name="centTime1">15</string>
+    <string name="centTime2">20</string>
+    <string name="centTime3">30</string>
+    <string name="checkHolders">בדוק תנועה חופשית\nשל מחזיקי מבחנות וקפיצים</string>
+    <string name="checkHoldersCW">בדיקת תנועה חופשית של מחזיקיה המבחנות והקפיצים</string>
+    <string name="checkRemaining">בדיקת כמות שנותרה לאחר שטיפה (כמות אחידה)</string>
+    <string name="checkFilling">בדיקת כמות מילוי המבחנות בזמן סירכוז</string>
+    <string name="centSpeed2500">2500 סל\"ד</string>
+    <string name="centCWtime">60</string>
+    <string name="pdfFailed">Failed to create PDF</string>
+    <string name="pdfSuccess">PDF created!</string>
+    <string name="noDevice">לא קיים עמוד עבור המכשיר הנבחר</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_not_main">NotMainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="diamed">Diamed</string>
+    <string name="medigal">Medigal</string>
+    <string name="samsung">Samsung</string>
     <!-- Strings related to Settings -->
 
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import il.co.diamed.com.form.res.Tuple;
 
 public class PDFActivity extends AppCompatActivity {
+    private static final String TAG = "PDFActivity: ";
     private File pdfFile;   //iText var
     final int defaultColor = Color.BLACK;
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
@@ -45,6 +47,9 @@ public class PDFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf);
 
+        Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT);
+
+
         Bundle bundle = getIntent().getExtras();
         String src = "assets/" + bundle.get("report");
         String signature = bundle.getString("signature");
@@ -55,21 +60,28 @@ public class PDFActivity extends AppCompatActivity {
         ArrayList<Tuple> corText = bundle.getParcelableArrayList("corText");
         ArrayList<String> arrText = bundle.getStringArrayList("arrText");
 
+        if(corText.size() != arrText.size()){
+            Log.e(TAG, "corText="+corText.size()+" and arrText="+arrText.size());
+            Toast.makeText(getBaseContext(),R.string.pdfFailed,Toast.LENGTH_SHORT);
+            finish();
+        }
+
         ArrayList<String> destArray = bundle.getStringArrayList("destArray");
 
         String dest = DEST + destArray.get(0) + "/" + destArray.get(1) + "/" + destArray.get(1) + destArray.get(2) + destArray.get(3) + "_" + destArray.get(4) + ".pdf";
-
+        Log.e(TAG+" dest=", dest);
+        Log.e(TAG+" src=", src);
         try {
             //createPdf();
             manipulatePdf(src, dest, checkmarks, corText, arrText, signature);
         } catch (FileNotFoundException e) {
-            Log.e("addImage: ", e.getMessage());
+            Log.e(TAG +" addimage-", e.getMessage());
         } catch (DocumentException e) {
-            Log.e("addImage: ", e.getMessage() + " - " + e.getLocalizedMessage());
+            Log.e(TAG +" addimage-", e.getMessage() + " - " + e.getLocalizedMessage());
         } catch (IOException e) {
-            Log.e("addImage: ", e.getMessage());
+            Log.e(TAG +" addimage-", e.getStackTrace().toString());
         }
-
+        Toast.makeText(getBaseContext(),R.string.pdfSuccess,Toast.LENGTH_SHORT);
         finish();
     }
 
@@ -89,16 +101,26 @@ public class PDFActivity extends AppCompatActivity {
 
 
         Image image = getImageFromPNG("checkmark.png");
-        image.scalePercent(2);
+        image.scalePercent(1);
         //add checkmarks
         for (int i = 0; i < checkmarks.size(); i++) {
             image.setAbsolutePosition(checkmarks.get(i).getX(), checkmarks.get(i).getY());
-            cb.addImage(image);
+            try {
+                cb.addImage(image);
+            } catch (DocumentException e) {
+                Log.e(TAG,"failed to add checkmarks");
+            }
         }
-        image = Image.getInstance(signature);
-        image.scalePercent(8);
-        image.setAbsolutePosition(125, 33);
-        cb.addImage(image);
+        try {
+            image = Image.getInstance(signature);
+            image.scalePercent(9);
+            image.setAbsolutePosition(135, 33);
+            cb.addImage(image);
+        }catch (IOException e){
+            Log.e(TAG,"failed to get signature");
+        }catch (DocumentException e){
+            Log.e(TAG,"failed to get signature");
+        }
         //add text
 
         //stamper.getWriter().setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
@@ -124,7 +146,12 @@ public class PDFActivity extends AppCompatActivity {
             Font f = new Font(bf);
             Paragraph pz = new Paragraph(new Phrase(20, arrText.get(i).toString(), f));
             ct.addElement(pz);
-            ct.go();
+
+            try {
+                ct.go();
+            } catch (DocumentException e) {
+                e.printStackTrace();Log.e(TAG,"failed to write text to document");
+            }
             // f = new Font(bf, 13);
             //ct = new ColumnText(cb);
             //ct.setSimpleColumn(120f, 48f, 200f, 700f);
@@ -164,13 +191,13 @@ public class PDFActivity extends AppCompatActivity {
         try {
             ims = getAssets().open(url);
         } catch (IOException e) {
-            Log.e("getImageFromPNG 1: ", "ims = null");
+            Log.e(TAG, "ims = null");
         }
         if (ims == null) {
             try {
                 ims = new FileInputStream(url);
             } catch (IOException e) {
-                Log.e("getImageFromPNG 1: ", "ims = null. again");
+                Log.e(TAG, "ims = null. again");
             }
         }
         Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
@@ -181,9 +208,9 @@ public class PDFActivity extends AppCompatActivity {
         try {
             image = Image.getInstance(stream2.toByteArray());
         } catch (BadElementException e) {
-            Log.e("getImageFromPNG 2: ", url + " ---" + e.getMessage());
+            Log.e(TAG, url + " ---" + e.getMessage());
         } catch (IOException e) {
-            Log.e("getImageFromPNG 3: ", url + " ---" + e.getMessage());
+            Log.e(TAG, url + " ---" + e.getMessage());
         }
         return image;
     }

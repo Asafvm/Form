@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout android:id="@+id/diamedDevices"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#aa0000"
+    android:padding="15dp"
+    app:layout_constraintVertical_chainStyle="spread"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <Button
+        android:id="@+id/idInc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/incubator"
+
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/idCent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/centrifuge"
+        app:layout_constraintTop_toBottomOf="@id/idInc" />
+
+    <Button
+        android:id="@+id/idDiacent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/diacent"
+        app:layout_constraintTop_toBottomOf="@id/idCent" />
+
+
+    <Button
+        android:id="@+id/idGelstation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/idGeltation"
+        app:layout_constraintTop_toBottomOf="@id/idDiacent" />
+
+    <Button
+        android:id="@+id/ih500"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/ih500"
+        app:layout_constraintTop_toBottomOf="@id/idGelstation" />
+
+    <Button
+        android:id="@+id/ih1000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/ih1000"
+        app:layout_constraintTop_toBottomOf="@id/ih500" />
+
+
+</android.support.constraint.ConstraintLayout>
+

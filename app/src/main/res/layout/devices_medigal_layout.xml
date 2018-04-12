@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout android:id="@+id/medigalDevices"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0044ff"
+    android:padding="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/plasma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/plasma"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <Button
+        android:id="@+id/docon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/docon"
+        app:layout_constraintTop_toBottomOf="@id/plasma" />
+
+    <Button
+        android:id="@+id/biomixer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/biomixer"
+        app:layout_constraintTop_toBottomOf="@id/docon" />
+
+
+</android.support.constraint.ConstraintLayout>
+
+

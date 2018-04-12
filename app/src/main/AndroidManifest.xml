@@ -9,7 +9,6 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -57,7 +56,8 @@
             android:name=".LoginActivity2"
             android:label="@string/title_activity_login2" />
         <activity android:name=".CentrifugeActivity" />
-        <activity android:name=".PlasmaThawerActivity"></activity>
+        <activity android:name=".PlasmaThawerActivity" />
+        <activity android:name=".DiacentActivity" />
     </application>
 
 </manifest>
