@@ -28,11 +28,19 @@ public class DeviceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
+        /* Tabs */
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = findViewById(R.id.pager);
+        // Create an adapter that knows which fragment should be shown on each page
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         //set icon
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -64,7 +72,6 @@ public class DeviceActivity extends AppCompatActivity {
                     public void onDrawerSlide(View drawerView, float slideOffset) {
                         // Respond when the drawer's position changes
                     }
-
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -77,12 +84,10 @@ public class DeviceActivity extends AppCompatActivity {
                             et.setText(getString(R.string.navbar_header) + name);
                         }
                     }
-
                     @Override
                     public void onDrawerClosed(View drawerView) {
                         // Respond when the drawer is closed
                     }
-
                     @Override
                     public void onDrawerStateChanged(int newState) {
                         // Respond when the drawer motion state changes
@@ -91,22 +96,7 @@ public class DeviceActivity extends AppCompatActivity {
         );
 
 
-        /* Tabs */
-        // Set the content of the activity to use the  activity_main.xml layout file
-        setContentView(R.layout.activity_device);
 
-        // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = findViewById(R.id.pager);
-
-        // Create an adapter that knows which fragment should be shown on each page
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
-
-        // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
-
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
