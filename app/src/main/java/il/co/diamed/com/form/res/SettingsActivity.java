@@ -1,7 +1,6 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.res;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,12 +10,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -24,10 +20,11 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.List;
+
+import il.co.diamed.com.form.AppCompatPreferenceActivity;
+import il.co.diamed.com.form.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

@@ -1,10 +1,12 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.devices;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,14 +22,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
+import il.co.diamed.com.form.PDFActivity;
+import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
 
 public class DiacentActivity extends AppCompatActivity {
-    private View lowLayout;
     /* Diacent 12 */
     private EditText t41;// = findViewById(R.id.centSpeed1000);
     private EditText t51;// = findViewById(R.id.centTime1);
@@ -49,12 +53,7 @@ public class DiacentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diacent);
-        lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(R.layout.diacent12_layout, parent, false);
-        parent.addView(lowLayout, index);
+        setLayout(R.layout.diacent12_layout);
 
         //lowLayout.inflate();
 
@@ -128,12 +127,18 @@ public class DiacentActivity extends AppCompatActivity {
 
 
                     ;
-                    intent.putExtra("checkmarks", corCheck);
-                    intent.putExtra("arrText", arrText);
-                    intent.putExtra("corText", corText);
+
+                    Bundle pages = new Bundle();
+                    Bundle page1 = new Bundle();
+                    page1.putParcelableArrayList("checkmarks",corCheck);
+                    page1.putStringArrayList("arrText",arrText);
+                    page1.putParcelableArrayList("corText",corText);
+                    pages.putBundle("page1",page1);
+                    intent.putExtra("pages",pages);
+                    
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", destArray);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
                 }
@@ -299,6 +304,70 @@ public class DiacentActivity extends AppCompatActivity {
         });
     }
 
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode==RESULT_OK){
+                Toast.makeText(this,R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
+                doAnother();
+                setResult(RESULT_OK);
+            }else{
+                setResult(RESULT_CANCELED);
+            }
+        }
+    }
+    private void doAnother() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(R.string.doAnother);
+        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText et = findViewById(R.id.etDeviceSerial);
+                et.setText("");
+                RadioGroup rg = findViewById(R.id.rgModelSelect);
+                if(rg.getCheckedRadioButtonId() == R.id.dia12) {
+                    et = findViewById(R.id.centSpeed1000);
+                    et.setText("");
+                    et = findViewById(R.id.centSpeed2000);
+                    et.setText("");
+                    et = findViewById(R.id.centSpeed3000);
+                    et.setText("");
+                    initDiacent12();
+                }else {
+                    et = findViewById(R.id.centcwSpeed2500);
+                    et.setText("");
+                    initDiacentCW();
+                }
+            }
+        });
+        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+            }
+        });
+        alertBuilder.create().show();
+    }
+
+    private void setLayout(int resLayout) {
+
+        View lowLayout = findViewById(R.id.lowLayout);
+        ViewGroup parent = (ViewGroup) lowLayout.getParent();
+        int index = parent.indexOfChild(lowLayout);
+        parent.removeView(lowLayout);
+        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
+        parent.addView(lowLayout, index);
+    }
+
     private void initDiacentCW() {
 
         /* Diacent CW */
@@ -393,22 +462,13 @@ public class DiacentActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                View C = findViewById(R.id.lowLayout);
-                ViewGroup parent = (ViewGroup) C.getParent();
-                int index = parent.indexOfChild(C);
-                parent.removeView(C);
-
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.dia12:
-                        C = getLayoutInflater().inflate(R.layout.diacent12_layout, parent, false);
-                        //C.setLayoutResource(R.layout.diacent12_layout);
-                        parent.addView(C, index);
+                        setLayout(R.layout.diacent12_layout);
                         initDiacent12();
                         break;
                     case R.id.diaCW:
-                        C = getLayoutInflater().inflate(R.layout.diacentcw_layout, parent, false);
-                        //C.setLayoutResource(R.layout.diacentcw_layout);
-                        parent.addView(C, index);
+                        setLayout(R.layout.diacentcw_layout);
                         initDiacentCW();
                         break;
                     default:

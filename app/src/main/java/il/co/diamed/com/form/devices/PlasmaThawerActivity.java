@@ -1,9 +1,11 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.devices;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,9 +18,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import il.co.diamed.com.form.PDFActivity;
+import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
 
 public class PlasmaThawerActivity extends AppCompatActivity {
@@ -147,12 +152,18 @@ public class PlasmaThawerActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_plasma_biyearly.pdf");
-                    intent.putExtra("checkmarks", corCheck);
-                    intent.putExtra("arrText", arrText);
-                    intent.putExtra("corText", corText);
+
+                    Bundle pages = new Bundle();
+                    Bundle page1 = new Bundle();
+                    page1.putParcelableArrayList("checkmarks",corCheck);
+                    page1.putStringArrayList("arrText",arrText);
+                    page1.putParcelableArrayList("corText",corText);
+                    pages.putBundle("page1",page1);
+                    intent.putExtra("pages",pages);
+
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", destArray);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }
                 ;
 
@@ -183,6 +194,45 @@ public class PlasmaThawerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode==RESULT_OK){
+                Toast.makeText(this,R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
+                doAnother();
+                setResult(RESULT_OK);
+            }else{
+                setResult(RESULT_CANCELED);
+            }
+        }
+    }
+    private void doAnother() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(R.string.doAnother);
+        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText et = findViewById(R.id.etDeviceSerial);
+                et.setText("");
+                et = findViewById(R.id.ptTemp);
+                et.setText("");
+            }
+        });
+        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+            }
+        });
+        alertBuilder.create().show();
+    }
 
     private boolean isSpeedValid(EditText exSpeed, EditText meSpeed) {
         try {

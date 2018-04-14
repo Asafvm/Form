@@ -45,7 +45,8 @@
         android:hint="@string/formRoomLocation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintLeft_toRightOf="@id/formDate"
-        app:layout_constraintTop_toBottomOf="@id/formMainLocation" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/formMainLocation"
+        />
 </android.support.constraint.ConstraintLayout>
 

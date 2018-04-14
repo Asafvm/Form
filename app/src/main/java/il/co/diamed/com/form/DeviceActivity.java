@@ -14,10 +14,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
+
+import il.co.diamed.com.form.devices.CentrifugeActivity;
+import il.co.diamed.com.form.devices.DiacentActivity;
+import il.co.diamed.com.form.devices.GeneralUseActivity;
+import il.co.diamed.com.form.devices.IncubatorActivity;
+import il.co.diamed.com.form.devices.PlasmaThawerActivity;
+import il.co.diamed.com.form.res.SettingsActivity;
 
 public class DeviceActivity extends AppCompatActivity {
 
@@ -55,7 +60,7 @@ public class DeviceActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Log.e(TAG,"Drawer");
+                        Log.e(TAG, "Drawer");
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
                         Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
@@ -72,6 +77,7 @@ public class DeviceActivity extends AppCompatActivity {
                     public void onDrawerSlide(View drawerView, float slideOffset) {
                         // Respond when the drawer's position changes
                     }
+
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -79,22 +85,23 @@ public class DeviceActivity extends AppCompatActivity {
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
                         if (name != null || name != "") {
-                            et.setText(getString(R.string.helloHeader) +" "+ name);
+                            et.setText(getString(R.string.helloHeader) + " " + name);
                         } else {
                             et.setText(getString(R.string.navbar_header) + name);
                         }
                     }
+
                     @Override
                     public void onDrawerClosed(View drawerView) {
                         // Respond when the drawer is closed
                     }
+
                     @Override
                     public void onDrawerStateChanged(int newState) {
                         // Respond when the drawer motion state changes
                     }
                 }
         );
-
 
 
     }
@@ -127,18 +134,48 @@ public class DeviceActivity extends AppCompatActivity {
             case R.id.plasma:
                 intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);
                 break;
-
-
+            case R.id.ib10:
+                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
+                intent.putExtra("type",R.id.ib10);
+                break;
+            case R.id.pt10:
+                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
+                intent.putExtra("type",R.id.pt10);
+                break;
+            case R.id.docureader:
+                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
+                intent.putExtra("type",R.id.dr2);
+                break;
+            case R.id.edan:
+                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
+                intent.putExtra("type",R.id.edan);
+                break;
             default:
                 intent = null;
                 break;
 
         }
         if (intent != null)
-            startActivity(intent);
+            startActivityForResult(intent,1);
         else
             Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode==RESULT_OK){
+                Toast.makeText(getBaseContext(),R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(getBaseContext(),R.string.pdfFailed,Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+
+    }
 }

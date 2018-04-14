@@ -4,13 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".devices.DiacentActivity">
+    tools:context=".devices.GeneralUseActivity">
 
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@id/divider1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
 
-    <include
-        layout="@layout/form_header"
-        android:id="@+id/header"/>
+        app:layout_constraintVertical_weight="1">
+
+        <DatePicker
+            android:id="@+id/formDate"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/formMainLocation" />
+
+
+        <EditText
+            android:id="@+id/formMainLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/formMainLocation"
+            android:paddingTop="25dp"
+            app:layout_constraintBottom_toTopOf="@id/formRoomLocation"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintLeft_toRightOf="@id/formDate"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/formRoomLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="@string/formRoomLocation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintLeft_toRightOf="@id/formDate"
+            app:layout_constraintTop_toBottomOf="@id/formMainLocation" />
+    </android.support.constraint.ConstraintLayout>
+
 
     <View
         android:id="@+id/divider1"
@@ -20,14 +65,13 @@
         app:layout_constraintBottom_toTopOf="@id/midLayout"
         app:layout_constraintTop_toBottomOf="@id/header" />
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/midLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/divider1"
         app:layout_constraintBottom_toTopOf="@id/divider2"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
         app:layout_constraintVertical_weight="1">
 
 
@@ -35,12 +79,9 @@
             android:id="@+id/tvDeviceModel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/diacentType"
+            android:text="@string/chooseDevice"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/rgModelSelect"
             app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,22 +94,33 @@
             app:layout_constraintBottom_toTopOf="@id/etDeviceSerial"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/tvDeviceModel"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
 
             <RadioButton
-                android:id="@+id/dia12"
+                android:id="@+id/dr2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/centTypedia12" />
+                android:textSize="14sp"
+                android:text="@string/docureader" />
 
             <RadioButton
-                android:id="@+id/diaCW"
+                android:id="@+id/edan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/centTypediaCW" />
+                android:text="@string/edan" />
 
+            <RadioButton
+                android:id="@+id/ib10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ib10" />
+
+            <RadioButton
+                android:id="@+id/pt10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pt10" />
         </RadioGroup>
 
 
@@ -77,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="@string/incSerial"
+            android:text="@string/tvDeviceSerial"
             android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@id/etDeviceSerial"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,6 +153,7 @@
             app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
     </android.support.constraint.ConstraintLayout>
 
+
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -108,6 +161,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@id/lowLayout"
         app:layout_constraintTop_toBottomOf="@id/midLayout" />
+
 
     <View
         android:id="@+id/lowLayout"
@@ -117,7 +171,6 @@
         app:layout_constraintBottom_toTopOf="@id/divider3"
         />
 
-
     <View
         android:id="@+id/divider3"
         android:layout_width="match_parent"
@@ -126,11 +179,32 @@
         app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintTop_toBottomOf="@id/lowLayout" />
 
-    <include
-        layout="@layout/form_footer"
-        android:id="@+id/footer"
-        app:layout_constraintTop_toBottomOf="@id/lowLayout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider3">
+
+        <EditText
+            android:id="@+id/formTechName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/formTechName"
+            app:layout_constraintBottom_toTopOf="@id/formSubmitButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/formSubmitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submitForm"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

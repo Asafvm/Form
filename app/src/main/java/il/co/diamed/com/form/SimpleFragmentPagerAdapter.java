@@ -5,6 +5,10 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import il.co.diamed.com.form.res.diamedFragment;
+import il.co.diamed.com.form.res.medigalFragment;
+import il.co.diamed.com.form.res.samsungFragment;
+
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;

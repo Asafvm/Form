@@ -44,20 +44,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".DeviceActivity" />
-        <activity android:name=".IncubatorActivity" />
+        <activity android:name=".devices.IncubatorActivity" />
         <activity android:name=".PDFActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".res.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".CaptureSignature"
+            android:name=".res.CaptureSignature"
             android:theme="@style/theme.Transparent" />
         <activity
             android:name=".LoginActivity2"
             android:label="@string/title_activity_login2" />
-        <activity android:name=".CentrifugeActivity" />
-        <activity android:name=".PlasmaThawerActivity" />
-        <activity android:name=".DiacentActivity" />
+        <activity android:name=".devices.CentrifugeActivity" />
+        <activity android:name=".devices.PlasmaThawerActivity" />
+        <activity android:name=".devices.DiacentActivity" />
+        <activity android:name=".devices.GeneralUseActivity"></activity>
     </application>
 
 </manifest>

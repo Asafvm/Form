@@ -1,4 +1,4 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.res;
 
 
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import il.co.diamed.com.form.R;
 
 /**
  * A simple {@link Fragment} subclass.

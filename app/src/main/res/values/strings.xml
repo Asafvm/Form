@@ -194,6 +194,16 @@
     <string name="diamed">Diamed</string>
     <string name="medigal">Medigal</string>
     <string name="samsung">Samsung</string>
+    <string name="title_activity_gelstation">GelstationActivity</string>
+    <string name="chooseDevice">בחר סוג מכשיר</string>
+    <string name="etVer">גרסת תוכנה</string>
+    <string name="generalCleaning">נקיון כללי למכשיר</string>
+    <string name="verUpdate">עדכון גרסה</string>
+    <string name="selfText">ביצוע self test</string>
+    <string name="etNewVer">גרסה חדשה</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="okButton">OK</string>
+    <string name="doAnother">צור דו\"ח נוסף?</string>
     <!-- Strings related to Settings -->
 
 

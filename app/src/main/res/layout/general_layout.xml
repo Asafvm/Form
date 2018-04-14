@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout android:id="@+id/lowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    app:layout_constraintBottom_toTopOf="@id/divider3"
+    app:layout_constraintTop_toBottomOf="@id/divider2"
+    app:layout_constraintVertical_weight="2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:id="@+id/icVer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_error_black_24dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/etVer"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etVer" />
+
+
+    <EditText
+        android:id="@+id/etVer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/etVer"
+        android:textAlignment="textEnd"
+
+        app:layout_constraintRight_toLeftOf="@id/icVer"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/etNewVer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/etNewVer"
+        android:textAlignment="textEnd"
+        android:visibility="invisible"
+        app:layout_constraintRight_toLeftOf="@id/etVer"
+        app:layout_constraintLeft_toLeftOf="@id/verUpdateSwitch"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/generalCleaningSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generalCleaning"
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Switch
+        android:id="@+id/verUpdateSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/verUpdate"
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintRight_toLeftOf="@id/generalCleaningSwitch"/>
+
+
+    <Switch
+        android:id="@+id/selfTextSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/selfText"
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintRight_toLeftOf="@id/verUpdateSwitch"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+</android.support.constraint.ConstraintLayout>

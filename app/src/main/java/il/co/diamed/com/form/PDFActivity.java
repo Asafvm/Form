@@ -1,5 +1,6 @@
 package il.co.diamed.com.form;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,43 +46,56 @@ public class PDFActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdf);
-
-        Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT);
-
 
         Bundle bundle = getIntent().getExtras();
+
         String src = "assets/" + bundle.get("report");
         String signature = bundle.getString("signature");
 
 
-        ArrayList<Tuple> checkmarks = bundle.getParcelableArrayList("checkmarks");
+        Bundle pages = bundle.getBundle("pages");
 
-        ArrayList<Tuple> corText = bundle.getParcelableArrayList("corText");
-        ArrayList<String> arrText = bundle.getStringArrayList("arrText");
+        for(int i=0;i<pages.size();i++) {
+            Bundle page = pages.getBundle("page" + (i+1));
 
-        if(corText.size() != arrText.size()){
-            Log.e(TAG, "corText="+corText.size()+" and arrText="+arrText.size());
-            Toast.makeText(getBaseContext(),R.string.pdfFailed,Toast.LENGTH_SHORT);
-            finish();
+
+            ArrayList<Tuple> checkmarks = page.getParcelableArrayList("checkmarks");
+            ArrayList<Tuple> corText = page.getParcelableArrayList("corText");
+            ArrayList<String> arrText = page.getStringArrayList("arrText");
+
+
+            if (corText.size() != arrText.size()) {
+                Log.e(TAG, "corText=" + corText.size() + " and arrText=" + arrText.size());
+                activityFailed();
+            }
+
+            ArrayList<String> destArray = bundle.getStringArrayList("destArray");
+
+            String dest = DEST + destArray.get(0) + "/" + destArray.get(1) + "/" + destArray.get(1) + destArray.get(2) + destArray.get(3) + "_" + destArray.get(4) + ".pdf";
+            Log.e(TAG + " dest=", dest);
+            Log.e(TAG + " src=", src);
+            try {
+                //createPdf();
+                manipulatePdf(src, dest, checkmarks, corText, arrText, signature);
+            } catch (FileNotFoundException e) {
+                Log.e(TAG + " addimage-", e.getMessage());
+                activityFailed();
+            } catch (DocumentException e) {
+                Log.e(TAG + " addimage-", e.getMessage() + " - " + e.getLocalizedMessage());
+                activityFailed();
+            } catch (IOException e) {
+                Log.e(TAG + " addimage-", e.getStackTrace().toString());
+                activityFailed();
+            }
         }
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
-        ArrayList<String> destArray = bundle.getStringArrayList("destArray");
-
-        String dest = DEST + destArray.get(0) + "/" + destArray.get(1) + "/" + destArray.get(1) + destArray.get(2) + destArray.get(3) + "_" + destArray.get(4) + ".pdf";
-        Log.e(TAG+" dest=", dest);
-        Log.e(TAG+" src=", src);
-        try {
-            //createPdf();
-            manipulatePdf(src, dest, checkmarks, corText, arrText, signature);
-        } catch (FileNotFoundException e) {
-            Log.e(TAG +" addimage-", e.getMessage());
-        } catch (DocumentException e) {
-            Log.e(TAG +" addimage-", e.getMessage() + " - " + e.getLocalizedMessage());
-        } catch (IOException e) {
-            Log.e(TAG +" addimage-", e.getStackTrace().toString());
-        }
-        Toast.makeText(getBaseContext(),R.string.pdfSuccess,Toast.LENGTH_SHORT);
+    private void activityFailed() {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
         finish();
     }
 
@@ -109,6 +123,7 @@ public class PDFActivity extends AppCompatActivity {
                 cb.addImage(image);
             } catch (DocumentException e) {
                 Log.e(TAG,"failed to add checkmarks");
+                activityFailed();
             }
         }
         try {
@@ -118,31 +133,23 @@ public class PDFActivity extends AppCompatActivity {
             cb.addImage(image);
         }catch (IOException e){
             Log.e(TAG,"failed to get signature");
+            activityFailed();
         }catch (DocumentException e){
             Log.e(TAG,"failed to get signature");
+            activityFailed();
         }
         //add text
-
-        //stamper.getWriter().setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
-
-        //cb.getPdfWriter().setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
-
-        //test
-        ColumnText ct;// = new ColumnText(stamper.getUnderContent(0));
-
 
         for (int i = 0; i < corText.size(); i++) {
 
             cb = stamper.getOverContent(1);
-            ct = new ColumnText(cb);
+            ColumnText ct = new ColumnText(cb);
             if(i<=1)
                 ct.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
             else
                 ct.setRunDirection(PdfWriter.RUN_DIRECTION_LTR);
-            //ct.setAlignment(Element.ALIGN_LEFT);
             ct.setSimpleColumn(new Rectangle(corText.get(i).getX(), corText.get(i).getY(), corText.get(i).getX()+160, corText.get(i).getY() + 20));
 
-            //ct.setSimpleColumn(120f, 48f, 200f, 600f);
             Font f = new Font(bf);
             Paragraph pz = new Paragraph(new Phrase(20, arrText.get(i).toString(), f));
             ct.addElement(pz);
@@ -151,34 +158,8 @@ public class PDFActivity extends AppCompatActivity {
                 ct.go();
             } catch (DocumentException e) {
                 e.printStackTrace();Log.e(TAG,"failed to write text to document");
+                activityFailed();
             }
-            // f = new Font(bf, 13);
-            //ct = new ColumnText(cb);
-            //ct.setSimpleColumn(120f, 48f, 200f, 700f);
-            //pz = new Paragraph ("Hello World!", f);
-            //ct.addElement(pz);
-            //ct.go();
-
-            /*ColumnText
-            ct.setSimpleColumn(new Rectangle(corText.get(i).getX(), corText.get(i).getY(),corText.get(i).getX()+50, corText.get(i).getY()+50));
-
-            //ct.setSimpleColumn(new Rectangle(writer.getBoxSize((arrText.get(i))));
-            Chunk c = new Chunk(arrText.get(i));
-
-            ct.addText(c);
-            ct.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
-            ct.go();
-            */
-            /*  ContentByte
-            cb.saveState();
-            cb.beginText();
-            cb.moveText(corText.get(i).getX(), corText.get(i).getY());
-            cb.setColorStroke(BaseColor.BLUE);
-            cb.setFontAndSize(bf, 16);
-            cb.showText(arrText.get(i));
-            cb.endText();
-            cb.restoreState();
-            */
         }
 
         stamper.close();
@@ -192,12 +173,14 @@ public class PDFActivity extends AppCompatActivity {
             ims = getAssets().open(url);
         } catch (IOException e) {
             Log.e(TAG, "ims = null");
+            activityFailed();
         }
         if (ims == null) {
             try {
                 ims = new FileInputStream(url);
             } catch (IOException e) {
                 Log.e(TAG, "ims = null. again");
+                activityFailed();
             }
         }
         Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
