@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lowLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp"
-    >
+    app:layout_constraintBottom_toTopOf="@+id/divider3"
+    app:layout_constraintTop_toBottomOf="@+id/divider2">
 
 
     <ImageView
@@ -67,8 +69,8 @@
         android:layout_marginLeft="20dp"
         android:text="@string/checkRemaining"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/centCheckHolders"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/centCheckHolders" />
 
     <Switch
         android:id="@+id/centCheckFilling"
@@ -77,8 +79,9 @@
         android:layout_marginLeft="20dp"
         android:text="@string/checkFilling"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-app:layout_constraintTop_toBottomOf="@id/centCheckRemaining"/>
+        app:layout_constraintTop_toBottomOf="@id/centCheckRemaining" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -20,13 +20,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
 import il.co.diamed.com.form.res.Tuple;
 
 public class DiacentActivity extends AppCompatActivity {
-    private ViewStub lowLayout;
+    private View lowLayout;
     /* Diacent 12 */
     private EditText t41;// = findViewById(R.id.centSpeed1000);
     private EditText t51;// = findViewById(R.id.centTime1);
@@ -49,10 +50,13 @@ public class DiacentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diacent);
         lowLayout = findViewById(R.id.lowLayout);
+        ViewGroup parent = (ViewGroup) lowLayout.getParent();
+        int index = parent.indexOfChild(lowLayout);
+        parent.removeView(lowLayout);
+        lowLayout = getLayoutInflater().inflate(R.layout.diacent12_layout, parent, false);
+        parent.addView(lowLayout, index);
 
-
-        lowLayout.setLayoutResource(R.layout.diacent12_layout);
-        lowLayout.inflate();
+        //lowLayout.inflate();
 
 
         //Get preferrences
@@ -74,9 +78,6 @@ public class DiacentActivity extends AppCompatActivity {
         final DatePicker dp = findViewById(R.id.formDate);
 
 
-
-
-
         //default basic values
         initDiacent12();
         t2.check(R.id.dia12);
@@ -88,7 +89,6 @@ public class DiacentActivity extends AppCompatActivity {
         setListener(t2);
         setListener(t3);
         setListener(t6);
-
 
 
         btn.setOnClickListener(new View.OnClickListener()
@@ -134,8 +134,8 @@ public class DiacentActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", destArray);
                     startActivity(intent);
-                }else{
-                    Log.e("Diacent: ","checkStatus Failed");
+                } else {
+                    Log.e("Diacent: ", "checkStatus Failed");
                 }
 
 
@@ -387,7 +387,7 @@ public class DiacentActivity extends AppCompatActivity {
     }
 
 
-
+    /*** Swtich 12 and CW views ***/
     private void setListener(RadioGroup rg) {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -401,20 +401,19 @@ public class DiacentActivity extends AppCompatActivity {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.dia12:
                         C = getLayoutInflater().inflate(R.layout.diacent12_layout, parent, false);
+                        //C.setLayoutResource(R.layout.diacent12_layout);
                         parent.addView(C, index);
                         initDiacent12();
                         break;
                     case R.id.diaCW:
                         C = getLayoutInflater().inflate(R.layout.diacentcw_layout, parent, false);
+                        //C.setLayoutResource(R.layout.diacentcw_layout);
                         parent.addView(C, index);
                         initDiacentCW();
                         break;
                     default:
-                        lowLayout.setLayoutResource(R.layout.diacent12_layout);
-                        lowLayout.inflate();
                         break;
                 }
-
 
             }
         });
@@ -477,7 +476,7 @@ public class DiacentActivity extends AppCompatActivity {
 
     private boolean isValidString(String s) {
 
-        return (!(s==null || s.equals("")));
+        return (!(s == null || s.equals("")));
     }
 
 }

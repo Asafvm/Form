@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout android:id="@+id/diamedDevices"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/diamedDevices"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#aa0000"
     android:padding="15dp"
-    app:layout_constraintVertical_chainStyle="spread"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-
+    app:layout_constraintVertical_chainStyle="spread">
 
     <Button
         android:id="@+id/idInc"
@@ -18,7 +15,6 @@
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/incubator"
-
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
@@ -62,6 +58,13 @@
         android:text="@string/ih1000"
         app:layout_constraintTop_toBottomOf="@id/ih500" />
 
+    <include
+        android:id="@+id/newb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/button_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </android.support.constraint.ConstraintLayout>
 

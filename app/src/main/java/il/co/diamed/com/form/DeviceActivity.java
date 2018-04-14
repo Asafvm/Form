@@ -79,7 +79,7 @@ public class DeviceActivity extends AppCompatActivity {
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
                         if (name != null || name != "") {
-                            et.setText(getString(R.string.helloHeader) + name);
+                            et.setText(getString(R.string.helloHeader) +" "+ name);
                         } else {
                             et.setText(getString(R.string.navbar_header) + name);
                         }
@@ -116,16 +116,16 @@ public class DeviceActivity extends AppCompatActivity {
         Intent intent;
         switch (view.getId()) {
             case R.id.idInc:
-                intent = new Intent(getBaseContext(), DiacentActivity.class);
+                intent = new Intent(getBaseContext(), IncubatorActivity.class);
                 break;
             case R.id.idCent:
-                intent = new Intent(getBaseContext(), DiacentActivity.class);
+                intent = new Intent(getBaseContext(), CentrifugeActivity.class);
                 break;
             case R.id.idDiacent:
                 intent = new Intent(getBaseContext(), DiacentActivity.class);
                 break;
             case R.id.plasma:
-                intent = new Intent(getBaseContext(), DiacentActivity.class);
+                intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);
                 break;
 
 
