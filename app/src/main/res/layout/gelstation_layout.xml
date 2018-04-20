@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintVertical_weight="5"
+    app:layout_constraintTop_toBottomOf="@id/midLayout"
+    app:layout_constraintBottom_toTopOf="@id/footer">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/innerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tvGSinit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextInit"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/cbGSinit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsExternalInspection"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cbGSinit2"
+            app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
+
+        <CheckBox
+            android:id="@+id/cbGSinit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCableInspection"
+            app:layout_constraintLeft_toRightOf="@id/cbGSinit1"
+            app:layout_constraintRight_toLeftOf="@id/cbGSinit3"
+            app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
+
+        <CheckBox
+            android:id="@+id/cbGSinit3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsGeneralCleaning"
+            app:layout_constraintLeft_toRightOf="@id/cbGSinit2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
+
+        <!-- Software -->
+        <TextView
+            android:id="@+id/tvGSsoftware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextsoftware"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSinit1" />
+
+        <TextView
+            android:id="@+id/tvGSsoftware1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextsoftware1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware" />
+
+        <EditText
+            android:id="@+id/etGSsoftware1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware1"
+            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware1" />
+
+        <TextView
+            android:id="@+id/tvGSsoftware2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextsoftware2"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware1" />
+
+        <RadioGroup
+            android:id="@+id/rgGSsoftware1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware2"
+            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware2">
+
+            <RadioButton
+                android:id="@+id/rbGSxpsp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rbGSxpsp2"
+                android:textAlignment="center"
+                android:textSize="10sp" />
+
+            <RadioButton
+                android:id="@+id/rbGSxpsp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rbGSxpsp3"
+                android:textAlignment="center"
+                android:textSize="10sp" />
+
+            <RadioButton
+                android:id="@+id/rbGS7sp1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rbGS7sp1"
+                android:textAlignment="center"
+                android:textSize="10sp" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvGSsoftware3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextsoftware3"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware2" />
+
+        <EditText
+            android:id="@+id/etGSsoftwareC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/etgsC"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
+            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware3"
+            app:layout_constraintRight_toLeftOf="@id/etGSsoftwareD"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+
+
+        <TextView
+            android:id="@+id/tvGSsoftwareC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsGB"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
+
+            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+
+
+        <EditText
+            android:id="@+id/etGSsoftwareD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/etgsD"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
+
+            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+
+
+        <TextView
+            android:id="@+id/tvGSsoftwareD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsGB"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
+
+            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareD"
+            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSsoftware1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tvGSdelout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware3" />
+
+        <!-- Common Modules -->
+        <TextView
+            android:id="@+id/tvGScommon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextCommon"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsoftware1" />
+
+        <TextView
+            android:id="@+id/tvGScommon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs24"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGScommon" />
+
+
+        <EditText
+            android:id="@+id/etGScommon24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
+
+            app:layout_constraintLeft_toRightOf="@id/tvGScommon1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
+
+
+        <TextView
+            android:id="@+id/tvGScommon24V"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsV"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
+
+            app:layout_constraintLeft_toRightOf="@id/etGScommon24"
+            app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
+
+        <TextView
+            android:id="@+id/tvGScommon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs8"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGScommon1" />
+
+
+        <EditText
+            android:id="@+id/etGScommon8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon2"
+            app:layout_constraintLeft_toRightOf="@id/tvGScommon2"
+            app:layout_constraintStart_toStartOf="@id/etGScommon24"
+
+            app:layout_constraintTop_toTopOf="@id/tvGScommon2" />
+
+
+        <TextView
+            android:id="@+id/tvGScommon8V"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsV"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon2"
+
+            app:layout_constraintLeft_toRightOf="@id/etGScommon8"
+            app:layout_constraintTop_toTopOf="@id/tvGScommon2" />
+
+        <TextView
+            android:id="@+id/tvGScommon3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs12"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGScommon2" />
+
+
+        <EditText
+            android:id="@+id/etGScommon12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon3"
+            app:layout_constraintLeft_toRightOf="@id/tvGScommon3"
+
+            app:layout_constraintStart_toStartOf="@id/etGScommon24"
+            app:layout_constraintTop_toTopOf="@id/tvGScommon3" />
+
+
+        <TextView
+            android:id="@+id/tvGScommon12V"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsV"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon3"
+
+            app:layout_constraintLeft_toRightOf="@id/etGScommon12"
+            app:layout_constraintTop_toTopOf="@id/tvGScommon3" />
+
+
+        <CheckBox
+            android:id="@+id/cbGScommon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tvGScommon1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cbGScommon2"
+            app:layout_constraintTop_toBottomOf="@id/etGScommon12" />
+
+
+        <CheckBox
+            android:id="@+id/cbGScommon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tvGScommon2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/cbGScommon1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etGScommon12" />
+
+        <!-- Samples and Reagents Module -->
+        <TextView
+            android:id="@+id/tvGSsamples"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextSamples"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGScommon2" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSsamples1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesLubricate"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSsamples" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesTension"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples1" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesHome"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples2" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesSpin"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples3" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesCycle"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples4" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesRandom"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples5" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesTest"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples6" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesSReading"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples7" />
+
+        <CheckBox
+            android:id="@+id/cbGSsamples9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsSamplesRReading"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples8" />
+
+        <!-- Page 2 -->
+
+        <!-- Incubator Module -->
+        <TextView
+            android:id="@+id/tvGSincubator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextIncubator"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSsamples9" />
+
+        <TextView
+            android:id="@+id/tvGSincubator1_25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs1_25"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSincubator" />
+
+
+        <EditText
+            android:id="@+id/etGSincubator1_25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_25"
+            app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_25"
+            app:layout_constraintTop_toTopOf="@id/tvGSincubator1_25" />
+
+        <TextView
+            android:id="@+id/tvGSincubator2_25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs2_25"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSincubator1_25" />
+
+
+        <EditText
+            android:id="@+id/etGSincubator2_25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_25"
+            app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_25"
+            app:layout_constraintTop_toTopOf="@id/tvGSincubator2_25" />
+
+        <TextView
+            android:id="@+id/tvGSincubator1_37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs1_37"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSincubator2_25" />
+
+
+        <EditText
+            android:id="@+id/etGSincubator1_37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_37"
+            app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_37"
+            app:layout_constraintTop_toTopOf="@id/tvGSincubator1_37" />
+
+        <TextView
+            android:id="@+id/tvGSincubator2_37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgs2_37"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSincubator1_37" />
+
+
+        <EditText
+            android:id="@+id/etGSincubator2_37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_37"
+            app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_37"
+            app:layout_constraintTop_toTopOf="@id/tvGSincubator2_37" />
+
+
+        <!-- Centrifuge Module -->
+        <TextView
+            android:id="@+id/tvGScentrifuge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextCentrufuge"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvGSincubator2_37" />
+
+        <TextView
+            android:id="@+id/tvGScentrifugation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/tvGScentrifugation"
+            android:text="@string/etgsCentrifugation"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGScentrifuge" />
+
+
+        <EditText
+
+            android:id="@+id/etGScentrifugation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGScentrifugation"
+            app:layout_constraintLeft_toRightOf="@id/tvGScentrifugation"
+            app:layout_constraintTop_toTopOf="@id/tvGScentrifugation" />
+
+        <TextView
+            android:id="@+id/tvGScentrifugationRPM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgsRPM"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/etGScentrifugation"
+            app:layout_constraintTop_toBottomOf="@id/tvGScentrifuge" />
+
+        <CheckBox
+            android:id="@+id/cbGScentrifuge1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCentrifugeCleaning"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGScentrifugation" />
+
+        <CheckBox
+            android:id="@+id/cbGScentrifuge2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCentrifugeHolders"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge1" />
+
+        <CheckBox
+            android:id="@+id/cbGScentrifuge3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCentrifugeCycles"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge2" />
+
+        <CheckBox
+            android:id="@+id/cbGScentrifuge4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCentrifugeRandom"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge3" />
+
+        <CheckBox
+            android:id="@+id/cbGScentrifuge5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsCentrifugeUnbalance"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge4" />
+
+
+        <!-- Robot Module -->
+        <TextView
+            android:id="@+id/tvGSrobot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextRobot"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge5" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSrobot1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotCleaning"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSrobot" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotHLubricateZ"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot1" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotHLubricateScrew"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot2" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotHLubricateXY"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot3" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotPulleys"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot4" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotBelt"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot5" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotGripper1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot6" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotGripper2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot7" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotHome"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot8" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotRandom"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot9" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSrobot11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotCards"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot10" />
+
+        <CheckBox
+            android:id="@+id/cbGSrobot12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsRobotLevel"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot11" />
+
+
+        <!-- Reader System -->
+        <TextView
+            android:id="@+id/tvGSfluid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextReader"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSrobot12" />
+
+
+        <TextView
+            android:id="@+id/tvGSfluidVaccum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/etGSfluidVaccum"
+            android:text="@string/tvGSfluidVaccum"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSfluid" />
+
+
+        <EditText
+
+            android:id="@+id/etGSfluidVaccum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSfluidVaccum"
+            app:layout_constraintLeft_toRightOf="@id/tvGSfluidVaccum"
+            app:layout_constraintTop_toTopOf="@id/tvGSfluidVaccum" />
+
+        <TextView
+            android:id="@+id/tvGSfluidmBAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgsmBAR"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/etGSfluidVaccum"
+            app:layout_constraintTop_toBottomOf="@id/tvGSfluid" />
+
+        <TextView
+            android:id="@+id/tvGSfluidPressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/etGSfluidPressure"
+            android:text="@string/tvGSfluidPressure"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etGSfluidVaccum" />
+
+
+        <EditText
+
+            android:id="@+id/etGSfluidPressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvGSfluidPressure"
+            app:layout_constraintLeft_toRightOf="@id/tvGSfluidPressure"
+            app:layout_constraintTop_toTopOf="@id/tvGSfluidPressure" />
+
+        <TextView
+            android:id="@id/tvGSfluidmBAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etgsmBAR"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toRightOf="@id/etGSfluidPressure"
+            app:layout_constraintTop_toBottomOf="@id/etGSfluidVaccum" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSfluid1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsFluidSyringe"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSfluidPressure" />
+
+        <CheckBox
+            android:id="@+id/cbGSfluid2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsFluidBottles"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSfluid1" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSfluid3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsFluidPumps"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSfluid2" />
+
+        <CheckBox
+            android:id="@+id/cbGSfluid4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsFluidClot"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSfluid3" />
+
+
+        <!-- Page 3 -->
+        <!-- Reader Module -->
+        <TextView
+            android:id="@+id/tvGSreader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextReader"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSfluid4" />
+
+        <CheckBox
+            android:id="@+id/cbGSreader1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsReaderDiffuser"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSreader" />
+
+        <CheckBox
+            android:id="@+id/cbGSreader2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsReaderLeds"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSreader1" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSreader3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsReaderCamera"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSreader2" />
+
+        <CheckBox
+            android:id="@+id/cbGSreader4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsReaderCards"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSreader3" />
+
+        <!-- Decontamination -->
+        <TextView
+            android:id="@+id/tvGSdecontamination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextDecontamination"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSreader4" />
+
+        <CheckBox
+            android:id="@+id/cbGSdecontamination1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextDecontamination"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSdecontamination" />
+
+        <CheckBox
+            android:id="@+id/cbGSdecontamination2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsDecontaminationPriming"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSdecontamination1" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSdecontamination3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsDecontaminationWashing"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSdecontamination2" />
+
+
+        <!-- WADDiagnostic -->
+        <TextView
+            android:id="@+id/tvGSWADDiagnostic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextWADDiagnostic"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSdecontamination3" />
+
+        <CheckBox
+            android:id="@+id/cbGSWADDiagnostic1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextWADDiagnosticTest"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSWADDiagnostic" />
+
+
+        <!-- Functional checking -->
+        <TextView
+            android:id="@+id/tvGSFunctional"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextFunctional"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSWADDiagnostic1" />
+
+        <CheckBox
+            android:id="@+id/cbGSFunctional1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextFunctionalBatch"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSFunctional" />
+
+
+        <CheckBox
+            android:id="@+id/cbGSFunctional2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gsTextFunctionalListing"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbGSFunctional1" />
+
+
+        <!-- Parts -->
+        <TextView
+            android:id="@+id/tvGSparts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/gsTextParts"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbGSFunctional2" />
+
+        <EditText
+            android:id="@+id/partCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partCount"
+            app:layout_constraintEnd_toStartOf="@id/partDescription"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGSparts" />
+
+        <EditText
+            android:id="@+id/partDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partDescription"
+            app:layout_constraintEnd_toStartOf="@id/partSerial"
+
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@id/partCount"
+            app:layout_constraintTop_toBottomOf="@id/tvGSparts" />
+
+        <EditText
+            android:id="@+id/partSerial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partSerial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/partDescription"
+            app:layout_constraintTop_toBottomOf="@id/tvGSparts" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/partSerial" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

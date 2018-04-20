@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/lowLayout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingHorizontal="30dp"
+    app:layout_constraintVertical_weight="2"
+    app:layout_constraintTop_toBottomOf="@id/midLayout"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:id="@+id/icSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cached_black_24dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/centSpeed"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/centSpeed" />
+
+
+    <EditText
+        android:id="@+id/centSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/centSpeed"
+        android:textAlignment="textEnd"
+        android:inputType="number"
+        app:layout_constraintRight_toLeftOf="@id/icSpeed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/centTime"/>
+
+
+    <ImageView
+        android:id="@+id/icTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@android:drawable/ic_lock_idle_alarm"
+        app:layout_constraintBottom_toBottomOf="@id/centTime"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/centTime" />
+
+    <EditText
+        android:id="@+id/centTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/centTime"
+        android:inputType="number"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/icTime"
+        app:layout_constraintTop_toBottomOf="@id/centSpeed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/centExpectedTime"
+        app:layout_constraintLeft_toRightOf="@id/centExpectedTime"
+        app:layout_constraintTop_toTopOf="@id/centExpectedTime"
+        app:layout_constraintBottom_toBottomOf="@id/centExpectedTime"
+        />
+
+
+    <EditText
+        android:id="@+id/centExpectedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/centExpectedTime"
+        android:textAlignment="textEnd"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@id/centFanSwitch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/centFanSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/checkDeviceFan"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/centExpectedTime" />
+
+
+</android.support.constraint.ConstraintLayout>

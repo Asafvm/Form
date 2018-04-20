@@ -76,7 +76,7 @@ public class PDFActivity extends AppCompatActivity {
             Log.e(TAG + " src=", src);
             try {
                 //createPdf();
-                manipulatePdf(src, dest, checkmarks, corText, arrText, signature);
+                manipulatePdf(src, dest, checkmarks, corText, arrText, signature, (i+1));
             } catch (FileNotFoundException e) {
                 Log.e(TAG + " addimage-", e.getMessage());
                 activityFailed();
@@ -103,7 +103,7 @@ public class PDFActivity extends AppCompatActivity {
     //ITEXT
 
 
-    public void manipulatePdf(String src, String dest, ArrayList<Tuple> checkmarks, ArrayList<Tuple> corText, ArrayList<String> arrText, String signature) throws IOException, DocumentException {
+    public void manipulatePdf(String src, String dest, ArrayList<Tuple> checkmarks, ArrayList<Tuple> corText, ArrayList<String> arrText, String signature, int page) throws IOException, DocumentException {
 
         File file = new File(dest);
         file.getParentFile().mkdirs();
@@ -111,7 +111,7 @@ public class PDFActivity extends AppCompatActivity {
         BaseFont bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         PdfReader reader = new PdfReader(src);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
-        PdfContentByte cb = stamper.getOverContent(1);
+        PdfContentByte cb = stamper.getOverContent(page);
 
 
         Image image = getImageFromPNG("checkmark.png");
@@ -142,7 +142,7 @@ public class PDFActivity extends AppCompatActivity {
 
         for (int i = 0; i < corText.size(); i++) {
 
-            cb = stamper.getOverContent(1);
+            cb = stamper.getOverContent(page);
             ColumnText ct = new ColumnText(cb);
             if(i<=1)
                 ct.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);

@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyTheme">
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <!-- Nav Menu -->
 
@@ -58,7 +58,8 @@
         <activity android:name=".devices.CentrifugeActivity" />
         <activity android:name=".devices.PlasmaThawerActivity" />
         <activity android:name=".devices.DiacentActivity" />
-        <activity android:name=".devices.GeneralUseActivity"></activity>
+        <activity android:name=".devices.GeneralUseActivity" />
+        <activity android:name=".devices.GelstationActivity"></activity>
     </application>
 
 </manifest>

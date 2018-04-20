@@ -135,7 +135,7 @@ public class DiacentActivity extends AppCompatActivity {
                     page1.putParcelableArrayList("corText",corText);
                     pages.putBundle("page1",page1);
                     intent.putExtra("pages",pages);
-                    
+
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", destArray);
                     startActivityForResult(intent,1);

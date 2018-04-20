@@ -4,11 +4,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lowLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
     android:padding="15dp"
-    app:layout_constraintBottom_toTopOf="@+id/divider3"
-    app:layout_constraintTop_toBottomOf="@+id/divider2">
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/midLayout"
+    app:layout_constraintVertical_weight="2">
 
 
     <ImageView
@@ -27,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/centSpeed2500"
+        android:inputType="number"
         android:textAlignment="textEnd"
-
         app:layout_constraintRight_toLeftOf="@id/icSpeed1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/centCWtime"
+        android:inputType="number"
         android:textAlignment="textEnd"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,6 +63,7 @@
         android:layout_marginLeft="20dp"
         android:text="@string/checkHoldersCW"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/centCheckRemaining"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/centCWtime" />
 
@@ -69,6 +74,7 @@
         android:layout_marginLeft="20dp"
         android:text="@string/checkRemaining"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/centCheckFilling"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/centCheckHolders" />
 

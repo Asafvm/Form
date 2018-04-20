@@ -204,6 +204,96 @@
     <string name="cancelButton">Cancel</string>
     <string name="okButton">OK</string>
     <string name="doAnother">צור דו\"ח נוסף?</string>
+
+
+    <!-- Gelstation -->
+    <string name="gsTextInit">Initial Checks</string>
+    <string name="gsExternalInspection">External\ninspection</string>
+    <string name="gsCableInspection"><![CDATA[Serial & Video\ncable inspection]]></string>
+    <string name="gsGeneralCleaning">General\nCleaning</string>
+    <string name="gsTextsoftware"><![CDATA[Software & Computer]]></string>
+    <string name="gsTextsoftware1">Software version</string>
+    <string name="gsTextsoftware2"><![CDATA[Operation System &\nLanguage environment]]></string>
+    <string name="gsTextsoftware3"><![CDATA[Hard disk available space (C:\\ & D:\\)]]></string>
+
+    <string name="etGSs2">Windows ver and SP ver</string>
+    <string name="rbGSxpsp2">Windows XP\nSP2</string>
+    <string name="rbGSxpsp3">Windows XP\nSP3</string>
+    <string name="rbGS7sp1">Windows 7\nSP1</string>
+    <string name="gsC">C:\\</string>
+    <string name="etgsC">C:\\</string>
+    <string name="etgsD">D:\\</string>
+    <string name="gsGB">GB</string>
+    <string name="tvGSdelout"><![CDATA[DelOut file settings & execution]]></string>
+    <string name="gsTextCommon">Common Modules</string>
+    <string name="gsV">V</string>
+    <string name="etgs24">Power Supply Voltage 24V (24V ± 0.3V)</string>
+    <string name="etgs8">Conversion to 8V ( 8V ± 0.3V)</string>
+    <string name="etgs12">Conversion to 12V ( 12V ± 0.3V)</string>
+    <string name="tvGScommon1"><![CDATA[Main Door\nmovement & strengthening]]></string>
+    <string name="tvGScommon2">Status led,\ncentrifuge access led</string>
+    <string name="gsTextSamples">Samples and Reagents Module</string>
+    <string name="gsSamplesLubricate">Lubricate Samples carrousel crown inner side</string>
+    <string name="gsSamplesTension">Check Samples carrousel crown tension</string>
+    <string name="gsSamplesHome"><![CDATA[Clean carrousels & Home sensor]]></string>
+    <string name="gsSamplesSpin">Check Spinning system</string>
+    <string name="gsSamplesCycle">Home cycles (2 minutes)</string>
+    <string name="gsSamplesRandom">Random movements (2 minutes)</string>
+    <string name="gsSamplesTest">Test spinning system (3, 5, 10 ml vials)</string>
+    <string name="gsSamplesSReading">Samples reading -BC and diameter (10,12 and 15mm tubes)</string>
+    <string name="gsSamplesRReading">Reagents reading</string>
+    <string name="gsTextIncubator">Incubator Module</string>
+    <string name="etgs1_25">Verify 25ºC Block 1 (25 +2ºC)</string>
+    <string name="etgs2_25">Verify 25ºC Block 2 (25 +2ºC)</string>
+    <string name="etgs1_37">Verify 37ºC Block 1 (37 +2ºC)</string>
+    <string name="etgs2_37">Verify 37ºC Block 2 (37 +2ºC)</string>
+    <string name="gsTextCentrufuge">Centrifuge Module</string>
+    <string name="etgsCentrifugation">Centrifugation</string>
+    <string name="etgsRPM">RPM</string>
+    <string name="gsCentrifugeCleaning">General cleaning (Open and clean)</string>
+    <string name="gsCentrifugeHolders">Card holders status</string>
+    <string name="gsCentrifugeRandom">Random positioning (2 minutes)</string>
+    <string name="gsCentrifugeCycles">Home cycles (2 minutes)</string>
+    <string name="gsCentrifugeUnbalance">Unbalance sensor</string>
+    <string name="gsTextRobot">Robot Module</string>
+    <string name="gsRobotCleaning">Clean Robot head (Open and clean)</string>
+    <string name="gsRobotHLubricateZ"><![CDATA[Lubricate Z lead screw & wagon guide]]></string>
+    <string name="gsRobotHLubricateScrew">Lubricate lead screw ball bearings</string>
+    <string name="gsRobotHLubricateXY">Lubricate X and Y axis</string>
+    <string name="gsRobotPulleys">Check pulleys status</string>
+    <string name="gsRobotBelt">Check belts status</string>
+    <string name="gsRobotGripper1">Check Gripper pins status</string>
+    <string name="gsRobotGripper2">Check Gripper fingers movement</string>
+    <string name="gsRobotHome">Homes</string>
+    <string name="gsRobotRandom">Random movements ( 2 minutes)</string>
+    <string name="gsRobotCards">Cards transport ( 20 minutes )</string>
+    <string name="gsRobotLevel">Level detection test (100 detections )</string>
+    <string name="gsTextFluid">Fluid System</string>
+    <string name="etgsmBAR">mBar</string>
+    <string name="tvGSfluidVaccum"><![CDATA[Vacuum checking and adjustment\n305mbar < value < 600 mbar]]></string>
+    <string name="tvGSfluidPressure">Pressure checking and adjustment\n180mbar ± 20mbar</string>
+    <string name="gsFluidSyringe">Syringe test</string>
+    <string name="gsFluidBottles">Bottles level detection</string>
+    <string name="gsFluidPumps">Pumps (Performance and noise)</string>
+    <string name="gsFluidClot">Clot detector checking</string>
+    <string name="gsTextReader">Reader Module</string>
+    <string name="gsReaderDiffuser">Clean cards light diffuser</string>
+    <string name="gsReaderLeds">Check led’s performance</string>
+    <string name="gsReaderCamera">Check camera cables and connector</string>
+    <string name="gsReaderCards">Cards readings</string>
+    <string name="gsTextDecontamination">Decontamination</string>
+    <string name="gsDecontaminationPriming">Priming ( 5 times )</string>
+    <string name="gsDecontaminationWashing">Priming ( 5 times )</string>
+    <string name="gsTextWADDiagnostic">WADDiagnostic</string>
+    <string name="gsTextWADDiagnosticTest">WADDiagnostic test</string>
+    <string name="gsTextFunctional">Functional checking</string>
+    <string name="gsTextFunctionalBatch">Real batch ( QC or real Batch)</string>
+    <string name="gsTextFunctionalListing">Batch listing and patient listing</string>
+    <string name="gsTextParts">Parts replaced</string>
+    <string name="partDescription">תיאור</string>
+    <string name="partCount">כמות</string>
+    <string name="partSerial">מספר סידורי</string>
+
     <!-- Strings related to Settings -->
 
 

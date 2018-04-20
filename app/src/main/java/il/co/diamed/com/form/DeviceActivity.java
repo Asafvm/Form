@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import il.co.diamed.com.form.devices.CentrifugeActivity;
 import il.co.diamed.com.form.devices.DiacentActivity;
+import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
@@ -133,6 +134,9 @@ public class DeviceActivity extends AppCompatActivity {
                 break;
             case R.id.plasma:
                 intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);
+                break;
+            case R.id.idGelstation:
+                intent = new Intent(getBaseContext(), GelstationActivity.class);
                 break;
             case R.id.ib10:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);

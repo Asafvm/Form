@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -34,6 +35,7 @@ public class CentrifugeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centrifuge);
+        setLayout(R.layout.centrifuge_layout);
 
         //Get preferrences
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -389,4 +391,14 @@ public class CentrifugeActivity extends AppCompatActivity {
             return true;
     }
 
+
+    private void setLayout(int resLayout) {
+
+        View lowLayout = findViewById(R.id.lowLayout);
+        ViewGroup parent = (ViewGroup) lowLayout.getParent();
+        int index = parent.indexOfChild(lowLayout);
+        parent.removeView(lowLayout);
+        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
+        parent.addView(lowLayout, index);
+    }
 }

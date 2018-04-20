@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout android:id="@+id/lowLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="15dp"
-    app:layout_constraintBottom_toTopOf="@id/divider3"
-    app:layout_constraintTop_toBottomOf="@id/divider2"
-    app:layout_constraintVertical_weight="2"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/lowLayout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/midLayout"
+    app:layout_constraintVertical_weight="1">
 
 
     <ImageView
@@ -27,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/etVer"
+        android:inputType="numberDecimal"
         android:textAlignment="textEnd"
-
         app:layout_constraintRight_toLeftOf="@id/icVer"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,10 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/etNewVer"
+        android:inputType="numberDecimal"
         android:textAlignment="textEnd"
         android:visibility="invisible"
-        app:layout_constraintRight_toLeftOf="@id/etVer"
         app:layout_constraintLeft_toLeftOf="@id/verUpdateSwitch"
+        app:layout_constraintRight_toLeftOf="@id/etVer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
@@ -49,16 +52,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/generalCleaning"
-        app:layout_constraintTop_toBottomOf="@id/etVer"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etVer" />
 
     <Switch
         android:id="@+id/verUpdateSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/verUpdate"
-        app:layout_constraintTop_toBottomOf="@id/etVer"
-        app:layout_constraintRight_toLeftOf="@id/generalCleaningSwitch"/>
+        app:layout_constraintRight_toLeftOf="@id/generalCleaningSwitch"
+        app:layout_constraintTop_toBottomOf="@id/etVer" />
 
 
     <Switch
@@ -67,9 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="@string/selfText"
-        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/verUpdateSwitch"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/etVer" />
 
 
 </android.support.constraint.ConstraintLayout>
