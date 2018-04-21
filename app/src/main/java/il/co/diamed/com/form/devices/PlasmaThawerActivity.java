@@ -2,16 +2,13 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -34,14 +31,18 @@ public class PlasmaThawerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plasma_thawer);
-        setLayout(R.layout.plasma_layout);
+        Helper h = new Helper();
+        h.setLayout(this, R.layout.plasma_layout);
 
-        //Get preferrences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String thermometer = sharedPref.getString("thermometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
+
+        Bundle bundle = getIntent().getExtras().getBundle("cal");
+        final String techname = bundle.getString("techName");
+        final String signature = bundle.getString("signature");
+        final String thermometer = bundle.getString("thermometer");
+        final String speedometer = bundle.getString("speedometer");
+        final String barometer = bundle.getString("barometer");
+        final String timer = bundle.getString("timer");
+
 
         //get views
         final Button btn = findViewById(R.id.formSubmitButton);
@@ -380,16 +381,6 @@ public class PlasmaThawerActivity extends AppCompatActivity {
             return true;
     }
 
-
-    private void setLayout(int resLayout) {
-
-        View lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
-        parent.addView(lowLayout, index);
-    }
 
 }
 

@@ -18,10 +18,11 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="15dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@id/lowLayout"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintVertical_weight="1">
+
 
 
         <TextView
@@ -40,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/etDeviceSerial"
+            app:layout_constraintBottom_toTopOf="@id/serialLayout"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
@@ -63,37 +64,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/incTypeL" />
         </RadioGroup>
+        <include
+            android:id="@+id/serialLayout"
+            layout="@layout/form_serial"/>
 
-
-        <TextView
-            android:id="@+id/tvDeviceSerial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="@string/tvDeviceSerial"
-            android:textSize="20sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/etDeviceSerial"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-
-            app:layout_constraintLeft_toRightOf="@id/etDeviceSerial"
-            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
-
-        <EditText
-            android:id="@+id/etDeviceSerial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/formSerial"
-            android:textAlignment="textEnd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            android:inputType="text"
-            app:layout_constraintRight_toLeftOf="@id/tvDeviceSerial"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
     </android.support.constraint.ConstraintLayout>
 
 

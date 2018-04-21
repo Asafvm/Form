@@ -2,18 +2,13 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -28,18 +23,23 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
 
 public class IncubatorActivity extends AppCompatActivity {
+    private final int MAX_TEMP = 39;
+    private final int MIN_TEMP = 35;
+    private final int EXPECTED_TIME = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incubator);
-        setLayout(R.layout.incubator_layout);
-        //Get preferrences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String thermometer = sharedPref.getString("thermometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
+        Helper h = new Helper();
+        h.setLayout(this, R.layout.incubator_layout);
+
+
+        Bundle bundle = getIntent().getExtras().getBundle("cal");
+        final String techname = bundle.getString("techName");
+        final String signature = bundle.getString("signature");
+        final String thermometer = bundle.getString("thermometer");
+        final String timer = bundle.getString("timer");
 
         //get views
         final Button btn = findViewById(R.id.formSubmitButton);
@@ -56,23 +56,19 @@ public class IncubatorActivity extends AppCompatActivity {
         final Switch fanSwitch = findViewById(R.id.incFanSwitch);
         final Switch rubberSwitch = findViewById(R.id.incRubberSwitch);
 
+
+        h.setListener(t11);
+        h.setListener(t12);
+        h.setListener(t3);
+        h.setTempListener(t4,MIN_TEMP,MAX_TEMP);
+        h.setTimeListener(t5,EXPECTED_TIME);
         //default basic values
+        t11.setText("");
+        t12.setText("");
         t2.check(R.id.si);
+        t3.setText("");
         t5.setText("15");
-        fanSwitch.setChecked(true);
-        rubberSwitch.setChecked(true);
         t6.setText(techname);
-
-
-        setListener(t11);
-        setListener(t12);
-        setListener(t3);
-        setListener(t4);
-        setListener(t5);
-        setListener(t6);
-        setListener(t2);
-        setListener(rubberSwitch);
-        setListener(fanSwitch);
 
         btn.setOnClickListener(new View.OnClickListener()
 
@@ -86,19 +82,19 @@ public class IncubatorActivity extends AppCompatActivity {
 
                     ArrayList<Tuple> corCheck = new ArrayList<>();
                     //       corCheck.add(new Tuple(116,467));           //temp not ok
-                    corCheck.add(new Tuple(205, 467));           //temp ok
+                    corCheck.add(new Tuple(205, 469));           //temp ok
                     //       corCheck.add(new Tuple(114,327));           //time not ok
-                    corCheck.add(new Tuple(203, 327));           //time ok
+                    corCheck.add(new Tuple(203, 329));           //time ok
                     //       corCheck.add(new Tuple(155,228));           //fan not ok
-                    corCheck.add(new Tuple(250, 228));           //fan ok
+                    corCheck.add(new Tuple(251, 230));           //fan ok
                     //       corCheck.add(new Tuple(155,210));           //rubber not ok
-                    corCheck.add(new Tuple(250, 210));           //rubber ok
+                    corCheck.add(new Tuple(251, 212));           //rubber ok
                     //       corCheck.add(new Tuple(232,95));           //overall not ok
-                    corCheck.add(new Tuple(480, 95));           //overall ok
+                    corCheck.add(new Tuple(482, 97));           //overall ok
 
                     ArrayList<Tuple> corText = new ArrayList<>();
 
-                    corText.add(new Tuple(300, 635));                        //Location
+                    corText.add(new Tuple(300, 636));                        //Location
                     corText.add(new Tuple(330, 30));                        //Tech Name
                     corText.add(new Tuple(72, 636));                        //Date
                     corText.add(new Tuple(290, 568));                        //type
@@ -148,31 +144,25 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("report", "2018_id37_yearly.pdf");
-                    //intent.putExtra("checkmarks", corCheck);
-                    //intent.putExtra("arrText", arrText);
-                    //intent.putExtra("corText", corText);
 
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", destArray);
                     startActivityForResult(intent, 1);
                 }
-                ;
-
-
             }
 
             private boolean checkStatus() {
-                if (!isValidString(t11.getText().toString()))
+                if (!Helper.isValidString(t11.getText().toString()))
                     return false;
-                if (!isValidString(t12.getText().toString()))
+                if (!Helper.isValidString(t12.getText().toString()))
                     return false;
-                if (!isValidString(t3.getText().toString()))
+                if (!Helper.isValidString(t3.getText().toString()))
                     return false;
-                if (!isValidString(t4.getText().toString()))
+                if (!Helper.isTempValid(t4, MIN_TEMP, MAX_TEMP))
                     return false;
-                if (!isValidString(t5.getText().toString()))
+                if (!Helper.isTimeValid(t5, EXPECTED_TIME))
                     return false;
-                if (!isValidString(t6.getText().toString()))
+                if (!Helper.isValidString(t6.getText().toString()))
                     return false;
                 if (!fanSwitch.isChecked())
                     return false;
@@ -227,144 +217,4 @@ public class IncubatorActivity extends AppCompatActivity {
     }
 
 
-    private void setListener(Switch s) {
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-            }
-        });
-    }
-
-
-    private boolean isTimeValid(String s) {
-
-        try {
-            float time = Float.parseFloat(s);
-            if (time == 15)
-                return true;
-            else
-                return false;
-
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-
-    private boolean isTempValid(String s) {
-
-        try {
-            float temp = Float.parseFloat(s);
-            if (temp >= 35 && temp <= 39)
-                return true;
-            else
-                return false;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
-    private void setListener(RadioGroup rg) {
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-            }
-        });
-    }
-
-    void setListener(final EditText et) {
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.temp) {
-                    if (isTempValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.time) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.temp) {
-                    if (isTempValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.time) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (et.getId() == R.id.temp) {
-                    if (isTempValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.time) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-        });
-    }
-
-    private boolean isValidString(String s) {
-        if (s.equals("") || s == null)
-            return false;
-        else
-            return true;
-    }
-
-
-    private void setLayout(int resLayout) {
-
-        View lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
-        parent.addView(lowLayout, index);
-    }
 }

@@ -3,18 +3,12 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -23,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
@@ -53,17 +46,18 @@ public class DiacentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diacent);
-        setLayout(R.layout.diacent12_layout);
+        Helper h = new Helper();
+        h.setLayout(this,R.layout.diacent12_layout);
 
-        //lowLayout.inflate();
 
+        Bundle bundle = getIntent().getExtras().getBundle("cal");
+        final String techname = bundle.getString("techName");
+        final String signature = bundle.getString("signature");
+        final String thermometer = bundle.getString("thermometer");
+        final String speedometer = bundle.getString("speedometer");
+        final String barometer = bundle.getString("barometer");
+        final String timer = bundle.getString("timer");
 
-        //Get preferrences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String speedometer = sharedPref.getString("speedometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
 
         //get views
         final Button btn = findViewById(R.id.formSubmitButton);
@@ -75,21 +69,22 @@ public class DiacentActivity extends AppCompatActivity {
 
         final EditText t6 = findViewById(R.id.formTechName);
         final DatePicker dp = findViewById(R.id.formDate);
-
-
+        h.setListener(t11);
+        h.setListener(t12);
+        h.setListener(t3);
         //default basic values
         initDiacent12();
         t2.check(R.id.dia12);
         t6.setText(techname);
-
-
+        setListener(t2);
+/*
         setListener(t11);
         setListener(t12);
-        setListener(t2);
+
         setListener(t3);
         setListener(t6);
 
-
+*/
         btn.setOnClickListener(new View.OnClickListener()
 
         {
@@ -302,8 +297,31 @@ public class DiacentActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
+    /*** Swtich 12 and CW views ***/
+    private void setListener(RadioGroup rg) {
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                Helper h = new Helper();
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.dia12:
+                        h.setLayout(DiacentActivity.this,R.layout.diacent12_layout);
+                        initDiacent12();
+                        break;
+                    case R.id.diaCW:
+                        h.setLayout(DiacentActivity.this,R.layout.diacentcw_layout);
+                        initDiacentCW();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
+    }
 
 
     @Override
@@ -358,16 +376,6 @@ public class DiacentActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private void setLayout(int resLayout) {
-
-        View lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
-        parent.addView(lowLayout, index);
-    }
-
     private void initDiacentCW() {
 
         /* Diacent CW */
@@ -382,8 +390,8 @@ public class DiacentActivity extends AppCompatActivity {
         checkcwHolders.setChecked(true);
         checkRemaining.setChecked(true);
 
-        setListener(t4);
-        setListener(t5);
+        //setListener(t4);
+        //setListener(t5);
         setListener(checkFilling);
         setListener(checkRemaining);
         setListener(checkcwHolders);
@@ -403,14 +411,14 @@ public class DiacentActivity extends AppCompatActivity {
         t52.setText("20");
         t53.setText("30");
         check12Holders.setChecked(true);
-
+/*
         setListener(t41);
         setListener(t42);
         setListener(t43);
         setListener(t51);
         setListener(t52);
         setListener(t53);
-
+*/
     }
 
     private boolean isSpeedValid(EditText exSpeed, EditText meSpeed) {
@@ -456,28 +464,7 @@ public class DiacentActivity extends AppCompatActivity {
     }
 
 
-    /*** Swtich 12 and CW views ***/
-    private void setListener(RadioGroup rg) {
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.dia12:
-                        setLayout(R.layout.diacent12_layout);
-                        initDiacent12();
-                        break;
-                    case R.id.diaCW:
-                        setLayout(R.layout.diacentcw_layout);
-                        initDiacentCW();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        });
-    }
+/*
 
     void setListener(final EditText et) {
         et.addTextChangedListener(new TextWatcher() {
@@ -533,7 +520,7 @@ public class DiacentActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     private boolean isValidString(String s) {
 
         return (!(s == null || s.equals("")));

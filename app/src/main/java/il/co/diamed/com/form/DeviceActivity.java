@@ -29,11 +29,30 @@ public class DeviceActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceActivity";
     private DrawerLayout mDrawerLayout;
-
+private Bundle calibrationDevices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
+
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final String techname = sharedPref.getString("techName", "");
+        final String signature = sharedPref.getString("signature", "");
+        final String thermometer = sharedPref.getString("thermometer", "");
+        final String barometer = sharedPref.getString("barometer", "");
+        final String timer = sharedPref.getString("timer", "");
+        final String speedometer = sharedPref.getString("speedometer", "");
+
+
+
+        calibrationDevices = new Bundle();
+        calibrationDevices.putString("thermometer",thermometer);
+        calibrationDevices.putString("barometer",barometer);
+        calibrationDevices.putString("speedometer",speedometer);
+        calibrationDevices.putString("timer",timer);
+        calibrationDevices.putString("techName",techname);
+        calibrationDevices.putString("signature",signature);
         /* Tabs */
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = findViewById(R.id.pager);
@@ -159,9 +178,10 @@ public class DeviceActivity extends AppCompatActivity {
                 break;
 
         }
-        if (intent != null)
-            startActivityForResult(intent,1);
-        else
+        if (intent != null) {
+            intent.putExtra("cal", calibrationDevices);
+            startActivityForResult(intent, 1);
+        }else
             Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT);
 
     }

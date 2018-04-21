@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/serialLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/rgModelSelect">
+
+    <TextView
+        android:id="@+id/tvDeviceSerial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvDeviceSerial"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/divider1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/etDeviceSerial"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etDeviceSerial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/formSerial"
+        android:inputType="text"
+        android:textAlignment="textEnd"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvDeviceSerial"
+        app:layout_constraintBottom_toTopOf="@id/divider1"
+        app:layout_constraintRight_toLeftOf="@id/tvDeviceSerial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/tvDeviceSerial" />
+</android.support.constraint.ConstraintLayout>

@@ -2,16 +2,13 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -19,7 +16,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,21 +24,28 @@ import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
 
+import static il.co.diamed.com.form.devices.Helper.isTimeValid;
+import static il.co.diamed.com.form.devices.Helper.isValidString;
+
 public class CentrifugeActivity extends AppCompatActivity {
-    private EditText expectedSpeed;
+    private final int EXPECTED_TIME = 10;
+    private int EXPECTED_SPEED = 1030;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_centrifuge);
-        setLayout(R.layout.centrifuge_layout);
+        Helper h = new Helper();
+        h.setLayout(this,R.layout.centrifuge_layout);
 
-        //Get preferrences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String speedometer = sharedPref.getString("speedometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
+
+        Bundle bundle = getIntent().getExtras().getBundle("cal");
+        final String techname = bundle.getString("techName");
+        final String signature = bundle.getString("signature");
+        final String thermometer = bundle.getString("thermometer");
+        final String speedometer = bundle.getString("speedometer");
+        final String barometer = bundle.getString("barometer");
+        final String timer = bundle.getString("timer");
 
         //get views
         final Button btn = findViewById(R.id.formSubmitButton);
@@ -60,22 +63,22 @@ public class CentrifugeActivity extends AppCompatActivity {
 
 
         //default basic values
-        expectedSpeed = findViewById(R.id.centExpectedTime);
-        expectedSpeed.setText("1030");
+        EditText expectedSpeed = findViewById(R.id.centExpectedTime);
+        expectedSpeed.setText(String.valueOf(EXPECTED_SPEED));
+
         t2.check(R.id.c12SII);
         t5.setText("10");
         fanSwitch.setChecked(true);
         t6.setText(techname);
 
 
-        setListener(t11);
-        setListener(t12);
-        setListener(t3);
-        setListener(t4);
-        setListener(t5);
-        setListener(t6);
+        h.setListener(t11);
+        h.setListener(t12);
+        h.setListener(t3);
+        h.setSpeedListener(t4,EXPECTED_SPEED);
+        h.setTimeListener(t5,EXPECTED_TIME);
+        h.setListener(t6);
         setListener(t2);
-        setListener(fanSwitch);
 
         btn.setOnClickListener(new View.OnClickListener()
 
@@ -89,13 +92,13 @@ public class CentrifugeActivity extends AppCompatActivity {
 
                     ArrayList<Tuple> corCheck = new ArrayList<>();
                     //       corCheck.add(new Tuple(116,467));           //speed not ok
-                    corCheck.add(new Tuple(217, 447));           //speed ok
+                    corCheck.add(new Tuple(219, 448));           //speed ok
                     //       corCheck.add(new Tuple(114,327));           //time not ok
-                    corCheck.add(new Tuple(213, 313));           //time ok
+                    corCheck.add(new Tuple(214, 313));           //time ok
                     //       corCheck.add(new Tuple(155,228));           //fan not ok
-                    corCheck.add(new Tuple(244, 207));           //fan ok
+                    corCheck.add(new Tuple(245, 208));           //fan ok
                     //       corCheck.add(new Tuple(232,95));           //overall not ok
-                    corCheck.add(new Tuple(478, 102));           //overall ok
+                    corCheck.add(new Tuple(479, 102));           //overall ok
 
                     ArrayList<Tuple> corText = new ArrayList<>();
 
@@ -122,7 +125,7 @@ public class CentrifugeActivity extends AppCompatActivity {
                     arrText.add(((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString());     //type
                     arrText.add(t3.getText().toString());                        //Serial
                     arrText.add(t4.getText().toString());                        //cent
-                    arrText.add(expectedSpeed.getText().toString());                        //cent expected
+                    arrText.add(String.valueOf(EXPECTED_SPEED));                        //cent expected
                     arrText.add(t5.getText().toString());                        //Time
                     arrText.add(dp.getMonth() + "   " + (dp.getYear() + 1));           //Next Date
 
@@ -163,16 +166,15 @@ public class CentrifugeActivity extends AppCompatActivity {
                     return false;
                 if (!isValidString(t3.getText().toString()))
                     return false;
-                if (!isValidString(t4.getText().toString()))
+                if (!Helper.isSpeedValid(Integer.valueOf(t4.getText().toString()), EXPECTED_SPEED))
                     return false;
-                if (!isValidString(t5.getText().toString()))
+                if (!isTimeValid(t5,EXPECTED_TIME))
                     return false;
                 if (!isValidString(t6.getText().toString()))
                     return false;
                 if (!fanSwitch.isChecked())
                     return false;
-                if (!isSpeedValid(expectedSpeed, t4))
-                    return false;
+
                 return true;
 
             }
@@ -221,65 +223,6 @@ public class CentrifugeActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
 
-    private boolean isSpeedValid(EditText exSpeed, EditText meSpeed) {
-        try {
-            int mSpeed = Integer.valueOf(meSpeed.getText().toString()); //mesured
-            int eSpeed = Integer.valueOf(exSpeed.getText().toString()); //expected
-
-            if (mSpeed <= eSpeed + 10 && mSpeed >= eSpeed - 10) {
-                meSpeed.setBackgroundColor(Color.TRANSPARENT);
-                return true;
-            } else {
-                meSpeed.setBackgroundColor(Color.RED);
-                return false;
-            }
-        } catch (Exception e) {
-            meSpeed.setBackgroundColor(Color.RED);
-            return false;
-        }
-
-    }
-
-
-    private void setListener(Switch s) {
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-            }
-        });
-    }
-
-
-    private boolean isTimeValid(String s) {
-
-        try {
-            float time = Float.parseFloat(s);
-            if (time == 10)
-                return true;
-            else
-                return false;
-
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-
-    private boolean isTempValid(String s) {
-
-        try {
-            float temp = Float.parseFloat(s);
-            if (temp >= 35 && temp <= 39)
-                return true;
-            else
-                return false;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
 
     private void setListener(RadioGroup rg) {
@@ -288,117 +231,30 @@ public class CentrifugeActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.c6S:
-                        expectedSpeed.setText("1175");
+                        EXPECTED_SPEED = 1175;
                         break;
                     case R.id.c12S:
-                        expectedSpeed.setText("1030");
+                        EXPECTED_SPEED = 1030;
                         break;
                     case R.id.c12SII:
-                        expectedSpeed.setText("1030");
+                        EXPECTED_SPEED = 1030;
                         break;
                     case R.id.c24S:
-                        expectedSpeed.setText("910");
+                        EXPECTED_SPEED = 910;
                         break;
                     case R.id.l:
-                        expectedSpeed.setText("1030");
+                        EXPECTED_SPEED = 1030;
                         break;
                     default:
-                        expectedSpeed.setText("0");
+                        EXPECTED_SPEED = 0;
                         break;
                 }
-
-            }
+                EditText t4 = findViewById(R.id.centSpeed);
+                Helper h = new Helper();
+                h.setSpeedListener(t4,EXPECTED_SPEED);
+                EditText expectedSpeed = findViewById(R.id.centExpectedTime);
+                expectedSpeed.setText(String.valueOf(EXPECTED_SPEED));            }
         });
     }
 
-    void setListener(final EditText et) {
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.centSpeed) {
-                    if (isSpeedValid(expectedSpeed,et)) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.centTime) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.centSpeed) {
-                    if (isSpeedValid(expectedSpeed,et)) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.centTime) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (et.getId() == R.id.centSpeed) {
-                    if (isSpeedValid(expectedSpeed,et)) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else if (et.getId() == R.id.centTime) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-        });
-    }
-
-    private boolean isValidString(String s) {
-        if (s.equals("") || s == null)
-            return false;
-        else
-            return true;
-    }
-
-
-    private void setLayout(int resLayout) {
-
-        View lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
-        parent.addView(lowLayout, index);
-    }
 }

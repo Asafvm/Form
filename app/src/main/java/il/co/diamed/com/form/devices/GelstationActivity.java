@@ -2,19 +2,14 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,7 +23,6 @@ import java.util.ArrayList;
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
-import il.co.diamed.com.form.res.helper;
 
 public class GelstationActivity extends AppCompatActivity {
 
@@ -36,18 +30,27 @@ public class GelstationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setContentView(R.layout.activity_gelstation);
-        helper h = new helper();
+        setContentView(R.layout.activity_gelstation);
+        Helper h = new Helper();
         h.setLayout(this,R.layout.gelstation_layout);
 
 
-        Bundle bundle = getIntent().getExtras();
-        //Get preferrences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
+        Bundle bundle = getIntent().getExtras().getBundle("cal");
+        final String techname = bundle.getString("techName");
+        final String signature = bundle.getString("signature");
+        final String thermometer = bundle.getString("thermometer");
+        final String speedometer = bundle.getString("speedometer");
+        final String barometer = bundle.getString("barometer");
+
 
         //get views
+        //          Reconstruct Branch               :
+        //D/vndksupport: Loading /vendor/lib64/hw/gralloc.msm8996.so from current namespace instead of sphal namespace.
+        //I/Adreno: PFP: 0x005ff087, ME: 0x005ff063
+        //I/zygote64: android::hardware::configstore::V1_0::ISurfaceFlingerConfigs::hasWideColorDisplay retrieved: 0
+        //I/OpenGLRenderer: Initialized EGL, version 1.4
+        //D/OpenGLRenderer: Swap behavior 2
+        //I/zygote64: Do full code cache collection, code=125KB, data=82KB
         final Button btn = findViewById(R.id.formSubmitButton);
 
         final EditText t11 = findViewById(R.id.formMainLocation);
@@ -306,18 +309,5 @@ public class GelstationActivity extends AppCompatActivity {
     }
 
 
-
-    public void setLayout(int resLayout) {
-
-        View lowLayout = findViewById(R.id.lowLayout);
-        ViewGroup parent = (ViewGroup) lowLayout.getParent();
-        int index = parent.indexOfChild(lowLayout);
-        parent.removeView(lowLayout);
-        lowLayout = getLayoutInflater().inflate(resLayout, parent, false);
-        parent.addView(lowLayout, index);
-
-        helper.setButtons((ViewGroup)lowLayout);
-
-    }
 
 }
