@@ -183,7 +183,6 @@
     <string name="pdfSuccess">PDF created!</string>
     <string name="noDevice">לא קיים עמוד עבור המכשיר הנבחר</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_not_main">NotMainActivity</string>
     <string name="tab_text_1">Tab 1</string>

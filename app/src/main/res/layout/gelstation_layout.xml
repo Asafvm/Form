@@ -971,6 +971,7 @@
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/cbGSFunctional2" />
 
+
         <EditText
             android:id="@+id/partCount"
             android:layout_width="0dp"
