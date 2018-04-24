@@ -1,8 +1,300 @@
 <resources>
     <string name="app_name">Form</string>
-    <string name="Inc37SI">ID-Incubator 37SI</string>
+
+    <string name="hello">Hello World, CaptureSignatureActivity!</string>
+    <string name="external_dir">GetSignature</string>
 
 
+    <string name="incubator">ID-Incubator</string>
+    <string name="formLocation">בית חולים / מעבדה</string>
+    <string name="incTypeSI">SI</string>
+    <string name="incTypeSII">SII</string>
+    <string name="incTypeL">L</string>
+    <string name="formSerial">מספר סידורי</string>
+    <string name="incTemp">טמפרטורה</string>
+    <string name="formTime">זמן</string>
+    <string name="formTechName">טכנאי</string>
+
+
+    /navigation drawer
+    <string name="navbar_header">שלום</string>
+    <string name="navSettings">הגדרות</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_calibraion">כלי כיול</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_speedometer">מד מהירות</string>
+    <string name="pref_title_thermometer">מד טמפרטורה</string>
+    <string name="pref_title_barometer">מד לחץ</string>
+    <string name="pref_title_timer">טיימר</string>
+
+    <string name="pref_default_serial_number">הכנס מספר סידורי</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">סינכרון</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">הגדרות סינכרון</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_signture">חתימה</string>
+
+    <string name="pref_title_show_signature_confirmation">הצג חתימה בדו"ח</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="signhere">חתימה</string>
+    <string name="signsaved">חתימה נשמרה</string>
+    <string name="pref_default_signnotfound">לא הוקלטה חתימה</string>
+    <string name="fullName">שם מלא</string>
+    <string name="submitForm">שלח טופס</string>
+
+    <string name="checkIncFan">בדוק\nמאוורר</string>
+    <string name="checkIncRubber">בדוק אטם\nגומי</string>
+    <string name="incType">ID-Incubator 37: </string>
+    <string name="mainLocation">קופת חולים / בית חולים</string>
+    <string name="roomLocation">חדר / מעבדה</string>
+    <string name="incSerial">מספר סידורי</string>
+    <string name="title_activity_login2">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="defaulteMail">הכנס דוא\"ל</string>
+    <string name="defaultTechName">הכנס שם מלא</string>
+    <string name="techeMail">דואר אלקטרוני</string>
+    <string name="defaultSignature">לחץ כדי להקליט חתימה</string>
+    <string name="helloHeader">שלום, </string>
+    <string name="pref_not_synced">לא מסונכרן</string>
+    <string name="signButton">התנתק</string>
+    <string name="centType6S">6S</string>
+    <string name="centType12S">12S</string>
+    <string name="centType12SII">12SII</string>
+    <string name="centType24S">24S</string>
+    <string name="centTypeL">L</string>
+    <string name="centType">ID-Centrifuge:</string>
+    <string name="centSpeed">מהירות סירכוז</string>
+    <string name="centTime">10</string>
+    <string name="centrifuge">ID-Centrifuge</string>
+    <string name="biomixer">Biomixer</string>
+    <string name="plasma">Plasma Thawer</string>
+    <string name="formMainLocation">בית חולים / קופת חולים</string>
+    <string name="formRoomLocation">מעבדה / חדר</string>
+    <string name="checkDeviceFan">בדוק מאוורר</string>
+    <string name="tvDeviceSerial">מספר סידורי</string>
+    <string name="centExpectedTime">מהירות\nצפויה</string>
+    <string name="Diacent">ID-Diacent12</string>
+    <string name="diacent">Diacent 12 / CW</string>
+    <string name="ih500">IH-500</string>
+    <string name="ih1000">IH-1000</string>
+    <string name="docon">Docon</string>
+    <string name="hc10">HC10</string>
+    <string name="docureader">DocuReader 2 Pro</string>
+    <string name="ib10">IB10</string>
+    <string name="pt10">PT10</string>
+    <string name="edan">Edan-i15</string>
+    <string name="idGeltation">Id-Gelstation</string>
+    <string name="pt_dh4">DH4</string>
+    <string name="pt_dh8">DH8</string>
+    <string name="ptType">Helmer Plasma Thawer</string>
+    <string name="ptExpectedTemp">טמפרטורה\nצפויה</string>
+    <string name="ptWaterCheck">החלפת\nמים</string>
+    <string name="ptOilCheck">שימון וחיזוק צירים\nבסלי המנות</string>
+    <string name="ptAlarmCheck">בדיקת\nהתראות</string>
+    <string name="ptTime">10</string>
+    <string name="centTypedia12">12</string>
+    <string name="centTypediaCW">CW</string>
+    <string name="diacentType">ID-Diacent</string>
+    <string name="centSpeed1000">1000 סל\"ד</string>
+    <string name="centSpeed2000">2000 סל\"ד</string>
+    <string name="centSpeed3000">3000 סל\"ד</string>
+    <string name="centTime1">15</string>
+    <string name="centTime2">20</string>
+    <string name="centTime3">30</string>
+    <string name="checkHolders">בדוק תנועה חופשית\nשל מחזיקי מבחנות וקפיצים</string>
+    <string name="checkHoldersCW">בדיקת תנועה חופשית של מחזיקיה המבחנות והקפיצים</string>
+    <string name="checkRemaining">בדיקת כמות שנותרה לאחר שטיפה (כמות אחידה)</string>
+    <string name="checkFilling">בדיקת כמות מילוי המבחנות בזמן סירכוז</string>
+    <string name="centSpeed2500">2500 סל\"ד</string>
+    <string name="centCWtime">60</string>
+    <string name="pdfFailed">Failed to create PDF</string>
+    <string name="pdfSuccess">PDF created!</string>
+    <string name="noDevice">לא קיים עמוד עבור המכשיר הנבחר</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_not_main">NotMainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="diamed">Diamed</string>
+    <string name="medigal">Medigal</string>
+    <string name="samsung">Samsung</string>
+    <string name="title_activity_gelstation">GelstationActivity</string>
+    <string name="chooseDevice">בחר סוג מכשיר</string>
+    <string name="etVer">גרסת תוכנה</string>
+    <string name="generalCleaning">נקיון כללי למכשיר</string>
+    <string name="verUpdate">עדכון גרסה</string>
+    <string name="selfText">ביצוע self test</string>
+    <string name="etNewVer">גרסה חדשה</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="okButton">OK</string>
+    <string name="doAnother">צור דו\"ח נוסף?</string>
+
+
+    <!-- Gelstation -->
+    <string name="gsTextInit">Initial Checks</string>
+    <string name="gsExternalInspection">External\ninspection</string>
+    <string name="gsCableInspection"><![CDATA[Serial & Video\ncable inspection]]></string>
+    <string name="gsGeneralCleaning">General\nCleaning</string>
+    <string name="gsTextsoftware"><![CDATA[Software & Computer]]></string>
+    <string name="gsTextsoftware1">Software version</string>
+    <string name="gsTextsoftware2"><![CDATA[Operation System &\nLanguage environment]]></string>
+    <string name="gsTextsoftware3"><![CDATA[Hard disk available space (C:\\ & D:\\)]]></string>
+
+    <string name="etGSs2">Windows ver and SP ver</string>
+    <string name="rbGSxpsp2">Windows XP\nSP2</string>
+    <string name="rbGSxpsp3">Windows XP\nSP3</string>
+    <string name="rbGS7sp1">Windows 7\nSP1</string>
+    <string name="gsC">C:\\</string>
+    <string name="etgsC">C:\\</string>
+    <string name="etgsD">D:\\</string>
+    <string name="gsGB">GB</string>
+    <string name="tvGSdelout"><![CDATA[DelOut file settings & execution]]></string>
+    <string name="gsTextCommon">Common Modules</string>
+    <string name="gsV">V</string>
+    <string name="etgs24">Power Supply Voltage 24V (24V ± 0.3V)</string>
+    <string name="etgs8">Conversion to 8V ( 8V ± 0.3V)</string>
+    <string name="etgs12">Conversion to 12V ( 12V ± 0.3V)</string>
+    <string name="tvGScommon1"><![CDATA[Main Door\nmovement & strengthening]]></string>
+    <string name="tvGScommon2">Status led,\ncentrifuge access led</string>
+    <string name="gsTextSamples">Samples and Reagents Module</string>
+    <string name="gsSamplesLubricate">Lubricate Samples carrousel crown inner side</string>
+    <string name="gsSamplesTension">Check Samples carrousel crown tension</string>
+    <string name="gsSamplesHome"><![CDATA[Clean carrousels & Home sensor]]></string>
+    <string name="gsSamplesSpin">Check Spinning system</string>
+    <string name="gsSamplesCycle">Home cycles (2 minutes)</string>
+    <string name="gsSamplesRandom">Random movements (2 minutes)</string>
+    <string name="gsSamplesTest">Test spinning system (3, 5, 10 ml vials)</string>
+    <string name="gsSamplesSReading">Samples reading -BC and diameter (10,12 and 15mm tubes)</string>
+    <string name="gsSamplesRReading">Reagents reading</string>
+    <string name="gsTextIncubator">Incubator Module</string>
+    <string name="etgs1_25">Verify 25ºC Block 1 (25 +2ºC)</string>
+    <string name="etgs2_25">Verify 25ºC Block 2 (25 +2ºC)</string>
+    <string name="etgs1_37">Verify 37ºC Block 1 (37 +2ºC)</string>
+    <string name="etgs2_37">Verify 37ºC Block 2 (37 +2ºC)</string>
+    <string name="gsTextCentrufuge">Centrifuge Module</string>
+    <string name="etgsCentrifugation">Centrifugation</string>
+    <string name="etgsRPM">RPM</string>
+    <string name="gsCentrifugeCleaning">General cleaning (Open and clean)</string>
+    <string name="gsCentrifugeHolders">Card holders status</string>
+    <string name="gsCentrifugeRandom">Random positioning (2 minutes)</string>
+    <string name="gsCentrifugeCycles">Home cycles (2 minutes)</string>
+    <string name="gsCentrifugeUnbalance">Unbalance sensor</string>
+    <string name="gsTextRobot">Robot Module</string>
+    <string name="gsRobotCleaning">Clean Robot head (Open and clean)</string>
+    <string name="gsRobotHLubricateZ"><![CDATA[Lubricate Z lead screw & wagon guide]]></string>
+    <string name="gsRobotHLubricateScrew">Lubricate lead screw ball bearings</string>
+    <string name="gsRobotHLubricateXY">Lubricate X and Y axis</string>
+    <string name="gsRobotPulleys">Check pulleys status</string>
+    <string name="gsRobotBelt">Check belts status</string>
+    <string name="gsRobotGripper1">Check Gripper pins status</string>
+    <string name="gsRobotGripper2">Check Gripper fingers movement</string>
+    <string name="gsRobotHome">Homes</string>
+    <string name="gsRobotRandom">Random movements ( 2 minutes)</string>
+    <string name="gsRobotCards">Cards transport ( 20 minutes )</string>
+    <string name="gsRobotLevel">Level detection test (100 detections )</string>
+    <string name="gsTextFluid">Fluid System</string>
+    <string name="etgsmBAR">mBar</string>
+    <string name="tvGSfluidVaccum"><![CDATA[Vacuum checking and adjustment\n305mbar < value < 600 mbar]]></string>
+    <string name="tvGSfluidPressure">Pressure checking and adjustment\n180mbar ± 20mbar</string>
+    <string name="gsFluidSyringe">Syringe test</string>
+    <string name="gsFluidBottles">Bottles level detection</string>
+    <string name="gsFluidPumps">Pumps (Performance and noise)</string>
+    <string name="gsFluidClot">Clot detector checking</string>
+    <string name="gsTextReader">Reader Module</string>
+    <string name="gsReaderDiffuser">Clean cards light diffuser</string>
+    <string name="gsReaderLeds">Check led’s performance</string>
+    <string name="gsReaderCamera">Check camera cables and connector</string>
+    <string name="gsReaderCards">Cards readings</string>
+    <string name="gsTextDecontamination">Decontamination</string>
+    <string name="gsDecontaminationPriming">Priming ( 5 times )</string>
+    <string name="gsDecontaminationWashing">Priming ( 5 times )</string>
+    <string name="gsTextWADDiagnostic">WADDiagnostic</string>
+    <string name="gsTextWADDiagnosticTest">WADDiagnostic test</string>
+    <string name="gsTextFunctional">Functional checking</string>
+    <string name="gsTextFunctionalBatch">Real batch ( QC or real Batch)</string>
+    <string name="gsTextFunctionalListing">Batch listing and patient listing</string>
+    <string name="gsTextParts">Parts replaced</string>
+    <string name="partDescription">תיאור</string>
+    <string name="partCount">כמות</string>
+    <string name="partSerial">מספר סידורי</string>
+
+    <!-- Strings related to Settings -->
 
 
 </resources>

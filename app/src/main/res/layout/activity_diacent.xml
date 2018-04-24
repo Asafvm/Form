@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".devices.DiacentActivity">
+
+
+
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/form_header"
+        />
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/midLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@id/lowLayout"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintVertical_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvDeviceModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/diacentType"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rgModelSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/serialLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
+
+            <RadioButton
+                android:id="@+id/dia12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/centTypedia12" />
+
+            <RadioButton
+                android:id="@+id/diaCW"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/centTypediaCW" />
+
+        </RadioGroup>
+
+
+        <include
+            android:id="@+id/serialLayout"
+            layout="@layout/form_serial"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/lowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/form_footer"
+        />
+
+</android.support.constraint.ConstraintLayout>

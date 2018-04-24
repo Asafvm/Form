@@ -1,0 +1,20 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="il.co.diamed.com.form.res.SettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/ic_tools"
+        android:title="@string/pref_header_calibraion" />
+
+    <header
+        android:fragment="il.co.diamed.com.form.res.SettingsActivity$NotificationPreferenceFragment"
+        android:icon="@drawable/ic_signture"
+        android:title="@string/pref_header_signture" />
+
+    <header
+        android:fragment="il.co.diamed.com.form.res.SettingsActivity$DataSyncPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_header_data_sync" />
+
+</preference-headers>

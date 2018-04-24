@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout android:id="@+id/samsungDevices"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000055"
+    android:padding="15dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <Button
+        android:id="@+id/hc10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/hc10"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/docureader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/docureader"
+        app:layout_constraintTop_toBottomOf="@id/hc10" />
+
+    <Button
+        android:id="@+id/ib10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/ib10"
+        app:layout_constraintTop_toBottomOf="@id/docureader" />
+
+
+    <Button
+        android:id="@+id/pt10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/pt10"
+        app:layout_constraintTop_toBottomOf="@id/ib10" />
+
+
+    <Button
+        android:id="@+id/edan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/edan"
+        app:layout_constraintTop_toBottomOf="@id/pt10" />
+
+
+</android.support.constraint.ConstraintLayout>
+

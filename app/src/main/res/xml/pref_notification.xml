@@ -1,0 +1,57 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:summary="שם וחתימה יוצגו אוטומטית בדוח"
+        android:key="show_signature_confirmation"
+        android:title="@string/pref_title_show_signature_confirmation" />
+
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/fullName"
+        android:inputType="textCapWords"
+        android:summary="@string/defaultTechName"
+        android:key="techName"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/fullName" />
+
+
+    <EditTextPreference
+        android:capitalize="characters"
+        android:defaultValue="@string/defaulteMail"
+        android:inputType="textCapWords"
+        android:summary="@string/defaulteMail"
+        android:key="techeMail"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/techeMail" />
+
+    <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
+    <Preference android:title="@string/signhere"
+        android:key="signature"
+        android:maxLines="1"
+        android:defaultValue="@string/pref_default_signnotfound"
+        android:inputType="textCapWords"
+        android:summary="@string/defaultSignature"
+        >
+
+        <intent
+            android:maxLines="1"
+            android:defaultValue="@string/pref_default_signnotfound"
+            android:inputType="textCapWords"
+            android:action="android.intent.action.VIEW"
+            android:targetClass="il.co.diamed.com.form.CaptureSignature"
+            android:targetPackage="il.co.diamed.com.form"
+            />
+
+
+    </Preference>
+
+</PreferenceScreen>

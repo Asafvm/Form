@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- opens a subscreen of settings -->
+    <PreferenceScreen
+        android:key="button_voicemail_category_key"
+        android:title="1"
+        android:persistent="false">
+        <EditTextPreference
+            android:text=""
+            android:defaultValue="none"
+            android:title="2.1" />
+        <EditTextPreference
+            android:text=""
+            android:defaultValue="none"
+            android:title="2.2" />
+        <EditTextPreference
+            android:text=""
+            android:defaultValue="none"
+            android:title="2.3" />
+        <!-- opens another nested subscreen -->
+        <PreferenceScreen
+            android:key="button_voicemail_setting_key"
+            android:title="3"
+            android:persistent="false">
+
+        </PreferenceScreen>
+        <RingtonePreference
+            android:key="button_voicemail_ringtone_key"
+            android:title="4"
+            android:ringtoneType="notification"/>
+
+    </PreferenceScreen>
+</PreferenceScreen>

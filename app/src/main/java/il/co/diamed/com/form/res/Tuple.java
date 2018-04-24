@@ -3,22 +3,33 @@ package il.co.diamed.com.form.res;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tuple<X, Y> implements Parcelable{
-    protected int corX;
-    protected int corY;
-    public final X x;
-    public final Y y;
+public class Tuple<X, Y> implements Parcelable,Serializable{
+    private float x;
+    private float y;
 
-    public Tuple(X x, Y y) {
+    public Tuple(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+
     protected Tuple(Parcel in) {
-        in.readParcelable(getClass().getClassLoader());
+        this.x = in.readFloat();
+        this.y = in.readFloat();
+
     }
 
     public static final Creator<Tuple> CREATOR = new Creator<Tuple>() {
@@ -40,8 +51,8 @@ public class Tuple<X, Y> implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(corX);
-        dest.writeInt(corY);
+        dest.writeFloat(this.x);
+        dest.writeFloat(this.y);
     }
 
 }
