@@ -3,18 +3,20 @@ package il.co.diamed.com.form.res;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Tuple<X, Y> implements Parcelable,Serializable{
     private float x;
     private float y;
+    private String text;
+    private boolean rtl;
 
-    public Tuple(float x, float y) {
+    public Tuple(float x, float y, java.lang.String text, boolean b) {
         this.x = x;
         this.y = y;
+        this.text = text;
+        this.rtl = b;
     }
 
     public float getX() {
@@ -25,10 +27,15 @@ public class Tuple<X, Y> implements Parcelable,Serializable{
         return y;
     }
 
+    public String getText() { return text; }
 
-    protected Tuple(Parcel in) {
+    public Boolean getRtl() { return rtl; }
+
+    private Tuple(Parcel in) {
         this.x = in.readFloat();
         this.y = in.readFloat();
+        this.text = in.readString();
+        this.rtl = in.readByte() != 0;
 
     }
 
@@ -53,6 +60,8 @@ public class Tuple<X, Y> implements Parcelable,Serializable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(this.x);
         dest.writeFloat(this.y);
+        dest.writeString(this.text);
+        dest.writeByte((byte) (this.rtl ? 1 : 0));
     }
 
 }

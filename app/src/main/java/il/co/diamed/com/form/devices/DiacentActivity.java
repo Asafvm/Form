@@ -19,10 +19,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
+
+import static il.co.diamed.com.form.R.string.time20;
+import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class DiacentActivity extends AppCompatActivity {
     /* Diacent 12 */
@@ -50,8 +54,8 @@ public class DiacentActivity extends AppCompatActivity {
         h.setLayout(this,R.layout.diacent12_layout);
 
 
-        Bundle bundle = getIntent().getExtras().getBundle("cal");
-        final String techname = bundle.getString("techName");
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
+        final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         final String thermometer = bundle.getString("thermometer");
         final String speedometer = bundle.getString("speedometer");
@@ -90,28 +94,17 @@ public class DiacentActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-
-
                 if (checkStatus()) {
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
-                    ArrayList<Tuple> corCheck;
                     ArrayList<Tuple> corText;
-                    ArrayList<String> arrText;
 
                     if (t2.getCheckedRadioButtonId() == R.id.dia12) {
-                        corCheck = getDiacent12Checkmarks();
                         corText = getDiacent12TextCor();
-                        arrText = getDiacent12TextString();
                         intent.putExtra("report", "2018_diacent_yearly.pdf");
-
-
                     } else {
-                        corCheck = getDiacentCWCheckmarks();
                         corText = getDiacentCWTextCor();
-                        arrText = getDiacentCWTextString();
                         intent.putExtra("report", "2018_diacw_yearly.pdf");
                     }
-
 
                     ArrayList<String> destArray = new ArrayList<>();
                     destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
@@ -121,138 +114,77 @@ public class DiacentActivity extends AppCompatActivity {
                     destArray.add(t3.getText().toString());
 
 
-                    ;
-
                     Bundle pages = new Bundle();
                     Bundle page1 = new Bundle();
-                    page1.putParcelableArrayList("checkmarks",corCheck);
-                    page1.putStringArrayList("arrText",arrText);
-                    page1.putParcelableArrayList("corText",corText);
-                    pages.putBundle("page1",page1);
+
+                    pages.putParcelableArrayList("page1",corText);
                     intent.putExtra("pages",pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", destArray);
+                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
+                            "_"+((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString()+"_"+t3.getText().toString()+".pdf");
                     startActivityForResult(intent,1);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
                 }
-
-
-            }
-
-            private ArrayList<String> getDiacentCWTextString() {
-                ArrayList<String> arrText = new ArrayList<>();
-
-                arrText.add(t11.getText().toString() + " - " + t12.getText().toString());                                       //Location
-                arrText.add(t6.getText().toString());                        //Tech Name
-                arrText.add(dp.getDayOfMonth() + "      " + dp.getMonth() + "      " + dp.getYear());                      //Date
-                arrText.add(((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString());     //type
-                arrText.add(t3.getText().toString());                        //Serial
-                arrText.add(t4.getText().toString());                        //cent
-                arrText.add(t5.getText().toString());                        //Time
-                arrText.add(dp.getMonth() + "   " + (dp.getYear() + 1));           //Next Date
-
-                arrText.add(speedometer);                       //speedometer
-                arrText.add(timer);                             //Timer
-
-                return arrText;
             }
 
             private ArrayList<Tuple> getDiacentCWTextCor() {
                 ArrayList<Tuple> corText = new ArrayList<>();
+                corText.add(new Tuple(190, 481, "", false));           //speed ok
+                corText.add(new Tuple(190, 345, "", false));           //time ok
+                corText.add(new Tuple(226, 250, "", false));           //fan ok
+                corText.add(new Tuple(226, 233, "", false));           //fan ok
+                corText.add(new Tuple(226, 214, "", false));           //fan ok
+                corText.add(new Tuple(484, 108, "", false));           //overall ok
 
-                corText.add(new Tuple(300, 650));                        //Location
-                corText.add(new Tuple(330, 30));                        //Tech Name
-                corText.add(new Tuple(74, 650));                        //Date
-                corText.add(new Tuple(100, 575));                        //type
-                corText.add(new Tuple(390, 575));                        //Serial
-                corText.add(new Tuple(315, 475));                        //cent2500
-                corText.add(new Tuple(315, 343));                        //Time
-                corText.add(new Tuple(450, 77));                        //Next Date
+                corText.add(new Tuple(303, 650, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
+                corText.add(new Tuple(330, 30, t6.getText().toString(), true));                        //Tech Name
+                corText.add(new Tuple(74, 650, dp.getDayOfMonth() + "     " + dp.getMonth() + "     " + dp.getYear(), false));                        //Date
+                corText.add(new Tuple(100, 575, ((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString(), false));                        //type
+                corText.add(new Tuple(380, 575, t3.getText().toString(), false));                        //Serial
+                corText.add(new Tuple(315, 475, t4.getText().toString(), false));                        //cent2500
+                corText.add(new Tuple(315, 343, t5.getText().toString(), false));                        //Time
+                corText.add(new Tuple(450, 77, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
 
-                corText.add(new Tuple(370, 435));                        //speedometer
-                corText.add(new Tuple(400, 302));                        //Timer
-                //corText.add(new Tuple(380,30));                        //Signature
+                corText.add(new Tuple(378, 436, speedometer, false));                        //speedometer
+                corText.add(new Tuple(400, 302, timer, false));                        //Timer
+                corText.add(new Tuple(135, 33, "!", false));                        //Signature
 
                 return corText;
             }
 
-            private ArrayList<Tuple> getDiacentCWCheckmarks() {
-                ArrayList<Tuple> corCheck = new ArrayList<>();
-                //       corCheck.add(new Tuple(116,467));           //speed not ok
-                corCheck.add(new Tuple(190, 480));           //speed ok
-                //       corCheck.add(new Tuple(114,327));           //time not ok
-                corCheck.add(new Tuple(190, 345));           //time ok
-                //       corCheck.add(new Tuple(155,228));           //fan not ok
-                corCheck.add(new Tuple(220, 250));           //fan ok
-                corCheck.add(new Tuple(220, 235));           //fan ok
-                corCheck.add(new Tuple(220, 210));           //fan ok
-                //       corCheck.add(new Tuple(232,95));           //overall not ok
-                corCheck.add(new Tuple(484, 108));           //overall ok
-                return corCheck;
-            }
-
-            private ArrayList<String> getDiacent12TextString() {
-                ArrayList<String> arrText = new ArrayList<>();
-
-                arrText.add(t11.getText().toString() + " - " + t12.getText().toString());                                       //Location
-                arrText.add(t6.getText().toString());                        //Tech Name
-                arrText.add(dp.getDayOfMonth() + "     " + dp.getMonth() + "     " + dp.getYear());                      //Date
-                //arrText.add(((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString());     //type
-                arrText.add(t3.getText().toString());                        //Serial
-                arrText.add(t41.getText().toString());                        //cent
-                arrText.add(t42.getText().toString());                        //cent
-                arrText.add(t43.getText().toString());                        //cent
-                arrText.add(t51.getText().toString());                        //Time
-                arrText.add(t52.getText().toString());                        //Time
-                arrText.add(t53.getText().toString());                        //Time
-                arrText.add(dp.getMonth() + "    " + (dp.getYear() + 1));           //Next Date
-                arrText.add(speedometer);                       //speedometer
-                arrText.add(timer);                             //Timer
-
-                return arrText;
-            }
 
             private ArrayList<Tuple> getDiacent12TextCor() {
                 ArrayList<Tuple> corText = new ArrayList<>();
+                corText.add(new Tuple(205, 452, "", false));           //speed1 ok
+                corText.add(new Tuple(205, 480, "", false));           //speed2 ok
+                corText.add(new Tuple(205, 506, "", false));           //speed3 ok
+                corText.add(new Tuple(190, 331, "", false));           //time ok
+                corText.add(new Tuple(190, 304, "", false));           //time ok
+                corText.add(new Tuple(190, 276, "", false));           //time ok
+                corText.add(new Tuple(241, 182, "", false));           //fan ok
+                corText.add(new Tuple(480, 95, "", false));           //overall ok
 
-                corText.add(new Tuple(300, 635));                        //Location
-                corText.add(new Tuple(330, 27));                        //Tech Name
-                corText.add(new Tuple(72, 635));                        //Date
-                //corText.add(new Tuple(200, 548));                        //type
-                corText.add(new Tuple(225, 570));                        //Serial
-                corText.add(new Tuple(315, 502));                        //cent1000
-                corText.add(new Tuple(315, 478));                        //cent2000
-                corText.add(new Tuple(315, 448));                        //cent3000
-                corText.add(new Tuple(305, 326));                        //Time1
-                corText.add(new Tuple(305, 300));                        //Time2
-                corText.add(new Tuple(305, 275));                        //Time3
-                corText.add(new Tuple(446, 62));                        //Next Date
+                corText.add(new Tuple(300, 635, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
+                corText.add(new Tuple(330, 28, t6.getText().toString(), true));                        //Tech Name
+                corText.add(new Tuple(74, 635, dp.getDayOfMonth() + "     " + dp.getMonth() + "     " + dp.getYear(), false));                        //Date
 
-                corText.add(new Tuple(405, 405));                        //speedometer
-                corText.add(new Tuple(413, 230));                        //Timer
+                corText.add(new Tuple(300, 605, t3.getText().toString(), false));                        //Serial
+                corText.add(new Tuple(315, 502, t41.getText().toString(), false));                        //cent1000
+                corText.add(new Tuple(315, 478, t42.getText().toString(), false));                        //cent2000
+                corText.add(new Tuple(315, 448, t43.getText().toString(), false));                        //cent3000
+                corText.add(new Tuple(305, 326, t51.getText().toString(), false));                        //Time1
+                corText.add(new Tuple(305, 300, t52.getText().toString(), false));                        //Time2
+                corText.add(new Tuple(305, 275, t53.getText().toString(), false));                        //Time3
+                corText.add(new Tuple(446, 62, dp.getMonth() + "    " + (dp.getYear() + 1), false));                        //Next Date
+
+                corText.add(new Tuple(405, 407, speedometer, false));                        //speedometer
+                corText.add(new Tuple(413, 232, timer, false));                        //Timer
                 //corText.add(new Tuple(380,30));                        //Signature
 
                 return corText;
 
-            }
-
-            private ArrayList<Tuple> getDiacent12Checkmarks() {
-                ArrayList<Tuple> corCheck = new ArrayList<>();
-                //       corCheck.add(new Tuple(116,467));           //speed not ok
-                corCheck.add(new Tuple(204, 452));           //speed1 ok
-                corCheck.add(new Tuple(204, 480));           //speed2 ok
-                corCheck.add(new Tuple(204, 512));           //speed3 ok
-                //       corCheck.add(new Tuple(114,327));           //time not ok
-                corCheck.add(new Tuple(192, 333));           //time ok
-                corCheck.add(new Tuple(192, 309));           //time ok
-                corCheck.add(new Tuple(192, 282));           //time ok
-                //       corCheck.add(new Tuple(155,228));           //fan not ok
-                corCheck.add(new Tuple(241, 180));           //fan ok
-                //       corCheck.add(new Tuple(232,95));           //overall not ok
-                corCheck.add(new Tuple(480, 95));           //overall ok
-                return corCheck;
             }
 
             private boolean checkStatus() {
@@ -290,11 +222,7 @@ public class DiacentActivity extends AppCompatActivity {
                     if (!checkcwHolders.isChecked())
                         return false;
                 }
-                if (!isValidString(t6.getText().toString()))
-                    return false;
-
-                return true;
-
+                return isValidString(t6.getText().toString());
             }
         });
 
@@ -385,16 +313,11 @@ public class DiacentActivity extends AppCompatActivity {
         checkRemaining = findViewById(R.id.centCheckRemaining);
         checkFilling = findViewById(R.id.centCheckFilling);
 
-        t5.setText("60");
+        t5.setText(R.string.time60);
         checkFilling.setChecked(true);
         checkcwHolders.setChecked(true);
         checkRemaining.setChecked(true);
 
-        //setListener(t4);
-        //setListener(t5);
-        setListener(checkFilling);
-        setListener(checkRemaining);
-        setListener(checkcwHolders);
     }
 
     private void initDiacent12() {
@@ -407,9 +330,9 @@ public class DiacentActivity extends AppCompatActivity {
         t53 = findViewById(R.id.centTime3);
         check12Holders = findViewById(R.id.cent12checkHolders);
 
-        t51.setText("15");
-        t52.setText("20");
-        t53.setText("30");
+        t51.setText(R.string.time15);
+        t52.setText(R.string.time20);
+        t53.setText(R.string.time30);
         check12Holders.setChecked(true);
 /*
         setListener(t41);
@@ -419,111 +342,6 @@ public class DiacentActivity extends AppCompatActivity {
         setListener(t52);
         setListener(t53);
 */
-    }
-
-    private boolean isSpeedValid(EditText exSpeed, EditText meSpeed) {
-        try {
-            int mSpeed = Integer.valueOf(meSpeed.getText().toString()); //mesured
-            int eSpeed = Integer.valueOf(exSpeed.getText().toString()); //expected
-
-            if (mSpeed <= eSpeed + 10 && mSpeed >= eSpeed - 10) {
-                meSpeed.setBackgroundColor(Color.TRANSPARENT);
-                return true;
-            } else {
-                meSpeed.setBackgroundColor(Color.RED);
-                return false;
-            }
-        } catch (Exception e) {
-            meSpeed.setBackgroundColor(Color.RED);
-            return false;
-        }
-
-    }
-
-
-    private void setListener(Switch s) {
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-            }
-        });
-    }
-
-
-    private boolean isTimeValid(String s) {
-
-        try {
-            float time = Float.parseFloat(s);
-            return true;
-
-        } catch (Exception e) {
-            return false;
-        }
-
-    }
-
-
-/*
-
-    void setListener(final EditText et) {
-        et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.centCWtime || et.getId() == R.id.centTime1 || et.getId() == R.id.centTime2 || et.getId() == R.id.centTime3) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (et.getId() == R.id.centTime) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (et.getId() == R.id.centTime) {
-                    if (isTimeValid(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                } else {
-                    if (isValidString(et.getText().toString())) {
-                        et.setBackgroundColor(Color.TRANSPARENT);
-                    } else {
-                        et.setBackgroundColor(Color.RED);
-                    }
-                }
-            }
-        });
-    }
-*/
-    private boolean isValidString(String s) {
-
-        return (!(s == null || s.equals("")));
     }
 
 }

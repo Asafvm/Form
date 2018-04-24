@@ -2,15 +2,11 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
@@ -37,8 +34,8 @@ public class GelstationActivity extends AppCompatActivity {
         h.setLayout(this, R.layout.gelstation_layout);
 
 
-        Bundle bundle = getIntent().getExtras().getBundle("cal");
-        final String techname = bundle.getString("techName");
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
+        final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         final String thermometer = bundle.getString("thermometer");
         final String speedometer = bundle.getString("speedometer");
@@ -87,37 +84,11 @@ public class GelstationActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-
-
                 if (checkStatus()) {
-
                     Bundle pages = new Bundle();
-
-                    Bundle page1 = new Bundle();
-                    ArrayList<Tuple> corCheck = getPage1corCheck();
-                    ArrayList<Tuple> corText = getPage1corText();
-                    ArrayList<String> arrText = getPage1arrText();
-                    page1.putParcelableArrayList("checkmarks", corCheck);
-                    page1.putStringArrayList("arrText", arrText);
-                    page1.putParcelableArrayList("corText", corText);
-
-
-
-                    Bundle page2 = new Bundle();
-                    corCheck = getPage2corCheck();
-                    page2.putParcelableArrayList("checkmarks", corCheck);
-                    page2.putStringArrayList("arrText", arrText);
-                    page2.putParcelableArrayList("corText", corText);
-
-                    Bundle page3 = new Bundle();
-                    page3.putParcelableArrayList("checkmarks", corCheck);
-                    page3.putStringArrayList("arrText", arrText);
-                    page3.putParcelableArrayList("corText", corText);
-
-
-                    pages.putBundle("page1", page1);
-                    pages.putBundle("page2", page2);
-                    pages.putBundle("page3", page3);
+                    pages.putParcelableArrayList("page1", getPage1corText());
+                    pages.putParcelableArrayList("page2", getPage2corText());
+                    pages.putParcelableArrayList("page3", getPage3corText());
 
                     ArrayList<String> destArray = new ArrayList<>();
                     destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
@@ -126,124 +97,94 @@ public class GelstationActivity extends AppCompatActivity {
                     destArray.add(String.valueOf(dp.getDayOfMonth()));
                     destArray.add(t3.getText().toString());
 
-
-
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_gelstation_yearly.pdf");
-
-
                     intent.putExtra("pages", pages);
-
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", destArray);
+                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
+                            "_Gelstation_"+t3.getText().toString()+".pdf");
                     startActivityForResult(intent, 1);
                 }
 
             }
 
-            private ArrayList<String> getPage1arrText() {
-                ArrayList<String> arrText = new ArrayList<>();
-
-
-                arrText.add(t11.getText().toString() + " - " + t12.getText().toString());                                       //Location
-                arrText.add(t6.getText().toString());                        //Tech Name
-                arrText.add(dp.getDayOfMonth() + "    " + dp.getMonth() + "    " + dp.getYear());                      //Date
-                arrText.add(t3.getText().toString());                        //Serial
-
-                arrText.add(dp.getMonth() + "   " + (dp.getYear() + 1));           //Next Date
-
-
-
-
-                return arrText;
-            }
-
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-
-                corText.add(new Tuple(90, 661));                        //Location
-                corText.add(new Tuple(100, 140));                        //Tech Name
-                corText.add(new Tuple(390, 661));                        //Date
-                corText.add(new Tuple(135, 632));                        //Serial
-                corText.add(new Tuple(455, 632));                        //Next Date
+                corText.add(new Tuple(460, 632, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
+                corText.add(new Tuple(90, 661, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
+                corText.add(new Tuple(390, 661, dp.getDayOfMonth() + "    " + dp.getMonth() + "    " + dp.getYear(), false));                        //Date
+                corText.add(new Tuple(135, 632, t3.getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
+                corText.add(new Tuple(344, 543, "", false));           //temp ok
+                corText.add(new Tuple(344, 525, "", false));           //time ok
+                corText.add(new Tuple(344, 507, "", false));           //fan ok
+
+                corText.add(new Tuple(344, 470, "", false));           //rubber ok
+                corText.add(new Tuple(344, 452, "", false));           //overall ok
+                corText.add(new Tuple(344, 434, "", false));           //rubber ok
+                corText.add(new Tuple(344, 416, "", false));           //overall ok
+
+                corText.add(new Tuple(344, 379, "", false));           //rubber ok
+                corText.add(new Tuple(344, 361, "", false));           //overall ok
+                corText.add(new Tuple(344, 343, "", false));           //rubber ok
+                corText.add(new Tuple(344, 325, "", false));           //overall ok
+                corText.add(new Tuple(344, 307, "", false));           //rubber ok
+
+                corText.add(new Tuple(344, 267, "", false));           //overall ok
+                corText.add(new Tuple(344, 234, "", false));           //overall ok
+                corText.add(new Tuple(344, 214, "", false));           //rubber ok
+                corText.add(new Tuple(344, 198, "", false));           //overall ok
+                corText.add(new Tuple(344, 180, "", false));           //rubber ok
+                corText.add(new Tuple(344, 162, "", false));           //overall ok
+                corText.add(new Tuple(344, 140, "", false));           //rubber ok
+                corText.add(new Tuple(344, 118, "", false));           //rubber ok
+                corText.add(new Tuple(344, 90, "", false));           //rubber ok
+                return corText;
+            }
+
+
+            private ArrayList<Tuple> getPage2corText() {
+                ArrayList<Tuple> corText = new ArrayList<>();
+                corText.add(new Tuple(320, 543, "", false));           //temp ok
+                corText.add(new Tuple(320, 525, "", false));           //time ok
+                corText.add(new Tuple(320, 507, "", false));           //fan ok
+
+                corText.add(new Tuple(320, 470, "", false));           //rubber ok
+                corText.add(new Tuple(320, 452, "", false));           //overall ok
+                corText.add(new Tuple(320, 434, "", false));           //rubber ok
+                corText.add(new Tuple(320, 416, "", false));           //overall ok
+
+                corText.add(new Tuple(320, 379, "", false));           //rubber ok
+                corText.add(new Tuple(320, 361, "", false));           //overall ok
+                corText.add(new Tuple(320, 343, "", false));           //rubber ok
+                corText.add(new Tuple(320, 325, "", false));           //overall ok
+                corText.add(new Tuple(320, 307, "", false));           //rubber ok
+
+                corText.add(new Tuple(320, 270, "", false));           //overall ok
+                corText.add(new Tuple(320, 234, "", false));           //overall ok
+                corText.add(new Tuple(320, 214, "", false));           //rubber ok
+                corText.add(new Tuple(320, 198, "", false));           //overall ok
+                corText.add(new Tuple(320, 180, "", false));           //rubber ok
+                corText.add(new Tuple(320, 162, "", false));           //overall ok
+                corText.add(new Tuple(320, 140, "", false));           //rubber ok
+                corText.add(new Tuple(320, 118, "", false));           //rubber ok
+                corText.add(new Tuple(320, 90, "", false));           //rubber ok
 
                 return corText;
             }
 
-            private ArrayList<Tuple> getPage1corCheck() {
-                ArrayList<Tuple> corCheck = new ArrayList<>();
-                corCheck.add(new Tuple(344, 543));           //temp ok
-                corCheck.add(new Tuple(344, 525));           //time ok
-                corCheck.add(new Tuple(344, 507));           //fan ok
 
-                corCheck.add(new Tuple(344, 470));           //rubber ok
-                corCheck.add(new Tuple(344, 452));           //overall ok
-                corCheck.add(new Tuple(344, 434));           //rubber ok
-                corCheck.add(new Tuple(344, 416));           //overall ok
+            private ArrayList<Tuple> getPage3corText() {
+                ArrayList<Tuple> corText = new ArrayList<>();
+                corText.add(new Tuple(100, 140, t6.getText().toString(), true));                        //Tech Name
+                corText.add(new Tuple(465, 130, "!", false));                        //Signature
 
-                corCheck.add(new Tuple(344, 379));           //rubber ok
-                corCheck.add(new Tuple(344, 361));           //overall ok
-                corCheck.add(new Tuple(344, 343));           //rubber ok
-                corCheck.add(new Tuple(344, 325));           //overall ok
-                corCheck.add(new Tuple(344, 307));           //rubber ok
-
-                corCheck.add(new Tuple(344, 270));           //overall ok
-                corCheck.add(new Tuple(344, 234));           //overall ok
-                corCheck.add(new Tuple(344, 214));           //rubber ok
-                corCheck.add(new Tuple(344, 198));           //overall ok
-                corCheck.add(new Tuple(344, 180));           //rubber ok
-                corCheck.add(new Tuple(344, 162));           //overall ok
-                corCheck.add(new Tuple(344, 140));           //rubber ok
-                corCheck.add(new Tuple(344, 118));           //rubber ok
-                corCheck.add(new Tuple(344, 90));           //rubber ok
-
-                return corCheck;
+                return corText;
             }
-
-
-            private ArrayList<Tuple> getPage2corCheck() {
-                ArrayList<Tuple> corCheck = new ArrayList<>();
-                corCheck.add(new Tuple(320, 543));           //temp ok
-                corCheck.add(new Tuple(320, 525));           //time ok
-                corCheck.add(new Tuple(320, 507));           //fan ok
-
-                corCheck.add(new Tuple(320, 470));           //rubber ok
-                corCheck.add(new Tuple(320, 452));           //overall ok
-                corCheck.add(new Tuple(320, 434));           //rubber ok
-                corCheck.add(new Tuple(320, 416));           //overall ok
-
-                corCheck.add(new Tuple(320, 379));           //rubber ok
-                corCheck.add(new Tuple(320, 361));           //overall ok
-                corCheck.add(new Tuple(320, 343));           //rubber ok
-                corCheck.add(new Tuple(320, 325));           //overall ok
-                corCheck.add(new Tuple(320, 307));           //rubber ok
-
-                corCheck.add(new Tuple(320, 270));           //overall ok
-                corCheck.add(new Tuple(320, 234));           //overall ok
-                corCheck.add(new Tuple(320, 214));           //rubber ok
-                corCheck.add(new Tuple(320, 198));           //overall ok
-                corCheck.add(new Tuple(320, 180));           //rubber ok
-                corCheck.add(new Tuple(320, 162));           //overall ok
-                corCheck.add(new Tuple(320, 140));           //rubber ok
-                corCheck.add(new Tuple(320, 118));           //rubber ok
-                corCheck.add(new Tuple(320, 90));           //rubber ok
-
-                return corCheck;
-            }
-
 
             private boolean checkStatus() {
-                if (!isValidString(t11.getText().toString()))
-                    return false;
-                if (!isValidString(t12.getText().toString()))
-                    return false;
-                if (!isValidString(t3.getText().toString()))
-                    return false;
-                if (!isValidString(t6.getText().toString()))
-                    return false;
-
-                return true;
+                return isValidString(t11.getText().toString()) && isValidString(t12.getText().toString()) &&
+                        isValidString(t3.getText().toString()) && isValidString(t6.getText().toString());
 
             }
         });

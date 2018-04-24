@@ -2,15 +2,11 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
@@ -37,8 +34,8 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         h.setLayout(this, R.layout.plasma_layout);
 
 
-        Bundle bundle = getIntent().getExtras().getBundle("cal");
-        final String techname = bundle.getString("techName");
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
+        final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         final String thermometer = bundle.getString("thermometer");
         final String speedometer = bundle.getString("speedometer");
@@ -66,7 +63,7 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         //default basic values
         ((EditText)findViewById(R.id.ptExpectedTemp)).setText(String.valueOf(EXPECTED_TEMP));
         t2.check(R.id.dh8);
-        t5.setText("10");
+        t5.setText(R.string.time10);
         waterSwitch.setChecked(true);
         oilSwitch.setChecked(true);
         alarmSwitch.setChecked(true);
@@ -87,60 +84,33 @@ public class PlasmaThawerActivity extends AppCompatActivity {
 
 
                 if (checkStatus()) {
-
-
-                    ArrayList<Tuple> corCheck = new ArrayList<>();
-                    //       corCheck.add(new Tuple(116,467));           //temp not ok
-                    corCheck.add(new Tuple(217, 452));           //temp ok
-                    //       corCheck.add(new Tuple(114,327));           //time not ok
-                    corCheck.add(new Tuple(222, 311));           //time ok
-                    if(!waterSwitch.isChecked())
-                        corCheck.add(new Tuple(154,214));           //water not ok
-                    else
-                        corCheck.add(new Tuple(275, 214));           //water ok
-
-                    corCheck.add(new Tuple(275, 198));           //oil ok
-
-                    corCheck.add(new Tuple(275, 178));           //alarm ok
-
-
-
-                    //       corCheck.add(new Tuple(232,95));           //overall not ok
-                    corCheck.add(new Tuple(473, 85));           //overall ok
-
                     ArrayList<Tuple> corText = new ArrayList<>();
+                    corText.add(new Tuple(218, 453, "", false));           //temp ok
+                    corText.add(new Tuple(223, 312, "", false));           //time ok
+                    if(!waterSwitch.isChecked())
+                        corText.add(new Tuple(154,216, "", false));           //water not ok
+                    else
+                        corText.add(new Tuple(276, 216, "", false));           //water ok
+                    corText.add(new Tuple(276, 198, "", false));           //oil ok
+                    corText.add(new Tuple(276, 180, "", false));           //alarm ok
 
-                    corText.add(new Tuple(305, 622));                        //Location
-                    corText.add(new Tuple(310, 30));                        //Tech Name
-                    corText.add(new Tuple(73, 622));                        //Date
-                    corText.add(new Tuple(200, 550));                        //type
-                    corText.add(new Tuple(425, 550));                        //Serial
-                    corText.add(new Tuple(280, 449));                        //temp
+                    corText.add(new Tuple(475, 88, "", false));           //overall ok
+
+
+                    corText.add(new Tuple(310, 623, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
+                    corText.add(new Tuple(310, 30, t6.getText().toString(), true));                        //Tech Name
+                    corText.add(new Tuple(73, 623, dp.getDayOfMonth() + "       " + dp.getMonth() + "       " + dp.getYear(), false));                        //Date
+                    corText.add(new Tuple(200, 552, ((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString(), false));                        //type
+                    corText.add(new Tuple(425, 552, t3.getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(280, 449, t4.getText().toString(), false));                        //temp
                     //corText.add(new Tuple(425, 455));                        //temp expected
-                    corText.add(new Tuple(305, 309));                        //Time
-                    corText.add(new Tuple(435, 57));                        //Next Date
+                    corText.add(new Tuple(305, 309, t5.getText().toString(), false));                        //Time
+                    corText.add(new Tuple(434, 57, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
 
 
-                    corText.add(new Tuple(350, 405));                        //thermometer
-                    corText.add(new Tuple(400, 269));                        //Timer
-                    //corText.add(new Tuple(380,30));                        //Signature
-
-                    ArrayList<String> arrText = new ArrayList<>();
-
-                    arrText.add(t11.getText().toString() + " - " + t12.getText().toString());                                       //Location
-                    arrText.add(t6.getText().toString());                        //Tech Name
-                    arrText.add(dp.getDayOfMonth() + "       " + dp.getMonth() + "       " + dp.getYear());                      //Date
-                    arrText.add(((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString());     //type
-                    arrText.add(t3.getText().toString());                        //Serial
-                    arrText.add(t4.getText().toString());                        //temp
-                    //arrText.add(expectedTemp.getText().toString());                        //cent expected
-                    arrText.add(t5.getText().toString());                        //Time
-                    arrText.add(dp.getMonth() + "   " + (dp.getYear() + 1));           //Next Date
-
-
-                    arrText.add(thermometer);                       //thermometer
-                    arrText.add(timer);                             //Timer
-
+                    corText.add(new Tuple(350, 405, thermometer, false));                        //thermometer
+                    corText.add(new Tuple(400, 269, timer, false));                        //Timer
+                    corText.add(new Tuple(105, 30, "!", false));                        //Signature
 
                     ArrayList<String> destArray = new ArrayList<>();
                     destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
@@ -154,15 +124,12 @@ public class PlasmaThawerActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_plasma_biyearly.pdf");
 
                     Bundle pages = new Bundle();
-                    Bundle page1 = new Bundle();
-                    page1.putParcelableArrayList("checkmarks",corCheck);
-                    page1.putStringArrayList("arrText",arrText);
-                    page1.putParcelableArrayList("corText",corText);
-                    pages.putBundle("page1",page1);
+                    pages.putParcelableArrayList("page1",corText);
                     intent.putExtra("pages",pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", destArray);
+                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
+                            "_"+((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString()+"_"+t3.getText().toString()+".pdf");
                     startActivityForResult(intent,1);
                 }
 
@@ -170,23 +137,10 @@ public class PlasmaThawerActivity extends AppCompatActivity {
             }
 
             private boolean checkStatus() {
-                if (!isValidString(t11.getText().toString()))
-                    return false;
-                if (!isValidString(t12.getText().toString()))
-                    return false;
-                if (!isValidString(t3.getText().toString()))
-                    return false;
-                if (!isValidString(t5.getText().toString()))
-                    return false;
-                if (!isValidString(t6.getText().toString()))
-                    return false;
-                if (!alarmSwitch.isChecked())
-                    return false;
-                if (!oilSwitch.isChecked())
-                    return false;
-                if (!Helper.isTempValid(t4,EXPECTED_TEMP-1,EXPECTED_TEMP+1))
-                    return false;
-                return true;
+                return isValidString(t11.getText().toString()) && isValidString(t12.getText().toString()) &&
+                        isValidString(t3.getText().toString()) && isValidString(t5.getText().toString()) &&
+                        isValidString(t6.getText().toString()) && alarmSwitch.isChecked() && oilSwitch.isChecked() &&
+                        Helper.isTempValid(t4, EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
 
             }
         });

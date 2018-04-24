@@ -292,6 +292,11 @@
     <string name="partDescription">תיאור</string>
     <string name="partCount">כמות</string>
     <string name="partSerial">מספר סידורי</string>
+    <string name="time10">10</string>
+    <string name="time15">15</string>
+    <string name="time20">20</string>
+    <string name="time30">30</string>
+    <string name="time60">60</string>
 
     <!-- Strings related to Settings -->
 

@@ -2,15 +2,11 @@ package il.co.diamed.com.form.devices;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
@@ -39,8 +36,8 @@ public class CentrifugeActivity extends AppCompatActivity {
         h.setLayout(this,R.layout.centrifuge_layout);
 
 
-        Bundle bundle = getIntent().getExtras().getBundle("cal");
-        final String techname = bundle.getString("techName");
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
+        final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         final String thermometer = bundle.getString("thermometer");
         final String speedometer = bundle.getString("speedometer");
@@ -67,7 +64,7 @@ public class CentrifugeActivity extends AppCompatActivity {
         expectedSpeed.setText(String.valueOf(EXPECTED_SPEED));
 
         t2.check(R.id.c12SII);
-        t5.setText("10");
+        t5.setText(R.string.time10);
         fanSwitch.setChecked(true);
         t6.setText(techname);
 
@@ -89,49 +86,25 @@ public class CentrifugeActivity extends AppCompatActivity {
 
                 if (checkStatus()) {
 
-
-                    ArrayList<Tuple> corCheck = new ArrayList<>();
-                    //       corCheck.add(new Tuple(116,467));           //speed not ok
-                    corCheck.add(new Tuple(219, 448));           //speed ok
-                    //       corCheck.add(new Tuple(114,327));           //time not ok
-                    corCheck.add(new Tuple(214, 313));           //time ok
-                    //       corCheck.add(new Tuple(155,228));           //fan not ok
-                    corCheck.add(new Tuple(245, 208));           //fan ok
-                    //       corCheck.add(new Tuple(232,95));           //overall not ok
-                    corCheck.add(new Tuple(479, 102));           //overall ok
-
                     ArrayList<Tuple> corText = new ArrayList<>();
-
-                    corText.add(new Tuple(305, 618));                        //Location
-                    corText.add(new Tuple(330, 37));                        //Tech Name
-                    corText.add(new Tuple(92, 618));                        //Date
-                    corText.add(new Tuple(200, 548));                        //type
-                    corText.add(new Tuple(425, 548));                        //Serial
-                    corText.add(new Tuple(315, 445));                        //cent
-                    corText.add(new Tuple(445, 445));                        //cent expected
-                    corText.add(new Tuple(305, 309));                        //Time
-                    corText.add(new Tuple(450, 70));                        //Next Date
-
-
-                    corText.add(new Tuple(350, 400));                        //speedometer
-                    corText.add(new Tuple(400, 265));                        //Timer
-                    //corText.add(new Tuple(380,30));                        //Signature
-
-                    ArrayList<String> arrText = new ArrayList<>();
-
-                    arrText.add(t11.getText().toString() + " - " + t12.getText().toString());                                       //Location
-                    arrText.add(t6.getText().toString());                        //Tech Name
-                    arrText.add(dp.getDayOfMonth() + "       " + dp.getMonth() + "       " + dp.getYear());                      //Date
-                    arrText.add(((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString());     //type
-                    arrText.add(t3.getText().toString());                        //Serial
-                    arrText.add(t4.getText().toString());                        //cent
-                    arrText.add(String.valueOf(EXPECTED_SPEED));                        //cent expected
-                    arrText.add(t5.getText().toString());                        //Time
-                    arrText.add(dp.getMonth() + "   " + (dp.getYear() + 1));           //Next Date
+                    corText.add(new Tuple(219, 448, "", false));           //speed ok
+                    corText.add(new Tuple(214, 313, "", false));           //time ok
+                    corText.add(new Tuple(245, 208, "", false));           //fan ok
+                    corText.add(new Tuple(479, 102, "", false));           //overall ok
+                    corText.add(new Tuple(305, 618, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
+                    corText.add(new Tuple(330, 37, t6.getText().toString(), true));                        //Tech Name
+                    corText.add(new Tuple(92, 618, dp.getDayOfMonth() + "       " + dp.getMonth() + "       " + dp.getYear(), false));                        //Date
+                    corText.add(new Tuple(200, 548, ((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString(), false));                        //type
+                    corText.add(new Tuple(425, 548, t3.getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(315, 445, t4.getText().toString(), false));                        //cent
+                    corText.add(new Tuple(445, 445, String.valueOf(EXPECTED_SPEED), false));                        //cent expected
+                    corText.add(new Tuple(305, 309, t5.getText().toString(), false));                        //Time
+                    corText.add(new Tuple(450, 70, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
 
 
-                    arrText.add(speedometer);                       //speedometer
-                    arrText.add(timer);                             //Timer
+                    corText.add(new Tuple(350, 400, speedometer, false));                        //speedometer
+                    corText.add(new Tuple(400, 265, timer, false));                        //Timer
+                    corText.add(new Tuple(135, 33, "!", false));                        //Signature
 
 
                     ArrayList<String> destArray = new ArrayList<>();
@@ -146,36 +119,21 @@ public class CentrifugeActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_idcent_yearly.pdf");
 
                     Bundle pages = new Bundle();
-                    Bundle page1 = new Bundle();
-                    page1.putParcelableArrayList("checkmarks",corCheck);
-                    page1.putStringArrayList("arrText",arrText);
-                    page1.putParcelableArrayList("corText",corText);
-                    pages.putBundle("page1",page1);
+                    pages.putParcelableArrayList("page1",corText);
                     intent.putExtra("pages",pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", destArray);
+                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
+                            "_"+((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString()+"_"+t3.getText().toString()+".pdf");
                     startActivityForResult(intent,1);
                 }
             }
 
             private boolean checkStatus() {
-                if (!isValidString(t11.getText().toString()))
-                    return false;
-                if (!isValidString(t12.getText().toString()))
-                    return false;
-                if (!isValidString(t3.getText().toString()))
-                    return false;
-                if (!Helper.isSpeedValid(Integer.valueOf(t4.getText().toString()), EXPECTED_SPEED))
-                    return false;
-                if (!isTimeValid(t5,EXPECTED_TIME))
-                    return false;
-                if (!isValidString(t6.getText().toString()))
-                    return false;
-                if (!fanSwitch.isChecked())
-                    return false;
-
-                return true;
+                return isValidString(t11.getText().toString()) && isValidString(t12.getText().toString()) &&
+                        isValidString(t3.getText().toString()) &&
+                        Helper.isSpeedValid(Integer.valueOf(t4.getText().toString()), EXPECTED_SPEED) &&
+                        isTimeValid(t5, EXPECTED_TIME) && isValidString(t6.getText().toString()) && fanSwitch.isChecked();
 
             }
         });
