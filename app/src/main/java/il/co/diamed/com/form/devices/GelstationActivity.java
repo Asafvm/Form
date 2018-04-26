@@ -119,56 +119,77 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(344, 525, "", false));           //time ok
                 corText.add(new Tuple(344, 507, "", false));           //fan ok
 
+                corText.add(new Tuple(292, 468, "3.18", false));           //rubber ok
                 corText.add(new Tuple(344, 470, "", false));           //rubber ok
+                corText.add(new Tuple(394, 452, "XP SP3", false));           //overall ok
                 corText.add(new Tuple(344, 452, "", false));           //overall ok
+                corText.add(new Tuple(394, 432, "C:\\300GB\tD:\\100GB", false));           //rubber ok
                 corText.add(new Tuple(344, 434, "", false));           //rubber ok
                 corText.add(new Tuple(344, 416, "", false));           //overall ok
 
                 corText.add(new Tuple(344, 379, "", false));           //rubber ok
+                corText.add(new Tuple(292, 359, "24v", false));           //overall ok
                 corText.add(new Tuple(344, 361, "", false));           //overall ok
+                corText.add(new Tuple(292, 341, "8v", false));           //rubber ok
                 corText.add(new Tuple(344, 343, "", false));           //rubber ok
+                corText.add(new Tuple(292, 323, "12v", false));           //overall ok
                 corText.add(new Tuple(344, 325, "", false));           //overall ok
                 corText.add(new Tuple(344, 307, "", false));           //rubber ok
 
-                corText.add(new Tuple(344, 267, "", false));           //overall ok
-                corText.add(new Tuple(344, 234, "", false));           //overall ok
+                corText.add(new Tuple(344, 265, "", false));           //overall ok
+                corText.add(new Tuple(344, 235, "", false));           //overall ok
                 corText.add(new Tuple(344, 214, "", false));           //rubber ok
                 corText.add(new Tuple(344, 198, "", false));           //overall ok
                 corText.add(new Tuple(344, 180, "", false));           //rubber ok
                 corText.add(new Tuple(344, 162, "", false));           //overall ok
                 corText.add(new Tuple(344, 140, "", false));           //rubber ok
-                corText.add(new Tuple(344, 118, "", false));           //rubber ok
-                corText.add(new Tuple(344, 90, "", false));           //rubber ok
+                corText.add(new Tuple(344, 117, "", false));           //rubber ok
+                corText.add(new Tuple(344, 88, "", false));           //rubber ok
                 return corText;
             }
 
 
             private ArrayList<Tuple> getPage2corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
+                corText.add(new Tuple(420, 706, thermometer, false));           //overall ok
+                corText.add(new Tuple(320, 706, "", false));           //overall ok
+                corText.add(new Tuple(320, 688, "", false));           //rubber ok
+                corText.add(new Tuple(320, 670, "", false));           //overall ok
+                corText.add(new Tuple(320, 652, "", false));           //rubber ok
+                corText.add(new Tuple(320, 634, "", false));           //overall ok
+
+
+                corText.add(new Tuple(320, 598, "", false));           //overall ok
+                corText.add(new Tuple(320, 580, "", false));           //rubber ok
+                corText.add(new Tuple(320, 562, "", false));           //rubber ok
                 corText.add(new Tuple(320, 543, "", false));           //temp ok
                 corText.add(new Tuple(320, 525, "", false));           //time ok
+                corText.add(new Tuple(272, 525, "991", false));           //time ok
+                corText.add(new Tuple(420, 521, speedometer, false));           //overall ok
                 corText.add(new Tuple(320, 507, "", false));           //fan ok
 
                 corText.add(new Tuple(320, 470, "", false));           //rubber ok
                 corText.add(new Tuple(320, 452, "", false));           //overall ok
                 corText.add(new Tuple(320, 434, "", false));           //rubber ok
                 corText.add(new Tuple(320, 416, "", false));           //overall ok
-
-                corText.add(new Tuple(320, 379, "", false));           //rubber ok
+                corText.add(new Tuple(320, 398, "", false));           //overall ok
+                corText.add(new Tuple(320, 378, "", false));           //rubber ok
                 corText.add(new Tuple(320, 361, "", false));           //overall ok
                 corText.add(new Tuple(320, 343, "", false));           //rubber ok
-                corText.add(new Tuple(320, 325, "", false));           //overall ok
-                corText.add(new Tuple(320, 307, "", false));           //rubber ok
+                corText.add(new Tuple(320, 324, "", false));           //overall ok
+                corText.add(new Tuple(320, 306, "", false));           //rubber ok
+                corText.add(new Tuple(320, 288, "", false));           //overall ok
+                corText.add(new Tuple(320, 266, "", false));           //overall ok
 
-                corText.add(new Tuple(320, 270, "", false));           //overall ok
-                corText.add(new Tuple(320, 234, "", false));           //overall ok
-                corText.add(new Tuple(320, 214, "", false));           //rubber ok
-                corText.add(new Tuple(320, 198, "", false));           //overall ok
-                corText.add(new Tuple(320, 180, "", false));           //rubber ok
-                corText.add(new Tuple(320, 162, "", false));           //overall ok
-                corText.add(new Tuple(320, 140, "", false));           //rubber ok
-                corText.add(new Tuple(320, 118, "", false));           //rubber ok
-                corText.add(new Tuple(320, 90, "", false));           //rubber ok
+                corText.add(new Tuple(320, 218, "", false));           //rubber ok
+                corText.add(new Tuple(320, 200, "", false));           //overall ok
+                corText.add(new Tuple(320, 182, "", false));           //rubber ok
+                corText.add(new Tuple(320, 161, "", false));           //overall ok
+                corText.add(new Tuple(420, 161, barometer, false));           //overall ok
+                corText.add(new Tuple(272, 161, "700", false));           //overall ok
+                corText.add(new Tuple(272, 129, "180", false));           //rubber ok
+                corText.add(new Tuple(320, 129, "", false));           //rubber ok
+                corText.add(new Tuple(320, 99, "", false));           //rubber ok
 
                 return corText;
             }
@@ -176,8 +197,22 @@ public class GelstationActivity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage3corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(100, 140, t6.getText().toString(), true));                        //Tech Name
-                corText.add(new Tuple(465, 130, "!", false));                        //Signature
+                corText.add(new Tuple(320, 686, "", false));           //rubber ok
+                corText.add(new Tuple(320, 668, "", false));           //overall ok
+                corText.add(new Tuple(320, 650, "", false));           //rubber ok
+                corText.add(new Tuple(320, 632, "", false));           //overall ok
+
+                corText.add(new Tuple(320, 595, "", false));           //overall ok
+                corText.add(new Tuple(320, 577, "", false));           //rubber ok
+                corText.add(new Tuple(320, 559, "", false));           //rubber ok
+
+                corText.add(new Tuple(320, 522, "", false));           //time ok
+
+                corText.add(new Tuple(320, 452, "", false));           //temp ok
+                corText.add(new Tuple(320, 480, "", false));           //fan ok
+
+                corText.add(new Tuple(100, 95, t6.getText().toString(), true));                        //Tech Name
+                corText.add(new Tuple(465, 95, "!", false));                        //Signature
 
                 return corText;
             }

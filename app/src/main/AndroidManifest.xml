@@ -58,9 +58,11 @@
         <activity android:name=".devices.CentrifugeActivity" />
         <activity android:name=".devices.PlasmaThawerActivity" />
         <activity android:name=".devices.DiacentActivity" />
-        <activity android:name=".devices.GeneralUseActivity"
-            android:windowSoftInputMode="adjustPan" ></activity>
-        <activity android:name=".devices.GelstationActivity"></activity>
+        <activity
+            android:name=".devices.GeneralUseActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".devices.GelstationActivity" />
+        <activity android:name=".devices.DiacentUltraCWActivity"></activity>
     </application>
 
 </manifest>

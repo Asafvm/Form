@@ -6,40 +6,16 @@
     android:layout_height="match_parent"
     tools:context="il.co.diamed.com.form.PDFActivity"
     tools:showIn="@layout/activity_pdf"
-    android:background="#406600"
     android:id="@+id/content"
     android:tag="tag">
 
-    <TextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:progress="0"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"
-
-        />
-
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp"
         />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_star"
-        app:layout_constraintTop_toBottomOf="@+id/type"
-        />
-
 </android.support.constraint.ConstraintLayout>

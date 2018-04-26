@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,12 +39,19 @@ public class PDFActivity extends AppCompatActivity {
     private File file;   //iText var
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
     public static final String IMG = "assets/checkmark.png";
+    private ProgressBar progressBar;
 
+    private BaseFont bf = null;
+    private PdfReader reader = null;
+    private PdfStamper stamper = null;
+    private Image checkPNG = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_pdf);
+        progressBar = findViewById(R.id.pbLoading);
+        progressBar.setProgress(0);
         Bundle bundle = getIntent().getExtras();
 
         String src = "assets/" + Objects.requireNonNull(bundle).get("report");
@@ -50,19 +59,19 @@ public class PDFActivity extends AppCompatActivity {
         String destArray = bundle.getString("destArray");
         String dest = DEST + destArray;
 
-        BaseFont bf = null;
-        PdfReader reader = null;
-        PdfStamper stamper = null;
+        checkPNG = getImageFromPNG("checkmark.png");
+        checkPNG.scalePercent(1);
+
         try {
             file = new File(dest);
-            //file.getParentFile().mkdirs();
+            file.getParentFile().mkdirs();
             bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             reader = new PdfReader(src);
             stamper = new PdfStamper(reader, new FileOutputStream(dest));
         } catch (Exception e) {
             activityFailed();
         }
-
+        progressBar.incrementProgressBy(20);
         //createPdf();
         Bundle pages = bundle.getBundle("pages");
         if (pages != null) {
@@ -70,6 +79,7 @@ public class PDFActivity extends AppCompatActivity {
                 ArrayList<Tuple> corText = pages.getParcelableArrayList("page" + (i + 1));
                 if (corText != null) {
                     pdfText(stamper, bf, corText, signature, (i + 1));
+                    progressBar.incrementProgressBy(70 / pages.size());
                 } else {
                     activityFailed();
                 }
@@ -88,6 +98,7 @@ public class PDFActivity extends AppCompatActivity {
         if (reader != null) {
             reader.close();
         }
+        progressBar.incrementProgressBy(10);
         finish();
 
     }
@@ -119,11 +130,12 @@ public class PDFActivity extends AppCompatActivity {
 
 
     public void pdfCheck(PdfContentByte cb, float x, float y) {
-        Image image = getImageFromPNG("checkmark.png");
-        image.scalePercent(1);
-        image.setAbsolutePosition(x, y);
+
         try {
-            cb.addImage(image);
+
+            checkPNG.setAbsolutePosition(x, y);
+            //try {
+            cb.addImage(checkPNG);
         } catch (DocumentException e) {
             Log.e(TAG, "failed to add checkmarks");
             activityFailed();
@@ -167,28 +179,28 @@ public class PDFActivity extends AppCompatActivity {
         }
     }
 
-        private Image getImageFromPNG (String url){//}, int width, int height) {
+    private Image getImageFromPNG(String url) {//}, int width, int height) {
 
-            InputStream ims = null;
-            try {
-                ims = getAssets().open(url);
-            } catch (IOException e) {
-                Log.e(TAG, "ims = null");
-                activityFailed();
-            }
-
-            Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
-            Bitmap bmp = Bitmap.createScaledBitmap(bmpOrigin, bmpOrigin.getWidth(), bmpOrigin.getHeight(), true);
-            ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream2);
-            Image image = null;
-            try {
-                image = Image.getInstance(stream2.toByteArray());
-            } catch (BadElementException | IOException e) {
-                Log.e(TAG, url + " ---" + e.getMessage());
-            }
-            return image;
+        InputStream ims = null;
+        try {
+            ims = getAssets().open(url);
+        } catch (IOException e) {
+            Log.e(TAG, "ims = null");
+            activityFailed();
         }
+
+        Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
+        Bitmap bmp = Bitmap.createScaledBitmap(bmpOrigin, bmpOrigin.getWidth(), bmpOrigin.getHeight(), true);
+        ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+        bmpOrigin.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+        Image image = null;
+        try {
+            image = Image.getInstance(stream2.toByteArray());
+        } catch (BadElementException | IOException e) {
+            Log.e(TAG, url + " ---" + e.getMessage());
+        }
+        return image;
+    }
 
 }
 
