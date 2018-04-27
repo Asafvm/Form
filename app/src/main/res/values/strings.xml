@@ -297,6 +297,7 @@
     <string name="time20">20</string>
     <string name="time30">30</string>
     <string name="time60">60</string>
+    <string name="gsSoftwareVer">גרסת תוכנה</string>
 
     <!-- Strings related to Settings -->
 

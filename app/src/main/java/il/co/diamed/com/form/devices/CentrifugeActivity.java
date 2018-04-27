@@ -35,84 +35,44 @@ public class CentrifugeActivity extends AppCompatActivity {
         Helper h = new Helper();
         h.setLayout(this,R.layout.centrifuge_layout);
 
-
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
-        final String thermometer = bundle.getString("thermometer");
         final String speedometer = bundle.getString("speedometer");
-        final String barometer = bundle.getString("barometer");
         final String timer = bundle.getString("timer");
-
-        //get views
-        final Button btn = findViewById(R.id.formSubmitButton);
-
-        final EditText t11 = findViewById(R.id.formMainLocation);
-        final EditText t12 = findViewById(R.id.formRoomLocation);
-        final RadioGroup t2 = findViewById(R.id.rgModelSelect);
-        final EditText t3 = findViewById(R.id.etDeviceSerial);
-        final EditText t4 = findViewById(R.id.centSpeed);
-        final EditText t5 = findViewById(R.id.centTime);
-        final EditText t6 = findViewById(R.id.formTechName);
-        final DatePicker dp = findViewById(R.id.formDate);
-
-        final Switch fanSwitch = findViewById(R.id.centFanSwitch);
-
-
         //default basic values
-        EditText expectedSpeed = findViewById(R.id.centExpectedTime);
-        expectedSpeed.setText(String.valueOf(EXPECTED_SPEED));
+        init();
+        ((EditText)findViewById(R.id.formTechName)).setText(techname);
+        ((EditText) findViewById(R.id.centExpectedTime)).setText(String.valueOf(EXPECTED_SPEED));
 
-        t2.check(R.id.c12SII);
-        t5.setText(R.string.time10);
-        fanSwitch.setChecked(true);
-        t6.setText(techname);
-
-
-        h.setListener(t11);
-        h.setListener(t12);
-        h.setListener(t3);
-        h.setSpeedListener(t4,EXPECTED_SPEED);
-        h.setTimeListener(t5,EXPECTED_TIME);
-        h.setListener(t6);
-        setListener(t2);
-
-        btn.setOnClickListener(new View.OnClickListener()
-
+        findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-
-
                 if (checkStatus()) {
-
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(219, 448, "", false));           //speed ok
                     corText.add(new Tuple(214, 313, "", false));           //time ok
                     corText.add(new Tuple(245, 208, "", false));           //fan ok
                     corText.add(new Tuple(479, 102, "", false));           //overall ok
-                    corText.add(new Tuple(305, 618, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
-                    corText.add(new Tuple(330, 37, t6.getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(92, 618, dp.getDayOfMonth() + "       " + dp.getMonth() + "       " + dp.getYear(), false));                        //Date
-                    corText.add(new Tuple(200, 548, ((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString(), false));                        //type
-                    corText.add(new Tuple(425, 548, t3.getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(315, 445, t4.getText().toString(), false));                        //cent
+                    corText.add(new Tuple(305, 618, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
+                    corText.add(new Tuple(330, 37, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
+                    corText.add(new Tuple(92, 618, ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth() + "       " +
+                            ((DatePicker)findViewById(R.id.formDate)).getMonth() + "       " +
+                            ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
+                    corText.add(new Tuple(200, 548, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
+                    corText.add(new Tuple(425, 548, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(315, 445, ((EditText) findViewById(R.id.centSpeed)).getText().toString(), false));                        //cent
                     corText.add(new Tuple(445, 445, String.valueOf(EXPECTED_SPEED), false));                        //cent expected
-                    corText.add(new Tuple(305, 309, t5.getText().toString(), false));                        //Time
-                    corText.add(new Tuple(450, 70, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.centTime)).getText().toString(), false));                        //Time
+                    corText.add(new Tuple(450, 70, ((DatePicker)findViewById(R.id.formDate)).getMonth() + "   " +
+                            (((DatePicker)findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 
 
                     corText.add(new Tuple(350, 400, speedometer, false));                        //speedometer
                     corText.add(new Tuple(400, 265, timer, false));                        //Timer
                     corText.add(new Tuple(135, 33, "!", false));                        //Signature
-
-
-                    ArrayList<String> destArray = new ArrayList<>();
-                    destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
-                    destArray.add(String.valueOf(dp.getYear()));
-                    destArray.add(String.valueOf(dp.getMonth()));
-                    destArray.add(String.valueOf(dp.getDayOfMonth()));
-                    destArray.add(t3.getText().toString());
 
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
@@ -123,22 +83,29 @@ public class CentrifugeActivity extends AppCompatActivity {
                     intent.putExtra("pages",pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
-                            "_"+((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString()+"_"+t3.getText().toString()+".pdf");
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
+                            ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
+                            ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+
+                            ((DatePicker)findViewById(R.id.formDate)).getMonth()+"_"+
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent,1);
                 }
             }
 
             private boolean checkStatus() {
-                return isValidString(t11.getText().toString()) && isValidString(t12.getText().toString()) &&
-                        isValidString(t3.getText().toString()) &&
-                        Helper.isSpeedValid(Integer.valueOf(t4.getText().toString()), EXPECTED_SPEED) &&
-                        isTimeValid(t5, EXPECTED_TIME) && isValidString(t6.getText().toString()) && fanSwitch.isChecked();
+                return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
+                        Helper.isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed)).getText().toString()), EXPECTED_SPEED) &&
+                        isTimeValid(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME) &&
+                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
+                        ((Switch)findViewById(R.id.centFanSwitch)).isChecked();
 
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -160,10 +127,7 @@ public class CentrifugeActivity extends AppCompatActivity {
         alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText et = findViewById(R.id.etDeviceSerial);
-                et.setText("");
-                et = findViewById(R.id.centSpeed);
-                et.setText("");
+                restart();
             }
         });
         alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
@@ -207,12 +171,36 @@ public class CentrifugeActivity extends AppCompatActivity {
                         EXPECTED_SPEED = 0;
                         break;
                 }
-                EditText t4 = findViewById(R.id.centSpeed);
                 Helper h = new Helper();
-                h.setSpeedListener(t4,EXPECTED_SPEED);
-                EditText expectedSpeed = findViewById(R.id.centExpectedTime);
-                expectedSpeed.setText(String.valueOf(EXPECTED_SPEED));            }
+                h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)),EXPECTED_SPEED);
+                ((EditText) findViewById(R.id.centExpectedTime)).setText(String.valueOf(EXPECTED_SPEED));            }
         });
     }
+    private void restart() {
+        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
+        ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
+        ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
+        ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
+    }
+    private void init() {
+        Helper h = new Helper();
+        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
+        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
+        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)),EXPECTED_SPEED);
+        h.setTimeListener(((EditText) findViewById(R.id.centTime)),EXPECTED_TIME);
+        setListener(((RadioGroup) findViewById(R.id.rgModelSelect)));
+
+        ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
+        ((EditText) findViewById(R.id.formMainLocation)).setText("");
+        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
+        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
+        ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
+        ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
+
+        ((Switch)findViewById(R.id.centFanSwitch)).setChecked(true);
+    }
+
 
 }

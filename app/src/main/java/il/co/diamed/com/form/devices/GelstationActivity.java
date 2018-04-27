@@ -24,6 +24,12 @@ import il.co.diamed.com.form.res.Tuple;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class GelstationActivity extends AppCompatActivity {
+    private final double VOLT_THRESHOLD = 0.3;
+    private final int VACCUM_MIN = 600;
+    private final int PRESSURE_MIN = 180;
+    private int EXPECTED_SPEED = 1000;
+    private final int EXPECTED_TEMP_HIGH = 37;
+    private final int EXPECTED_TEMP_LOW = 25;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,44 +48,17 @@ public class GelstationActivity extends AppCompatActivity {
         final String barometer = bundle.getString("barometer");
 
 
-        //get views
-        //          Reconstruct Branch               :
-        //D/vndksupport: Loading /vendor/lib64/hw/gralloc.msm8996.so from current namespace instead of sphal namespace.
-        //I/Adreno: PFP: 0x005ff087, ME: 0x005ff063
-        //I/zygote64: android::hardware::configstore::V1_0::ISurfaceFlingerConfigs::hasWideColorDisplay retrieved: 0
-        //I/OpenGLRenderer: Initialized EGL, version 1.4
-        //D/OpenGLRenderer: Swap behavior 2
-        //I/zygote64: Do full code cache collection, code=125KB, data=82KB
-        final Button btn = findViewById(R.id.formSubmitButton);
-
-        final EditText t11 = findViewById(R.id.formMainLocation);
-        final EditText t12 = findViewById(R.id.formRoomLocation);
-        final RadioGroup t2 = findViewById(R.id.rgModelSelect);
-        final EditText t3 = findViewById(R.id.etDeviceSerial);
-        final EditText t4 = findViewById(R.id.etVer);
-        final EditText t5 = findViewById(R.id.etNewVer);
-        final EditText t6 = findViewById(R.id.formTechName);
-        final DatePicker dp = findViewById(R.id.formDate);
+        Helper helper = new Helper();
+        init();
+        helper.setListener((EditText) findViewById(R.id.formTechName));
+        ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
         //default basic values
-        t6.setText(techname);
-
-/*
-        setListener(t11);
-        setListener(t12);
-        setListener(t3);
-        setListener(t4);
-        setListener(t5);
-        setListener(t6);
-        setListener(t2);
-        setListener(cleanSwitch);
-        setListener(selfTestSwitch);
-        setListener(verSwitch);
-*/
+        ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
-        btn.setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
         {
             @Override
@@ -90,19 +69,17 @@ public class GelstationActivity extends AppCompatActivity {
                     pages.putParcelableArrayList("page2", getPage2corText());
                     pages.putParcelableArrayList("page3", getPage3corText());
 
-                    ArrayList<String> destArray = new ArrayList<>();
-                    destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
-                    destArray.add(String.valueOf(dp.getYear()));
-                    destArray.add(String.valueOf(dp.getMonth()));
-                    destArray.add(String.valueOf(dp.getDayOfMonth()));
-                    destArray.add(t3.getText().toString());
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_gelstation_yearly.pdf");
                     intent.putExtra("pages", pages);
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
-                            "_Gelstation_"+t3.getText().toString()+".pdf");
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
+                            ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
+                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() +
+                            "_Gelstation_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }
 
@@ -110,10 +87,10 @@ public class GelstationActivity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(460, 632, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
-                corText.add(new Tuple(90, 661, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
-                corText.add(new Tuple(390, 661, dp.getDayOfMonth() + "    " + dp.getMonth() + "    " + dp.getYear(), false));                        //Date
-                corText.add(new Tuple(135, 632, t3.getText().toString(), false));                        //Serial
+                corText.add(new Tuple(460, 632, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " + (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                corText.add(new Tuple(90, 661, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
+                corText.add(new Tuple(390, 661, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " + ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " + ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                corText.add(new Tuple(135, 632, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
                 corText.add(new Tuple(344, 543, "", false));           //temp ok
                 corText.add(new Tuple(344, 525, "", false));           //time ok
@@ -211,19 +188,63 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(320, 452, "", false));           //temp ok
                 corText.add(new Tuple(320, 480, "", false));           //fan ok
 
-                corText.add(new Tuple(100, 95, t6.getText().toString(), true));                        //Tech Name
+                corText.add(new Tuple(100, 95, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                 corText.add(new Tuple(465, 95, "!", false));                        //Signature
 
                 return corText;
             }
 
             private boolean checkStatus() {
-                return isValidString(t11.getText().toString()) && isValidString(t12.getText().toString()) &&
-                        isValidString(t3.getText().toString()) && isValidString(t6.getText().toString());
+                return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) && isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) && isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
 
             }
         });
     }
+
+    private void init() {
+        Helper h = new Helper();
+        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
+        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
+        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        h.setSpeedListener(((EditText) findViewById(R.id.etGScentrifugation)), EXPECTED_SPEED);
+        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
+        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
+        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
+        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
+        h.setVoltListener(((EditText) findViewById(R.id.etGScommon24)), 24, VOLT_THRESHOLD);
+        h.setVoltListener(((EditText) findViewById(R.id.etGScommon8)), 8, VOLT_THRESHOLD);
+        h.setVoltListener(((EditText) findViewById(R.id.etGScommon12)), 12, VOLT_THRESHOLD);
+        h.setBarListener(((EditText) findViewById(R.id.etGSfluidVaccum)), VACCUM_MIN);
+        h.setBarListener(((EditText) findViewById(R.id.etGSfluidPressure)), PRESSURE_MIN);
+        h.setListener(((EditText) findViewById(R.id.etGSsoftwareD)));
+        h.setListener(((EditText) findViewById(R.id.etGSsoftwareC)));
+        h.setListener(((EditText) findViewById(R.id.etGSsoftware1)));
+
+
+        ((EditText) findViewById(R.id.formMainLocation)).setText("");
+        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
+        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
+
+        ((EditText) findViewById(R.id.etGSsoftware1)).setText("3.18");
+        ((RadioGroup) findViewById(R.id.rgGSsoftware1)).check(R.id.rbGSxpsp3);
+
+        ((EditText) findViewById(R.id.etGScommon24)).setText("");
+        ((EditText) findViewById(R.id.etGScommon8)).setText("");
+        ((EditText) findViewById(R.id.etGScommon12)).setText("");
+
+        ((EditText) findViewById(R.id.etGScentrifugation)).setText(String.valueOf(EXPECTED_SPEED));
+
+        ((EditText) findViewById(R.id.etGSincubator1_37)).setText("");
+        ((EditText) findViewById(R.id.etGSincubator2_37)).setText("");
+        ((EditText) findViewById(R.id.etGSincubator1_25)).setText("");
+        ((EditText) findViewById(R.id.etGSincubator2_25)).setText("");
+
+        ((EditText) findViewById(R.id.etGSsoftwareD)).setText("");
+        ((EditText) findViewById(R.id.etGSsoftwareC)).setText("");
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -245,15 +266,7 @@ public class GelstationActivity extends AppCompatActivity {
         alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText et = findViewById(R.id.etNewVer);
-                et.setVisibility(View.INVISIBLE);
-                et.setText("");
-                et = findViewById(R.id.etVer);
-                et.setText("");
-                et = findViewById(R.id.etDeviceSerial);
-                et.setText("");
-                Switch s = findViewById(R.id.verUpdateSwitch);
-                s.setChecked(false);
+
             }
         });
         alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {

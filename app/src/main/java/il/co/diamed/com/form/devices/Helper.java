@@ -64,13 +64,13 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    editText.setHintTextColor(Color.RED);
+                editText.setHintTextColor(Color.RED);
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    editText.setHintTextColor(Color.RED);
+                editText.setHintTextColor(Color.RED);
             }
 
             @Override
@@ -90,7 +90,7 @@ public class Helper extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!isTempValid(editText,min,max)) {
+                if (!isTempValid(editText, min, max)) {
                     editText.setTextColor(Color.RED);
                 } else {
                     editText.setTextColor(Color.BLACK);
@@ -120,7 +120,7 @@ public class Helper extends AppCompatActivity {
                     } else {
                         editText.setTextColor(Color.BLACK);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     editText.setHintTextColor(Color.RED);
                 }
             }
@@ -140,45 +140,18 @@ public class Helper extends AppCompatActivity {
         try {
             float temp = Float.parseFloat(s.getText().toString());
             return (temp >= min && temp <= max);
-        }catch (Exception e){
-            return false;
-        }
-        /*
-        try {
-            float temp = Float.parseFloat(s.getText().toString());
-            if (temp >= min && temp <= max) {
-                return true;
-            }else {
-                return false;
-            }
         } catch (Exception e) {
             return false;
-        }*/
+        }
     }
 
     protected static boolean isTimeValid(EditText s, int expTime) {
-        try{
-        float time = Float.parseFloat(s.getText().toString());
-        return (time == expTime);
-        }catch (Exception e){
-            return false;
-        }
-        /*
         try {
             float time = Float.parseFloat(s.getText().toString());
-            if (time == expTime) {
-                s.setTextColor(Color.BLACK);
-                return true;
-            } else {
-                s.setTextColor(Color.RED);
-                return false;
-            }
-
+            return (time == expTime);
         } catch (Exception e) {
-            s.setTextColor(Color.RED);
             return false;
         }
-        */
     }
 
     protected void setSpeedListener(final EditText editText, final int expected_speed) {
@@ -197,7 +170,7 @@ public class Helper extends AppCompatActivity {
                     } else {
                         editText.setTextColor(Color.BLACK);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     editText.setHintTextColor(Color.RED);
                 }
 
@@ -210,7 +183,71 @@ public class Helper extends AppCompatActivity {
         });
     }
 
+    protected static boolean isBarValid(int mBar, int bar_min) {
+        return mBar > bar_min;
+    }
+
     protected static boolean isSpeedValid(int mSpeed, int eSpeed) {
         return (mSpeed <= eSpeed + 10 && mSpeed >= eSpeed - 10);
+    }
+
+    protected static boolean isVoltValid(double mVolt, double target, double threshold) {
+        return (mVolt <= target + threshold && mVolt >= target - threshold);
+    }
+
+
+    public void setVoltListener(final EditText editText, final double target, final double volt_threshold) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                editText.setHintTextColor(Color.RED);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    if (!isVoltValid(Integer.valueOf(editText.getText().toString()), target, volt_threshold)) {
+                        editText.setTextColor(Color.RED);
+                    } else {
+                        editText.setTextColor(Color.BLACK);
+                    }
+                } catch (Exception e) {
+                    editText.setHintTextColor(Color.RED);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    public void setBarListener(final EditText editText, final int bar_min) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                editText.setHintTextColor(Color.RED);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    if (!isBarValid(Integer.valueOf(editText.getText().toString()), bar_min)) {
+                        editText.setTextColor(Color.RED);
+                    } else {
+                        editText.setTextColor(Color.BLACK);
+                    }
+                } catch (Exception e) {
+                    editText.setHintTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 }

@@ -60,15 +60,15 @@ public class CaptureSignature extends Activity {
         mypath = new File(directory, current);
 
 
-        mContent = (LinearLayout) findViewById(R.id.signatureLayout);
+        mContent = findViewById(R.id.signatureLayout);
         mSignature = new signature(this, null);
 
 
         mContent.addView(mSignature, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-        mClear = (Button) findViewById(R.id.clear);
-        mGetSign = (Button) findViewById(R.id.getsign);
+        mClear = findViewById(R.id.clear);
+        mGetSign = findViewById(R.id.getsign);
         mGetSign.setEnabled(false);
-        mCancel = (Button) findViewById(R.id.cancel);
+        mCancel = findViewById(R.id.cancel);
         mView = mContent;
 
 

@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
@@ -33,43 +34,20 @@ public class GeneralUseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_general_use);
         Helper h = new Helper();
         h.setLayout(this, R.layout.general_layout);
-
+        h.setListener((EditText) findViewById(R.id.formTechName));
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         //get views
-        final Button btn = findViewById(R.id.formSubmitButton);
+        init();
+        ((EditText) findViewById(R.id.formTechName)).setText(techname);
+        ((RadioGroup) findViewById(R.id.rgModelSelect)).check(bundle.getInt("type"));
 
-        final EditText t11 = findViewById(R.id.formMainLocation);
-        final EditText t12 = findViewById(R.id.formRoomLocation);
-        final RadioGroup t2 = findViewById(R.id.rgModelSelect);
-        final EditText t3 = findViewById(R.id.etDeviceSerial);
-        final EditText t4 = findViewById(R.id.etVer);
-        final EditText t5 = findViewById(R.id.etNewVer);
-        final EditText t6 = findViewById(R.id.formTechName);
-        final DatePicker dp = findViewById(R.id.formDate);
-
-        final Switch cleanSwitch = findViewById(R.id.generalCleaningSwitch);
-        final Switch verSwitch = findViewById(R.id.verUpdateSwitch);
-        final Switch selfTestSwitch = findViewById(R.id.selfTextSwitch);
         //default basic values
-        t2.check(bundle.getInt("type"));
-        cleanSwitch.setChecked(true);
-        selfTestSwitch.setChecked(true);
-        verSwitch.setChecked(false);
-        t6.setText(techname);
-
-        h.setListener(t11);
-        h.setListener(t12);
-        h.setListener(t3);
-        h.setListener(t4);
-        h.setListener(t5);
-        h.setListener(t6);
-        setListener(verSwitch);
 
 
-        btn.setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
         {
             @Override
@@ -82,24 +60,27 @@ public class GeneralUseActivity extends AppCompatActivity {
                     corText.add(new Tuple(355, 470, "", false));           //rubber ok
                     corText.add(new Tuple(355, 452, "", false));           //overall ok
 
-                    corText.add(new Tuple(100, 663, t11.getText().toString() + " - " + t12.getText().toString(), true));                        //Location
-                    corText.add(new Tuple(100, 140, t6.getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(310, 663, dp.getDayOfMonth() + "    " + dp.getMonth() + "    " + dp.getYear(), false));                        //Date
-                    corText.add(new Tuple(455, 633, ((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString(), false));                        //type
-                    corText.add(new Tuple(125, 633, t3.getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(450, 487, t4.getText().toString(), false));                        //ver
-                    corText.add(new Tuple(520, 663, dp.getMonth() + "   " + (dp.getYear() + 1), false));                        //Next Date
-                    if (verSwitch.isChecked()) {
-                        corText.add(new Tuple(292, 470, t5.getText().toString(), false));
+                    corText.add(new Tuple(100, 663, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));             //Location
+                    corText.add(new Tuple(100, 140, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));            //Tech Name
+                    corText.add(new Tuple(310, 663, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
+                            ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                    corText.add(new Tuple(455, 633, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
+                    corText.add(new Tuple(125, 633, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(450, 487, ((EditText) findViewById(R.id.etVer)).getText().toString(), false));                        //ver
+                    corText.add(new Tuple(520, 663, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                            (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                    if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
+                        corText.add(new Tuple(292, 470, ((EditText) findViewById(R.id.etNewVer)).getText().toString(), false));
                     }
                     corText.add(new Tuple(435, 130, "!", false));                        //Signature
 
                     ArrayList<String> destArray = new ArrayList<>();
-                    destArray.add(t11.getText().toString() + "_" + t12.getText().toString());
-                    destArray.add(String.valueOf(dp.getYear()));
-                    destArray.add(String.valueOf(dp.getMonth()));
-                    destArray.add(String.valueOf(dp.getDayOfMonth()));
-                    destArray.add(t3.getText().toString());
+                    destArray.add(((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "_" + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString());
+                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getYear()));
+                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getMonth()));
+                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getDayOfMonth()));
+                    destArray.add(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString());
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_general_yearly.pdf");
@@ -109,8 +90,12 @@ public class GeneralUseActivity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", t11.getText().toString()+" "+t12.getText().toString()+"/"+dp.getYear()+""+dp.getDayOfMonth()+""+dp.getMonth()+"_"+
-                            "_"+((RadioButton) findViewById(t2.getCheckedRadioButtonId())).getText().toString()+"_"+t3.getText().toString()+".pdf");
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
+                            ((DatePicker) findViewById(R.id.formDate)).getYear()+""+
+                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth()+""+
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth()+"_"+
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);
                 }
 
@@ -118,22 +103,37 @@ public class GeneralUseActivity extends AppCompatActivity {
 
 
             private boolean checkStatus() {
-                if (!isValidString(t11.getText().toString()))
+                if (!isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()))
                     return false;
-                if (!isValidString(t12.getText().toString()))
+                if (!isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()))
                     return false;
-                if (!isValidString(t3.getText().toString()))
+                if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
                     return false;
-                if (!isValidString(t4.getText().toString()))
+                if (!isValidString(((EditText) findViewById(R.id.etVer)).getText().toString()))
                     return false;
-                if (verSwitch.isChecked()) {
-                    if (!isValidString(t5.getText().toString()))
+                if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
+                    if (!isValidString(((EditText) findViewById(R.id.etNewVer)).getText().toString()))
                         return false;
                 }
-                return isValidString(t6.getText().toString()) && cleanSwitch.isChecked() && selfTestSwitch.isChecked();
-
+                return isValidString(((EditText)findViewById(R.id.formTechName)).getText().toString()) &&
+                        ((Switch)findViewById(R.id.generalCleaningSwitch)).isChecked() &&
+                        ((Switch)findViewById(R.id.selfTextSwitch)).isChecked();
             }
         });
+    }
+
+    private void init() {
+        Helper h = new Helper();
+        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
+        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
+        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        h.setListener(((EditText) findViewById(R.id.etVer)));
+        h.setListener(((EditText) findViewById(R.id.etNewVer)));
+        setListener(((Switch)findViewById(R.id.verUpdateSwitch)));
+
+        ((Switch)findViewById(R.id.generalCleaningSwitch)).setChecked(true);
+        ((Switch)findViewById(R.id.selfTextSwitch)).setChecked(true);
+        ((Switch)findViewById(R.id.verUpdateSwitch)).setChecked(true);
     }
 
     @Override
