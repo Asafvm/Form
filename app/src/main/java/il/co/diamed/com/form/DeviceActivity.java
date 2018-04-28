@@ -23,6 +23,7 @@ import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
+import il.co.diamed.com.form.res.RecyclerActivity;
 import il.co.diamed.com.form.res.SettingsActivity;
 
 public class DeviceActivity extends AppCompatActivity {
@@ -172,6 +173,11 @@ private Bundle calibrationDevices;
             case R.id.edan:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
                 intent.putExtra("type",R.id.edan);
+                break;
+
+                //////////////////////////////
+            case R.id.test:
+                intent = new Intent(getBaseContext(), RecyclerActivity.class);
                 break;
             default:
                 intent = null;

@@ -298,6 +298,7 @@
     <string name="time30">30</string>
     <string name="time60">60</string>
     <string name="gsSoftwareVer">גרסת תוכנה</string>
+    <string name="title_activity_recycler">RecyclerActivity</string>
 
     <!-- Strings related to Settings -->
 

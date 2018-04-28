@@ -58,6 +58,14 @@
         android:text="@string/ih1000"
         app:layout_constraintTop_toBottomOf="@id/ih500" />
 
+    <Button
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="test"
+        app:layout_constraintTop_toBottomOf="@id/ih1000" />
+
 
 </android.support.constraint.ConstraintLayout>
 
