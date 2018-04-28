@@ -6,11 +6,72 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     android:paddingHorizontal="30dp"
-    app:layout_constraintVertical_weight="2"
-    app:layout_constraintTop_toBottomOf="@id/midLayout"
+    app:layout_constraintVertical_weight="3"
+    app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintBottom_toTopOf="@id/footer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <include
+        android:id="@+id/serialLayout"
+        layout="@layout/form_serial"/>
+
+
+    <TextView
+        android:id="@+id/tvDeviceModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/centType"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+    <RadioGroup
+        android:id="@+id/rgModelSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/tvDeviceModel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/centSpeed">
+
+        <RadioButton
+            android:id="@+id/c6S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/centType6S" />
+
+        <RadioButton
+            android:id="@+id/c12S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/centType12S" />
+
+        <RadioButton
+            android:id="@+id/c12SII"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/centType12SII" />
+
+        <RadioButton
+            android:id="@+id/c24S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/centType24S" />
+
+        <RadioButton
+            android:id="@+id/cL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/centTypeL" />
+    </RadioGroup>
 
 
     <ImageView
@@ -32,7 +93,7 @@
         android:textAlignment="textEnd"
         android:inputType="number"
         app:layout_constraintRight_toLeftOf="@id/icSpeed"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
         app:layout_constraintBottom_toTopOf="@id/centTime"/>
 
 
@@ -76,7 +137,7 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@id/centFanSwitch"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
 
     <Switch
         android:id="@+id/centFanSwitch"

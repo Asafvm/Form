@@ -9,19 +9,63 @@
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/midLayout"
-    app:layout_constraintVertical_weight="1">
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="3">
 
 
-    <ImageView
-        android:id="@+id/icVer"
+    <include
+        android:id="@+id/serialLayout"
+        layout="@layout/form_serial"/>
+
+
+    <TextView
+        android:id="@+id/tvDeviceModel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_error_black_24dp"
-
-        app:layout_constraintBottom_toBottomOf="@id/etVer"
+        android:text="@string/chooseDevice"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/etVer" />
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+    <RadioGroup
+        android:id="@+id/rgModelSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/etVer"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
+
+        <RadioButton
+            android:id="@+id/dr2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/docureader"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/edan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edan" />
+
+        <RadioButton
+            android:id="@+id/ib10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ib10" />
+
+        <RadioButton
+            android:id="@+id/pt10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pt10" />
+    </RadioGroup>
+
 
 
     <EditText
@@ -32,7 +76,17 @@
         android:inputType="numberDecimal"
         android:textAlignment="textEnd"
         app:layout_constraintRight_toLeftOf="@id/icVer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
+        app:layout_constraintBottom_toTopOf="@id/generalCleaningSwitch"/>
+
+    <ImageView
+        android:id="@+id/icVer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_error_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/etVer"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etVer" />
 
 
     <EditText
@@ -45,7 +99,8 @@
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="@id/verUpdateSwitch"
         app:layout_constraintRight_toLeftOf="@id/etVer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
+        app:layout_constraintBottom_toTopOf="@id/verUpdateSwitch"/>
 
     <Switch
         android:id="@+id/generalCleaningSwitch"
@@ -53,7 +108,8 @@
         android:layout_height="wrap_content"
         android:text="@string/generalCleaning"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etVer" />
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Switch
         android:id="@+id/verUpdateSwitch"
@@ -62,7 +118,8 @@
         android:tag="opt"
         android:text="@string/verUpdate"
         app:layout_constraintRight_toLeftOf="@id/generalCleaningSwitch"
-        app:layout_constraintTop_toBottomOf="@id/etVer" />
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <Switch
@@ -73,7 +130,8 @@
         android:text="@string/selfText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/verUpdateSwitch"
-        app:layout_constraintTop_toBottomOf="@id/etVer" />
+        app:layout_constraintTop_toBottomOf="@id/etVer"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>

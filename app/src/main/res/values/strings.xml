@@ -299,6 +299,9 @@
     <string name="time60">60</string>
     <string name="gsSoftwareVer">גרסת תוכנה</string>
     <string name="title_activity_recycler">RecyclerActivity</string>
+    <string name="diacentUltra">Diacent UltraCW</string>
+    <string name="diacent12">Diacent 12</string>
+    <string name="diacentCW">Diacent CW</string>
 
     <!-- Strings related to Settings -->
 

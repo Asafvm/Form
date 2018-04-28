@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".devices.Diacent12Activity">
 
-
-
-
     <include
         android:id="@+id/header"
         layout="@layout/form_header"

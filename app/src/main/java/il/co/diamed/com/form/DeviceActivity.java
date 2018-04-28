@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import il.co.diamed.com.form.devices.CentrifugeActivity;
-import il.co.diamed.com.form.devices.DiacentActivity;
+import il.co.diamed.com.form.devices.Diacent12Activity;
+import il.co.diamed.com.form.devices.DiacentCWActivity;
+import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
 import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
@@ -149,8 +151,14 @@ private Bundle calibrationDevices;
             case R.id.idCent:
                 intent = new Intent(getBaseContext(), CentrifugeActivity.class);
                 break;
-            case R.id.idDiacent:
-                intent = new Intent(getBaseContext(), DiacentActivity.class);
+            case R.id.idDiacent12:
+                intent = new Intent(getBaseContext(), Diacent12Activity.class);
+                break;
+            case R.id.idDiacentCW:
+                intent = new Intent(getBaseContext(), DiacentCWActivity.class);
+                break;
+            case R.id.ultraCW:
+                intent = new Intent(getBaseContext(), DiacentUltraCWActivity.class);
                 break;
             case R.id.plasma:
                 intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);

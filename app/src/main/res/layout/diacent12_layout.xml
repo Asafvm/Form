@@ -10,9 +10,13 @@
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/midLayout"
-    app:layout_constraintVertical_weight="2">
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="3">
 
+
+    <include
+        android:id="@+id/serialLayout"
+        layout="@layout/form_serial"/>
 
     <ImageView
         android:id="@+id/icSpeed1"
@@ -33,7 +37,7 @@
         android:inputType="number"
         android:textAlignment="textEnd"
         app:layout_constraintRight_toLeftOf="@id/icSpeed1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
 
     <ImageView
@@ -98,7 +102,7 @@
         android:inputType="number"
         android:textAlignment="textEnd"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
 
     <ImageView

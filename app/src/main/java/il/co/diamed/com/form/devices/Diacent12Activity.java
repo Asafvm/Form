@@ -26,11 +26,8 @@ import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
 import static il.co.diamed.com.form.devices.Helper.isTimeValid;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class DiacentActivity extends AppCompatActivity {
+public class Diacent12Activity extends AppCompatActivity {
 
-
-    private static final int EXPECTED_CW_SPEED = 2500;
-    private static final int EXPECTED_CW_TIME = 60;
     private static final int EXPECTED_12_TIME1 = 15;
     private static final int EXPECTED_12_TIME2 = 20;
     private static final int EXPECTED_12_TIME3 = 30;
@@ -42,7 +39,7 @@ public class DiacentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diacent);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
         h.setLayout(this, R.layout.diacent12_layout);
 
@@ -51,7 +48,6 @@ public class DiacentActivity extends AppCompatActivity {
         final String signature = bundle.getString("signature");
         final String speedometer = bundle.getString("speedometer");
         final String timer = bundle.getString("timer");
-
 
 
         init();
@@ -66,13 +62,9 @@ public class DiacentActivity extends AppCompatActivity {
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
-                    if (((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId() == R.id.dia12) {
-                        corText = getDiacent12TextCor();
-                        intent.putExtra("report", "2018_diacent_yearly.pdf");
-                    } else {
-                        corText = getDiacentCWTextCor();
-                        intent.putExtra("report", "2018_diacw_yearly.pdf");
-                    }
+
+                    corText = getDiacent12TextCor();
+                    intent.putExtra("report", "2018_diacent_yearly.pdf");
 
 
                     Bundle pages = new Bundle();
@@ -84,44 +76,15 @@ public class DiacentActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
-                            ((DatePicker)findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth() + "_" +
-                            ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
-                            ((EditText)findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                            ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
+                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_" +
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
                 }
-            }
-
-            private ArrayList<Tuple> getDiacentCWTextCor() {
-                ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(190, 481, "", false));           //speed ok
-                corText.add(new Tuple(190, 345, "", false));           //time ok
-                corText.add(new Tuple(226, 250, "", false));           //fan ok
-                corText.add(new Tuple(226, 233, "", false));           //fan ok
-                corText.add(new Tuple(226, 214, "", false));           //fan ok
-                corText.add(new Tuple(484, 108, "", false));           //overall ok
-
-                corText.add(new Tuple(300, 635, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
-                        ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(330, 28, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                corText.add(new Tuple(74, 635, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "     " +
-                        ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " +
-                        ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
-
-                corText.add(new Tuple(100, 575, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
-                corText.add(new Tuple(380, 575, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                corText.add(new Tuple(315, 475, ((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString(), false));                        //cent2500
-                corText.add(new Tuple(315, 343, ((EditText) findViewById(R.id.centCWtime)).getText().toString(), false));                        //Time
-                corText.add(new Tuple(450, 77, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
-                        (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
-                corText.add(new Tuple(378, 436, speedometer, false));                        //speedometer
-                corText.add(new Tuple(400, 302, timer, false));                        //Timer
-                corText.add(new Tuple(135, 33, "!", false));                        //Signature
-
-                return corText;
             }
 
 
@@ -168,64 +131,28 @@ public class DiacentActivity extends AppCompatActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
                     return false;
-                if (((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId() == R.id.dia12) {
 
-                    if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
-                        return false;
-                    if (!isTimeValid(((EditText) findViewById(R.id.centTime1)), EXPECTED_12_TIME1))
-                        return false;
-                    if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed2000)).getText().toString())), EXPECTED_12_SPEED2))
-                        return false;
-                    if (!isTimeValid(((EditText) findViewById(R.id.centTime2)), EXPECTED_12_TIME2))
-                        return false;
-                    if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed3000)).getText().toString())), EXPECTED_12_SPEED3))
-                        return false;
-                    if (!isTimeValid(((EditText) findViewById(R.id.centTime3)), EXPECTED_12_TIME3))
-                        return false;
-                    if (!((Switch) findViewById(R.id.cent12checkHolders)).isChecked())
-                        return false;
-                } else {
-                    if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString())), EXPECTED_CW_SPEED))
-                        return false;
-                    if (!isTimeValid(((EditText) findViewById(R.id.centCWtime)), EXPECTED_CW_TIME))
-                        return false;
-                    if (!((Switch) findViewById(R.id.centCheckHolders)).isChecked())
-                        return false;
-                    if (!((Switch) findViewById(R.id.centCheckRemaining)).isChecked())
-                        return false;
-                    if (!((Switch) findViewById(R.id.centCheckFilling)).isChecked())
-                        return false;
-                }
-                return isValidString(((EditText)findViewById(R.id.formTechName)).getText().toString());
+
+                if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
+                    return false;
+                if (!isTimeValid(((EditText) findViewById(R.id.centTime1)), EXPECTED_12_TIME1))
+                    return false;
+                if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed2000)).getText().toString())), EXPECTED_12_SPEED2))
+                    return false;
+                if (!isTimeValid(((EditText) findViewById(R.id.centTime2)), EXPECTED_12_TIME2))
+                    return false;
+                if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed3000)).getText().toString())), EXPECTED_12_SPEED3))
+                    return false;
+                if (!isTimeValid(((EditText) findViewById(R.id.centTime3)), EXPECTED_12_TIME3))
+                    return false;
+                if (!((Switch) findViewById(R.id.cent12checkHolders)).isChecked())
+                    return false;
+
+                return isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
             }
         });
 
     }
-
-    /*** Swtich 12 and CW views ***/
-    private void setListener(RadioGroup rg) {
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                Helper h = new Helper();
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.dia12:
-                        h.setLayout(DiacentActivity.this, R.layout.diacent12_layout);
-                        initDiacent12();
-                        break;
-                    case R.id.diaCW:
-                        h.setLayout(DiacentActivity.this, R.layout.diacentcw_layout);
-                        initDiacentCW();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        });
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -246,12 +173,10 @@ public class DiacentActivity extends AppCompatActivity {
         alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId() == R.id.dia12) {
-                    initDiacent12();
-                } else {
-                    initDiacentCW();
-                }
+                initDiacent12();
+
             }
+            //       }
         });
         alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
             @Override
@@ -277,23 +202,6 @@ public class DiacentActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-
-        setListener(((RadioGroup)findViewById(R.id.rgModelSelect)));
-        ((RadioGroup)findViewById(R.id.rgModelSelect)).check(R.id.dia12);
-    }
-
-    private void initDiacentCW() {
-
-        /* Diacent CW */
-        Helper h = new Helper();
-        h.setTimeListener(((EditText) findViewById(R.id.centCWtime)), EXPECTED_CW_TIME);
-        h.setSpeedListener(((EditText) findViewById(R.id.centcwSpeed2500)), EXPECTED_CW_SPEED);
-        ((EditText) findViewById(R.id.centcwSpeed2500)).setText("");
-        ((EditText) findViewById(R.id.centCWtime)).setText(R.string.time60);
-        ((Switch) findViewById(R.id.centCheckHolders)).setChecked(true);
-        ((Switch) findViewById(R.id.centCheckRemaining)).setChecked(true);
-        ((Switch) findViewById(R.id.centCheckFilling)).setChecked(true);
-
 
     }
 

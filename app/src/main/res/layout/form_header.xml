@@ -7,7 +7,7 @@
     android:layout_height="0dp"
     android:padding="15dp"
 
-    app:layout_constraintBottom_toTopOf="@id/midLayout"
+    app:layout_constraintBottom_toTopOf="@id/lowLayout"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="spread"
     app:layout_constraintVertical_weight="2">

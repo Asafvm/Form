@@ -30,7 +30,7 @@ public class PlasmaThawerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plasma_thawer);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
         h.setLayout(this, R.layout.plasma_layout);
 
@@ -190,8 +190,8 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText)findViewById(R.id.ptExpectedTemp)).setText(String.valueOf(EXPECTED_TEMP));
-        ((EditText) findViewById(R.id.temp)).setText(String.valueOf(""));
-        ((EditText) findViewById(R.id.time)).setText(String.valueOf(R.string.time10));
+        ((EditText) findViewById(R.id.ptTemp)).setText(String.valueOf(""));
+        ((EditText) findViewById(R.id.ptTime)).setText(R.string.time10);
 
         ((Switch)findViewById(R.id.ptAlarmCheck)).setChecked(true);
         ((Switch)findViewById(R.id.ptOilCheck)).setChecked(true);

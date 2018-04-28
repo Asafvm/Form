@@ -31,7 +31,7 @@ public class GeneralUseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_general_use);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
         h.setLayout(this, R.layout.general_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));

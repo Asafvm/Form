@@ -26,13 +26,20 @@
         app:layout_constraintTop_toBottomOf="@id/idInc" />
 
     <Button
-        android:id="@+id/idDiacent"
+        android:id="@+id/idDiacent12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
-        android:text="@string/diacent"
+        android:text="@string/diacent12"
         app:layout_constraintTop_toBottomOf="@id/idCent" />
 
+    <Button
+        android:id="@+id/idDiacentCW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/diacentCW"
+        app:layout_constraintTop_toBottomOf="@id/idDiacent12" />
 
     <Button
         android:id="@+id/idGelstation"
@@ -40,7 +47,7 @@
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/idGeltation"
-        app:layout_constraintTop_toBottomOf="@id/idDiacent" />
+        app:layout_constraintTop_toBottomOf="@id/idDiacentCW" />
 
     <Button
         android:id="@+id/ih500"

@@ -31,7 +31,7 @@ public class CentrifugeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_centrifuge);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
         h.setLayout(this,R.layout.centrifuge_layout);
 

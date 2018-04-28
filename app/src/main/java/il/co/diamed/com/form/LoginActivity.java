@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFinish() {
                 Intent intent = new Intent(getBaseContext(),DeviceActivity.class);
                 startActivity(intent);
+                finish();
             }
         }.start();
 

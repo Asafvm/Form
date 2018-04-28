@@ -32,8 +32,12 @@ public class RecyclerActivity extends AppCompatActivity {
         list = new ArrayList<>();
         list.add(new Item(R.layout.incubator_layout,"test"));
         list.add(new Item(R.layout.centrifuge_layout,"text"));
+        list.add(new Item(R.layout.incubator_layout,"test"));
+        list.add(new Item(R.layout.diacentcw_layout,"text"));
+        list.add(new Item(R.layout.general_layout,"test"));
+        list.add(new Item(R.layout.diacent12_layout,"text"));
         list.add(new Item(R.layout.gelstation_layout,"more stuff"));
-        list.add(new Item(R.layout.gelstation_layout,"last one"));
+
 
         adapter = new MyAdapter(list,this);
         recyclerView.setAdapter(adapter);

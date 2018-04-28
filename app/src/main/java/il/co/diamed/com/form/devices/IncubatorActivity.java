@@ -29,7 +29,7 @@ public class IncubatorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_incubator);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
         h.setLayout(this, R.layout.incubator_layout);
 
