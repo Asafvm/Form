@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="5"
+    tools:context=".devices.IH500Activity">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/innerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <include
+            android:id="@+id/serialLayout"
+            layout="@layout/form_serial" />
+
+        <TextView
+            android:id="@+id/tvIH500init"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextInit"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+        <CheckBox
+            android:id="@+id/cbIH500init1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500ExternalInspection"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cbIH500init2"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500init" />
+
+        <CheckBox
+            android:id="@+id/cbIH500init2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500CableInspection"
+            app:layout_constraintLeft_toRightOf="@id/cbIH500init1"
+            app:layout_constraintRight_toLeftOf="@id/cbIH500init3"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500init" />
+
+        <CheckBox
+            android:id="@+id/cbIH500init3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500GeneralCleaning"
+            app:layout_constraintLeft_toRightOf="@id/cbIH500init2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500init" />
+
+        <!-- Software -->
+        <TextView
+            android:id="@+id/tvIH500software"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500Textsoftware"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500init1" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500software1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500software" />
+
+
+        <TextView
+            android:id="@+id/tvIH500software2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware2"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500software1" />
+
+        <RadioGroup
+            android:id="@+id/rgIH500software1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/tvIH500software2"
+            app:layout_constraintLeft_toRightOf="@id/tvIH500software2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvIH500software2">
+
+            <RadioButton
+                android:id="@+id/rbIH500xpsp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rbIH5007sp1"
+                android:textAlignment="center"
+                android:textSize="10sp" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvIH500software1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/rgIH500software1" />
+
+        <EditText
+            android:id="@+id/etIH500software1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/IH500SoftwareVer"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/tvIH500software1"
+            app:layout_constraintLeft_toRightOf="@id/tvIH500software1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvIH500software1" />
+
+        <TextView
+            android:id="@+id/tvIH500software3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware4"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500software1" />
+
+        <TextView
+            android:id="@+id/tvIH500software4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware5"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500software3" />
+
+        <EditText
+            android:id="@+id/etIH500softwareC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500C"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvIH500software3"
+            app:layout_constraintLeft_toRightOf="@id/tvIH500software3"
+            app:layout_constraintTop_toTopOf="@id/tvIH500software3" />
+
+
+        <TextView
+            android:id="@+id/tvIH500softwareC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500GB"
+            android:textAlignment="center"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvIH500software3"
+
+            app:layout_constraintLeft_toRightOf="@id/etIH500softwareC"
+            app:layout_constraintTop_toTopOf="@id/tvIH500software3" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500software5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware6"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500software4" />
+
+        <CheckBox
+            android:id="@+id/cbIH500software6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware7"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500software5" />
+
+        <!-- Transport arm -->
+        <TextView
+            android:id="@+id/tvIH500Transport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextTransport"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500software1" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Transport1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etIH500Transport1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Transport" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Transport2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etIH500Transport2"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/cbIH500Transport1"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Transport3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/etIH500Transport3"
+            android:textAlignment="center"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Transport2" />
+
+
+        <!-- Vision station -->
+        <TextView
+            android:id="@+id/tvIH500Vision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextVision"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Transport3" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Vision1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Vision1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Vision" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Vision2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Vision2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Vision1" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Vision3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Vision3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Vision2" />
+
+        <!-- Page 2 -->
+
+        <!-- Gel card piercer / Ionizer -->
+        <TextView
+            android:id="@+id/tvIH500Piercer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextPiercer"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Vision3" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Piercer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Piercer1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Piercer" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Piercer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Piercer2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Piercer1" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Piercer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Piercer3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Piercer2" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Piercer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Piercer4"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Piercer3" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Piercer5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Piercer5"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Piercer4" />
+
+        <!-- Diluents piercing -->
+        <TextView
+            android:id="@+id/tvIH500Diluents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextDiluents"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Piercer5" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Diluents1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Diluents1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Diluents" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Diluents2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Diluents2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Diluents1" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Diluents3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Diluents3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Diluents2" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Diluents4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Diluents4"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Diluents3" />
+
+
+        <!-- Pipetting area -->
+        <TextView
+            android:id="@+id/tvIH500Pipetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextPipetting"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Diluents4" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Pipetting" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting1" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting2" />
+
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting4"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting3" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting5"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting4" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting6"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting5" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting7"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting6" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Pipetting8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Pipetting8"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting7" />
+
+
+        <!-- Liquid container area and fluidic system -->
+        <TextView
+            android:id="@+id/tvIH500Fluid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextFluid"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Pipetting8" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Fluid" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid1" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid2" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid4"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid3" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid5"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid4" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid6"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid5" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid7"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid6" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Fluid8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Fluid8"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid7" />
+
+        <!-- Page 3 -->
+        <!-- Centrifuges module with cooling -->
+        <TextView
+            android:id="@+id/tvIH500Centrifuge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextCentrifuge"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Fluid8" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Centrifuge1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Centrifuge1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Centrifuge" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Centrifuge2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Centrifuge2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Centrifuge1" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Centrifuge3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Centrifuge3"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Centrifuge2" />
+
+<!--TODO: Add expected and measured speed-->
+
+
+        <EditText
+            android:id="@+id/etIH500CentrifugeFrontSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/cbIH500Centrifuge3"
+            />
+
+
+        <EditText
+            android:id="@+id/etIH500CentrifugeRearSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/etIH500CentrifugeFrontSpeed"/>
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Centrifuge4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Centrifuge4"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etIH500CentrifugeRearSpeed" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Centrifuge5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Centrifuge5"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Centrifuge4" />
+
+        <!-- Reagent cooling -->
+        <TextView
+            android:id="@+id/tvIH500Reagent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextReagent"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Centrifuge5" />
+
+
+        <!-- Incubator -->
+        <TextView
+            android:id="@+id/tvIH500Incubator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextIncubator"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Reagent" />
+
+        <!-- Consumable drawers -->
+        <TextView
+            android:id="@+id/tvIH500Drawers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextDrawers"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Incubator" />
+
+        <CheckBox
+            android:id="@+id/cbIH500Drawers1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextDrawers1"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500Drawers" />
+
+
+        <CheckBox
+            android:id="@+id/cbIH500Drawers2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextDrawers2"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Drawers1" />
+
+
+        <!-- Parts -->
+        <TextView
+            android:id="@+id/tvIH500parts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/IH500TextParts"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/cbIH500Drawers2" />
+
+
+        <EditText
+            android:id="@+id/partCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partCount"
+            app:layout_constraintEnd_toStartOf="@id/partDescription"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500parts" />
+
+        <EditText
+            android:id="@+id/partDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partDescription"
+            app:layout_constraintEnd_toStartOf="@id/partSerial"
+
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@id/partCount"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500parts" />
+
+        <EditText
+            android:id="@+id/partSerial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/partSerial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/partDescription"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500parts" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/partSerial" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

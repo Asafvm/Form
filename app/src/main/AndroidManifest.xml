@@ -64,7 +64,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".devices.GelstationActivity" />
         <activity android:name=".devices.DiacentUltraCWActivity" />
-        <activity android:name=".res.RecyclerActivity"></activity>
+        <activity android:name=".res.RecyclerActivity" />
+        <activity android:name=".devices.IH500Activity"></activity>
     </application>
 
 </manifest>

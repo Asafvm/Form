@@ -23,6 +23,7 @@ import il.co.diamed.com.form.devices.DiacentCWActivity;
 import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
 import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
+import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
 import il.co.diamed.com.form.res.RecyclerActivity;
@@ -165,6 +166,9 @@ private Bundle calibrationDevices;
                 break;
             case R.id.idGelstation:
                 intent = new Intent(getBaseContext(), GelstationActivity.class);
+                break;
+            case R.id.ih500:
+                intent = new Intent(getBaseContext(), IH500Activity.class);
                 break;
             case R.id.ib10:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
