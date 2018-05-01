@@ -33,8 +33,6 @@ public class DoconActivity extends AppCompatActivity {
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
-        final String thermometer = bundle.getString("thermometer");
-        final String timer = bundle.getString("timer");
         //get views
         init();
         h.setListener(((EditText) findViewById(R.id.formTechName)));
@@ -48,34 +46,25 @@ public class DoconActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkStatus()) {
                     ArrayList<Tuple> corText = new ArrayList<>();
-                    corText.add(new Tuple(205, 469, "", false));           //temp ok
-                    corText.add(new Tuple(203, 329, "", false));           //time ok
-                    corText.add(new Tuple(251, 230, "", false));           //fan ok
-                    corText.add(new Tuple(251, 212, "", false));           //rubber ok
-                    corText.add(new Tuple(482, 97, "", false));           //overall ok
-
-                    corText.add(new Tuple(300, 636, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                    corText.add(new Tuple(300, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(72, 636, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "       " +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "         " +
+                    corText.add(new Tuple(90, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
-                    corText.add(new Tuple(290, 568, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
-                    corText.add(new Tuple(425, 568, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(275, 465, ((EditText) findViewById(R.id.temp)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(305, 325, ((EditText) findViewById(R.id.time)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(451, 65, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                    corText.add(new Tuple(125, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(380, 521, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(380, 491, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(380, 461, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(315, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
+                    corText.add(new Tuple(421, 155, ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 
-                    corText.add(new Tuple(330, 425, thermometer, false));                        //Thermometer
-                    corText.add(new Tuple(400, 285, timer, false));                        //Timer
-
-                    corText.add(new Tuple(135, 33, "!", false));                        //Signature
+                    //corText.add(new Tuple(135, 33, "!", false));                        //Signature
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
 
                     Bundle pages = new Bundle();
-                    Bundle page1 = new Bundle();
                     pages.putParcelableArrayList("page1", corText);
                     intent.putExtra("pages", pages);
 
@@ -86,8 +75,7 @@ public class DoconActivity extends AppCompatActivity {
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
                             ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_" +
-                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_Docon_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }
