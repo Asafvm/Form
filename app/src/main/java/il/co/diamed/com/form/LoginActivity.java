@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        new CountDownTimer(3000,1000){
+        new CountDownTimer(1500,500){
             @Override
             public void onTick(long millisUntilFinished) {
 

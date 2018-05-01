@@ -4,23 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".devices.PlasmaThawerActivity">
-
-
-    <include
-        layout="@layout/form_header"
-        android:id="@+id/header"/>
-
-
-    <View
-        android:id="@+id/lowLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
-
-    <include
-        android:id="@+id/footer"
-        layout="@layout/form_footer"
-        />
+    tools:context=".devices.BiomixerActivity">
 
 </android.support.constraint.ConstraintLayout>

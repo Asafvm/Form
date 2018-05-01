@@ -41,7 +41,7 @@ public class Diacent12Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
-        h.setLayout(this, R.layout.diacent12_layout);
+        h.setLayout(this, R.layout.device_diacent12_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");

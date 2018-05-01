@@ -36,9 +36,9 @@ public class DiacentCWActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diacent);
+        setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
-        h.setLayout(this, R.layout.diacentcw_layout);
+        h.setLayout(this, R.layout.device_diacentcw_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");

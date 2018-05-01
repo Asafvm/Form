@@ -312,10 +312,10 @@
     <string name="IH500Textsoftware3">Software version IH-500</string>
     <string name="IH500Textsoftware4">System start-up without errors</string>
     <string name="rbIH5007sp1">Windows 7\nSP1</string>
-    <string name="IH500SoftwareVer">Version:______</string>
-    <string name="IH500Textsoftware5">Hard disk available\nspace on Main PC</string>
+    <string name="IH500SoftwareVer">Version</string>
+    <string name="IH500Textsoftware5">Hard disk available space on Main PC</string>
     <string name="IH500GB">GB</string>
-    <string name="etIH500C">100</string>
+    <string name="etIH500C">>100</string>
     <string name="IH500Textsoftware6">Snapshot created on an external drive</string>
     <string name="IH500Textsoftware7">Check disk for errors</string>
     <string name="IH500TextTransport">Transport arm</string>
@@ -367,6 +367,43 @@
     <string name="IH500TextDrawers1">Left drawer</string>
     <string name="IH500TextDrawers2">Right drawer</string>
     <string name="IH500TextParts">Parts replaced</string>
+    <string name="textRPM">RPM</string>
+    <string name="number1008">1008</string>
+    <string name="tvIH500Centrifuge1">Front centrifuge</string>
+    <string name="tvIH500Centrifuge2">Rear centrifuge</string>
+    <string name="IH500TextReagent1">Reagents: Front measuring point</string>
+    <string name="etIH500ReagentTemp">13 ± 1°C</string>
+    <string name="etIH500IncubatorTemp">38.5 ± 1</string>
+    <string name="IH500TextIncubator1">Incubator: Front measuring point</string>
+    <string name="IH500TextIncubator2">Incubator: Rear measuring point</string>
+    <string name="IH500TextReagent2">Reagents: Rear measuring point</string>
+    <string name="IH1000Textsoftware2">Windows Version</string>
+    <string name="rbIH10007sp1">7 SP1</string>
+    <string name="rbIH1000xpsp3">XP SP3</string>
+    <string name="IH1000Textsoftware3">IH1000 Version</string>
+    <string name="IH1000SoftwareVer">xx.xx.xx</string>
+    <string name="IH1000Textsoftware4">IHCOM Version</string>
+    <string name="IH1000Textsoftware5">Hard disk available space on Master</string>
+    <string name="etIH1000C"><![CDATA[>100]]></string>
+    <string name="IH1000GB">GB</string>
+    <string name="tvIH1000Centrifuge1">Left centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="tvIH1000Centrifuge2">Middle centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="tvIH1000Centrifuge3">Right centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="IH1000TextIncubator1">Verify 37ºC in position 1</string>
+    <string name="etIH1000IncubatorTemp">38 +1ºC</string>
+    <string name="IH1000TextIncubator2">Verify 37ºC in position 14</string>
+    <string name="IH1000TextIncubator3">Verify 37ºC in position 28</string>
+    <string name="IH1000TextSensor">ID Cards presence sensor calibration</string>
+    <string name="etIH1000CardSensor">72+3mm</string>
+    <string name="IH1000TextParts">Parts replaced</string>
+    <string name="doconWeight200">משקולת 200 גרם</string>
+    <string name="DoconWeight200">200</string>
+    <string name="textGR">gr</string>
+    <string name="doconWeight500">משקולת 500 גרם</string>
+    <string name="DoconWeight500">500</string>
+    <string name="doconWeight700">משקולת 700 גרם</string>
+    <string name="DoconWeight700">700</string>
+    <string name="doconReport">דוח כיול מספר</string>
 
 
     <!-- Strings related to Settings -->

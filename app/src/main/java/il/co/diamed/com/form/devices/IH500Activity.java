@@ -21,9 +21,7 @@ import il.co.diamed.com.form.res.Tuple;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class IH500Activity extends AppCompatActivity {
-    private final int VACCUM_MIN = 600;
-    private final int PRESSURE_MIN = 180;
-    private int EXPECTED_SPEED = 1000;
+    private int EXPECTED_SPEED = 1008;
     private final double EXPECTED_INCUBATOR_TEMP = 38.5;
     private final int EXPECTED_REAGENT_TEMP = 13;
 
@@ -33,7 +31,7 @@ public class IH500Activity extends AppCompatActivity {
 
         setContentView(R.layout.generic_device_activity);
         Helper h = new Helper();
-        h.setLayout(this, R.layout.device_ih500_layout);
+        h.setLayout(this, R.layout.device_ih500_layout_short);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -87,7 +85,7 @@ public class IH500Activity extends AppCompatActivity {
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(462, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "  " +
+                corText.add(new Tuple(464, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "  " +
                         ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                 corText.add(new Tuple(135, 628, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
@@ -96,27 +94,25 @@ public class IH500Activity extends AppCompatActivity {
                 corText.add(new Tuple(422, 545, "", false));           //time ok
                 corText.add(new Tuple(422, 521, "", false));           //fan ok
 
-
                 corText.add(new Tuple(253, 467, "", false));           //rubber ok
                 corText.add(new Tuple(489, 450, "Win7 SP1", false));           //overall ok
                 corText.add(new Tuple(253, 449, "", false));           //overall ok
-                corText.add(new Tuple(480, 432, "2.0", false));           //rubber ok
+                corText.add(new Tuple(480, 432, ((EditText) findViewById(R.id.etIH500softwareVer)).getText().toString(), false));           //rubber ok
                 corText.add(new Tuple(253, 431, "", false));           //rubber ok
                 corText.add(new Tuple(253, 413, "", false));           //overall ok
-                corText.add(new Tuple(425, 396, "210", false));           //rubber ok
+                corText.add(new Tuple(415, 396, "C:\\"+((EditText) findViewById(R.id.etIH500softwareC)).getText().toString(), false));           //rubber ok
                 corText.add(new Tuple(253, 394, "", false));           //rubber ok
                 corText.add(new Tuple(253, 375, "", false));           //rubber ok
                 corText.add(new Tuple(253, 358, "", false));           //overall ok
 
-
                 corText.add(new Tuple(431, 282, "", false));           //overall ok
                 corText.add(new Tuple(431, 264, "", false));           //overall ok
                 //corText.add(new Tuple(430, 242, "", false));           //rubber ok
-                
+
                 corText.add(new Tuple(431, 162, "", false));           //overall ok
                 corText.add(new Tuple(431, 144, "", false));           //rubber ok
                 corText.add(new Tuple(431, 126, "", false));           //rubber ok
-                
+
                 return corText;
             }
 
@@ -163,18 +159,18 @@ public class IH500Activity extends AppCompatActivity {
                 corText.add(new Tuple(502, 703, "", false));           //overall ok
                 corText.add(new Tuple(502, 685, "", false));           //rubber ok
                 corText.add(new Tuple(440, 650, speedometer, false));           //overall ok
-                corText.add(new Tuple(380, 647, "1008", false));           //overall ok
-                corText.add(new Tuple(380, 627, "1008", false));           //overall ok
+                corText.add(new Tuple(380, 647, ((EditText) findViewById(R.id.etIH500CentrifugeFrontSpeed)).getText().toString(), false));           //overall ok
+                corText.add(new Tuple(380, 627, ((EditText) findViewById(R.id.etIH500CentrifugeRearSpeed)).getText().toString(), false));           //overall ok
                 corText.add(new Tuple(502, 612, "", false));           //overall ok
                 corText.add(new Tuple(502, 593, "", false));           //overall ok
 
                 corText.add(new Tuple(440, 510, thermometer, false));           //overall ok
-                corText.add(new Tuple(380, 510, "12.5", false));           //overall ok
-                corText.add(new Tuple(380, 490, "12.6", false));           //rubber ok
+                corText.add(new Tuple(380, 510, ((EditText) findViewById(R.id.etIH500ReagentFront)).getText().toString(), false));           //overall ok
+                corText.add(new Tuple(380, 490, ((EditText) findViewById(R.id.etIH500ReagentRear)).getText().toString(), false));           //rubber ok
 
                 //corText.add(new Tuple(440, 418, thermometer, false));           //overall ok
-                corText.add(new Tuple(380, 418, "38", false));           //rubber ok
-                corText.add(new Tuple(380, 398, "37.8", false));           //time ok
+                corText.add(new Tuple(380, 418, ((EditText) findViewById(R.id.etIH500IncubatorFront)).getText().toString(), false));           //rubber ok
+                corText.add(new Tuple(380, 398, ((EditText) findViewById(R.id.etIH500IncubatorRear)).getText().toString(), false));           //time ok
 
                 corText.add(new Tuple(431, 330, "", false));           //temp ok
                 corText.add(new Tuple(431, 312, "", false));           //fan ok
@@ -194,49 +190,32 @@ public class IH500Activity extends AppCompatActivity {
     }
 
     private void init() {
-/*
+
         Helper h = new Helper();
         h.setListener(((EditText) findViewById(R.id.formMainLocation)));
         h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setSpeedListener(((EditText) findViewById(R.id.etGScentrifugation)), EXPECTED_SPEED);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon24)), 24, VOLT_THRESHOLD);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon8)), 8, VOLT_THRESHOLD);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon12)), 12, VOLT_THRESHOLD);
-        h.setBarListener(((EditText) findViewById(R.id.etGSfluidVaccum)), VACCUM_MIN);
-        h.setBarListener(((EditText) findViewById(R.id.etGSfluidPressure)), PRESSURE_MIN);
-        h.setListener(((EditText) findViewById(R.id.etGSsoftwareD)));
-        h.setListener(((EditText) findViewById(R.id.etGSsoftwareC)));
-        h.setListener(((EditText) findViewById(R.id.etGSsoftware1)));
-*/
+        h.setSpeedListener(((EditText) findViewById(R.id.etIH500CentrifugeFrontSpeed)), EXPECTED_SPEED);
+        h.setSpeedListener(((EditText) findViewById(R.id.etIH500CentrifugeRearSpeed)), EXPECTED_SPEED);
+        h.setTempListener(((EditText) findViewById(R.id.etIH500IncubatorFront)), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
+        h.setTempListener(((EditText) findViewById(R.id.etIH500IncubatorRear)), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
+        h.setTempListener(((EditText) findViewById(R.id.etIH500ReagentFront)), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
+        h.setTempListener(((EditText) findViewById(R.id.etIH500ReagentRear)), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
+        h.setListener(((EditText) findViewById(R.id.etIH500softwareC)));
+        h.setListener(((EditText) findViewById(R.id.etIH500softwareVer)));
 
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-/*
-        ((EditText) findViewById(R.id.etGSsoftware1)).setText("3.18");
-        ((RadioGroup) findViewById(R.id.rgGSsoftware1)).check(R.id.rbGSxpsp3);
-
-        ((EditText) findViewById(R.id.etGScommon24)).setText("");
-        ((EditText) findViewById(R.id.etGScommon8)).setText("");
-        ((EditText) findViewById(R.id.etGScommon12)).setText("");
-
-        ((EditText) findViewById(R.id.etGScentrifugation)).setText(String.valueOf(EXPECTED_SPEED));
-
-        ((EditText) findViewById(R.id.etGSincubator1_37)).setText("");
-        ((EditText) findViewById(R.id.etGSincubator2_37)).setText("");
-        ((EditText) findViewById(R.id.etGSincubator1_25)).setText("");
-        ((EditText) findViewById(R.id.etGSincubator2_25)).setText("");
-
-        ((EditText) findViewById(R.id.etGSsoftwareD)).setText("");
-        ((EditText) findViewById(R.id.etGSsoftwareC)).setText("");
-  */
-
+        ((EditText) findViewById(R.id.etIH500CentrifugeFrontSpeed)).setText("");
+        ((EditText) findViewById(R.id.etIH500CentrifugeRearSpeed)).setText("");
+        ((EditText) findViewById(R.id.etIH500IncubatorFront)).setText("");
+        ((EditText) findViewById(R.id.etIH500IncubatorRear)).setText("");
+        ((EditText) findViewById(R.id.etIH500ReagentFront)).setText("");
+        ((EditText) findViewById(R.id.etIH500ReagentRear)).setText("");
+        ((EditText) findViewById(R.id.etIH500softwareC)).setText("");
+        ((EditText) findViewById(R.id.etIH500softwareVer)).setText("");
     }
 
 

@@ -184,7 +184,7 @@ public class Helper extends AppCompatActivity {
     }
 
     protected static boolean isBarValid(int mBar, int bar_min) {
-        return mBar > bar_min;
+        return mBar >= bar_min;
     }
 
     protected static boolean isSpeedValid(int mSpeed, int eSpeed) {

@@ -65,7 +65,11 @@
         <activity android:name=".devices.GelstationActivity" />
         <activity android:name=".devices.DiacentUltraCWActivity" />
         <activity android:name=".res.RecyclerActivity" />
-        <activity android:name=".devices.IH500Activity"></activity>
+        <activity android:name=".devices.IH500Activity" />
+        <activity android:name=".devices.IH1000Activity" />
+        <activity android:name=".devices.DoconActivity" />
+        <activity android:name=".devices.BiomixerActivity" />
+        <activity android:name=".devices.HC10Activity"></activity>
     </application>
 
 </manifest>

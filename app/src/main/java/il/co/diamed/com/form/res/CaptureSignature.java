@@ -36,13 +36,13 @@ public class CaptureSignature extends Activity {
     signature mSignature;
     Button mClear, mGetSign, mCancel;
     public static String tempDir;
-    public int count = 1;
+    //public int count = 1;
     public String current = null;
     private Bitmap mBitmap;
     View mView;
     File mypath;
 
-    private String uniqueId;
+    //private String uniqueId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,9 @@ public class CaptureSignature extends Activity {
         File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
 
         prepareDirectory();
-        uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
-        current = uniqueId + ".png";
+        //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
+        //current = uniqueId + ".png";
+        current = getTodaysDate()+"_sign.png";
         mypath = new File(directory, current);
 
 

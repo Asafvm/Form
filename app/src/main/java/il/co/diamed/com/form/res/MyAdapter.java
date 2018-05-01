@@ -23,7 +23,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_view,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_view, parent, false);
 
         return new ViewHolder(v);
 
@@ -34,15 +34,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Item item = list.get(position);
         holder.textView.setText(item.getText());
         //holder.devView = item.getView();
-
         View layout = holder.devView;
-        ViewGroup parent = (ViewGroup) layout.getParent();
-        int index = parent.indexOfChild(layout);
-        parent.removeView(layout);
-        layout = LayoutInflater.from(context).inflate(item.getLayout_res(),(ViewGroup)holder.devView.getParent());
-        parent.addView(layout, index);
+        try {
 
-        //holder.devView = LayoutInflater.from(context).inflate(R.layout.incubator_layout,(ViewGroup)holder.devView.getParent());
+
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            int index = parent.indexOfChild(layout);
+            parent.removeView(layout);
+            layout = LayoutInflater.from(context).inflate(item.getLayout_res(), (ViewGroup) holder.devView.getParent());
+            parent.addView(layout, index);
+        } catch (NullPointerException e) {
+
+        }
     }
 
     @Override
@@ -50,9 +53,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public View devView;
+
         public ViewHolder(View itemView) {
             super(itemView);
 

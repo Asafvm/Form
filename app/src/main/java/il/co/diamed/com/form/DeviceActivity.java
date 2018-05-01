@@ -21,8 +21,10 @@ import il.co.diamed.com.form.devices.CentrifugeActivity;
 import il.co.diamed.com.form.devices.Diacent12Activity;
 import il.co.diamed.com.form.devices.DiacentCWActivity;
 import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
+import il.co.diamed.com.form.devices.DoconActivity;
 import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
+import il.co.diamed.com.form.devices.IH1000Activity;
 import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
@@ -170,6 +172,9 @@ private Bundle calibrationDevices;
             case R.id.ih500:
                 intent = new Intent(getBaseContext(), IH500Activity.class);
                 break;
+            case R.id.ih1000:
+                intent = new Intent(getBaseContext(), IH1000Activity.class);
+                break;
             case R.id.ib10:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
                 intent.putExtra("type",R.id.ib10);
@@ -186,6 +191,10 @@ private Bundle calibrationDevices;
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
                 intent.putExtra("type",R.id.edan);
                 break;
+            case R.id.docon:
+                intent = new Intent(getBaseContext(), DoconActivity.class);
+                break;
+
 
                 //////////////////////////////
             case R.id.test:
