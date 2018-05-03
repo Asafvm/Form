@@ -84,7 +84,8 @@
         android:layout_height="wrap_content"
         android:text="@string/textGR"
         app:layout_constraintRight_toLeftOf="@id/etDoconW500"
-        app:layout_constraintBaseline_toBaselineOf="@id/etDoconW500" />
+        app:layout_constraintBaseline_toBaselineOf="@id/etDoconW500"
+        />
 
     <TextView
         android:id="@+id/tvDoconW700"

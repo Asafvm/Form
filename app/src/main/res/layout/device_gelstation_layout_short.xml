@@ -19,7 +19,7 @@
 
         <include
             android:id="@+id/serialLayout"
-            layout="@layout/form_serial"/>
+            layout="@layout/form_serial" />
 
 
         <TextView
@@ -76,7 +76,6 @@
                 android:text="@string/rbGSxpsp3"
                 android:textAlignment="center"
                 android:textSize="10sp" />
-
         </RadioGroup>
 
         <TextView
@@ -85,7 +84,9 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextsoftware3"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware2" />
+            app:layout_constraintTop_toBottomOf="@id/tvGSsoftware2"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="3"/>
 
         <EditText
             android:id="@+id/etGSsoftwareC"
@@ -93,23 +94,24 @@
             android:layout_height="wrap_content"
             android:hint="@string/etgsC"
             android:inputType="numberDecimal"
-            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
+            app:layout_constraintEnd_toStartOf="@id/tvGSsoftwareC"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvGSsoftware3"
             app:layout_constraintLeft_toRightOf="@id/tvGSsoftware3"
-            app:layout_constraintRight_toLeftOf="@id/etGSsoftwareD"
-            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+            android:layout_marginStart="3dp"
+             />
 
 
         <TextView
+            android:labelFor="@id/etGSsoftwareC"
             android:id="@+id/tvGSsoftwareC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gsGB"
             android:textAlignment="center"
-
-            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
-
-            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
-            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+            app:layout_constraintRight_toLeftOf="@id/etGSsoftwareD"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvGSsoftware3"
+            app:layout_constraintHorizontal_weight="1"
+             />
 
 
         <EditText
@@ -117,24 +119,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/etgsD"
-            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
             android:inputType="numberDecimal"
+            app:layout_constraintEnd_toStartOf="@id/tvGSsoftwareD"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvGSsoftware3"
             app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+            android:layout_marginLeft="3dp"
+            />
 
 
         <TextView
+            android:labelFor="@id/tvGSsoftwareD"
             android:id="@+id/tvGSsoftwareD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gsGB"
             android:textAlignment="center"
-
-            app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
-
-            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareD"
-            app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvGSsoftware3"
+            app:layout_constraintHorizontal_weight="1"
+             />
 
 
         <TextView
@@ -152,8 +155,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="24"
-            app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
             android:inputType="numberDecimal"
+            app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
             app:layout_constraintLeft_toRightOf="@id/tvGScommon1"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
@@ -351,8 +354,8 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsRPM"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGScentrifugation"
-            app:layout_constraintBaseline_toBaselineOf="@id/etGScentrifugation"/>
+            app:layout_constraintBaseline_toBaselineOf="@id/etGScentrifugation"
+            app:layout_constraintLeft_toRightOf="@id/etGScentrifugation" />
 
 
         <TextView
@@ -383,8 +386,8 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsmBAR"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGSfluidVaccum"
-            app:layout_constraintBaseline_toBaselineOf="@id/etGSfluidVaccum" />
+            app:layout_constraintBaseline_toBaselineOf="@id/etGSfluidVaccum"
+            app:layout_constraintLeft_toRightOf="@id/etGSfluidVaccum" />
 
         <TextView
             android:id="@+id/tvGSfluidPressure"
@@ -414,8 +417,8 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsmBAR"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGSfluidPressure"
-            app:layout_constraintBaseline_toBaselineOf="@id/etGSfluidPressure" />
+            app:layout_constraintBaseline_toBaselineOf="@id/etGSfluidPressure"
+            app:layout_constraintLeft_toRightOf="@id/etGSfluidPressure" />
 
 
         <!-- Parts -->

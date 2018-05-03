@@ -81,12 +81,12 @@ public class IH500Activity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(475, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                corText.add(new Tuple(475, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(464, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "  " +
-                        ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                corText.add(new Tuple(464, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "   " +
+                        ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                 corText.add(new Tuple(135, 628, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature

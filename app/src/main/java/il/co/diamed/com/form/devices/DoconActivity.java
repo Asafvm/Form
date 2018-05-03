@@ -46,17 +46,17 @@ public class DoconActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkStatus()) {
                     ArrayList<Tuple> corText = new ArrayList<>();
-                    corText.add(new Tuple(300, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                    corText.add(new Tuple(310, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                    corText.add(new Tuple(330, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(90, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
+                    //corText.add(new Tuple(330, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
+                    corText.add(new Tuple(135, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
                             ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
-                    corText.add(new Tuple(125, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(120, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(380, 521, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(380, 491, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(380, 461, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(315, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
+                    corText.add(new Tuple(325, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
                     corText.add(new Tuple(421, 155, ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 

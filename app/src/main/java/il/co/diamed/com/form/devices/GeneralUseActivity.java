@@ -60,7 +60,7 @@ public class GeneralUseActivity extends AppCompatActivity {
 
                     corText.add(new Tuple(100, 663, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));             //Location
                     corText.add(new Tuple(100, 140, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));            //Tech Name
-                    corText.add(new Tuple(310, 663, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " +
+                    corText.add(new Tuple(312, 663, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " +
                             ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
                             ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                     corText.add(new Tuple(455, 633, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type

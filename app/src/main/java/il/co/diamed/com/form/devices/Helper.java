@@ -53,8 +53,6 @@ public class Helper extends AppCompatActivity {
                     setListener((EditText) view);
                     ((EditText) view).setText("");
                 }
-
-
             }
         }
     }
@@ -220,6 +218,15 @@ public class Helper extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                try {
+                    if (!isVoltValid(Integer.valueOf(editText.getText().toString()), target, volt_threshold)) {
+                        editText.setTextColor(Color.RED);
+                    } else {
+                        editText.setTextColor(Color.BLACK);
+                    }
+                } catch (Exception e) {
+                    editText.setHintTextColor(Color.RED);
+                }
             }
         });
     }

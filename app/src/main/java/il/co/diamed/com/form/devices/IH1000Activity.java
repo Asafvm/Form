@@ -82,7 +82,7 @@ public class IH1000Activity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(479, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                corText.add(new Tuple(485, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location

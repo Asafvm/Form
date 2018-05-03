@@ -78,8 +78,7 @@ public class Diacent12Activity extends AppCompatActivity {
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
                             ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_" +
-                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_Diacent12_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 } else {
@@ -95,7 +94,7 @@ public class Diacent12Activity extends AppCompatActivity {
                 corText.add(new Tuple(205, 506, "", false));           //speed3 ok
                 corText.add(new Tuple(190, 331, "", false));           //time ok
                 corText.add(new Tuple(190, 304, "", false));           //time ok
-                corText.add(new Tuple(190, 276, "", false));           //time ok
+                corText.add(new Tuple(190, 277, "", false));           //time ok
                 corText.add(new Tuple(241, 182, "", false));           //fan ok
                 corText.add(new Tuple(480, 95, "", false));           //overall ok
 
@@ -106,9 +105,9 @@ public class Diacent12Activity extends AppCompatActivity {
                         ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
 
-                corText.add(new Tuple(300, 605, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                corText.add(new Tuple(260, 573, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 corText.add(new Tuple(315, 502, ((EditText) findViewById(R.id.centSpeed1000)).getText().toString(), false));                        //cent1000
-                corText.add(new Tuple(315, 478, ((EditText) findViewById(R.id.centSpeed2000)).getText().toString(), false));                        //cent2000
+                corText.add(new Tuple(315, 476, ((EditText) findViewById(R.id.centSpeed2000)).getText().toString(), false));                        //cent2000
                 corText.add(new Tuple(315, 448, ((EditText) findViewById(R.id.centSpeed3000)).getText().toString(), false));                        //cent3000
                 corText.add(new Tuple(305, 326, ((EditText) findViewById(R.id.centTime1)).getText().toString(), false));                        //Time1
                 corText.add(new Tuple(305, 300, ((EditText) findViewById(R.id.centTime2)).getText().toString(), false));                        //Time2
@@ -118,7 +117,7 @@ public class Diacent12Activity extends AppCompatActivity {
 
                 corText.add(new Tuple(405, 407, speedometer, false));                        //speedometer
                 corText.add(new Tuple(413, 232, timer, false));                        //Timer
-                //corText.add(new Tuple(380,30));                        //Signature
+                corText.add(new Tuple(130, 28, "!", false));                        //Signature
 
                 return corText;
 
@@ -131,7 +130,6 @@ public class Diacent12Activity extends AppCompatActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
                     return false;
-
 
                 if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
                     return false;
