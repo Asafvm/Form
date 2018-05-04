@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import il.co.diamed.com.form.devices.CentrifugeActivity;
 import il.co.diamed.com.form.devices.Diacent12Activity;
 import il.co.diamed.com.form.devices.DiacentCWActivity;
@@ -41,6 +43,9 @@ private Bundle calibrationDevices;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
 
+
+        ClassApplication application = (ClassApplication) getApplication();
+        application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String techname = sharedPref.getString("techName", "");

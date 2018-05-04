@@ -86,7 +86,7 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_id37_yearly.pdf");
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
                             ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+
