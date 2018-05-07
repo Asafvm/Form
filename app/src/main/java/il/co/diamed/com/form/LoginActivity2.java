@@ -45,7 +45,6 @@ private AuthenticationResult authResult;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.activity_login2);
     if(authResult==null){
         Log.e(TAG, "no access token");
     }else {

@@ -14,9 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import il.co.diamed.com.form.devices.CentrifugeActivity;
@@ -44,8 +47,8 @@ private Bundle calibrationDevices;
         setContentView(R.layout.activity_device);
 
 
-        ClassApplication application = (ClassApplication) getApplication();
-        application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
+        //ClassApplication application = (ClassApplication) getApplication();
+        //application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String techname = sharedPref.getString("techName", "");
@@ -134,7 +137,6 @@ private Bundle calibrationDevices;
                 }
         );
 
-
     }
 
     @Override
@@ -203,6 +205,8 @@ private Bundle calibrationDevices;
 
                 //////////////////////////////
             case R.id.test:
+                //Crashlytics.getInstance().crash(); // Force a crash
+
                 intent = new Intent(getBaseContext(), RecyclerActivity.class);
                 break;
             default:
@@ -214,7 +218,11 @@ private Bundle calibrationDevices;
             intent.putExtra("cal", calibrationDevices);
             startActivityForResult(intent, 1);
         }else
-            Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
+
+
+
+
 
     }
 

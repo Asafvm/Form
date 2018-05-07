@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ClassApplication application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-
+        application.signin("asaf.bashari@diamed.co.il","password");
 
 
         new CountDownTimer(1500,500){

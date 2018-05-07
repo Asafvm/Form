@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
+import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
@@ -51,6 +52,7 @@ public class IncubatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 469, "", false));           //temp ok
                     corText.add(new Tuple(203, 329, "", false));           //time ok
@@ -86,7 +88,7 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_id37_yearly.pdf");
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"_"+
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
                             ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+
@@ -115,12 +117,19 @@ public class IncubatorActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ClassApplication  application = (ClassApplication) getApplication();
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                application.logAnalyticsEvent(new AnalyticsEventItem(((EditText)findViewById(R.id.formTechName)).getText().toString(),
+                        this.getCallingActivity().getShortClassName(),
+                        AnalyticsEventItem.PDF_CREATED));
                 Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
                 doAnother();
                 setResult(RESULT_OK);
             } else {
+                application.logAnalyticsEvent(new AnalyticsEventItem(((EditText)findViewById(R.id.formTechName)).getText().toString(),
+                        this.getCallingActivity().getShortClassName(),
+                        AnalyticsEventItem.PDF_FAILED));
                 setResult(RESULT_CANCELED);
             }
         }

@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+
     <application
         android:name=".ClassApplication"
 
@@ -75,6 +77,10 @@
         <activity android:name=".devices.DoconActivity" />
         <activity android:name=".devices.BiomixerActivity" />
         <activity android:name=".devices.HC10Activity" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

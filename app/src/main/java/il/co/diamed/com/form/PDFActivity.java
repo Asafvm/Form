@@ -56,6 +56,7 @@ public class PDFActivity extends AppCompatActivity {
     private PdfReader reader = null;
     private PdfStamper stamper = null;
     private Image checkPNG = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +65,11 @@ public class PDFActivity extends AppCompatActivity {
         progressBar.setProgress(0);
         Bundle bundle = getIntent().getExtras();
 
+        String src = "assets/" + Objects.requireNonNull(bundle).getString("report");
 
-
-        String src = "assets/" + Objects.requireNonNull(bundle).get("report");
         String signature = bundle.getString("signature");
         String destArray = bundle.getString("destArray");
         String dest = DEST + destArray;
-
-
-        StorageReference storageRef = FirebaseStorage.getInstance("gs://mediforms-04052018.appspot.com").getReference(dest);
-
 
         checkPNG = getImageFromPNG("checkmark.png");
         checkPNG.scalePercent(1);
@@ -114,17 +110,10 @@ public class PDFActivity extends AppCompatActivity {
         if (reader != null) {
             reader.close();
         }
-        progressBar.incrementProgressBy(10);
-        storageRef.child("/PDF/"+file.getName());
-        Uri file = Uri.fromFile(new File(dest));
-        UploadTask uploadTask = storageRef.putFile(file);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG,"Failed Uploading");
-            }
-        });
+        ClassApplication application = (ClassApplication)getApplication();
+        application.uploadFile(dest,destArray);
+
 
         finish();
 
@@ -132,8 +121,6 @@ public class PDFActivity extends AppCompatActivity {
 
 
     private void activityFailed() {
-        ClassApplication application = (ClassApplication) getApplication();
-        application.logAnalyticsEvent(new AnalyticsEventItem(TAG,"Failure","Could not create PDF"));
         Intent intent = new Intent();
         setResult(RESULT_CANCELED, intent);
         finish();
