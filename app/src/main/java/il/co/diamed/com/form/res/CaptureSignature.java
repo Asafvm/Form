@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.SettingsActivity;
 
 public class CaptureSignature extends Activity {
 
@@ -103,7 +104,7 @@ public class CaptureSignature extends Activity {
                 b.putString("status", "cancel");
                 Intent intent = new Intent(getBaseContext(),SettingsActivity.class);
                 intent.putExtras(b);
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });

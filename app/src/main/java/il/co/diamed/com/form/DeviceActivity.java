@@ -2,7 +2,9 @@ package il.co.diamed.com.form;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -10,17 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 import il.co.diamed.com.form.devices.CentrifugeActivity;
 import il.co.diamed.com.form.devices.Diacent12Activity;
@@ -34,7 +32,8 @@ import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
 import il.co.diamed.com.form.res.RecyclerActivity;
-import il.co.diamed.com.form.res.SettingsActivity;
+import il.co.diamed.com.form.res.providers.ListFileActivity;
+import il.co.diamed.com.form.res.providers.SettingsActivity;
 
 public class DeviceActivity extends AppCompatActivity {
 
@@ -82,22 +81,33 @@ private Bundle calibrationDevices;
         mDrawerLayout = findViewById(R.id.drawer_layout);
         //set icon
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Log.e(TAG, "Drawer");
+                        Log.e(TAG, "itemid: "+menuItem.getItemId()+" - itemname: "+menuItem.getTitle());
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-                        Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+                        Intent intent = null;
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_settings: {
+                                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                                break;
+                            }
+                            case R.id.nav_files: {
+                                intent = new Intent(getBaseContext(), ListFileActivity.class);
+                                break;
+                            }
+                        }
                         startActivity(intent);
                         return true;
                     }
@@ -108,25 +118,25 @@ private Bundle calibrationDevices;
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
                     @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                         // Respond when the drawer's position changes
                     }
 
                     @Override
-                    public void onDrawerOpened(View drawerView) {
+                    public void onDrawerOpened(@NonNull View drawerView) {
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        //SharedPreferences sp = getPreferences(MODE_PRIVATE);
+                        ClassApplication application = (ClassApplication)getApplication();
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
-                        if (name != null || name != "") {
-                            et.setText(getString(R.string.helloHeader) + " " + name);
+                        if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                            et.setText(String.format("%s%s%s", getString(R.string.helloHeader), getString(R.string.space), name));
                         } else {
-                            et.setText(getString(R.string.navbar_header) + name);
+                            et.setText(String.format("%s%s", getString(R.string.navbar_header), name));
                         }
                     }
 
                     @Override
-                    public void onDrawerClosed(View drawerView) {
+                    public void onDrawerClosed(@NonNull View drawerView) {
                         // Respond when the drawer is closed
                     }
 

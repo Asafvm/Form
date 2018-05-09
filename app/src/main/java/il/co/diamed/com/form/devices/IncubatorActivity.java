@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -120,16 +122,22 @@ public class IncubatorActivity extends AppCompatActivity {
         ClassApplication  application = (ClassApplication) getApplication();
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                application.logAnalyticsEvent(new AnalyticsEventItem(((EditText)findViewById(R.id.formTechName)).getText().toString(),
+                application.logAnalyticsEvent(new AnalyticsEventItem(
+                        "Creating Incubator Report",
+                        ((EditText)findViewById(R.id.formTechName)).getText().toString(),
                         this.getCallingActivity().getShortClassName(),
-                        AnalyticsEventItem.PDF_CREATED));
+                        AnalyticsEventItem.PDF_CREATED,
+                        "none"));
                 Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
                 doAnother();
                 setResult(RESULT_OK);
             } else {
-                application.logAnalyticsEvent(new AnalyticsEventItem(((EditText)findViewById(R.id.formTechName)).getText().toString(),
+                application.logAnalyticsEvent(new AnalyticsEventItem(
+                        "Creating Incubator Report",
+                        ((EditText)findViewById(R.id.formTechName)).getText().toString(),
                         this.getCallingActivity().getShortClassName(),
-                        AnalyticsEventItem.PDF_FAILED));
+                        AnalyticsEventItem.PDF_FAILED,
+                        "none"));
                 setResult(RESULT_CANCELED);
             }
         }

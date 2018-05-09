@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -62,13 +63,14 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                if(editText.getText().toString().equals(""))
+                    editText.setError(getString(R.string.missing));//.setHintTextColor(Color.RED);
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
             }
 
             @Override

@@ -23,7 +23,7 @@
             android:defaultValue="@string/pref_not_synced"
             android:inputType="textCapWords"
             android:action="android.intent.action.VIEW"
-            android:targetClass="il.co.diamed.com.form.LoginActivity2"
+            android:targetClass="il.co.diamed.com.form.MicrosoftSignIn"
             android:targetPackage="il.co.diamed.com.form"
             />
     </Preference>

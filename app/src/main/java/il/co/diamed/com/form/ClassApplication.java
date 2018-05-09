@@ -1,8 +1,14 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
+import android.os.CountDownTimer;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
 
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
@@ -22,7 +28,7 @@ public class ClassApplication extends Application {
         Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
-        authenticationProvider= new AuthenticationProvider();
+        authenticationProvider = new AuthenticationProvider();
 
     }
 
@@ -46,6 +52,15 @@ public class ClassApplication extends Application {
         authenticationProvider.signin(email,password);
     }
 
+    public void signout() {
+        authenticationProvider.signout();
+    }
 
+    public FirebaseUser getCurrentUser() {
+        return authenticationProvider.getCurrentUser();
+    }
 
+    public void getDir(String path) {
+        storageProvider.getDir(path);
+    }
 }

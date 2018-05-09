@@ -19,6 +19,7 @@
     /navigation drawer
     <string name="navbar_header">שלום</string>
     <string name="navSettings">הגדרות</string>
+    <string name="navFiles">קבצים</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -404,6 +405,12 @@
     <string name="doconWeight700">משקולת 700 גרם</string>
     <string name="DoconWeight700">700</string>
     <string name="doconReport">דוח כיול מספר</string>
+    <string name="noUser">אין משתמש מחובר</string>
+    <string name="userGuest">אורח</string>
+    <string name="space" />
+    <string name="missing">מידע דרוש</string>
+    <string name="loggedin">מחובר</string>
+    <string name="loggedout">לא מחובר</string>
 
 
     <!-- Strings related to Settings -->

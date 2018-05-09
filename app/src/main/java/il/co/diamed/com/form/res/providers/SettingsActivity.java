@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.res;
+package il.co.diamed.com.form.res.providers;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -20,6 +20,9 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -124,6 +127,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         .getString(preference.getKey(), ""));
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +175,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
+
     /**
      * This fragment shows general preferences only. It is used when the
      * activity is showing a two-pane settings UI.
@@ -208,8 +213,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows notification preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    //@TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
+        private static final String TAG = "Settings";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -225,7 +232,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("techeMail"));
             bindPreferenceSummaryToValue(findPreference("signature"));
 
-
             final Preference sign = (findPreference("signature"));
             sign.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -234,23 +240,29 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     return true;
                 }
             });
-
         }
 
 
         public void onActivityResult(int reqCode, int resCode, Intent data) {
-            Log.e("sett: ", "got a result");
+            Log.e(TAG, "got a result");
             if (reqCode == 1234) {
-                Preference sign = (findPreference("signature"));
-                Bundle bundle = data.getExtras();
+                if(resCode==RESULT_OK) {
+                    Preference sign = (findPreference("signature"));
+                    try {
+                        Bundle bundle = data.getExtras();
+                        sign.setSummary(bundle.getString("url"));
 
-                sign.setSummary(bundle.getString("url"));
 
-                SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
-                SharedPreferences.Editor spedit = pfsettings.edit();
+                        SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
+                        SharedPreferences.Editor spedit = pfsettings.edit();
+                        spedit.putString("signature", bundle.getString("url"));
+                        spedit.apply();
+                    }catch (NullPointerException e){
+                        Preference preference = getPreferenceManager().findPreference("signature");
+                        preference.setSummary(getString(R.string.defaultSignature));
+                    }
 
-                spedit.putString("signature",bundle.getString("url"));
-                spedit.commit();
+                }
             }
 
         }
@@ -273,6 +285,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
+        private static final String TAG = "Settings";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -290,45 +304,30 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-
-
-                    startActivityForResult(sync.getIntent().putExtra("log",0), 4321);
+                    startActivityForResult(sync.getIntent(), 4321);
                     return true;
                 }
             });
         }
 
         public void onActivityResult(int reqCode, int resCode, Intent data) {
-            Log.e("sett: ", "got a result "+resCode);
+            Log.e(TAG, "got a result " + resCode);
 
             if (reqCode == 4321) {
                 if (resCode == RESULT_OK) {
-                    Log.e("sett: ", "got microResult");
-                    Bundle bundle = data.getExtras();
-                    //Log.e("set: ",bundle.getString("fullName"));
-                    //Log.e("set: "-,bundle.getString("eMail"));
+                    Preference preference = getPreferenceManager().findPreference("pref_sync");
+
+                    if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                        Log.e(TAG, "Signed In!");
+                        preference.setSummary(getString(R.string.loggedin));
+                    }else {
+                        Log.e(TAG, "Signed Out!");
+                        preference.setSummary(getString(R.string.loggedout));
+                    }
 
 
-                    SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
-                    SharedPreferences.Editor spedit = pfsettings.edit();
-                    String name = pfsettings.getString("techName",null);
-                    Log.e("set name: ",name);
-                    if(name == null || name=="")
-                        spedit.putString("techName",bundle.getString("fullName"));
-
-                    spedit.putString("techeMail",bundle.getString("eMail"));
-                    spedit.commit();
-
-               /*
-                SharedPreferences pfsettings = getPreferenceManager().getSharedPreferences();
-                SharedPreferences.Editor spedit = pfsettings.edit();
-                spedit.putString("techName",bundle.getString("fullName"));
-                spedit.putString("techeMail",bundle.getString("eMail"));
-                spedit.commit();*/
-                }else {
-                    Log.e("set: ", "signin faild");
-                    //Preference sync = (findPreference("pref_sync"));
-                    //startActivityForResult(sync.getIntent().putExtra("log", 1), 4444);
+                } else {
+                    Log.e(TAG, "signin faild");
                 }
             }
         }
@@ -343,4 +342,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
 }
