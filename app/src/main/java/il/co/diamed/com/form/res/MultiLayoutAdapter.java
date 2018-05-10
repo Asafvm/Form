@@ -11,12 +11,12 @@ import java.util.List;
 
 import il.co.diamed.com.form.R;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MultiLayoutAdapter extends RecyclerView.Adapter<MultiLayoutAdapter.ViewHolder> {
 
-    private List<Item> list;
+    private List<MultiLayoutItem> list;
     private Context context;
 
-    public MyAdapter(List<Item> list, Context context) {
+    public MultiLayoutAdapter(List<MultiLayoutItem> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -31,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Item item = list.get(position);
+        MultiLayoutItem item = list.get(position);
         holder.textView.setText(item.getText());
         //holder.devView = item.getView();
         View layout = holder.devView;

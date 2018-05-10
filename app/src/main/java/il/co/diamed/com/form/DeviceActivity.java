@@ -31,8 +31,8 @@ import il.co.diamed.com.form.devices.IH1000Activity;
 import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
-import il.co.diamed.com.form.res.RecyclerActivity;
-import il.co.diamed.com.form.res.providers.ListFileActivity;
+import il.co.diamed.com.form.res.MultiLayoutActivity;
+import il.co.diamed.com.form.res.FileBrowserActivity;
 import il.co.diamed.com.form.res.providers.SettingsActivity;
 
 public class DeviceActivity extends AppCompatActivity {
@@ -83,7 +83,7 @@ private Bundle calibrationDevices;
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         }
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -104,11 +104,14 @@ private Bundle calibrationDevices;
                                 break;
                             }
                             case R.id.nav_files: {
-                                intent = new Intent(getBaseContext(), ListFileActivity.class);
+                                intent = new Intent(getBaseContext(), FileBrowserActivity.class);
                                 break;
                             }
+                            default:
+
                         }
-                        startActivity(intent);
+                        if(intent!=null)
+                            startActivity(intent);
                         return true;
                     }
                 });
@@ -217,7 +220,7 @@ private Bundle calibrationDevices;
             case R.id.test:
                 //Crashlytics.getInstance().crash(); // Force a crash
 
-                intent = new Intent(getBaseContext(), RecyclerActivity.class);
+                intent = new Intent(getBaseContext(), MultiLayoutActivity.class);
                 break;
             default:
                 intent = null;

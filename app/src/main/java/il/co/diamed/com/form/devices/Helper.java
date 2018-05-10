@@ -52,7 +52,7 @@ public class Helper extends AppCompatActivity {
                 }
                 if (view instanceof EditText) {
                     setListener((EditText) view);
-                    ((EditText) view).setText("");
+                        ((EditText) view).setText("");
                 }
             }
         }
@@ -64,13 +64,16 @@ public class Helper extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if(editText.getText().toString().equals(""))
-                    editText.setError(getString(R.string.missing));//.setHintTextColor(Color.RED);
+                    editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //editText.setHintTextColor(Color.RED);
+                if(editText.getText().toString().equals(""))
+                    editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
+                else
+                    editText.setError(null);
             }
 
             @Override

@@ -74,7 +74,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".devices.GelstationActivity" />
         <activity android:name=".devices.DiacentUltraCWActivity" />
-        <activity android:name=".res.RecyclerActivity" />
+        <activity android:name=".res.MultiLayoutActivity" />
         <activity android:name=".devices.IH500Activity" />
         <activity android:name=".devices.IH1000Activity" />
         <activity android:name=".devices.DoconActivity" />
@@ -85,7 +85,7 @@
             android:name="io.fabric.ApiKey"
             android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
 
-        <activity android:name=".res.providers.ListFileActivity"></activity>
+        <activity android:name=".res.FileBrowserActivity"></activity>
     </application>
 
 </manifest>

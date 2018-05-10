@@ -20,6 +20,8 @@
     <string name="navbar_header">שלום</string>
     <string name="navSettings">הגדרות</string>
     <string name="navFiles">קבצים</string>
+    <string name="navStock">מלאי</string>
+
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
