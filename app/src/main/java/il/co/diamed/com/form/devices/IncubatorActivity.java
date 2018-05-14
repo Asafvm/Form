@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.Tuple;
 
 public class IncubatorActivity extends AppCompatActivity {
+    private static final String TAG = "IncubatorActivity";
     private final int MAX_TEMP = 39;
     private final int MIN_TEMP = 35;
     private final int EXPECTED_TIME = 15;
@@ -33,7 +35,7 @@ public class IncubatorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_incubator_layout);
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -45,8 +47,7 @@ public class IncubatorActivity extends AppCompatActivity {
         init();
         h.setListener(((EditText)findViewById(R.id.formTechName)));
         ((EditText)findViewById(R.id.formTechName)).setText(techname);
-        
-       
+
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -54,6 +55,8 @@ public class IncubatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
 
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 469, "", false));           //temp ok
@@ -65,8 +68,7 @@ public class IncubatorActivity extends AppCompatActivity {
                     corText.add(new Tuple(300, 636, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + 
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 30, ((EditText)findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(72, 636, ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth() + "       " + 
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth() + "         " + 
+                    corText.add(new Tuple(72, 636, day + "       " +month + "         " +
                             ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
                     corText.add(new Tuple(290, 568, ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 568, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
@@ -93,8 +95,8 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
-                            ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth()+"_"+
+                            month+""+
+                            day+"_"+
                             ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);

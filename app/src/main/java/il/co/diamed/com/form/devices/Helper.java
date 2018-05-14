@@ -262,4 +262,14 @@ public class Helper extends AppCompatActivity {
             }
         });
     }
+
+    public String fixDate(int date){
+
+        if (date<10){
+            return "0"+date;
+        }else{
+            return ""+date;
+        }
+
+    }
 }

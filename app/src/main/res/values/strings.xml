@@ -158,7 +158,7 @@
     <string name="ib10">IB10</string>
     <string name="pt10">PT10</string>
     <string name="edan">Edan-i15</string>
-    <string name="idGeltation">Id-Gelstation</string>
+    <string name="idGeltation">Gelstation</string>
     <string name="pt_dh4">DH4</string>
     <string name="pt_dh8">DH8</string>
     <string name="ptType">Helmer Plasma Thawer</string>
@@ -413,6 +413,7 @@
     <string name="missing">מידע דרוש</string>
     <string name="loggedin">מחובר</string>
     <string name="loggedout">לא מחובר</string>
+    <string name="mailSubject">כיול ציוד ידני</string>
 
 
     <!-- Strings related to Settings -->

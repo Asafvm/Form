@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="test"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/ih1000" />
 
 

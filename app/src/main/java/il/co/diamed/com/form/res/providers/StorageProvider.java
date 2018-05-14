@@ -3,6 +3,7 @@ package il.co.diamed.com.form.res.providers;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,8 +40,20 @@ public class StorageProvider {
     }
 
     public void getDir(String path) {
-        mStorageReferance = mFirebaseStorage.getReference(path);
-       /*
+/*        mStorageReferance = mFirebaseStorage.getReference("MediForms/");
+        //StorageReference storageRef =  mStorageReferance.child(path);
+        mStorageReferance.child("/").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.e(TAG, "Got URI back: "+uri);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+/*
         FileDownloadTask downloadTask = mStorageReferance.getFile(Uri.parse(path));
         downloadTask.onSuccessTask(new ).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
@@ -52,7 +65,7 @@ public class StorageProvider {
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
             }
-        });*/
+        });*//*
         mStorageReferance.child(path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -62,7 +75,7 @@ public class StorageProvider {
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
             }
-        });
+        });*/
     }
 
 }

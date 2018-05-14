@@ -1,5 +1,6 @@
 package il.co.diamed.com.form;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

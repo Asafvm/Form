@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -225,19 +226,17 @@ public class MicrosoftSignIn extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                new CountDownTimer(3000, 3000) {
 
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onTick(long millisUntilFinished) {
-                        //do nothing
-                    }
-
-                    @Override
-                    public void onFinish() {
+                    public void run() {
                         if (application.getCurrentUser() != null)
                             setUser(application.getCurrentUser(), response);
+
                     }
-                }.start();
+                },3000);
+
 
                 //Intent intent = new Intent();
                 //intent.putExtra("user_email",result.getUserInfo().getDisplayableId());

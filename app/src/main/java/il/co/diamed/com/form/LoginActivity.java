@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -66,22 +67,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void signin() {
-
-        new CountDownTimer(3000, 1500) {
+    public void signin() {  //user logged, start app
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-
+            public void run() {
                 Intent intent = new Intent(getBaseContext(), DeviceActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }.start();
+        },3000);
     }
 
 }

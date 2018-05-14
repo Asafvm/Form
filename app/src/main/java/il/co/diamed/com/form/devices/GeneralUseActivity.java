@@ -66,12 +66,12 @@ public class GeneralUseActivity extends AppCompatActivity {
                     corText.add(new Tuple(455, 633, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(125, 633, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(450, 487, ((EditText) findViewById(R.id.etVer)).getText().toString(), false));                        //ver
-                    corText.add(new Tuple(520, 663, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                    corText.add(new Tuple(518, 663, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
                             (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                     if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
                         corText.add(new Tuple(292, 470, ((EditText) findViewById(R.id.etNewVer)).getText().toString(), false));
                     }
-                    corText.add(new Tuple(435, 130, "!", false));                        //Signature
+                    corText.add(new Tuple(435, 135, "!", false));                        //Signature
 
                     ArrayList<String> destArray = new ArrayList<>();
                     destArray.add(((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "_" + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString());

@@ -78,14 +78,32 @@
         <activity android:name=".devices.IH500Activity" />
         <activity android:name=".devices.IH1000Activity" />
         <activity android:name=".devices.DoconActivity" />
-        <activity android:name=".devices.BiomixerActivity" />
         <activity android:name=".devices.HC10Activity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
 
-        <activity android:name=".res.FileBrowserActivity"></activity>
+        <activity android:name=".res.FileBrowserActivity"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false"
+            android:authorities="${applicationId}">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.PICK"/>
+                <category
+                    android:name="android.intent.category.DEFAULT"/>
+                <category
+                    android:name="android.intent.category.OPENABLE"/>
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths"/>
+
+        </provider>
     </application>
 
 </manifest>

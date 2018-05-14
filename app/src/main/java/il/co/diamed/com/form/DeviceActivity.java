@@ -1,8 +1,10 @@
 package il.co.diamed.com.form;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -27,6 +29,7 @@ import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
 import il.co.diamed.com.form.devices.DoconActivity;
 import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
+import il.co.diamed.com.form.devices.HC10Activity;
 import il.co.diamed.com.form.devices.IH1000Activity;
 import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
@@ -44,7 +47,6 @@ private Bundle calibrationDevices;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
-
 
         //ClassApplication application = (ClassApplication) getApplication();
         //application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
@@ -105,6 +107,7 @@ private Bundle calibrationDevices;
                             }
                             case R.id.nav_files: {
                                 intent = new Intent(getBaseContext(), FileBrowserActivity.class);
+                                intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/
                                 break;
                             }
                             default:
@@ -210,6 +213,9 @@ private Bundle calibrationDevices;
             case R.id.edan:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
                 intent.putExtra("type",R.id.edan);
+                break;
+            case R.id.hc10:
+                intent = new Intent(getBaseContext(), HC10Activity.class);
                 break;
             case R.id.docon:
                 intent = new Intent(getBaseContext(), DoconActivity.class);

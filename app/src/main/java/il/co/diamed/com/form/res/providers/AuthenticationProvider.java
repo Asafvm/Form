@@ -33,6 +33,7 @@ public class AuthenticationProvider {
 
     public void signout(){
         mFirebaseAuth.signOut();
+        
         new CountDownTimer(2000,2000){
 
             @Override
