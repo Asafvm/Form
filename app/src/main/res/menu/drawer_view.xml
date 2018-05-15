@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:checkableBehavior="single">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_list_white_24dp"
-            android:title="@string/navSettings"
-            />
+            android:id="@+id/nav_forms"
+            android:icon="@drawable/ic_content_copy_white_24dp"
+            android:title="@string/navForms"/>
         <item
             android:id="@+id/nav_files"
             android:icon="@drawable/ic_folder_white_24dp"
-            android:title="@string/navFiles">
-        </item>
+            android:title="@string/navFiles"/>
         <item
             android:id="@+id/nav_stock"
             android:icon="@drawable/ic_storage_white_24dp"
-            android:title="@string/navStock">
-        </item>
+            android:title="@string/navStock"/>
+    </group>
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/navSettings" />
     </group>
 </menu>

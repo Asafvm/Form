@@ -95,8 +95,7 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
-                            month+""+
-                            day+"_"+
+                            month+""+ day+"_"+"Incubator-"+
                             ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);

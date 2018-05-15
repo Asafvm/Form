@@ -30,7 +30,7 @@ public class IH500Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_ih500_layout_short);
 
 
@@ -58,6 +58,8 @@ public class IH500Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -68,12 +70,11 @@ public class IH500Activity extends AppCompatActivity {
                     intent.putExtra("report", "2018_ih500_yearly.pdf");
                     intent.putExtra("pages", pages);
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() +
-                            "_IH500_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                            month + "" + day + "_IH500_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }
 
@@ -81,7 +82,7 @@ public class IH500Activity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(475, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
+                corText.add(new Tuple(474, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
@@ -100,7 +101,7 @@ public class IH500Activity extends AppCompatActivity {
                 corText.add(new Tuple(480, 432, ((EditText) findViewById(R.id.etIH500softwareVer)).getText().toString(), false));           //rubber ok
                 corText.add(new Tuple(253, 431, "", false));           //rubber ok
                 corText.add(new Tuple(253, 413, "", false));           //overall ok
-                corText.add(new Tuple(415, 396, "C:\\"+((EditText) findViewById(R.id.etIH500softwareC)).getText().toString(), false));           //rubber ok
+                corText.add(new Tuple(410, 396, "C:\\"+((EditText) findViewById(R.id.etIH500softwareC)).getText().toString(), false));           //rubber ok
                 corText.add(new Tuple(253, 394, "", false));           //rubber ok
                 corText.add(new Tuple(253, 375, "", false));           //rubber ok
                 corText.add(new Tuple(253, 358, "", false));           //overall ok

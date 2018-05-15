@@ -30,7 +30,7 @@ public class ClassApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
         authenticationProvider = new AuthenticationProvider();

@@ -33,7 +33,7 @@ public class DiacentUltraCWActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_diacentcw_layout);
 
 
@@ -52,6 +52,8 @@ public class DiacentUltraCWActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -65,11 +67,10 @@ public class DiacentUltraCWActivity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_UltraCW_" +
+                            month + "" + day + "_UltraCW_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 } else {

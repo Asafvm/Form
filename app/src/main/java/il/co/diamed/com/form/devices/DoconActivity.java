@@ -27,7 +27,7 @@ public class DoconActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_docon_layout);
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -45,19 +45,21 @@ public class DoconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(310, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     //corText.add(new Tuple(330, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(135, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
+                    corText.add(new Tuple(144, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
                             ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                     corText.add(new Tuple(120, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(380, 521, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(380, 491, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(380, 461, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(325, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(421, 155, ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
+                    corText.add(new Tuple(390, 525, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(390, 495, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(390, 465, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(338, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
+                    corText.add(new Tuple(421, 158, ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
                             (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 
                     //corText.add(new Tuple(135, 33, "!", false));                        //Signature
@@ -71,11 +73,10 @@ public class DoconActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_docon_yearly.pdf");
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_Docon_" +
+                            month + "" + day + "_Docon_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }

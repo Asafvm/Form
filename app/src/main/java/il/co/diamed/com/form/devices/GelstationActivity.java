@@ -34,7 +34,7 @@ public class GelstationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_gelstation_layout_short);
 
 
@@ -62,6 +62,8 @@ public class GelstationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -72,12 +74,11 @@ public class GelstationActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_gelstation_yearly.pdf");
                     intent.putExtra("pages", pages);
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() +
-                            "_Gelstation_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                            month + "" + day + "_Gelstation_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }
 
@@ -87,7 +88,7 @@ public class GelstationActivity extends AppCompatActivity {
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(460, 632, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " + (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 661, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(390, 661, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "     " + ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " + ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                corText.add(new Tuple(389, 661, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " + ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " + ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                 corText.add(new Tuple(135, 632, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
                 corText.add(new Tuple(344, 543, "", false));           //temp ok
@@ -192,7 +193,7 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(320, 480, "", false));           //fan ok
 
                 corText.add(new Tuple(100, 95, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                corText.add(new Tuple(465, 95, "!", false));                        //Signature
+                corText.add(new Tuple(460, 95, "!", false));                        //Signature
 
                 return corText;
             }

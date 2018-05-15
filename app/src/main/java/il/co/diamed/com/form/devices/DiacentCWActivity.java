@@ -37,7 +37,7 @@ public class DiacentCWActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_diacentcw_layout);
 
 
@@ -56,6 +56,8 @@ public class DiacentCWActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -70,11 +72,10 @@ public class DiacentCWActivity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_DiacentCW_" +
+                            month + "" + day + "_DiacentCW_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 } else {
@@ -85,23 +86,23 @@ public class DiacentCWActivity extends AppCompatActivity {
             private ArrayList<Tuple> getDiacentCWTextCor() {
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(204, 505, "", false));           //speed ok
-                corText.add(new Tuple(190, 375, "", false));           //time ok
-                corText.add(new Tuple(239, 289, "", false));           //fan ok
-                corText.add(new Tuple(239, 268, "", false));           //fan ok
-                corText.add(new Tuple(239, 247, "", false));           //fan ok
-                corText.add(new Tuple(481, 155, "", false));           //overall ok
+                corText.add(new Tuple(190, 381, "", false));           //time ok
+                corText.add(new Tuple(240, 289, "", false));           //fan ok
+                corText.add(new Tuple(240, 268, "", false));           //fan ok
+                corText.add(new Tuple(240, 247, "", false));           //fan ok
+                corText.add(new Tuple(481, 159, "", false));           //overall ok
 
                 corText.add(new Tuple(300, 635, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                 corText.add(new Tuple(330, 95, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                corText.add(new Tuple(77, 635, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "      " +
+                corText.add(new Tuple(75, 635, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "     " +
                         ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
 
-                corText.add(new Tuple(223, 572, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                corText.add(new Tuple(315, 490, ((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString(), false));                        //cent2500
-                corText.add(new Tuple(315, 370, ((EditText) findViewById(R.id.centCWtime)).getText().toString(), false));                        //Time
-                corText.add(new Tuple(450, 130, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
+                corText.add(new Tuple(226, 572, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                corText.add(new Tuple(315, 512, ((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString(), false));                        //cent2500
+                corText.add(new Tuple(315, 385, ((EditText) findViewById(R.id.centCWtime)).getText().toString(), false));                        //Time
+                corText.add(new Tuple(450, 128, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(410, 465, speedometer, false));                        //speedometer
                 corText.add(new Tuple(410, 340, timer, false));                        //Timer

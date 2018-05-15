@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lowLayout"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:paddingHorizontal="30dp"
-    app:layout_constraintVertical_weight="3"
-    app:layout_constraintTop_toBottomOf="@id/header"
+    android:paddingHorizontal="10dp"
     app:layout_constraintBottom_toTopOf="@id/footer"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="3">
 
 
     <include
         android:id="@+id/serialLayout"
-        layout="@layout/form_serial"/>
+        layout="@layout/form_serial" />
 
 
     <TextView
         android:id="@+id/tvDeviceModel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/centType"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
     <RadioGroup
         android:id="@+id/rgModelSelect"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/tvDeviceModel"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/centSpeed">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
 
         <RadioButton
             android:id="@+id/c6S"
@@ -76,79 +73,107 @@
 
     <ImageView
         android:id="@+id/icSpeed"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cached_black_24dp"
-
         app:layout_constraintBottom_toBottomOf="@id/centSpeed"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintStart_toEndOf="@id/centSpeed"
         app:layout_constraintTop_toTopOf="@id/centSpeed" />
 
 
     <EditText
         android:id="@+id/centSpeed"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/centSpeed"
-        android:textAlignment="textEnd"
         android:inputType="number"
-        app:layout_constraintRight_toLeftOf="@id/icSpeed"
+        android:textAlignment="textEnd"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
-        app:layout_constraintBottom_toTopOf="@id/centTime"/>
+        app:layout_constraintEnd_toStartOf="@id/icSpeed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/spacer2"
 
+        />
+
+    <Space
+        android:id="@+id/spacer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toStartOf="@id/centSpeed"
+        app:layout_constraintStart_toEndOf="@id/tvcentExpectedSpeed"
+        />
+    <TextView
+        android:id="@+id/tvcentExpectedSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/centExpectedTime"
+        android:textAlignment="center"
+        android:gravity="left"
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
+        app:layout_constraintEnd_toStartOf="@id/spacer2"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/centExpectedSpeed" />
+
+
+
+    <EditText
+        android:id="@+id/centExpectedSpeed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvcentExpectedSpeed"
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
+         />
 
     <ImageView
         android:id="@+id/icTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:src="@drawable/ic_alarm_black_24dp"
+        app:layout_constraintHorizontal_weight="0.3"
         app:layout_constraintBottom_toBottomOf="@id/centTime"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/centTime"
         app:layout_constraintTop_toTopOf="@id/centTime" />
 
     <EditText
         android:id="@+id/centTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/centTime"
         android:inputType="number"
         android:textAlignment="textEnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/icTime"
+
+        app:layout_constraintEnd_toStartOf="@id/icTime"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/spacer"
         app:layout_constraintTop_toBottomOf="@id/centSpeed" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/centExpectedTime"
-        app:layout_constraintLeft_toRightOf="@id/centExpectedTime"
-        app:layout_constraintTop_toTopOf="@id/centExpectedTime"
-        app:layout_constraintBottom_toBottomOf="@id/centExpectedTime"
+        app:layout_constraintHorizontal_weight="1.5"
+        app:layout_constraintStart_toEndOf="@id/centFanSwitch"
+        app:layout_constraintEnd_toStartOf="@id/centTime"
         />
-
-
-    <EditText
-        android:id="@+id/centExpectedTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/centExpectedTime"
-        android:textAlignment="textEnd"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@id/centFanSwitch"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
-
     <Switch
         android:id="@+id/centFanSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:text="@string/checkDeviceFan"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/centExpectedTime" />
+        app:layout_constraintEnd_toStartOf="@id/spacer"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/centExpectedSpeed" />
 
 
 </android.support.constraint.ConstraintLayout>

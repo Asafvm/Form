@@ -101,6 +101,10 @@ private Bundle calibrationDevices;
                         // For example, swap UI fragments here
                         Intent intent = null;
                         switch (menuItem.getItemId()) {
+                            case R.id.nav_forms: {
+                                //intent = new Intent(getBaseContext(), DeviceActivity.class);
+                                break;
+                            }
                             case R.id.nav_settings: {
                                 intent = new Intent(getBaseContext(), SettingsActivity.class);
                                 break;
@@ -108,6 +112,10 @@ private Bundle calibrationDevices;
                             case R.id.nav_files: {
                                 intent = new Intent(getBaseContext(), FileBrowserActivity.class);
                                 intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/
+                                break;
+                            }
+                            case R.id.nav_stock: {
+                                Toast.makeText(getApplicationContext(),getText(R.string.soon),Toast.LENGTH_SHORT).show();
                                 break;
                             }
                             default:
@@ -135,7 +143,7 @@ private Bundle calibrationDevices;
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
                         if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
-                            et.setText(String.format("%s%s%s", getString(R.string.helloHeader), getString(R.string.space), name));
+                            et.setText(String.format("%s %s", getString(R.string.helloHeader), name));
                         } else {
                             et.setText(String.format("%s%s", getString(R.string.navbar_header), name));
                         }

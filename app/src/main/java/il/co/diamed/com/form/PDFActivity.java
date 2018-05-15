@@ -1,11 +1,14 @@
 package il.co.diamed.com.form;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -86,9 +89,6 @@ public class PDFActivity extends AppCompatActivity {
                 }
             }
         }
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-
         try {
             if (stamper != null) {
                 stamper.close();
@@ -100,8 +100,26 @@ public class PDFActivity extends AppCompatActivity {
             reader.close();
         }
 
+        //show preview
+        Intent target = new Intent(Intent.ACTION_VIEW);
+        target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
+                Intent.FLAG_ACTIVITY_NO_HISTORY);
+        Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+        target.setDataAndType(uri, "application/pdf");
+        try {
+            startActivity(target);
+        } catch (ActivityNotFoundException e) {
+            // Instruct the user to install a PDF reader here, or something
+        }
+
+
+        //Upload to firebase
         ClassApplication application = (ClassApplication)getApplication();
         application.uploadFile(dest,destArray);
+
+        //return to activity
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
 
 
         finish();

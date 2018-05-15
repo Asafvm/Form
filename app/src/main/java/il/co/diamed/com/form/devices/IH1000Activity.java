@@ -24,14 +24,13 @@ import static il.co.diamed.com.form.devices.Helper.isValidString;
 public class IH1000Activity extends AppCompatActivity {
     private int EXPECTED_SPEED = 1008;
     private final double EXPECTED_INCUBATOR_TEMP = 38;
-    private final int EXPECTED_REAGENT_TEMP = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_ih1000_layout_short);
 
 
@@ -59,6 +58,8 @@ public class IH1000Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -69,27 +70,25 @@ public class IH1000Activity extends AppCompatActivity {
                     intent.putExtra("report", "2018_ih1000_yearly.pdf");
                     intent.putExtra("pages", pages);
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() +
-                            "_IH1000_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                            month + "" +day + "_IH1000_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 }
-
             }
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(485, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                corText.add(new Tuple(489, 630, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
                         (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
-                corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                corText.add(new Tuple(90, 660, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(462, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "  " +
+                corText.add(new Tuple(457, 660, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "  " +
                         ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
-                corText.add(new Tuple(132, 628, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                corText.add(new Tuple(132, 630, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
                 corText.add(new Tuple(360, 550, "", false));           //temp ok
                 corText.add(new Tuple(360, 531, "", false));           //time ok

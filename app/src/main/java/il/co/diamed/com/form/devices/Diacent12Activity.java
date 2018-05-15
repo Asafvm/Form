@@ -40,7 +40,7 @@ public class Diacent12Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_diacent12_layout);
 
 
@@ -59,6 +59,8 @@ public class Diacent12Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -74,11 +76,10 @@ public class Diacent12Activity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " " +
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "" +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "_Diacent12_" +
+                            month + "" + day + "_Diacent12_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);
                 } else {
@@ -105,7 +106,7 @@ public class Diacent12Activity extends AppCompatActivity {
                         ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " +
                         ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
 
-                corText.add(new Tuple(260, 573, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                corText.add(new Tuple(250, 572, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 corText.add(new Tuple(315, 502, ((EditText) findViewById(R.id.centSpeed1000)).getText().toString(), false));                        //cent1000
                 corText.add(new Tuple(315, 476, ((EditText) findViewById(R.id.centSpeed2000)).getText().toString(), false));                        //cent2000
                 corText.add(new Tuple(315, 448, ((EditText) findViewById(R.id.centSpeed3000)).getText().toString(), false));                        //cent3000

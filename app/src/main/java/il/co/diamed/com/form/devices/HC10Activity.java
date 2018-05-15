@@ -31,7 +31,7 @@ public class HC10Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_hc10_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
@@ -50,6 +50,8 @@ public class HC10Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     Bundle pages = new Bundle();
 
                     pages.putParcelableArrayList("page1", getPage1corText());
@@ -61,10 +63,10 @@ public class HC10Activity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker) findViewById(R.id.formDate)).getYear()+""+
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth()+""+
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth()+"_HC10_"+
+                            month+""+day+"_HC10_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);
                 }

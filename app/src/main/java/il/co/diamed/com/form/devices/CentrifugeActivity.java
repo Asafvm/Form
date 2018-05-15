@@ -31,7 +31,7 @@ public class CentrifugeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this,R.layout.device_centrifuge_layout);
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -42,13 +42,15 @@ public class CentrifugeActivity extends AppCompatActivity {
         //default basic values
         init();
         ((EditText)findViewById(R.id.formTechName)).setText(techname);
-        ((EditText) findViewById(R.id.centExpectedTime)).setText(String.valueOf(EXPECTED_SPEED));
+        ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(219, 448, "", false));           //speed ok
                     corText.add(new Tuple(214, 313, "", false));           //time ok
@@ -57,8 +59,7 @@ public class CentrifugeActivity extends AppCompatActivity {
                     corText.add(new Tuple(305, 618, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 37, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(92, 618, ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth() + "       " +
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth() + "       " +
+                    corText.add(new Tuple(92, 618, day + "      " + month + "      " +
                             ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
                     corText.add(new Tuple(200, 548, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 548, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
@@ -69,8 +70,8 @@ public class CentrifugeActivity extends AppCompatActivity {
                             (((DatePicker)findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 
 
-                    corText.add(new Tuple(350, 400, speedometer, false));                        //speedometer
-                    corText.add(new Tuple(400, 265, timer, false));                        //Timer
+                    corText.add(new Tuple(350, 402, speedometer, false));                        //speedometer
+                    corText.add(new Tuple(400, 267, timer, false));                        //Timer
                     corText.add(new Tuple(135, 33, "!", false));                        //Signature
 
 
@@ -82,11 +83,10 @@ public class CentrifugeActivity extends AppCompatActivity {
                     intent.putExtra("pages",pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
-                            ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth()+"_"+
+                            month+""+day+"_"+"Centrifuge-"+
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent,1);
@@ -172,7 +172,7 @@ public class CentrifugeActivity extends AppCompatActivity {
                 }
                 Helper h = new Helper();
                 h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)),EXPECTED_SPEED);
-                ((EditText) findViewById(R.id.centExpectedTime)).setText(String.valueOf(EXPECTED_SPEED));            }
+                ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));            }
         });
     }
     private void restart() {

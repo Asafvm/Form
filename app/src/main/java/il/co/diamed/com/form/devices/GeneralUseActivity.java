@@ -30,7 +30,7 @@ public class GeneralUseActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.device_general_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
@@ -51,6 +51,8 @@ public class GeneralUseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(355, 543, "", false));           //temp ok
                     corText.add(new Tuple(355, 525, "", false));           //time ok
@@ -73,13 +75,6 @@ public class GeneralUseActivity extends AppCompatActivity {
                     }
                     corText.add(new Tuple(435, 135, "!", false));                        //Signature
 
-                    ArrayList<String> destArray = new ArrayList<>();
-                    destArray.add(((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "_" + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString());
-                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getYear()));
-                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getMonth()));
-                    destArray.add(String.valueOf(((DatePicker) findViewById(R.id.formDate)).getDayOfMonth()));
-                    destArray.add(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString());
-
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_general_yearly.pdf");
 
@@ -88,10 +83,10 @@ public class GeneralUseActivity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
                             ((DatePicker) findViewById(R.id.formDate)).getYear()+""+
-                            ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth()+""+
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth()+"_"+
+                            month+""+day+"_"+
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);

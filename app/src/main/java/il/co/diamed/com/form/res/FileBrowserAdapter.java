@@ -3,19 +3,18 @@ package il.co.diamed.com.form.res;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.opengl.Visibility;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import il.co.diamed.com.form.R;
@@ -24,11 +23,13 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     private final String TAG = "FileBrowserAdapter";
     public static final String BROADCAST_FILTER = "FileBrowserAdapter_broadcast_receiver_intent_filter";
     private List<FileBrowserItem> list;
+    private List<String> markedList;
     private Context context;
 
     FileBrowserAdapter(List<FileBrowserItem> list, Context context) {
         this.list = list;
         this.context = context;
+        this.markedList = new ArrayList<>();
     }
 
     @NonNull
@@ -51,10 +52,10 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     public void onBindViewHolder(@NonNull final FileBrowserAdapter.ViewHolder holder, int position) {
         final FileBrowserItem item = list.get(position);
         holder.textView.setText(item.getText());
-        holder.download.setVisibility(View.INVISIBLE);  //show when viewing online
+        holder.download.setVisibility(View.GONE);  //show when viewing online
         if (item.isDirectory()) {
             holder.icon.setImageResource(R.drawable.ic_folder_white_36dp);
-            holder.share.setVisibility(View.INVISIBLE);
+            holder.share.setVisibility(View.GONE);
 
         }
 
@@ -66,7 +67,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
         TextView textView;
         ImageView icon;
         ImageButton download;
@@ -75,7 +76,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            itemView.setOnTouchListener(this);
+            itemView.setOnLongClickListener(this);
             textView = itemView.findViewById(R.id.file_name);
             icon = itemView.findViewById(R.id.file_type_icon);
             download = itemView.findViewById(R.id.file_download_button);
@@ -84,36 +85,19 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    v.setActivated(false);
-                    v.setBackgroundColor(Color.parseColor("#dddddd"));
-                    Log.e(TAG, textView.getText().toString());
-                    Intent i = new Intent(BROADCAST_FILTER);
-                    i.putExtra("share", true);
-                    i.putExtra("filename", textView.getText().toString());
-                    context.sendBroadcast(i);
+                    if(markedList.isEmpty()) {
+                        v.setActivated(false);
+                        v.setBackgroundColor(Color.parseColor("#dddddd"));
+                        Log.e(TAG, textView.getText().toString());
+                        Intent i = new Intent(BROADCAST_FILTER);
+                        i.putExtra("share", true);
+                        i.putExtra("filename", textView.getText().toString());
+                        context.sendBroadcast(i);
+                    }else{
+                        shareBatch();
+                    }
                 }
             });
-
-        }
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-        /*    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor("#28BCFB"));
-
-                return true;
-
-            } else {
-                v.setActivated(false);
-                v.setBackgroundColor(Color.parseColor("#dddddd"));
-                Log.e(TAG, this.textView.getText().toString());
-                Intent i = new Intent(BROADCAST_FILTER);
-                i.putExtra("filename", this.textView.getText().toString());
-                context.sendBroadcast(i);
-*/
-            return false;
 
         }
 
@@ -124,15 +108,49 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
 
         @Override
         public void onClick(View v) {
-
-            v.setActivated(false);
-            v.setBackgroundColor(Color.parseColor("#dddddd"));
-            Log.e(TAG, this.textView.getText().toString());
-            Intent i = new Intent(BROADCAST_FILTER);
-            i.putExtra("filename", this.textView.getText().toString());
-            context.sendBroadcast(i);
-
+            if(v.isActivated()){
+                v.setActivated(false);
+                markedList.remove(this.textView.getText().toString());
+                v.setBackgroundColor(Color.parseColor("#dddddd"));
+            }else if(!markedList.isEmpty()) {
+                markedList.add(this.textView.getText().toString());
+                v.setActivated(true);
+                v.setBackgroundColor(Color.parseColor("#1243FF"));
+            }else{
+                Log.e(TAG, this.textView.getText().toString());
+                Intent i = new Intent(BROADCAST_FILTER);
+                i.putExtra("filename", this.textView.getText().toString());
+                context.sendBroadcast(i);
+            }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if(v.findViewById(R.id.file_share_button).getVisibility()== View.INVISIBLE) {
+                return false;
+            }else {
+                markedList.add(this.textView.getText().toString());
+                v.setActivated(true);
+                v.setBackgroundColor(Color.parseColor("#1243FF"));
+
+
+
+                return false;
+            }
+        }
+        private void shareBatch(){
+            Log.e(TAG, "preparing batch");
+            Intent intent = new Intent(BROADCAST_FILTER);
+            String[] arrayList = new String[markedList.size()];
+            for(int i=0; i< markedList.size();i++){
+                arrayList[i] = markedList.get(i);
+            }
+            intent.putExtra("share", true);
+            intent.putExtra("batch", arrayList);
+            context.sendBroadcast(intent);
+        }
+
+
     }
 }
 

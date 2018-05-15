@@ -31,7 +31,7 @@ public class PlasmaThawerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        Helper h = new Helper();
+        final Helper h = new Helper();
         h.setLayout(this, R.layout.plasma_layout);
 
 
@@ -54,60 +54,53 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-
-
                 if (checkStatus()) {
+                    String day = h.fixDate(((DatePicker) findViewById(R.id.formDate)).getDayOfMonth());
+                    String month = h.fixDate(((DatePicker) findViewById(R.id.formDate)).getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(218, 453, "", false));           //temp ok
                     corText.add(new Tuple(223, 312, "", false));           //time ok
-                    if(!((Switch)findViewById(R.id.ptWaterCheck)).isChecked())
-                        corText.add(new Tuple(154,216, "", false));           //water not ok
+                    if (!((Switch) findViewById(R.id.ptWaterCheck)).isChecked())
+                        corText.add(new Tuple(154, 216, "", false));           //water not ok
                     else
                         corText.add(new Tuple(276, 216, "", false));           //water ok
                     corText.add(new Tuple(276, 198, "", false));           //oil ok
                     corText.add(new Tuple(276, 180, "", false));           //alarm ok
-
                     corText.add(new Tuple(475, 88, "", false));           //overall ok
-
 
                     corText.add(new Tuple(310, 623, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(310, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(73, 623, ((DatePicker)findViewById(R.id.formDate)).getDayOfMonth() + "       " +
-                            ((DatePicker)findViewById(R.id.formDate)).getMonth() + "       " +
-                            ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
+                    corText.add(new Tuple(73, 623, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "       " +
+                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "       " +
+                            ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
                     corText.add(new Tuple(200, 552, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 552, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(280, 449, ((EditText) findViewById(R.id.ptTemp)).getText().toString(), false));                        //temp
                     //corText.add(new Tuple(425, 455));                        //temp expected
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.ptTime)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(434, 57, ((DatePicker)findViewById(R.id.formDate)).getMonth() + "   " +
-                            (((DatePicker)findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
-
+                    corText.add(new Tuple(434, 57, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
+                            (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
 
                     corText.add(new Tuple(350, 405, thermometer, false));                        //thermometer
                     corText.add(new Tuple(400, 269, timer, false));                        //Timer
                     corText.add(new Tuple(105, 30, "!", false));                        //Signature
-
-                    ArrayList<String> destArray = new ArrayList<>();
-                    destArray.add(((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "_" + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString());
-                    destArray.add(String.valueOf(((DatePicker)findViewById(R.id.formDate)).getYear()));
-                    destArray.add(String.valueOf(((DatePicker)findViewById(R.id.formDate)).getMonth()));
-                    destArray.add(String.valueOf(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()));
-                    destArray.add(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString());
 
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_plasma_biyearly.pdf");
 
                     Bundle pages = new Bundle();
-                    pages.putParcelableArrayList("page1",corText);
-                    intent.putExtra("pages",pages);
+                    pages.putParcelableArrayList("page1", corText);
+                    intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+" "+((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+((DatePicker)findViewById(R.id.formDate)).getYear()+""+((DatePicker)findViewById(R.id.formDate)).getDayOfMonth()+""+((DatePicker)findViewById(R.id.formDate)).getMonth()+"_"+
-                            "_"+((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
-                    startActivityForResult(intent,1);
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
+                            ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
+                            month+ "" + day + "_PlasmaThawer-" +
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    startActivityForResult(intent, 1);
                 }
 
 
@@ -119,8 +112,8 @@ public class PlasmaThawerActivity extends AppCompatActivity {
                         isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
                         isValidString(((EditText) findViewById(R.id.ptTime)).getText().toString()) &&
                         isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
-                        ((Switch)findViewById(R.id.ptAlarmCheck)).isChecked() &&
-                        ((Switch)findViewById(R.id.ptOilCheck)).isChecked() &&
+                        ((Switch) findViewById(R.id.ptAlarmCheck)).isChecked() &&
+                        ((Switch) findViewById(R.id.ptOilCheck)).isChecked() &&
                         Helper.isTempValid(((EditText) findViewById(R.id.ptTemp)), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
 
             }
@@ -131,16 +124,17 @@ public class PlasmaThawerActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if(resultCode==RESULT_OK){
-                Toast.makeText(this,R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
                 doAnother();
                 setResult(RESULT_OK);
-            }else{
+            } else {
                 setResult(RESULT_CANCELED);
             }
         }
     }
+
     private void doAnother() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage(R.string.doAnother);
@@ -182,20 +176,20 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setTempListener(((EditText) findViewById(R.id.ptTemp)),EXPECTED_TEMP-1,EXPECTED_TEMP+1);
-        h.setTimeListener(((EditText) findViewById(R.id.ptTime)),EXPECTED_TIME);
+        h.setTempListener(((EditText) findViewById(R.id.ptTemp)), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
+        h.setTimeListener(((EditText) findViewById(R.id.ptTime)), EXPECTED_TIME);
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.dh8);
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-        ((EditText)findViewById(R.id.ptExpectedTemp)).setText(String.valueOf(EXPECTED_TEMP));
+        ((EditText) findViewById(R.id.ptExpectedTemp)).setText(String.valueOf(EXPECTED_TEMP));
         ((EditText) findViewById(R.id.ptTemp)).setText(String.valueOf(""));
         ((EditText) findViewById(R.id.ptTime)).setText(R.string.time10);
 
-        ((Switch)findViewById(R.id.ptAlarmCheck)).setChecked(true);
-        ((Switch)findViewById(R.id.ptOilCheck)).setChecked(true);
-        ((Switch)findViewById(R.id.ptWaterCheck)).setChecked(true);
+        ((Switch) findViewById(R.id.ptAlarmCheck)).setChecked(true);
+        ((Switch) findViewById(R.id.ptOilCheck)).setChecked(true);
+        ((Switch) findViewById(R.id.ptWaterCheck)).setChecked(true);
 
 
     }

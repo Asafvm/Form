@@ -215,7 +215,7 @@
     <string name="gsGeneralCleaning">General\nCleaning</string>
     <string name="gsTextsoftware"><![CDATA[Software & Computer]]></string>
     <string name="gsTextsoftware1">Software version</string>
-    <string name="gsTextsoftware2"><![CDATA[Operation System &\nLanguage environment]]></string>
+    <string name="gsTextsoftware2"><![CDATA[Operation System & Language environment]]></string>
     <string name="gsTextsoftware3"><![CDATA[Hard disk available space (C:\\ & D:\\)]]></string>
 
     <string name="etGSs2">Windows ver and SP ver</string>
@@ -409,11 +409,13 @@
     <string name="doconReport">דוח כיול מספר</string>
     <string name="noUser">אין משתמש מחובר</string>
     <string name="userGuest">אורח</string>
-    <string name="space" />
+    <string name="space"> </string>
     <string name="missing">מידע דרוש</string>
     <string name="loggedin">מחובר</string>
     <string name="loggedout">לא מחובר</string>
     <string name="mailSubject">כיול ציוד ידני</string>
+    <string name="navForms">דוח\"ות כיול</string>
+    <string name="soon">בקרוב.....</string>
 
 
     <!-- Strings related to Settings -->

@@ -63,9 +63,9 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(editText.getText().toString().equals(""))
-                    editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
-
+                if(editText.getText().toString().equals("")) {
+                    //editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
+                }
             }
 
             @Override

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="4">
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lowLayout"
-    android:layout_width="0dp"
+    android:id="@+id/innerGeneralLayout"
+    android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/header"
-    app:layout_constraintVertical_weight="3">
+    app:layout_constraintStart_toStartOf="parent">
 
 
     <include
@@ -20,24 +24,23 @@
 
     <TextView
         android:id="@+id/tvDeviceModel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/chooseDevice"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
     <RadioGroup
         android:id="@+id/rgModelSelect"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/etVer"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
 
         <RadioButton
@@ -70,68 +73,82 @@
 
     <EditText
         android:id="@+id/etVer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/etVer"
         android:inputType="text"
         android:textAlignment="textEnd"
-        app:layout_constraintRight_toLeftOf="@id/icVer"
+        app:layout_constraintHorizontal_weight="1.8"
+        app:layout_constraintStart_toEndOf="@id/etNewVer"
+        app:layout_constraintEnd_toStartOf="@id/icVer"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
-        app:layout_constraintBottom_toTopOf="@id/generalCleaningSwitch"/>
+        app:layout_constraintBaseline_toBaselineOf="@id/etNewVer"/>
 
     <ImageView
         android:id="@+id/icVer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_error_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/etVer"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/etVer" />
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintTop_toTopOf="@id/etNewVer"
+        app:layout_constraintBottom_toBottomOf="@id/etNewVer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etVer" />
 
 
     <EditText
         android:id="@+id/etNewVer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/etNewVer"
         android:inputType="text"
         android:textAlignment="textEnd"
         android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="@id/verUpdateSwitch"
-        app:layout_constraintRight_toLeftOf="@id/etVer"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/etVer"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
-        app:layout_constraintBottom_toTopOf="@id/verUpdateSwitch"/>
+        app:layout_constraintBottom_toTopOf="@id/verUpdateSwitch"
+        />
 
     <Switch
         android:id="@+id/generalCleaningSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/generalCleaning"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/verUpdateSwitch"
         app:layout_constraintTop_toBottomOf="@id/etVer"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Switch
         android:id="@+id/verUpdateSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:tag="opt"
         android:text="@string/verUpdate"
-        app:layout_constraintRight_toLeftOf="@id/generalCleaningSwitch"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/selfTextSwitch"
+        app:layout_constraintEnd_toStartOf="@id/generalCleaningSwitch"
         app:layout_constraintTop_toBottomOf="@id/etVer"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <Switch
         android:id="@+id/selfTextSwitch"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:text="@string/selfText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/verUpdateSwitch"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/verUpdateSwitch"
         app:layout_constraintTop_toBottomOf="@id/etVer"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>
