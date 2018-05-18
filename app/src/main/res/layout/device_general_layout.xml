@@ -41,6 +41,7 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
 
         <RadioButton
@@ -78,7 +79,7 @@
         android:hint="@string/etVer"
         android:inputType="text"
         android:textAlignment="textEnd"
-        app:layout_constraintHorizontal_weight="1.8"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/etNewVer"
         app:layout_constraintEnd_toStartOf="@id/icVer"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
@@ -104,14 +105,21 @@
         android:inputType="text"
         android:textAlignment="textEnd"
         android:visibility="invisible"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/spacer"
         app:layout_constraintEnd_toStartOf="@id/etVer"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
         app:layout_constraintBottom_toTopOf="@id/verUpdateSwitch"
         />
 
+    <Space
+        android:id="@id/spacer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1.5"
+        app:layout_constraintEnd_toStartOf="@id/etNewVer"/>
     <Switch
         android:id="@+id/generalCleaningSwitch"
         android:layout_width="0dp"

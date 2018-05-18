@@ -8,7 +8,7 @@
     android:layout_height="0dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:paddingHorizontal="30dp"
+    android:paddingHorizontal="10dp"
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintVertical_weight="3">
@@ -18,29 +18,45 @@
         layout="@layout/form_serial"/>
 
     <TextView
-        android:id="@+id/tvDoconReport"
+        android:id="@+id/tvDoconVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/doconReport"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+        android:text="@string/etVer"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etDoconVer"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout"/>
 
     <EditText
-        android:id="@+id/etDoconReport"
+        android:id="@+id/etDoconVer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint=""
-        android:textAlignment="textStart"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconReport"
-        app:layout_constraintRight_toLeftOf="@id/tvDoconReport" />
-
+        android:hint="@string/DoconVer"
+        android:inputType="numberDecimal"
+        android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconVer"
+        app:layout_constraintEnd_toStartOf="@id/tvDoconVer"
+        app:layout_constraintStart_toEndOf="@id/spacer"/>
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
+        />
     <TextView
         android:id="@+id/tvDoconW200"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/doconWeight200"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDoconReport"/>
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etDoconW200"
+        app:layout_constraintTop_toBottomOf="@id/tvDoconVer"/>
 
     <EditText
         android:id="@+id/etDoconW200"
@@ -49,23 +65,38 @@
         android:hint="@string/DoconWeight200"
         android:inputType="numberDecimal"
         android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.1"
         app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW200"
-        app:layout_constraintRight_toLeftOf="@id/tvDoconW200" />
+        app:layout_constraintEnd_toStartOf="@id/tvDoconW200"
+        app:layout_constraintStart_toEndOf="@id/tvDocongr"/>
 
     <TextView
         android:id="@id/tvDocongr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textGR"
-        app:layout_constraintRight_toLeftOf="@id/etDoconW200"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/spacer1"
+        app:layout_constraintEnd_toStartOf="@id/etDoconW200"
         app:layout_constraintBaseline_toBaselineOf="@id/etDoconW200" />
-
+    <Space
+        android:id="@+id/spacer1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
+        />
     <TextView
         android:id="@+id/tvDoconW500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/doconWeight500"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etDoconW500"
         app:layout_constraintTop_toBottomOf="@id/tvDoconW200" />
 
     <EditText
@@ -75,24 +106,39 @@
         android:hint="@string/DoconWeight500"
         android:inputType="numberDecimal"
         android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.1"
         app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW500"
-        app:layout_constraintRight_toLeftOf="@id/tvDoconW500" />
+        app:layout_constraintEnd_toStartOf="@id/tvDoconW500"
+        app:layout_constraintStart_toEndOf="@id/tvDocongr"/>
 
     <TextView
         android:id="@id/tvDocongr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textGR"
-        app:layout_constraintRight_toLeftOf="@id/etDoconW500"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintEnd_toStartOf="@id/etDoconW500"
+        app:layout_constraintStart_toEndOf="@id/spacer2"
         app:layout_constraintBaseline_toBaselineOf="@id/etDoconW500"
         />
 
+    <Space
+        android:id="@+id/spacer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
+        />
     <TextView
         android:id="@+id/tvDoconW700"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/doconWeight700"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etDoconW700"
         app:layout_constraintTop_toBottomOf="@id/tvDoconW500" />
 
     <EditText
@@ -102,15 +148,27 @@
         android:hint="@string/DoconWeight700"
         android:inputType="numberDecimal"
         android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.1"
         app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW700"
-        app:layout_constraintRight_toLeftOf="@id/tvDoconW700" />
+        app:layout_constraintEnd_toStartOf="@id/tvDoconW700"
+        app:layout_constraintStart_toEndOf="@id/tvDocongr"/>
 
     <TextView
         android:id="@+id/tvDocongr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textGR"
-        app:layout_constraintRight_toLeftOf="@id/etDoconW700"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintEnd_toStartOf="@id/etDoconW700"
+        app:layout_constraintStart_toEndOf="@id/spacer3"
         app:layout_constraintBaseline_toBaselineOf="@id/etDoconW700" />
-
+    <Space
+        android:id="@+id/spacer3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
+        />
 </android.support.constraint.ConstraintLayout>

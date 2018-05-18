@@ -5,14 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#dddddd"
     android:paddingHorizontal="10dp"
-    android:layout_marginVertical="1dp">
+    android:layout_marginVertical="1dp"
+    android:gravity="start"
+
+    >
 
     <ImageView
 
         android:id="@+id/file_type_icon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_picture_as_pdf_white_36dp"
+        android:src="@drawable/ic_picture_as_pdf_black_36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/file_name"
         app:layout_constraintHorizontal_weight="1"
@@ -22,8 +25,6 @@
         android:id="@+id/file_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="name"
-        android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/file_type_icon"
@@ -34,7 +35,7 @@
 
     <ImageButton
         android:id="@+id/file_download_button"
-        android:src="@drawable/ic_cloud_download_white_24dp"
+        android:src="@drawable/ic_cloud_download_black_24dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="@id/file_name"
@@ -44,7 +45,7 @@
 
     <ImageButton
         android:id="@+id/file_share_button"
-        android:src="@drawable/ic_share_white_24dp"
+        android:src="@drawable/ic_share_black_24dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintStart_toEndOf="@id/file_download_button"

@@ -56,8 +56,9 @@ public class DiacentCWActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -74,7 +75,7 @@ public class DiacentCWActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
-                            ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
+                            dp.getYear() + "" +
                             month + "" + day + "_DiacentCW_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
                     startActivityForResult(intent, 1);

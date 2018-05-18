@@ -416,6 +416,13 @@
     <string name="mailSubject">כיול ציוד ידני</string>
     <string name="navForms">דוח\"ות כיול</string>
     <string name="soon">בקרוב.....</string>
+    <string name="cancel">ביטול</string>
+    <string name="clear">נקה</string>
+    <string name="save">שמור</string>
+    <string name="noWritePermission">אין הרשאה ליצירת קבצים</string>
+    <string name="noReadPermission">אין הרשאת גישה לקבצים</string>
+    <string name="noContactsPermission">אין גישה לאנשי קשר</string>
+    <string name="DoconVer">MDA V6.3</string>
 
 
     <!-- Strings related to Settings -->

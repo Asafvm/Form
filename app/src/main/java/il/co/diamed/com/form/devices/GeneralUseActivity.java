@@ -51,8 +51,9 @@ public class GeneralUseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(355, 543, "", false));           //temp ok
                     corText.add(new Tuple(355, 525, "", false));           //time ok
@@ -62,14 +63,14 @@ public class GeneralUseActivity extends AppCompatActivity {
 
                     corText.add(new Tuple(100, 663, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));             //Location
                     corText.add(new Tuple(100, 140, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));            //Tech Name
-                    corText.add(new Tuple(312, 663, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "    " +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
-                            ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                    corText.add(new Tuple(312, 663, day + "    " +
+                            month + "    " +
+                            dp.getYear(), false));                        //Date
                     corText.add(new Tuple(455, 633, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(125, 633, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(450, 487, ((EditText) findViewById(R.id.etVer)).getText().toString(), false));                        //ver
-                    corText.add(new Tuple(518, 663, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
-                            (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(518, 663, month + "    " +
+                            (dp.getYear() + 1), false));                        //Next Date
                     if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
                         corText.add(new Tuple(292, 470, ((EditText) findViewById(R.id.etNewVer)).getText().toString(), false));
                     }
@@ -85,7 +86,7 @@ public class GeneralUseActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            ((DatePicker) findViewById(R.id.formDate)).getYear()+""+
+                            dp.getYear()+""+
                             month+""+day+"_"+
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");

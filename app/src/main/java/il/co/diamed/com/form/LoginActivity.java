@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.AuthResult;
@@ -25,7 +26,7 @@ import java.util.Objects;
 import io.fabric.sdk.android.services.concurrency.Task;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private ProgressBar progressBar;
     private static final String TAG = "Login";
 
     @Override
@@ -40,11 +41,14 @@ public class LoginActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_login);
 
+        progressBar = findViewById(R.id.pbLogin);
+        progressBar.setProgress(0);
 
         ClassApplication application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
         //application.signout();
         if (application.getCurrentUser() == null) {
+            progressBar.setProgress(10);
             Intent intent = new Intent(getBaseContext(), MicrosoftSignIn.class);
             startActivityForResult(intent, 1);
             Toast.makeText(this, "Signed Out!", Toast.LENGTH_LONG).show();
@@ -58,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                progressBar.setProgress(80);
+
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String user_name = user.getDisplayName();
                 String user_email = user.getEmail();
@@ -72,14 +78,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void signin() {  //user logged, start app
+        progressBar.setProgress(90);
         //Check premissions
-       /* if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-        }
+        /*
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -96,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                progressBar.setProgress(100);
+
                 Intent intent = new Intent(getBaseContext(), DeviceActivity.class);
                 startActivity(intent);
                 finish();

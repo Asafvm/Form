@@ -54,7 +54,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         holder.textView.setText(item.getText());
         holder.download.setVisibility(View.GONE);  //show when viewing online
         if (item.isDirectory()) {
-            holder.icon.setImageResource(R.drawable.ic_folder_white_36dp);
+            holder.icon.setImageResource(R.drawable.ic_folder_black_36dp);
             holder.share.setVisibility(View.GONE);
 
         }
@@ -115,7 +115,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             }else if(!markedList.isEmpty()) {
                 markedList.add(this.textView.getText().toString());
                 v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor("#1243FF"));
+                v.setBackgroundColor(Color.parseColor("#2243FF"));
             }else{
                 Log.e(TAG, this.textView.getText().toString());
                 Intent i = new Intent(BROADCAST_FILTER);

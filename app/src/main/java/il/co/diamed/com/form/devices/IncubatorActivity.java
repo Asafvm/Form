@@ -1,8 +1,12 @@
 package il.co.diamed.com.form.devices;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,8 +59,9 @@ public class IncubatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
 
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 469, "", false));           //temp ok
@@ -68,14 +73,13 @@ public class IncubatorActivity extends AppCompatActivity {
                     corText.add(new Tuple(300, 636, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + 
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 30, ((EditText)findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(72, 636, day + "       " +month + "         " +
-                            ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
+                    corText.add(new Tuple(73, 636, day + "      " +month + "        " +
+                            dp.getYear(), false));                        //Date
                     corText.add(new Tuple(290, 568, ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 568, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(275, 465, ((EditText) findViewById(R.id.temp)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(305, 325, ((EditText) findViewById(R.id.time)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(451, 65, ((DatePicker)findViewById(R.id.formDate)).getMonth() + "   " + 
-                            (((DatePicker)findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(448, 65, month + "   " + (dp.getYear() + 1), false));                        //Next Date
 
                     corText.add(new Tuple(330, 425, thermometer, false));                        //Thermometer
                     corText.add(new Tuple(400, 285, timer, false));                        //Timer
@@ -94,7 +98,7 @@ public class IncubatorActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
+                            dp.getYear()+""+
                             month+""+ day+"_"+"Incubator-"+
                             ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");

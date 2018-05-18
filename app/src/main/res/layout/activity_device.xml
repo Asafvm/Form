@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#999999" />
+        />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mainWindow"
@@ -21,29 +21,30 @@
         tools:context="il.co.diamed.com.form.DeviceActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#aaaaaa"
+
         >
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/pager">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Diamed" />
 
             <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Medigal" />
 
             <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Samsung" />
         </android.support.design.widget.TabLayout>
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tabs"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            />
     </android.support.constraint.ConstraintLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->

@@ -1,14 +1,18 @@
 package il.co.diamed.com.form;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -41,8 +45,10 @@ import il.co.diamed.com.form.res.providers.SettingsActivity;
 public class DeviceActivity extends AppCompatActivity {
 
     private static final String TAG = "DeviceActivity";
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
     private DrawerLayout mDrawerLayout;
-private Bundle calibrationDevices;
+    private Bundle calibrationDevices;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +66,14 @@ private Bundle calibrationDevices;
         final String speedometer = sharedPref.getString("speedometer", "");
 
 
-
         calibrationDevices = new Bundle();
-        calibrationDevices.putString("thermometer",thermometer);
-        calibrationDevices.putString("barometer",barometer);
-        calibrationDevices.putString("speedometer",speedometer);
-        calibrationDevices.putString("timer",timer);
-        calibrationDevices.putString("techName",techname);
-        calibrationDevices.putString("signature",signature);
+        calibrationDevices.putString("thermometer", thermometer);
+        calibrationDevices.putString("barometer", barometer);
+        calibrationDevices.putString("speedometer", speedometer);
+        calibrationDevices.putString("timer", timer);
+        calibrationDevices.putString("techName", techname);
+        calibrationDevices.putString("signature", signature);
+
         /* Tabs */
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = findViewById(R.id.pager);
@@ -96,7 +102,7 @@ private Bundle calibrationDevices;
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-                        Log.e(TAG, "itemid: "+menuItem.getItemId()+" - itemname: "+menuItem.getTitle());
+                        Log.e(TAG, "itemid: " + menuItem.getItemId() + " - itemname: " + menuItem.getTitle());
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
                         Intent intent = null;
@@ -110,18 +116,26 @@ private Bundle calibrationDevices;
                                 break;
                             }
                             case R.id.nav_files: {
-                                intent = new Intent(getBaseContext(), FileBrowserActivity.class);
-                                intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/
+
+                                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                        == PackageManager.PERMISSION_GRANTED) {
+                                    intent = new Intent(getBaseContext(), FileBrowserActivity.class);
+                                    intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/
+                                } else {
+                                    // Permission is not granted
+                                    getPermission();
+                                }
+
                                 break;
                             }
                             case R.id.nav_stock: {
-                                Toast.makeText(getApplicationContext(),getText(R.string.soon),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
                                 break;
                             }
                             default:
 
                         }
-                        if(intent!=null)
+                        if (intent != null)
                             startActivity(intent);
                         return true;
                     }
@@ -139,28 +153,47 @@ private Bundle calibrationDevices;
                     @Override
                     public void onDrawerOpened(@NonNull View drawerView) {
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        ClassApplication application = (ClassApplication)getApplication();
+                        ClassApplication application = (ClassApplication) getApplication();
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
-                        if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                             et.setText(String.format("%s %s", getString(R.string.helloHeader), name));
                         } else {
                             et.setText(String.format("%s%s", getString(R.string.navbar_header), name));
                         }
                     }
-
                     @Override
                     public void onDrawerClosed(@NonNull View drawerView) {
                         // Respond when the drawer is closed
                     }
-
                     @Override
                     public void onDrawerStateChanged(int newState) {
                         // Respond when the drawer motion state changes
                     }
                 }
         );
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+                    Intent intent = new Intent();
+                    intent = new Intent(getBaseContext(), FileBrowserActivity.class);
+                    intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/                } else {
+                    // permission denied, boo! Disable the
+                }else{
+                    Toast.makeText(getApplicationContext(), getString(R.string.noReadPermission), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }
     }
 
     @Override
@@ -170,11 +203,8 @@ private Bundle calibrationDevices;
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
-
     }
-
 
     public void deviceSelect(View view) {
         Intent intent;
@@ -208,19 +238,19 @@ private Bundle calibrationDevices;
                 break;
             case R.id.ib10:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type",R.id.ib10);
+                intent.putExtra("type", R.id.ib10);
                 break;
             case R.id.pt10:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type",R.id.pt10);
+                intent.putExtra("type", R.id.pt10);
                 break;
             case R.id.docureader:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type",R.id.dr2);
+                intent.putExtra("type", R.id.dr2);
                 break;
             case R.id.edan:
                 intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type",R.id.edan);
+                intent.putExtra("type", R.id.edan);
                 break;
             case R.id.hc10:
                 intent = new Intent(getBaseContext(), HC10Activity.class);
@@ -228,45 +258,37 @@ private Bundle calibrationDevices;
             case R.id.docon:
                 intent = new Intent(getBaseContext(), DoconActivity.class);
                 break;
-
-
-                //////////////////////////////
+            //////////////////////////////
             case R.id.test:
                 //Crashlytics.getInstance().crash(); // Force a crash
-
                 intent = new Intent(getBaseContext(), MultiLayoutActivity.class);
                 break;
             default:
                 intent = null;
                 break;
-
         }
         if (intent != null) {
             intent.putExtra("cal", calibrationDevices);
             startActivityForResult(intent, 1);
-        }else
+        } else
             Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
-
-
-
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if(resultCode==RESULT_OK){
-                Toast.makeText(getBaseContext(),R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
-
-            }else{
-                Toast.makeText(getBaseContext(),R.string.pdfFailed,Toast.LENGTH_SHORT).show();
-
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getBaseContext(), R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), R.string.pdfFailed, Toast.LENGTH_SHORT).show();
             }
-
         }
+    }
 
-
+    public void getPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
     }
 }

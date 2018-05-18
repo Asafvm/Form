@@ -1,17 +1,22 @@
 package il.co.diamed.com.form;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
@@ -39,10 +44,10 @@ import il.co.diamed.com.form.res.Tuple;
 
 public class PDFActivity extends AppCompatActivity {
     private static final String TAG = "PDFActivity: ";
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private File file;   //iText var
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
     public static final String IMG = "assets/checkmark.png";
-    private ProgressBar progressBar;
 
     private BaseFont bf = null;
     private PdfReader reader = null;
@@ -52,9 +57,18 @@ public class PDFActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdf);
-        progressBar = findViewById(R.id.pbLoading);
-        progressBar.setProgress(0);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            buildPDF();
+        } else {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+        }
+    }
+
+    private void buildPDF() {
         Bundle bundle = getIntent().getExtras();
 
         String src = "assets/" + Objects.requireNonNull(bundle).getString("report");
@@ -65,7 +79,6 @@ public class PDFActivity extends AppCompatActivity {
 
         checkPNG = getImageFromPNG("checkmark.png");
         checkPNG.scalePercent(1);
-
         try {
             file = new File(dest);
             file.getParentFile().mkdirs();
@@ -75,7 +88,7 @@ public class PDFActivity extends AppCompatActivity {
         } catch (Exception e) {
             activityFailed();
         }
-        progressBar.incrementProgressBy(20);
+
         //createPdf();
         Bundle pages = bundle.getBundle("pages");
         if (pages != null) {
@@ -83,7 +96,6 @@ public class PDFActivity extends AppCompatActivity {
                 ArrayList<Tuple> corText = pages.getParcelableArrayList("page" + (i + 1));
                 if (corText != null) {
                     pdfText(stamper, bf, corText, signature, (i + 1));
-                    progressBar.incrementProgressBy(70 / pages.size());
                 } else {
                     activityFailed();
                 }
@@ -114,8 +126,8 @@ public class PDFActivity extends AppCompatActivity {
 
 
         //Upload to firebase
-        ClassApplication application = (ClassApplication)getApplication();
-        application.uploadFile(dest,destArray);
+        ClassApplication application = (ClassApplication) getApplication();
+        application.uploadFile(dest, destArray);
 
         //return to activity
         Intent intent = new Intent();
@@ -123,9 +135,29 @@ public class PDFActivity extends AppCompatActivity {
 
 
         finish();
-
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+
+                    buildPDF();
+                } else {
+                    // permission denied, boo! Disable the
+                    Toast.makeText(getApplicationContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
+                    activityFailed();
+                }
+            }
+        }
+    }
 
     private void activityFailed() {
         Intent intent = new Intent();

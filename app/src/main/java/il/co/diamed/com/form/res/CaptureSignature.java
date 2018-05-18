@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +19,10 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -31,9 +37,10 @@ import android.widget.Toast;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.SettingsActivity;
 
-public class CaptureSignature extends Activity {
+public class CaptureSignature extends AppCompatActivity {
 
-    LinearLayout mContent;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
+    ConstraintLayout mContent;
     signature mSignature;
     Button mClear, mGetSign, mCancel;
     public static String tempDir;
@@ -49,66 +56,37 @@ public class CaptureSignature extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.signature);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            getSignature();
+        } else {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+        }
+    }
 
-        tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
 
-        prepareDirectory();
-        //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
-        //current = uniqueId + ".png";
-        current = getTodaysDate()+"_sign.png";
-        mypath = new File(directory, current);
-
-
-        mContent = findViewById(R.id.signatureLayout);
-        mSignature = new signature(this, null);
-
-
-        mContent.addView(mSignature, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-        mClear = findViewById(R.id.clear);
-        mGetSign = findViewById(R.id.getsign);
-        mGetSign.setEnabled(false);
-        mCancel = findViewById(R.id.cancel);
-        mView = mContent;
-
-
-        mClear.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                Log.v("log_tag", "Panel Cleared");
-                mSignature.clear();
-                mGetSign.setEnabled(false);
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+                    getSignature();
+                } else {
+                    // permission denied, boo!
+                    Toast.makeText(getApplicationContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    setResult(RESULT_CANCELED, intent);
+                    finish();
+                }
             }
-        });
-
-        mGetSign.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mView.setDrawingCacheEnabled(true);
-                mSignature.save(mView);
-
-                Bundle b = new Bundle();
-                b.putString("url", mypath.toString());
-                Intent intent = new Intent();       //RETURN PATH TO SIGNATURE
-                intent.putExtras(b);
-                setResult(RESULT_OK, intent);
-                finish();
-
-            }
-        });
-
-        mCancel.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                Log.v("log_tag", "Panel Canceled");
-                Bundle b = new Bundle();
-                b.putString("status", "cancel");
-                Intent intent = new Intent(getBaseContext(),SettingsActivity.class);
-                intent.putExtras(b);
-                setResult(RESULT_CANCELED, intent);
-                finish();
-            }
-        });
-
+        }
     }
 
     @Override
@@ -169,6 +147,68 @@ public class CaptureSignature extends Activity {
             }
         }
         return (tempdir.isDirectory());
+    }
+
+    public void getSignature() {
+        setContentView(R.layout.signature);
+
+        tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
+
+        prepareDirectory();
+        //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
+        //current = uniqueId + ".png";
+        current = getTodaysDate()+"_sign.png";
+        mypath = new File(directory, current);
+
+
+        mContent = findViewById(R.id.signatureLayout);
+        mSignature = new signature(this, null);
+
+
+        mContent.addView(mSignature, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+        mClear = findViewById(R.id.clear);
+        mGetSign = findViewById(R.id.getsign);
+        mGetSign.setEnabled(false);
+        mCancel = findViewById(R.id.cancel);
+        mView = mContent;
+
+
+        mClear.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Log.v("log_tag", "Panel Cleared");
+                mSignature.clear();
+                mGetSign.setEnabled(false);
+            }
+        });
+
+        mGetSign.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mView.setDrawingCacheEnabled(true);
+                mSignature.save(mView);
+
+                Bundle b = new Bundle();
+                b.putString("url", mypath.toString());
+                Intent intent = new Intent();       //RETURN PATH TO SIGNATURE
+                intent.putExtras(b);
+                setResult(RESULT_OK, intent);
+                finish();
+
+            }
+        });
+
+        mCancel.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Log.v("log_tag", "Panel Canceled");
+                Bundle b = new Bundle();
+                b.putString("status", "cancel");
+                Intent intent = new Intent(getBaseContext(),SettingsActivity.class);
+                intent.putExtras(b);
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
     }
 
     public class signature extends View {

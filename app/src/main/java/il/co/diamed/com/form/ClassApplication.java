@@ -1,13 +1,17 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
+import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
@@ -23,6 +27,7 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class ClassApplication extends Application {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private final String TAG = "ClassApplication";
     AnalyticsProvider analyticsProvider;
     StorageProvider storageProvider;
@@ -35,6 +40,19 @@ public class ClassApplication extends Application {
         storageProvider = new StorageProvider();
         authenticationProvider = new AuthenticationProvider();
 
+        // TODO: Move this to where you establish a user session
+        logUser();
+
+    }
+    private void logUser() {
+        // TODO: Use the current user's information
+        // You can call any combination of these three methods
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            FirebaseUser user =FirebaseAuth.getInstance().getCurrentUser();
+            Crashlytics.setUserIdentifier(user.getPhoneNumber());
+            Crashlytics.setUserEmail(user.getEmail());
+            Crashlytics.setUserName(user.getDisplayName());
+        }
     }
 
     public void logAnalyticsEvent(AnalyticsEventItem eventItem) {
@@ -68,7 +86,6 @@ public class ClassApplication extends Application {
     public void getDir(String path) {
         storageProvider.getDir(path);
     }
-
 
 
 }

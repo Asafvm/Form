@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:hint="24"
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
-
+            android:inputType="numberDecimal"
             app:layout_constraintLeft_toRightOf="@id/tvGScommon1"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
@@ -283,7 +283,7 @@
             android:layout_height="wrap_content"
             android:hint="12"
 
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon3"
             app:layout_constraintLeft_toRightOf="@id/tvGScommon3"
 
@@ -444,7 +444,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="25"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_25"
             app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_25"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator1_25" />
@@ -464,7 +464,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="25"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_25"
             app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_25"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator2_25" />
@@ -484,7 +484,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="37"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_37"
             app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_37"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator1_37" />
@@ -504,7 +504,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="37"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_37"
             app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_37"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator2_37" />

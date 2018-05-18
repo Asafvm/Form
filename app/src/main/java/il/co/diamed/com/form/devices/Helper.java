@@ -70,10 +70,11 @@ public class Helper extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(editText.getText().toString().equals(""))
-                    editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
-                else
+                if(editText.getText().toString().equals("")) {
+                    //editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
+                }else {
                     editText.setError(null);
+                }
             }
 
             @Override
@@ -210,7 +211,7 @@ public class Helper extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    if (!isVoltValid(Integer.valueOf(editText.getText().toString()), target, volt_threshold)) {
+                    if (!isVoltValid(Float.valueOf(editText.getText().toString()), target, volt_threshold)) {
                         editText.setTextColor(Color.RED);
                     } else {
                         editText.setTextColor(Color.BLACK);
@@ -224,7 +225,7 @@ public class Helper extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    if (!isVoltValid(Integer.valueOf(editText.getText().toString()), target, volt_threshold)) {
+                    if (!isVoltValid(Float.valueOf(editText.getText().toString()), target, volt_threshold)) {
                         editText.setTextColor(Color.RED);
                     } else {
                         editText.setTextColor(Color.BLACK);
@@ -263,8 +264,16 @@ public class Helper extends AppCompatActivity {
         });
     }
 
-    public String fixDate(int date){
+    public String fixDay(int date){
 
+        if (date<10){
+            return "0"+date;
+        }else{
+            return ""+date;
+        }
+    }
+    public String fixMonth(int date){
+        date++;
         if (date<10){
             return "0"+date;
         }else{

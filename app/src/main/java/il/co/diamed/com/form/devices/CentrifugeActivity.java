@@ -49,8 +49,9 @@ public class CentrifugeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(219, 448, "", false));           //speed ok
                     corText.add(new Tuple(214, 313, "", false));           //time ok
@@ -60,14 +61,14 @@ public class CentrifugeActivity extends AppCompatActivity {
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 37, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                     corText.add(new Tuple(92, 618, day + "      " + month + "      " +
-                            ((DatePicker)findViewById(R.id.formDate)).getYear(), false));                        //Date
+                            dp.getYear(), false));                        //Date
                     corText.add(new Tuple(200, 548, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 548, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(315, 445, ((EditText) findViewById(R.id.centSpeed)).getText().toString(), false));                        //cent
                     corText.add(new Tuple(445, 445, String.valueOf(EXPECTED_SPEED), false));                        //cent expected
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.centTime)).getText().toString(), false));                        //Time
                     corText.add(new Tuple(450, 70, ((DatePicker)findViewById(R.id.formDate)).getMonth() + "   " +
-                            (((DatePicker)findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                            (dp.getYear() + 1), false));                        //Next Date
 
 
                     corText.add(new Tuple(350, 402, speedometer, false));                        //speedometer
@@ -85,7 +86,7 @@ public class CentrifugeActivity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            ((DatePicker)findViewById(R.id.formDate)).getYear()+""+
+                            dp.getYear()+""+
                             month+""+day+"_"+"Centrifuge-"+
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");

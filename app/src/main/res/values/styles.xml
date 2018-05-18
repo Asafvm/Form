@@ -17,7 +17,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="theme.Transparent" parent="android:Theme">
+    <style name="theme.Transparent" parent="Theme.AppCompat">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -32,17 +32,15 @@
         <item name="android:editTextStyle">@style/MyEditTextStyle</item>
         <item name="android:buttonStyle">@style/MyButtonStyle</item>
         <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="android:layoutDirection">ltr</item>
     </style>
-
-
 
     <style name="MyEditTextStyle" parent="android:Widget.EditText">
-        <item name="android:includeFontPadding">true</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:layout_height">8dp</item>
-        <item name="android:padding">2dp</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
     </style>
+
 
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
             <item name="android:padding">4sp</item>

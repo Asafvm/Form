@@ -1,15 +1,21 @@
 package il.co.diamed.com.form;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -47,6 +53,9 @@ import java.util.Map;
 import java.util.concurrent.Delayed;
 
 public class MicrosoftSignIn extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_CONTACTS = 0;
+    private ProgressBar progressBar;
+
     final static String CLIENT_ID = "b3131887-d338-4d8d-a0fb-89c5db805612";
     public final static String AUTHORITY_URL = "https://login.microsoftonline.com/common";  //COMMON OR YOUR TENANT ID
     public final static String REDIRECT_URI = "http://localhost"; //REPLACE WITH YOUR REDIRECT URL
@@ -63,7 +72,12 @@ public class MicrosoftSignIn extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_login);
         Log.d(TAG, "Logging Activity Started");
+
+        progressBar = findViewById(R.id.pbLogin);
+        progressBar.setProgress(20);
+
         super.onCreate(savedInstanceState);
         loggingApp = new PublicClientApplication(
                 this.getApplicationContext(),
@@ -73,13 +87,47 @@ public class MicrosoftSignIn extends AppCompatActivity {
             signout();
             
         }else
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
             signIn();
+        } else {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    MY_PERMISSIONS_REQUEST_CONTACTS);
+
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case MY_PERMISSIONS_REQUEST_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+
+                    signIn();
+                } else {
+                    // permission denied, boo!
+                    Toast.makeText(getApplicationContext(), getString(R.string.noContactsPermission), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    setResult(RESULT_CANCELED, intent);
+                    finish();
+                }
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
 
     public void signIn() {
         /* TEST */
-
+        progressBar.setProgress(30);
         List<User> users = null;
 
         try {
@@ -198,7 +246,7 @@ public class MicrosoftSignIn extends AppCompatActivity {
     /* Use Volley to make an HTTP request to the /me endpoint from MS Graph using an access token */
     private void callGraphAPI() {
         Log.d(TAG, "Starting volley request to graph");
-
+        progressBar.setProgress(50);
         /* Make sure we have a token to send to graph */
         if (authResult.getAccessToken() == null) {
             return;
@@ -231,6 +279,7 @@ public class MicrosoftSignIn extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setProgress(60);
                         if (application.getCurrentUser() != null)
                             setUser(application.getCurrentUser(), response);
 
@@ -371,7 +420,7 @@ public class MicrosoftSignIn extends AppCompatActivity {
  */
 
     private void setUser(final FirebaseUser user, JSONObject response) {
-
+        progressBar.setProgress(70);
         Log.d(TAG, "Setting User Info");
 
         UserProfileChangeRequest profileUpdates = null;

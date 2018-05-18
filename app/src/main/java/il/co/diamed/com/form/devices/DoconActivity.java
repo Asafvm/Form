@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -45,24 +46,27 @@ public class DoconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
-                    corText.add(new Tuple(310, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                    corText.add(new Tuple(320, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                    //corText.add(new Tuple(330, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(144, 686, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + " / " +
-                            ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
-                            ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
-                    corText.add(new Tuple(120, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(390, 525, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(390, 495, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(390, 465, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(338, 686, ((EditText) findViewById(R.id.etDoconReport)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(421, 158, ((DatePicker) findViewById(R.id.formDate)).getMonth() + " / " +
-                            (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(310, 117, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
+                    corText.add(new Tuple(144, 686, day + " / " +
+                            month + " / " +
+                            dp.getYear(), false));                        //Date
+                    corText.add(new Tuple(90, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(390, 607, ((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(405, 498, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(405, 469, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(338, 686, dp.getYear()+"_"+
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //report
+                    corText.add(new Tuple(421, 158, month + " / " +
+                            (dp.getYear() + 1), false));                        //Next Date
 
-                    //corText.add(new Tuple(135, 33, "!", false));                        //Signature
+                    corText.add(new Tuple(110, 115, "!", false));                        //Signature
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
 
@@ -145,11 +149,6 @@ public class DoconActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-
-        DatePicker d = new DatePicker(this);
-        ((EditText) findViewById(R.id.etDoconReport)).setText(d.getYear()+""+d.getMonth()+""+d.getDayOfMonth()+"_"+
-                ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString());
-
     }
 }
 

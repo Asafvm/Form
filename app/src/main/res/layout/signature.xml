@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/buttonsLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/signturebackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        >
 
         <Button
             android:id="@+id/cancel"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight=".30"
-            android:text="Cancel" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@id/clear"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/clear"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight=".35"
-            android:text="Clear" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toStartOf="@id/cancel"
+            app:layout_constraintStart_toEndOf="@id/getsign"
+            android:text="@string/clear" />
 
         <Button
             android:id="@+id/getsign"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight=".35"
-            android:text="Save" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toStartOf="@id/clear"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/save" />
+    </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/signturebackground"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@android:color/black">
+        android:background="@android:color/black"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout">
 
-        <LinearLayout
+
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/signatureLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
             android:layout_margin="3dp"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
+            android:background="@android:color/white"
+            android:orientation="vertical"/>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

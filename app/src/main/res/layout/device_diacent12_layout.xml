@@ -6,153 +6,205 @@
     android:id="@+id/lowLayout"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:padding="15dp"
+    android:padding="10dp"
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/header"
-    app:layout_constraintVertical_weight="3">
+    app:layout_constraintVertical_weight="4">
 
 
     <include
         android:id="@+id/serialLayout"
-        layout="@layout/form_serial"/>
+        layout="@layout/form_serial" />
+
+
+
 
     <ImageView
         android:id="@+id/icSpeed1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cached_black_24dp"
 
         app:layout_constraintBottom_toBottomOf="@id/centSpeed1000"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/centSpeed1000"
         app:layout_constraintTop_toTopOf="@id/centSpeed1000" />
 
 
     <EditText
         android:id="@+id/centSpeed1000"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/centSpeed1000"
         android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintRight_toLeftOf="@id/icSpeed1"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/icSpeed1"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintStart_toEndOf="@id/spacer1"
         app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
+    <Space
+        android:id="@+id/spacer1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/centSpeed1000"
+        app:layout_constraintHorizontal_weight="0.4"
+        app:layout_constraintStart_toEndOf="@id/icTime1"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout"
+         />
+
+    <ImageView
+        android:id="@+id/icTime1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_alarm_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/centTime1"
+        app:layout_constraintEnd_toStartOf="@id/spacer1"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/centTime1"
+        app:layout_constraintTop_toTopOf="@id/centTime1" />
+
+    <EditText
+        android:id="@+id/centTime1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/centTime1"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/icTime1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
     <ImageView
         android:id="@+id/icSpeed2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cached_black_24dp"
 
         app:layout_constraintBottom_toBottomOf="@id/centSpeed2000"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/centSpeed2000"
         app:layout_constraintTop_toTopOf="@id/centSpeed2000" />
 
 
     <EditText
         android:id="@+id/centSpeed2000"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/centSpeed2000"
         android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintRight_toLeftOf="@id/icSpeed2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/icSpeed2"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintStart_toEndOf="@id/spacer2"
         app:layout_constraintTop_toBottomOf="@id/centSpeed1000" />
 
+    <Space
+        android:id="@+id/spacer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/centSpeed2000"
+        app:layout_constraintHorizontal_weight="0.4"
+        app:layout_constraintStart_toEndOf="@id/icTime2"
+        app:layout_constraintTop_toBottomOf="@id/centSpeed1000"
+        />
+
+    <ImageView
+        android:id="@+id/icTime2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_alarm_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/centTime2"
+        app:layout_constraintEnd_toStartOf="@id/spacer2"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/centTime2"
+        app:layout_constraintTop_toTopOf="@id/centTime2" />
+
+    <EditText
+        android:id="@+id/centTime2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/centTime2"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/icTime2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/centTime1" />
 
     <ImageView
         android:id="@+id/icSpeed3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cached_black_24dp"
-
         app:layout_constraintBottom_toBottomOf="@id/centSpeed3000"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/centSpeed3000"
         app:layout_constraintTop_toTopOf="@id/centSpeed3000" />
 
 
     <EditText
         android:id="@+id/centSpeed3000"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/centSpeed3000"
         android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintRight_toLeftOf="@id/icSpeed3"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@id/spacer3"
+        app:layout_constraintEnd_toStartOf="@id/icSpeed3"
+        app:layout_constraintHorizontal_weight="0.3"
         app:layout_constraintTop_toBottomOf="@id/centSpeed2000" />
 
-
-    <ImageView
-        android:id="@+id/icTime1"
-        android:layout_width="wrap_content"
+    <Space
+        android:id="@+id/spacer3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:src="@android:drawable/ic_lock_idle_alarm"
-        app:layout_constraintBottom_toBottomOf="@id/centTime1"
-        app:layout_constraintLeft_toRightOf="@id/centTime1"
-        app:layout_constraintTop_toTopOf="@id/centTime1" />
-
-    <EditText
-        android:id="@+id/centTime1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/centTime1"
-        android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
-
-
-    <ImageView
-        android:id="@+id/icTime2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:src="@android:drawable/ic_lock_idle_alarm"
-        app:layout_constraintBottom_toBottomOf="@id/centTime2"
-        app:layout_constraintLeft_toRightOf="@id/centTime2"
-        app:layout_constraintTop_toTopOf="@id/centTime2" />
-
-    <EditText
-        android:id="@+id/centTime2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/centTime2"
-        android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/centTime1" />
-
+        app:layout_constraintEnd_toStartOf="@id/centSpeed3000"
+        app:layout_constraintHorizontal_weight="0.4"
+        app:layout_constraintStart_toEndOf="@id/icTime3"
+        app:layout_constraintTop_toBottomOf="@id/centSpeed2000"
+        />
 
     <ImageView
         android:id="@+id/icTime3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:src="@drawable/ic_alarm_black_24dp"
         app:layout_constraintBottom_toBottomOf="@id/centTime3"
-        app:layout_constraintLeft_toRightOf="@id/centTime3"
+        app:layout_constraintEnd_toStartOf="@id/spacer3"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/centTime3"
         app:layout_constraintTop_toTopOf="@id/centTime3" />
 
     <EditText
         android:id="@+id/centTime3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/centTime3"
         android:inputType="number"
-        android:textAlignment="textEnd"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@id/icTime3"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/centTime2" />
+
+
 
     <Switch
         android:id="@+id/cent12checkHolders"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:gravity="center"
         android:text="@string/checkHolders"
-        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/centTime3" />

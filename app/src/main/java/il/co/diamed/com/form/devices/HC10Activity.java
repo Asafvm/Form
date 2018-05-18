@@ -50,8 +50,9 @@ public class HC10Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    String day = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getDayOfMonth());
-                    String month = h.fixDate(((DatePicker)findViewById(R.id.formDate)).getMonth());
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = h.fixDay(dp.getDayOfMonth());
+                    String month = h.fixMonth(dp.getMonth());
                     Bundle pages = new Bundle();
 
                     pages.putParcelableArrayList("page1", getPage1corText());
@@ -65,7 +66,7 @@ public class HC10Activity extends AppCompatActivity {
                     intent.putExtra("signature", signature);
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            ((DatePicker) findViewById(R.id.formDate)).getYear()+""+
+                            dp.getYear()+""+
                             month+""+day+"_HC10_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
                     startActivityForResult(intent, 1);
