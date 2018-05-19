@@ -1,8 +1,11 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.DatePicker;
@@ -22,19 +25,21 @@ import java.util.Date;
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
 import il.co.diamed.com.form.res.providers.AuthenticationProvider;
+import il.co.diamed.com.form.res.providers.SettingsActivity;
 import il.co.diamed.com.form.res.providers.StorageProvider;
 import io.fabric.sdk.android.Fabric;
 
 
 public class ClassApplication extends Application {
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private final String TAG = "ClassApplication";
     AnalyticsProvider analyticsProvider;
     StorageProvider storageProvider;
     AuthenticationProvider authenticationProvider;
+    SettingsActivity settings;
     @Override
     public void onCreate() {
         super.onCreate();
+        settings = new SettingsActivity();
         Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
@@ -87,5 +92,8 @@ public class ClassApplication extends Application {
         storageProvider.getDir(path);
     }
 
+    public void bindPreference(Preference preference){
+        SettingsActivity.bindPreferenceSummaryToValue(preference);
 
+    }
 }

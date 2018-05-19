@@ -55,20 +55,12 @@ import java.util.concurrent.Delayed;
 public class MicrosoftSignIn extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CONTACTS = 0;
     private ProgressBar progressBar;
-
     final static String CLIENT_ID = "b3131887-d338-4d8d-a0fb-89c5db805612";
-    public final static String AUTHORITY_URL = "https://login.microsoftonline.com/common";  //COMMON OR YOUR TENANT ID
-    public final static String REDIRECT_URI = "http://localhost"; //REPLACE WITH YOUR REDIRECT URL
-
     private static final String TAG = "MicrosoftSignIn: ";
-    private AuthenticationContext mAuthContext;
-
-    //TEST
     private PublicClientApplication loggingApp;
     private AuthenticationResult authResult;
     final static String SCOPES[] = {"https://graph.microsoft.com/User.Read"};
     final static String MSGRAPH_URL = "https://graph.microsoft.com/v1.0/me";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +87,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     MY_PERMISSIONS_REQUEST_CONTACTS);
-
         }
     }
 
@@ -103,7 +94,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-
             case MY_PERMISSIONS_REQUEST_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
@@ -119,9 +109,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
                     finish();
                 }
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
@@ -151,9 +138,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
         }
     }
 
-    /**
-     * TESTING BELOW
-     **/
     public Activity getActivity() {
         return this;
     }
@@ -209,10 +193,8 @@ public class MicrosoftSignIn extends AppCompatActivity {
                 /* Successfully got a token, call graph now */
                 Log.d(TAG, "Successfully authenticated");
                 Log.d(TAG, "ID Token: " + authenticationResult.getIdToken());
-
                 /* Store the auth result */
                 authResult = authenticationResult;
-
                 /* call Graph */
                 callGraphAPI();
             }
@@ -285,13 +267,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
 
                     }
                 },3000);
-
-
-                //Intent intent = new Intent();
-                //intent.putExtra("user_email",result.getUserInfo().getDisplayableId());
-                //intent.putExtra("user_name",result.getUserInfo().getGivenName()+" "+result.getUserInfo().getFamilyName());
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -316,108 +291,6 @@ public class MicrosoftSignIn extends AppCompatActivity {
         queue.add(request);
     }
 
-
-/*  backup
- mAuthContext = new AuthenticationContext(MicrosoftSignIn.this, AUTHORITY_URL, true);
-
-        mAuthContext.acquireToken(
-                MicrosoftSignIn.this,
-                CLIENT_ID,
-                CLIENT_ID,
-                REDIRECT_URI,
-                PromptBehavior.Auto,
-                new AuthenticationCallback<AuthenticationResult>() {
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e(TAG, "Error getting token: " + e.toString());
-
-                        setResult(RESULT_CANCELED);
-                        finish();
-                    }
-
-                    @Override
-                    public void onSuccess(final AuthenticationResult result) {
-                        Log.v(TAG, "Successfully obtained token, still need to validate");
-                        if (result != null && !result.getAccessToken().isEmpty()) {
-
-                            Log.e(TAG, result.getUserInfo().getGivenName()+" "+result.getUserInfo().getFamilyName());
-                            final ClassApplication application = (ClassApplication)getApplication();
-                            application.signin(result.getUserInfo().getDisplayableId(),result.getUserInfo().getDisplayableId());
-                            new CountDownTimer(3000,3000){
-
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-                                    //do nothing
-                                }
-
-                                @Override
-                                public void onFinish() {
-                                    if(application.getCurrentUser()!=null)
-                                        setUser(application.getCurrentUser(),result);
-                                }
-                            }.start();
-
-                            //Intent intent = new Intent();
-                            //intent.putExtra("user_email",result.getUserInfo().getDisplayableId());
-                            //intent.putExtra("user_name",result.getUserInfo().getGivenName()+" "+result.getUserInfo().getFamilyName());
-
-
-                        } else {
-                            Log.e(TAG, "Error: token came back empty");
-
-                            setResult(RESULT_CANCELED);
-                            finish();
-                        }
-                    }
-                });
-        return null;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "Got Result");
-        super.onActivityResult(requestCode, resultCode, data);
-        mAuthContext.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG,data.toString());
-
-    }
-
-    private void setUser(final FirebaseUser user, AuthenticationResult result) {
-
-        Log.d(TAG, "Setting User Info");
-
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(result.getUserInfo().getGivenName()+" "+result.getUserInfo().getFamilyName())
-                .build();
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "User profile updated.");
-                            updatePrefernces(user);
-                        }
-                    }
-                });
-    }
-
-    public void updatePrefernces(FirebaseUser user){
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor spedit = sharedPref.edit();
-        spedit.putString("techName", user.getDisplayName());
-        spedit.putString("techeMail", user.getEmail());
-        spedit.putString("techePhone", user.getPhoneNumber());
-        spedit.apply();
-
-        setResult(RESULT_OK);
-        finish();
-    }
-
-
-
- */
 
     private void setUser(final FirebaseUser user, JSONObject response) {
         progressBar.setProgress(70);
@@ -493,5 +366,5 @@ public class MicrosoftSignIn extends AppCompatActivity {
         setResult(RESULT_OK);
         finish();
     }
-    
+
 }

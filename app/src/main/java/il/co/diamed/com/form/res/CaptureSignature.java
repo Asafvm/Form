@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -49,6 +51,7 @@ public class CaptureSignature extends AppCompatActivity {
     private Bitmap mBitmap;
     View mView;
     File mypath;
+    private final String PREFS_NAME = "USER_DATA";
 
     //private String uniqueId;
 
@@ -159,7 +162,7 @@ public class CaptureSignature extends AppCompatActivity {
         prepareDirectory();
         //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
         //current = uniqueId + ".png";
-        current = getTodaysDate()+"_sign.png";
+        current = getTodaysDate() + "_sign.png";
         mypath = new File(directory, current);
 
 
@@ -192,6 +195,13 @@ public class CaptureSignature extends AppCompatActivity {
                 b.putString("url", mypath.toString());
                 Intent intent = new Intent();       //RETURN PATH TO SIGNATURE
                 intent.putExtras(b);
+                //save preference
+                //SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor spedit = sharedPref.edit();
+                spedit.putString("signature", mypath.toString());
+                spedit.apply();
+                //return
                 setResult(RESULT_OK, intent);
                 finish();
 
@@ -203,7 +213,7 @@ public class CaptureSignature extends AppCompatActivity {
                 Log.v("log_tag", "Panel Canceled");
                 Bundle b = new Bundle();
                 b.putString("status", "cancel");
-                Intent intent = new Intent(getBaseContext(),SettingsActivity.class);
+                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
                 intent.putExtras(b);
                 setResult(RESULT_CANCELED, intent);
                 finish();
@@ -235,7 +245,6 @@ public class CaptureSignature extends AppCompatActivity {
             Log.v("log_tag", "Height: " + v.getHeight());
             if (mBitmap == null) {
                 mBitmap = Bitmap.createBitmap(mContent.getWidth(), mContent.getHeight(), Bitmap.Config.RGB_565);
-
 
 
             }
