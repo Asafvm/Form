@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lowLayout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:paddingHorizontal="10dp"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="3">
+
+
+    <include
+        android:id="@+id/serialLayout"
+        layout="@layout/form_serial"/>
+
+
+    <TextView
+        android:id="@+id/tvDeviceModel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ptType"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+    <RadioGroup
+        android:id="@+id/rgModelSelect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
+
+        <RadioButton
+            android:id="@+id/dh4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pt_dh4" />
+
+        <RadioButton
+            android:id="@+id/dh8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pt_dh8" />
+
+    </RadioGroup>
+
+
+    <ImageView
+        android:id="@+id/icTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_thermometer"
+
+        app:layout_constraintBottom_toBottomOf="@id/ptTemp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ptTemp"
+        app:layout_constraintTop_toTopOf="@id/ptTemp"
+        app:layout_constraintHorizontal_weight="0.1"/>
+
+
+    <EditText
+        android:id="@+id/ptTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/incTemp"
+        android:inputType="numberDecimal"
+        android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintBottom_toTopOf="@id/ptTime"
+        app:layout_constraintEnd_toStartOf="@id/icTemp"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintStart_toEndOf="@id/tvExpectedTemp"
+        app:layout_constraintEnd_toStartOf="@id/ptTemp"
+        />
+    <TextView
+        android:id="@+id/tvExpectedTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ptExpectedTemp"
+        android:textAlignment="center"
+        android:gravity="start"
+        app:layout_constraintHorizontal_weight="0.2"
+        app:layout_constraintBottom_toBottomOf="@id/ptExpectedTemp"
+        app:layout_constraintStart_toEndOf="@id/ptExpectedTemp"
+        app:layout_constraintEnd_toStartOf="@id/spacer"/>
+
+    <EditText
+        android:id="@+id/ptExpectedTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/incTemp"
+        android:inputType="numberDecimal"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@id/ptTime"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
+
+
+    <ImageView
+        android:id="@+id/icTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="0.1"
+        android:src="@android:drawable/ic_lock_idle_alarm"
+        app:layout_constraintBottom_toBottomOf="@id/ptTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ptTime"
+        app:layout_constraintTop_toTopOf="@id/ptTime" />
+
+    <EditText
+        android:id="@+id/ptTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/ptTime"
+        android:inputType="number"
+        android:textAlignment="textEnd"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintBottom_toTopOf="@id/ptWaterCheck"
+        app:layout_constraintEnd_toStartOf="@id/icTime"
+        app:layout_constraintStart_toEndOf="@id/spacer2"
+        app:layout_constraintTop_toBottomOf="@id/ptTemp" />
+    <Space
+        android:id="@+id/spacer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ptTime"
+        />
+
+    <Switch
+        android:id="@+id/ptWaterCheck"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ptWaterCheck"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ptOilCheck"
+        app:layout_constraintTop_toBottomOf="@id/ptTime" />
+
+
+    <Switch
+        android:id="@+id/ptOilCheck"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ptOilCheck"
+        android:textAlignment="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ptWaterCheck"
+        app:layout_constraintEnd_toStartOf="@id/ptAlarmCheck"
+        app:layout_constraintTop_toBottomOf="@id/ptTime" />
+
+
+    <Switch
+        android:id="@+id/ptAlarmCheck"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ptAlarmCheck"
+        android:textAlignment="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ptOilCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ptTime" />
+
+
+</android.support.constraint.ConstraintLayout>
+
+
