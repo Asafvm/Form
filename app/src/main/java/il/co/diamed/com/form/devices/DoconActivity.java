@@ -8,19 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 public class DoconActivity extends AppCompatActivity {
 
@@ -53,9 +48,7 @@ public class DoconActivity extends AppCompatActivity {
                     corText.add(new Tuple(320, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(310, 117, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(144, 686, day + " / " +
-                            month + " / " +
-                            dp.getYear(), false));                        //Date
+                    corText.add(new Tuple(150, 686, day + "/" + month + "/" + dp.getYear(), false));                        //Date
                     corText.add(new Tuple(90, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(390, 607, ((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp

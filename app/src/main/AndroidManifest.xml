@@ -3,6 +3,7 @@
     package="il.co.diamed.com.form">
 
     <supports-screens android:anyDensity="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,13 +26,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme">
+        android:theme="@style/MyTheme"
+        >
 
         <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
         <!-- Nav Menu -->
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".menu.LoginActivity"
             android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,19 +56,14 @@
                     android:scheme="msalb3131887-d338-4d8d-a0fb-89c5db805612" />
             </intent-filter>
         </activity>
-        <activity android:name=".DeviceActivity" />
         <activity android:name=".devices.IncubatorActivity" />
         <activity android:name=".PDFActivity" />
         <activity
-            android:name=".res.providers.SettingsActivity"
+            android:name=".menu.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".res.CaptureSignature"
-            android:theme="@style/theme.Transparent"
-            />
-        <activity
-            android:name=".MicrosoftSignIn"
-            android:label="@string/title_activity_login2" />
+            android:theme="@style/theme.Transparent" />
         <activity android:name=".devices.CentrifugeActivity" />
         <activity android:name=".devices.PlasmaThawerActivity" />
         <activity android:name=".devices.Diacent12Activity" />
@@ -86,26 +83,28 @@
             android:name="io.fabric.ApiKey"
             android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
 
-        <activity android:name=".res.FileBrowserActivity"/>
+        <activity android:name=".res.FileBrowserActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
+            android:authorities="${applicationId}"
             android:exported="false"
-            android:authorities="${applicationId}">
+            android:grantUriPermissions="true">
             <intent-filter>
-                <action
-                    android:name="android.intent.action.PICK"/>
-                <category
-                    android:name="android.intent.category.DEFAULT"/>
-                <category
-                    android:name="android.intent.category.OPENABLE"/>
-                <data android:mimeType="application/pdf"/>
+                <action android:name="android.intent.action.PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="application/pdf" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_paths"/>
-
+                android:resource="@xml/file_provider_paths" />
         </provider>
+
+        <activity android:name=".menu.MainMenuAcitivity"></activity>
     </application>
 
 </manifest>

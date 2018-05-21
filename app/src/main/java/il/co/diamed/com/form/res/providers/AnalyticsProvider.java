@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import il.co.diamed.com.form.AnalyticsScreenItem;
-import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
-
 public class AnalyticsProvider {
 
     private final String TECH_NAME = "Tech_Name";

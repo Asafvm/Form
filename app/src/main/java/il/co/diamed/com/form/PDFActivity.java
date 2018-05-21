@@ -2,7 +2,6 @@ package il.co.diamed.com.form;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.itextpdf.text.BadElementException;
@@ -40,7 +38,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 public class PDFActivity extends AppCompatActivity {
     private static final String TAG = "PDFActivity: ";

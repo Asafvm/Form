@@ -1,31 +1,17 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.CountDownTimer;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
+import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.res.providers.AuthenticationProvider;
-import il.co.diamed.com.form.res.providers.SettingsActivity;
+import il.co.diamed.com.form.menu.SettingsActivity;
 import il.co.diamed.com.form.res.providers.StorageProvider;
 import io.fabric.sdk.android.Fabric;
 

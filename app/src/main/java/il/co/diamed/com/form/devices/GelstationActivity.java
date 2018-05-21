@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
@@ -54,7 +54,9 @@ public class GelstationActivity extends AppCompatActivity {
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
-
+        final DatePicker dp = findViewById(R.id.formDate);
+        final String day = h.fixDay(dp.getDayOfMonth());
+        final String month = h.fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -62,9 +64,7 @@ public class GelstationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -87,19 +87,17 @@ public class GelstationActivity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                DatePicker dp = findViewById(R.id.formDate);
-                String day = h.fixDay(dp.getDayOfMonth());
-                String month = h.fixMonth(dp.getMonth());
-                corText.add(new Tuple(460, 632, month + "    " + (dp.getYear() + 1), false));                        //Next Date
+
+                corText.add(new Tuple(457, 632, month + "   " + (dp.getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 661, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(391, 661, day + "    " + month + "     " + dp.getYear(), false));                        //Date
+                corText.add(new Tuple(390, 661, day + "  " + month + "    " + dp.getYear(), false));                        //Date
                 corText.add(new Tuple(135, 632, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
                 corText.add(new Tuple(344, 543, "", false));           //temp ok
                 corText.add(new Tuple(344, 525, "", false));           //time ok
                 corText.add(new Tuple(344, 507, "", false));           //fan ok
 
-                corText.add(new Tuple(292, 468, ((EditText) findViewById(R.id.etGSsoftware1)).getText().toString(), false));     //software ver
+                corText.add(new Tuple(288, 468, ((EditText) findViewById(R.id.etGSsoftware1)).getText().toString(), false));     //software ver
                 corText.add(new Tuple(344, 470, "", false));           //rubber ok
                 corText.add(new Tuple(394, 452, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgGSsoftware1)).getCheckedRadioButtonId())).getText().toString(), false));           //overall ok
                 corText.add(new Tuple(344, 452, "", false));           //overall ok
@@ -109,11 +107,11 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(344, 416, "", false));           //overall ok
 
                 corText.add(new Tuple(344, 379, "", false));           //rubber ok
-                corText.add(new Tuple(290, 359, ((EditText) findViewById(R.id.etGScommon24)).getText().toString()+"v", false));           //overall ok
+                corText.add(new Tuple(288, 359, ((EditText) findViewById(R.id.etGScommon24)).getText().toString()+"v", false));           //overall ok
                 corText.add(new Tuple(344, 361, "", false));           //overall ok
-                corText.add(new Tuple(290, 341, ((EditText) findViewById(R.id.etGScommon8)).getText().toString()+"v", false));           //rubber ok
+                corText.add(new Tuple(288, 341, ((EditText) findViewById(R.id.etGScommon8)).getText().toString()+"v", false));           //rubber ok
                 corText.add(new Tuple(344, 343, "", false));           //rubber ok
-                corText.add(new Tuple(290, 323, ((EditText) findViewById(R.id.etGScommon12)).getText().toString()+"v", false));           //overall ok
+                corText.add(new Tuple(288, 323, ((EditText) findViewById(R.id.etGScommon12)).getText().toString()+"v", false));           //overall ok
                 corText.add(new Tuple(344, 325, "", false));           //overall ok
                 corText.add(new Tuple(344, 307, "", false));           //rubber ok
 
@@ -138,10 +136,10 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(320, 670, "", false));           //overall ok
                 corText.add(new Tuple(320, 652, "", false));           //rubber ok
                 corText.add(new Tuple(320, 634, "", false));           //overall ok
-                corText.add(new Tuple(270, 688, ((EditText) findViewById(R.id.etGSincubator1_25)).getText().toString(), false));           //rubber ok
-                corText.add(new Tuple(270, 670, ((EditText) findViewById(R.id.etGSincubator2_25)).getText().toString(), false));           //overall ok
-                corText.add(new Tuple(270, 652, ((EditText) findViewById(R.id.etGSincubator1_37)).getText().toString(), false));           //rubber ok
-                corText.add(new Tuple(270, 634, ((EditText) findViewById(R.id.etGSincubator2_37)).getText().toString(), false));           //overall ok
+                corText.add(new Tuple(266, 688, ((EditText) findViewById(R.id.etGSincubator1_25)).getText().toString(), false));           //rubber ok
+                corText.add(new Tuple(266, 670, ((EditText) findViewById(R.id.etGSincubator2_25)).getText().toString(), false));           //overall ok
+                corText.add(new Tuple(266, 652, ((EditText) findViewById(R.id.etGSincubator1_37)).getText().toString(), false));           //rubber ok
+                corText.add(new Tuple(266, 634, ((EditText) findViewById(R.id.etGSincubator2_37)).getText().toString(), false));           //overall ok
 
 
                 corText.add(new Tuple(320, 598, "", false));           //overall ok
@@ -149,7 +147,7 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(320, 562, "", false));           //rubber ok
                 corText.add(new Tuple(320, 543, "", false));           //temp ok
                 corText.add(new Tuple(320, 525, "", false));           //time ok
-                corText.add(new Tuple(270, 524, ((EditText) findViewById(R.id.etGScentrifugation)).getText().toString(), false));           //time ok
+                corText.add(new Tuple(266, 524, ((EditText) findViewById(R.id.etGScentrifugation)).getText().toString(), false));           //time ok
                 corText.add(new Tuple(420, 521, speedometer, false));           //overall ok
                 corText.add(new Tuple(320, 507, "", false));           //fan ok
 
@@ -171,8 +169,8 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(320, 182, "", false));           //rubber ok
                 corText.add(new Tuple(320, 161, "", false));           //overall ok
                 corText.add(new Tuple(420, 161, barometer, false));           //overall ok
-                corText.add(new Tuple(272, 161, ((EditText) findViewById(R.id.etGSfluidVaccum)).getText().toString(), false));           //overall ok
-                corText.add(new Tuple(272, 129, ((EditText) findViewById(R.id.etGSfluidPressure)).getText().toString(), false));           //rubber ok
+                corText.add(new Tuple(266, 161, ((EditText) findViewById(R.id.etGSfluidVaccum)).getText().toString(), false));           //overall ok
+                corText.add(new Tuple(266, 129, ((EditText) findViewById(R.id.etGSfluidPressure)).getText().toString(), false));           //rubber ok
                 corText.add(new Tuple(320, 129, "", false));           //rubber ok
                 corText.add(new Tuple(320, 99, "", false));           //rubber ok
 

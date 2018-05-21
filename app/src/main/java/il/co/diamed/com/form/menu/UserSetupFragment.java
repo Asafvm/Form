@@ -1,24 +1,19 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.menu;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
+import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.CaptureSignature;
-import il.co.diamed.com.form.res.providers.SettingsActivity;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -30,15 +25,11 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class UserSetupFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private final String PREFS_NAME = "USER_DATA";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,20 +37,9 @@ public class UserSetupFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserSetupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static UserSetupFragment newInstance(String param1, String param2) {
         UserSetupFragment fragment = new UserSetupFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,10 +47,6 @@ public class UserSetupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -123,12 +99,8 @@ public class UserSetupFragment extends Fragment {
                    !((EditText)view.findViewById(R.id.etTimer)).getText().toString().equals("")&&
                    !((EditText)view.findViewById(R.id.etSpeedometer)).getText().toString().equals("")&&
                    !(sharedPref.getString("signature", "").equals(""))){
-                    //SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-                    //SharedPreferences pref = getActivity().getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE);
                     SharedPreferences.Editor spedit = sharedPref.edit();
-
-                    //SharedPreferences.Editor spedit = sharedPref.edit();
                     spedit.putString("techName", ((EditText)view.findViewById(R.id.etName)).getText().toString());
                     spedit.putString("speedometer", ((EditText)view.findViewById(R.id.etSpeedometer)).getText().toString());
                     spedit.putString("thermometer", ((EditText)view.findViewById(R.id.etThermometer)).getText().toString());
@@ -143,11 +115,6 @@ public class UserSetupFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
         return view;
     }
 

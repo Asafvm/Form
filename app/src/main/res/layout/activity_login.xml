@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="il.co.diamed.com.form.LoginActivity"
+    tools:context="il.co.diamed.com.form.menu.LoginActivity"
     android:background="#ffffff"
     >
 

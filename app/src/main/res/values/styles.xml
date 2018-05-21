@@ -45,7 +45,7 @@
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
             <item name="android:padding">4sp</item>
             <item name="android:autoSizeMinTextSize" tools:targetApi="o">8sp</item>
-        <item name="android:autoSizeMaxTextSize" tools:targetApi="o">14sp</item>
+        <item name="android:autoSizeMaxTextSize" tools:targetApi="o">18sp</item>
             <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
     </style>
 

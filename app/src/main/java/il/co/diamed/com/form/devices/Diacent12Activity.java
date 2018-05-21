@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -20,7 +18,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
 import static il.co.diamed.com.form.devices.Helper.isTimeValid;
@@ -52,6 +50,10 @@ public class Diacent12Activity extends AppCompatActivity {
 
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(Objects.requireNonNull(bundle).getString("techName"));
+        final DatePicker dp = findViewById(R.id.formDate);
+        final String day = h.fixDay(dp.getDayOfMonth());
+        final String month = h.fixMonth(dp.getMonth());
+
 
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
 
@@ -59,9 +61,7 @@ public class Diacent12Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -92,7 +92,7 @@ public class Diacent12Activity extends AppCompatActivity {
             private ArrayList<Tuple> getDiacent12TextCor() {
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(205, 452, "", false));           //speed1 ok
-                corText.add(new Tuple(205, 480, "", false));           //speed2 ok
+                corText.add(new Tuple(205, 479, "", false));           //speed2 ok
                 corText.add(new Tuple(205, 506, "", false));           //speed3 ok
                 corText.add(new Tuple(190, 331, "", false));           //time ok
                 corText.add(new Tuple(190, 304, "", false));           //time ok
@@ -103,19 +103,19 @@ public class Diacent12Activity extends AppCompatActivity {
                 corText.add(new Tuple(300, 635, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                 corText.add(new Tuple(330, 28, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                corText.add(new Tuple(74, 635, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "     " +
-                        ((DatePicker) findViewById(R.id.formDate)).getMonth() + "     " +
-                        ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                corText.add(new Tuple(74, 635, day + "    " +
+                        month + "    " +
+                        dp.getYear(), false));                        //Date
 
                 corText.add(new Tuple(250, 572, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 corText.add(new Tuple(315, 502, ((EditText) findViewById(R.id.centSpeed1000)).getText().toString(), false));                        //cent1000
                 corText.add(new Tuple(315, 476, ((EditText) findViewById(R.id.centSpeed2000)).getText().toString(), false));                        //cent2000
                 corText.add(new Tuple(315, 448, ((EditText) findViewById(R.id.centSpeed3000)).getText().toString(), false));                        //cent3000
-                corText.add(new Tuple(305, 326, ((EditText) findViewById(R.id.centTime1)).getText().toString(), false));                        //Time1
-                corText.add(new Tuple(305, 300, ((EditText) findViewById(R.id.centTime2)).getText().toString(), false));                        //Time2
+                corText.add(new Tuple(305, 328, ((EditText) findViewById(R.id.centTime1)).getText().toString(), false));                        //Time1
+                corText.add(new Tuple(305, 302, ((EditText) findViewById(R.id.centTime2)).getText().toString(), false));                        //Time2
                 corText.add(new Tuple(305, 275, ((EditText) findViewById(R.id.centTime3)).getText().toString(), false));                        //Time3
-                corText.add(new Tuple(446, 62, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
-                        (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                corText.add(new Tuple(444, 62, month + "    " +
+                        (dp.getYear() + 1), false));                        //Next Date
 
                 corText.add(new Tuple(405, 407, speedometer, false));                        //speedometer
                 corText.add(new Tuple(413, 232, timer, false));                        //Timer

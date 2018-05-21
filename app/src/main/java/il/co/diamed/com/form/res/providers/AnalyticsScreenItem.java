@@ -1,11 +1,11 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.res.providers;
 
 
 public class AnalyticsScreenItem {
 
     public String screenName;
 
-    AnalyticsScreenItem(String screenName){
+    public AnalyticsScreenItem(String screenName){
         this.screenName = screenName;
     }
 }

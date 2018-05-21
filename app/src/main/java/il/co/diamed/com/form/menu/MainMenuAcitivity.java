@@ -1,23 +1,26 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.menu;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,37 +29,29 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import il.co.diamed.com.form.devices.CentrifugeActivity;
-import il.co.diamed.com.form.devices.Diacent12Activity;
-import il.co.diamed.com.form.devices.DiacentCWActivity;
-import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
-import il.co.diamed.com.form.devices.DoconActivity;
-import il.co.diamed.com.form.devices.GelstationActivity;
-import il.co.diamed.com.form.devices.GeneralUseActivity;
-import il.co.diamed.com.form.devices.HC10Activity;
-import il.co.diamed.com.form.devices.IH1000Activity;
-import il.co.diamed.com.form.devices.IH500Activity;
-import il.co.diamed.com.form.devices.IncubatorActivity;
-import il.co.diamed.com.form.devices.PlasmaThawerActivity;
-import il.co.diamed.com.form.res.MultiLayoutActivity;
-import il.co.diamed.com.form.res.FileBrowserActivity;
-import il.co.diamed.com.form.res.providers.SettingsActivity;
+import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.res.FileBrowserFragment;
+import il.co.diamed.com.form.R;
 
-public class DeviceActivity extends AppCompatActivity {
+public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragment.OnFragmentInteractionListener,
+        FileBrowserFragment.OnFragmentInteractionListener {
 
-    private static final String TAG = "DeviceActivity";
+    private static final String TAG = "MainMenu";
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
     private DrawerLayout mDrawerLayout;
     private Bundle calibrationDevices;
+    private FragmentTransaction mFragmentTransaction;
+    private FragmentManager mFragmentManager;
+    private DevicesFragment mDevicesFragment;
+    FileBrowserFragment mFileBrowserFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device);
-
+        setContentView(R.layout.activity_main_menu);
         //ClassApplication application = (ClassApplication) getApplication();
         //application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-
+        mFragmentManager = getSupportFragmentManager();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String techname = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
@@ -74,18 +69,7 @@ public class DeviceActivity extends AppCompatActivity {
         calibrationDevices.putString("techName", techname);
         calibrationDevices.putString("signature", signature);
 
-        /* Tabs */
-        // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = findViewById(R.id.pager);
-        // Create an adapter that knows which fragment should be shown on each page
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
-        // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-
+        /** Drawer Code **/
         mDrawerLayout = findViewById(R.id.drawer_layout);
         //set icon
         ActionBar actionbar = getSupportActionBar();
@@ -108,7 +92,16 @@ public class DeviceActivity extends AppCompatActivity {
                         Intent intent = null;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_forms: {
-                                //intent = new Intent(getBaseContext(), DeviceActivity.class);
+                                mFragmentTransaction = mFragmentManager.beginTransaction();
+                                if (mDevicesFragment == null) {
+                                    mDevicesFragment = new DevicesFragment();
+                                }
+                                //mFragmentManager.beginTransaction().detach(mDevicesFragment).attach(mDevicesFragment).commit();
+                                //mFragmentTransaction.setCustomAnimations(R.animator, R.animator.);
+                                mFragmentTransaction.addToBackStack(null);
+                                mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
+
+
                                 break;
                             }
                             case R.id.nav_settings: {
@@ -116,11 +109,19 @@ public class DeviceActivity extends AppCompatActivity {
                                 break;
                             }
                             case R.id.nav_files: {
-
-                                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                if (mFileBrowserFragment == null) {
+                                    mFileBrowserFragment = new FileBrowserFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/");
+                                    mFileBrowserFragment.setArguments(bundle);
+                                }
+                                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                         == PackageManager.PERMISSION_GRANTED) {
-                                    intent = new Intent(getBaseContext(), FileBrowserActivity.class);
-                                    intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/
+                                    mFragmentTransaction = mFragmentManager.beginTransaction();
+                                    //ft.setCustomAnimations(R.animator, R.animator.fade_in);
+                                    mFragmentTransaction.addToBackStack(null);
+                                    mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
+
                                 } else {
                                     // Permission is not granted
                                     getPermission();
@@ -162,16 +163,20 @@ public class DeviceActivity extends AppCompatActivity {
                             et.setText(String.format("%s%s", getString(R.string.navbar_header), name));
                         }
                     }
+
                     @Override
                     public void onDrawerClosed(@NonNull View drawerView) {
                         // Respond when the drawer is closed
                     }
+
                     @Override
                     public void onDrawerStateChanged(int newState) {
                         // Respond when the drawer motion state changes
                     }
                 }
         );
+        /** Drawer Code END**/
+
     }
 
     @Override
@@ -184,17 +189,20 @@ public class DeviceActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay!
-                    Intent intent = new Intent();
-                    intent = new Intent(getBaseContext(), FileBrowserActivity.class);
-                    intent.putExtra("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/"); //Environment.getExternalStorageDirectory() + "/Documents/                } else {
+                    mFragmentTransaction = mFragmentManager.beginTransaction();
+                    //ft.setCustomAnimations(R.animator, R.animator.fade_in);
+                    mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
+                    mFragmentTransaction.addToBackStack(null);
+
                     // permission denied, boo! Disable the
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.noReadPermission), Toast.LENGTH_SHORT).show();
 
                 }
             }
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,83 +215,15 @@ public class DeviceActivity extends AppCompatActivity {
     }
 
     public void deviceSelect(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.idInc:
-                intent = new Intent(getBaseContext(), IncubatorActivity.class);
-                break;
-            case R.id.idCent:
-                intent = new Intent(getBaseContext(), CentrifugeActivity.class);
-                break;
-            case R.id.idDiacent12:
-                intent = new Intent(getBaseContext(), Diacent12Activity.class);
-                break;
-            case R.id.idDiacentCW:
-                intent = new Intent(getBaseContext(), DiacentCWActivity.class);
-                break;
-            case R.id.ultraCW:
-                intent = new Intent(getBaseContext(), DiacentUltraCWActivity.class);
-                break;
-            case R.id.plasma:
-                intent = new Intent(getBaseContext(), PlasmaThawerActivity.class);
-                break;
-            case R.id.idGelstation:
-                intent = new Intent(getBaseContext(), GelstationActivity.class);
-                break;
-            case R.id.ih500:
-                intent = new Intent(getBaseContext(), IH500Activity.class);
-                break;
-            case R.id.ih1000:
-                intent = new Intent(getBaseContext(), IH1000Activity.class);
-                break;
-            case R.id.ib10:
-                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type", R.id.ib10);
-                break;
-            case R.id.pt10:
-                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type", R.id.pt10);
-                break;
-            case R.id.docureader:
-                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type", R.id.dr2);
-                break;
-            case R.id.edan:
-                intent = new Intent(getBaseContext(), GeneralUseActivity.class);
-                intent.putExtra("type", R.id.edan);
-                break;
-            case R.id.hc10:
-                intent = new Intent(getBaseContext(), HC10Activity.class);
-                break;
-            case R.id.docon:
-                intent = new Intent(getBaseContext(), DoconActivity.class);
-                break;
-            //////////////////////////////
-            case R.id.test:
-                //Crashlytics.getInstance().crash(); // Force a crash
-                intent = new Intent(getBaseContext(), MultiLayoutActivity.class);
-                break;
-            default:
-                intent = null;
-                break;
-        }
-        if (intent != null) {
-            intent.putExtra("cal", calibrationDevices);
-            startActivityForResult(intent, 1);
-        } else
-            Toast.makeText(getApplicationContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
+        mDevicesFragment.deviceSelect(view);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getBaseContext(), R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getBaseContext(), R.string.pdfFailed, Toast.LENGTH_SHORT).show();
-            }
-        }
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.module_container);
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 
     public void getPermission() {
@@ -291,4 +231,32 @@ public class DeviceActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (mFragmentManager.getBackStackEntryCount() > 0) {
+            mFragmentManager.popBackStackImmediate();
+
+            if (mDevicesFragment != null) {
+                mFragmentManager.beginTransaction().remove(mDevicesFragment).commit();
+
+            }
+        } else super.onBackPressed();
+    }
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "MainMenu got intent reciever");
+
+        }
+    };
+
 }

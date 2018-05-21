@@ -7,11 +7,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.io.File;
@@ -21,41 +26,65 @@ import java.util.List;
 import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.R;
 
-public class FileBrowserActivity extends AppCompatActivity {
+
+public class FileBrowserFragment extends Fragment {
     private final String TAG = "FileBrowserActivity";
     private String path;
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<FileBrowserItem> values;
+    private OnFragmentInteractionListener mListener;
+
+    public FileBrowserFragment() {
+        // Required empty public constructor
+    }
+
+    public static FileBrowserFragment newInstance(String param1, String param2) {
+        FileBrowserFragment fragment = new FileBrowserFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_file_browser);
+        if (getArguments() != null) // Use the current directory as title
+            path = getArguments().getString("path");
 
-        registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
+        getActivity().setTitle(path);
+    }
 
-        recyclerView = findViewById(R.id.recycler_file_view);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        //LocalBroadcastManager.getInstance(getActivity())
+        getContext().registerReceiver(mReceiver,
+                new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_file_browser, container, false);
+
+
+        //getActivity().registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
+
+        recyclerView = view.findViewById(R.id.recycler_file_view);
         //recyclerView.hasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Use the current directory as title
-        if (getIntent().hasExtra("path")) {
-            path = getIntent().getStringExtra("path");
-        }
-        setTitle(path);
 
         //ClassApplication application = (ClassApplication)getApplication();
         //application.getDir("MediForms/");
-        ((TextView) findViewById(R.id.path_text)).setText(path);
+        ((TextView) view.findViewById(R.id.path_text)).setText(path);
 
         // Read all files sorted into the values-array
         //List values = new ArrayList();
         values = new ArrayList<>();
         File dir = new File(path);
         if (!dir.canRead()) {
-            setTitle(getTitle() + " (inaccessible)");
+            getActivity().setTitle(getActivity().getTitle() + " (inaccessible)");
         }
         String[] list = dir.list();
         if (list != null) {
@@ -66,16 +95,37 @@ public class FileBrowserActivity extends AppCompatActivity {
             }
         }
 
-        adapter = new FileBrowserAdapter(values, this);
+        adapter = new FileBrowserAdapter(values, getContext());
         recyclerView.setAdapter(adapter);
 
 
+        return view;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "got intent reciever");
+
             if (intent.hasExtra("share")) {
                 if (intent.hasExtra("filename"))
                     shareItem(intent.getStringExtra("filename"));
@@ -90,22 +140,16 @@ public class FileBrowserActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
+        //getActivity().registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(mReceiver);
-        overridePendingTransition(0, 0);
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
+        //getActivity().unregisterReceiver(mReceiver);
+        getActivity().overridePendingTransition(0, 0);
     }
 
     private void onListItemClick(String filename) {
@@ -117,15 +161,28 @@ public class FileBrowserActivity extends AppCompatActivity {
         }
         File file = new File(filename);
         if (file.isDirectory()) {
-            Intent intent = new Intent(this, FileBrowserActivity.class);
-            intent.putExtra("path", filename);
-            startActivity(intent);
-            overridePendingTransition(0, 0);
+
+            FileBrowserFragment mFileBrowserFragment = new FileBrowserFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("path", filename);
+            mFileBrowserFragment.setArguments(bundle);
+            //Intent intent = new Intent(this, FileBrowserActivity.class);
+            //intent.putExtra("path", filename);
+            //startActivity(intent);
+            FragmentManager mFragmentManager = getFragmentManager();
+            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+            //ft.setCustomAnimations(R.animator, R.animator.fade_in);
+            mFragmentTransaction.addToBackStack(null);
+            mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
+
+
+            getActivity().overridePendingTransition(0, 0);
         } else {
             Intent target = new Intent(Intent.ACTION_VIEW);
             target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
                     Intent.FLAG_ACTIVITY_NO_HISTORY);
-            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+            Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
             target.setDataAndType(uri, "application/pdf");
             try {
                 startActivity(target);
@@ -150,7 +207,7 @@ public class FileBrowserActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject));
         shareIntent.putExtra(Intent.EXTRA_TEXT, getMailHeader(files[0]) + getMailBody(files[1],files[2]));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file));
         startActivity(shareIntent);
     }
 
@@ -175,7 +232,7 @@ public class FileBrowserActivity extends AppCompatActivity {
             File file = new File(filename);
 
             stringBuilder.append(getMailBody(batchfile[1],batchfile[2]));
-            files.add(FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID,file));
+            files.add(FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID,file));
         }
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
         shareIntent.putExtra(Intent.EXTRA_TEXT, getMailHeader(filenames[0].split("_")[0])+stringBuilder.toString());
@@ -204,5 +261,28 @@ public class FileBrowserActivity extends AppCompatActivity {
         String message = stringBuilder.toString();
         return message;
 
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getContext().unregisterReceiver(mReceiver);
+
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

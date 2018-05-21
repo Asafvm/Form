@@ -19,7 +19,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
@@ -63,18 +63,18 @@ public class GeneralUseActivity extends AppCompatActivity {
 
                     corText.add(new Tuple(100, 663, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));             //Location
                     corText.add(new Tuple(100, 140, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));            //Tech Name
-                    corText.add(new Tuple(312, 663, day + "    " +
+                    corText.add(new Tuple(313, 663, day + "  " +
                             month + "    " +
                             dp.getYear(), false));                        //Date
                     corText.add(new Tuple(455, 633, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(125, 633, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(450, 487, ((EditText) findViewById(R.id.etVer)).getText().toString(), false));                        //ver
-                    corText.add(new Tuple(518, 663, month + "    " +
+                    corText.add(new Tuple(514, 662, month + "  " +
                             (dp.getYear() + 1), false));                        //Next Date
                     if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
                         corText.add(new Tuple(292, 470, ((EditText) findViewById(R.id.etNewVer)).getText().toString(), false));
                     }
-                    corText.add(new Tuple(435, 135, "!", false));                        //Signature
+                    corText.add(new Tuple(435, 139, "!", false));                        //Signature
 
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     intent.putExtra("report", "2018_general_yearly.pdf");

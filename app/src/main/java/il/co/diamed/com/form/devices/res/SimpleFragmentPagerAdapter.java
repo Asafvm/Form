@@ -1,17 +1,17 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.devices.res;
 
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
-import il.co.diamed.com.form.res.diamedFragment;
-import il.co.diamed.com.form.res.medigalFragment;
-import il.co.diamed.com.form.res.samsungFragment;
+import il.co.diamed.com.form.R;
 
-public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private Context mContext;
+    private FragmentManager mFragmentManager;
 
     public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -22,11 +22,16 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new diamedFragment();
+            Log.e("Adapter","0");
+            return new DiamedFragment();
+
         } else if (position == 1){
-            return new medigalFragment();
+            Log.e("Adapter","1");
+            return new MedigalFragment();
+
         } else{// (position == 2){
-            return new samsungFragment();
+            Log.e("Adapter","2");
+            return new SamsungFragment();
         }
     }
 
@@ -40,6 +45,8 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
+        Log.e("adapter",String.valueOf(position));
+
         switch (position) {
             case 0:
                 return mContext.getString(R.string.diamed);

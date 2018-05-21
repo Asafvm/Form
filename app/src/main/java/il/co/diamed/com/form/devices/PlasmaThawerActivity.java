@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
@@ -47,6 +47,9 @@ public class PlasmaThawerActivity extends AppCompatActivity {
         init();
         h.setListener(((EditText) findViewById(R.id.formTechName)));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
+        final DatePicker dp = findViewById(R.id.formDate);
+        final String day = h.fixDay(dp.getDayOfMonth());
+        final String month = h.fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -54,9 +57,6 @@ public class PlasmaThawerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(218, 453, "", false));           //temp ok
                     corText.add(new Tuple(223, 312, "", false));           //time ok
@@ -71,15 +71,15 @@ public class PlasmaThawerActivity extends AppCompatActivity {
                     corText.add(new Tuple(310, 623, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(310, 30, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(73, 623, day + "       " +
-                            month + "       " +
+                    corText.add(new Tuple(75, 623, day + "     " +
+                            month + "      " +
                             dp.getYear(), false));                        //Date
                     corText.add(new Tuple(200, 552, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 552, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(280, 449, ((EditText) findViewById(R.id.ptTemp)).getText().toString(), false));                        //temp
                     //corText.add(new Tuple(425, 455));                        //temp expected
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.ptTime)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(434, 57, month + "   " +
+                    corText.add(new Tuple(430, 57, month + "   " +
                             (dp.getYear() + 1), false));                        //Next Date
 
                     corText.add(new Tuple(350, 405, thermometer, false));                        //thermometer

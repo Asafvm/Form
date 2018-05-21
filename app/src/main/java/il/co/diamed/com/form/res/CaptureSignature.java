@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -33,11 +32,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.providers.SettingsActivity;
+import il.co.diamed.com.form.menu.SettingsActivity;
 
 public class CaptureSignature extends AppCompatActivity {
 

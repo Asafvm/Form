@@ -1,15 +1,10 @@
 package il.co.diamed.com.form.devices;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,16 +13,14 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
+import il.co.diamed.com.form.devices.res.Tuple;
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
 
 public class IncubatorActivity extends AppCompatActivity {
     private static final String TAG = "IncubatorActivity";
@@ -73,13 +66,13 @@ public class IncubatorActivity extends AppCompatActivity {
                     corText.add(new Tuple(300, 636, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + 
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 30, ((EditText)findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(73, 636, day + "      " +month + "        " +
+                    corText.add(new Tuple(71, 636, day + "      " +month + "        " +
                             dp.getYear(), false));                        //Date
                     corText.add(new Tuple(290, 568, ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 568, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(275, 465, ((EditText) findViewById(R.id.temp)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(305, 325, ((EditText) findViewById(R.id.time)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(448, 65, month + "   " + (dp.getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(278, 466, ((EditText) findViewById(R.id.temp)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(305, 327, ((EditText) findViewById(R.id.time)).getText().toString(), false));                        //Time
+                    corText.add(new Tuple(442, 65, month + "    " + (dp.getYear() + 1), false));                        //Next Date
 
                     corText.add(new Tuple(330, 425, thermometer, false));                        //Thermometer
                     corText.add(new Tuple(400, 285, timer, false));                        //Timer

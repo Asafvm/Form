@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isTimeValid;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
@@ -60,14 +60,14 @@ public class CentrifugeActivity extends AppCompatActivity {
                     corText.add(new Tuple(305, 618, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(330, 37, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
-                    corText.add(new Tuple(92, 618, day + "      " + month + "      " +
+                    corText.add(new Tuple(92, 618, day + "     " + month + "      " +
                             dp.getYear(), false));                        //Date
                     corText.add(new Tuple(200, 548, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 548, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(315, 445, ((EditText) findViewById(R.id.centSpeed)).getText().toString(), false));                        //cent
                     corText.add(new Tuple(445, 445, String.valueOf(EXPECTED_SPEED), false));                        //cent expected
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.centTime)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(450, 70, ((DatePicker)findViewById(R.id.formDate)).getMonth() + "   " +
+                    corText.add(new Tuple(444, 70, month + "    " +
                             (dp.getYear() + 1), false));                        //Next Date
 
 

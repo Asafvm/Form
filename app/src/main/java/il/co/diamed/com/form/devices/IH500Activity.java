@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.Tuple;
+import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
@@ -50,7 +49,9 @@ public class IH500Activity extends AppCompatActivity {
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
-
+        final DatePicker dp = findViewById(R.id.formDate);
+        final String day = h.fixDay(dp.getDayOfMonth());
+        final String month = h.fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -58,9 +59,7 @@ public class IH500Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -83,13 +82,13 @@ public class IH500Activity extends AppCompatActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(474, 628, ((DatePicker) findViewById(R.id.formDate)).getMonth() + "   " +
-                        (((DatePicker) findViewById(R.id.formDate)).getYear() + 1), false));                        //Next Date
+                corText.add(new Tuple(470, 628, month + "    " +
+                        (dp.getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(464, 658, ((DatePicker) findViewById(R.id.formDate)).getDayOfMonth() + "   " +
-                        ((DatePicker) findViewById(R.id.formDate)).getMonth() + "    " +
-                        ((DatePicker) findViewById(R.id.formDate)).getYear(), false));                        //Date
+                corText.add(new Tuple(463, 658, day + " " +
+                        month + "  " +
+                        dp.getYear(), false));                        //Date
                 corText.add(new Tuple(135, 628, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature
                 corText.add(new Tuple(422, 570, "", false));           //temp ok
