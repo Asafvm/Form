@@ -86,8 +86,8 @@ public class IH1000Activity extends AppCompatActivity {
                         (dp.getYear() + 1), false));                        //Next Date
                 corText.add(new Tuple(90, 660, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(457, 660, day + "  " +
-                        month + "   " +
+                corText.add(new Tuple(456, 658, day + " " +
+                        month + " " +
                         dp.getYear(), false));                        //Date
                 corText.add(new Tuple(132, 630, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                 //corText.add(new Tuple(380,30));                        //Signature

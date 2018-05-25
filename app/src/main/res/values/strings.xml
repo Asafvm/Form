@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Form</string>
+    <string name="app_name">MediApp</string>
 
     <string name="hello">Hello World, CaptureSignatureActivity!</string>
     <string name="external_dir">GetSignature</string>
@@ -425,6 +425,15 @@
     <string name="DoconVer">MDA V6.3</string>
     <string name="userDetailsTitle">עידכון פרטי משתמש</string>
     <string name="updateDetails">עדכן פרטים</string>
+    <string name="fridgeModel">דגם מקרר / מקפיא</string>
+    <string name="fridgeSensor">מספר רגש</string>
+    <string name="fridgeSysTemp">טמפרטורה במערכת איתורן</string>
+    <string name="fridge">Fridge</string>
+    <string name="sepax">Sepax</string>
+    <string name="fridgeMesTemp">טמפרטורה נמדדת</string>
+    <string name="rbSepaxRM">RM</string>
+    <string name="rbSepaxS100">S100</string>
+    <string name="tvSepaxType">Sepax Type</string>
 
 
     <!-- Strings related to Settings -->

@@ -33,6 +33,22 @@
         android:text="@string/docon"
         app:layout_constraintTop_toBottomOf="@id/ultraCW" />
 
+    <Button
+        android:id="@+id/fridge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/fridge"
+        app:layout_constraintTop_toBottomOf="@id/docon" />
+
+    <Button
+        android:id="@+id/sepax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="deviceSelect"
+        android:text="@string/sepax"
+        app:layout_constraintTop_toBottomOf="@id/fridge" />
+
 
 
 </android.support.constraint.ConstraintLayout>

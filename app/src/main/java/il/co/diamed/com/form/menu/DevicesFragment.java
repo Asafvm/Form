@@ -21,6 +21,7 @@ import il.co.diamed.com.form.devices.Diacent12Activity;
 import il.co.diamed.com.form.devices.DiacentCWActivity;
 import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
 import il.co.diamed.com.form.devices.DoconActivity;
+import il.co.diamed.com.form.devices.FridgeActivity;
 import il.co.diamed.com.form.devices.GelstationActivity;
 import il.co.diamed.com.form.devices.GeneralUseActivity;
 import il.co.diamed.com.form.devices.HC10Activity;
@@ -28,6 +29,7 @@ import il.co.diamed.com.form.devices.IH1000Activity;
 import il.co.diamed.com.form.devices.IH500Activity;
 import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
+import il.co.diamed.com.form.devices.SepaxActivity;
 import il.co.diamed.com.form.devices.res.SimpleFragmentPagerAdapter;
 import il.co.diamed.com.form.res.MultiLayoutActivity;
 
@@ -157,6 +159,12 @@ public class DevicesFragment extends Fragment {
                 break;
             case R.id.docon:
                 intent = new Intent(getContext(), DoconActivity.class);
+                break;
+            case R.id.fridge:
+                intent = new Intent(getContext(), FridgeActivity.class);
+                break;
+            case R.id.sepax:
+                intent = new Intent(getContext(), SepaxActivity.class);
                 break;
             //////////////////////////////
             case R.id.test:

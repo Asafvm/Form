@@ -1,9 +1,17 @@
 package il.co.diamed.com.form.res.providers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -12,6 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Date;
+
+import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.menu.MicrosoftSigninFragment;
+
+import static com.itextpdf.text.factories.GreekAlphabetFactory.getString;
 
 public class AuthenticationProvider {
     private final String TAG = "AuthenticationProvider";
@@ -25,30 +39,26 @@ public class AuthenticationProvider {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        if(currentUser!=null)
-            Log.d(TAG, "UpdateUI: "+currentUser.getDisplayName()+" - "+currentUser.getEmail());
+        if (currentUser != null)
+            Log.d(TAG, "UpdateUI: " + currentUser.getDisplayName() + " - " + currentUser.getEmail());
         //SettingsActivity.NotificationPreferenceFragment.setUser(currentUser);
 
     }
 
-    public void signout(){
-        mFirebaseAuth.signOut();
-        
-        new CountDownTimer(2000,2000){
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-                //do nothing
-            }
+    public void signout() {
+        FirebaseAuth.getInstance().signOut();
 
-            @Override
-            public void onFinish() {
-                //carryon
-            }
-        }.start();
 
+  //      microsoftSignout();
     }
 
+    private void microsoftSignout() {
+
+        MicrosoftSigninFragment mMicrosoftSigninFragment = new MicrosoftSigninFragment();
+        //FragmentTransaction ft = mFragmentManager.beginTransaction();
+        mMicrosoftSigninFragment.signout();
+    }
 
 
     public void signin(final String email, final String password) {
@@ -65,7 +75,7 @@ public class AuthenticationProvider {
                         } else {
                             Log.e(TAG, "signinUserWithEmail:failure", task.getException());
                             Log.w(TAG, "signinUserWithEmail:trying to create");
-                            createUser(email,password); //create user if failed to sign in
+                            createUser(email, password); //create user if failed to sign in
                             // If sign in fails, display a message to the user.
 
                             //updateUI(null);
@@ -79,7 +89,7 @@ public class AuthenticationProvider {
 
     public void createUser(final String email, final String password) {
         Date date = new Date();
-        Log.d(TAG, "createUserWithEmail:starting "+date.getTime());
+        Log.d(TAG, "createUserWithEmail:starting " + date.getTime());
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -98,7 +108,6 @@ public class AuthenticationProvider {
                     }
                 });
     }
-
 
 
     public void updateUser(String email, String password) {
@@ -127,5 +136,9 @@ public class AuthenticationProvider {
 
     public FirebaseUser getCurrentUser() {
         return mFirebaseUser;
+    }
+
+    public FirebaseAuth getAuth() {
+        return mFirebaseAuth;
     }
 }

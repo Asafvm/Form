@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import il.co.diamed.com.form.R;
 
@@ -18,7 +19,6 @@ public class Helper extends AppCompatActivity {
 
 
     public void setLayout(Activity activity, int resLayout) {
-        //activity.setContentView(R.layout.activity_gelstation);
         View lowLayout = activity.findViewById(R.id.lowLayout);
         ViewGroup parent = (ViewGroup) lowLayout.getParent();
         int index = parent.indexOfChild(lowLayout);
@@ -26,7 +26,7 @@ public class Helper extends AppCompatActivity {
         lowLayout = activity.getLayoutInflater().inflate(resLayout, parent, false);
         parent.addView(lowLayout, index);
 
-        setButtons((ViewGroup) lowLayout);
+        setButtons((ViewGroup) lowLayout.getParent());
 
     }
 
@@ -50,6 +50,14 @@ public class Helper extends AppCompatActivity {
                     }
 
                 }
+                if(view instanceof TextView){
+                    ((TextView) view).setMaxLines(1);
+                    ((TextView) view).setTextSize(12);
+                }
+                if(view instanceof EditText){
+                    ((TextView) view).setMaxLines(1);
+                    ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                }
                 if (view instanceof EditText) {
                     setListener((EditText) view);
                         ((EditText) view).setText("");
@@ -57,7 +65,6 @@ public class Helper extends AppCompatActivity {
             }
         }
     }
-
 
     public void setListener(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
@@ -71,7 +78,7 @@ public class Helper extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(editText.getText().toString().equals("")) {
-                    editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
+                    //editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
                 }else {
                     editText.setError(null);
                 }

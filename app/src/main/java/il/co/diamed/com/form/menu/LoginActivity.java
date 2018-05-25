@@ -1,6 +1,7 @@
 package il.co.diamed.com.form.menu;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,10 +20,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.ClassApplication;
@@ -34,41 +43,39 @@ public class LoginActivity extends FragmentActivity implements
 
     private ProgressBar progressBar;
     private static final String TAG = "Login";
-    private FragmentManager mFragmentManager;
-    private MicrosoftSigninFragment mMicrosoftSigninFragment;
+    private ClassApplication application;
     private UserSetupFragment mUserSetupFragment;
-    private final String PREFS_NAME = "USER_DATA";
+    JSONObject userDetails;
+    private FirebaseUser user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        //hide action bar
-        //Objects.requireNonNull(getSupportActionBar()).hide();
-        setContentView(R.layout.activity_login);
+        init();
 
         progressBar = findViewById(R.id.pbLogin);
-        progressBar.setProgress(0);
+        setProgressInfo("Starting",0);
 
-        ClassApplication application = (ClassApplication) getApplication();
+        application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-        //application.signout();
-        if (application.getCurrentUser() == null) {
-            Log.e(TAG,"No active user");
-            progressBar.setProgress(10);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mFragmentManager = getSupportFragmentManager();
-                if (mMicrosoftSigninFragment == null) {
-                    mMicrosoftSigninFragment = new MicrosoftSigninFragment();
-                }
-                FragmentTransaction ft = mFragmentManager.beginTransaction();
-                //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-                ft.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
+
+
+        signinUser();
+
+    }
+
+    public void signinUser() {
+        setProgressInfo("Starting app",10);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Log.e(TAG, "No active user");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                setProgressInfo("Logging to Microsoft",30);
+                signinToMicrosoft();
+
             } else {
                 // Permission is not granted
                 ActivityCompat.requestPermissions(this,
@@ -77,25 +84,140 @@ public class LoginActivity extends FragmentActivity implements
             }
 
         } else {
-            Log.d(TAG, "Logged: " + application.getCurrentUser().getEmail());
-            signin();
+            Log.d(TAG, "Logged: " + user.getEmail());
+            updatePrefernces();
         }
     }
 
-    public void signin() {  //user logged, start app
-        progressBar.setProgress(80);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String user_name = user.getDisplayName();
-        String user_email = user.getEmail();
-        Log.d(TAG, "Got user from microsoft: " + user_name + " " + user_email);
-        Toast.makeText(this, getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();
-        progressBar.setProgress(90);
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+                    signinToMicrosoft();
+
+                } else {
+                    // permission denied, boo!
+                    quitApp(getString(R.string.noContactsPermission));
+                }
+            }
+        }
+    }
+    private void init() {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        setContentView(R.layout.activity_login);
+    }
+    private void signinToMicrosoft() {
+        FragmentManager mFragmentManager;
+        MicrosoftSigninFragment mMicrosoftSigninFragment = new MicrosoftSigninFragment();
+        mFragmentManager = getSupportFragmentManager();
+        if (mMicrosoftSigninFragment == null) {
+            mMicrosoftSigninFragment = new MicrosoftSigninFragment();
+        }
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        //ft.setCustomAnimations(R.animator, R.animator.fade_in);
+        ft.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
+    }
+
+    public void quitApp(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        }, 2000);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "got result login");
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        fragment.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    public void verifyUser(JSONObject response) {
+        setProgressInfo("Got user from Microsoft",50);
+        userDetails = response;
+
+        try {
+            String eMail = userDetails.getString("mail");
+            application.getAuthProvider().addAuthStateListener(listener);
+            application.signin(eMail, eMail);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    final FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            user = firebaseAuth.getCurrentUser();
+
+            if (user != null) {
+                setProgressInfo("Logged with: "+user.getEmail(),70);
+                Log.e(TAG, "User logged in");
+                updateUserDetails();
+            }else{
+                Log.e(TAG, "User logged out");
+            }
+        }
+    };
+
+    private void updateUserDetails() {
+        setProgressInfo("Updating info",70);
+        application.getAuthProvider().removeAuthStateListener(listener);
+        Log.d(TAG, "Setting User Info");
+
+        UserProfileChangeRequest profileUpdates = null;
+        try {
+            profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(userDetails.getString("displayName"))
+                    .build();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor spedit = sharedPref.edit();
+                            if(sharedPref.getString("techName", "").equals(""))
+                                spedit.putString("techName", user.getDisplayName());
+                            spedit.putString("techeMail", user.getEmail());
+                            spedit.putString("techePhone", user.getPhoneNumber());
+                            spedit.apply();
+                            updatePrefernces();
+                        }
+                    }
+                });
+    }
+
+    public void updatePrefernces() {  //user logged, start app
+        setProgressInfo("Updating Prefernces",90);
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        //SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String techname = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
@@ -111,85 +233,32 @@ public class LoginActivity extends FragmentActivity implements
             fragmentTransaction.add(R.id.fragment_container, mUserSetupFragment).commit();
 
         } else {
-            progressBar.setProgress(100);
-            Intent intent = new Intent(this,MainMenuAcitivity.class);
-            startActivity(intent);
-            finish();
-
+            moveToMainMenu();
         }
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-
-                    mFragmentManager = getSupportFragmentManager();
-                    if (mMicrosoftSigninFragment == null) {
-                        mMicrosoftSigninFragment = new MicrosoftSigninFragment();
-                    }
-                    FragmentTransaction ft = mFragmentManager.beginTransaction();
-                    //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-                    ft.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
-
-                } else {
-                    // permission denied, boo!
-                    quitApp(getString(R.string.noContactsPermission));
-                }
-            }
-        }
-    }
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        //TODO: what is this?
-    }
-
-    public void moveToMainMenu() {
-
-        Intent intent = new Intent(this,MainMenuAcitivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-
-    public void quitApp(String message) {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        if(mMicrosoftSigninFragment!=null){
-            fragmentTransaction.remove(mMicrosoftSigninFragment);
-        }
-        if(mUserSetupFragment!=null){
-            fragmentTransaction.remove(mUserSetupFragment);
-        }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    private void moveToMainMenu() {
+        setProgressInfo("Ready... Set.... GO!",100);
+        //String user_email = user.getEmail();
+        //Toast.makeText(getApplicationContext(), getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                android.os.Process.killProcess(android.os.Process.myPid());
+                Intent intent = new Intent(getApplicationContext(), MainMenuAcitivity.class);
+                startActivity(intent);
+                finish();
             }
         }, 2000);
-    }
 
-    private int getAuthSilentCallback() {
-        Log.e(TAG,"got silent token");
-        return 0;
     }
-    private void getAuthInteractiveCallback() {
-        Log.e(TAG,"got interactive token token");
-    }
+    public void setProgressInfo(String text, int percent){
 
+        ((TextView)findViewById(R.id.tvProgress)).setText(text);
+        ((ProgressBar)findViewById(R.id.pbLogin)).setProgress(percent);
+    }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG,"got result login");
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        fragment.onActivityResult(requestCode, resultCode, data);
-
+    public void onFragmentInteraction(Uri uri) {
+        //TODO: what is this?
     }
 }
 

@@ -1,12 +1,15 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.preference.Preference;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import il.co.diamed.com.form.menu.LoginActivity;
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
@@ -33,8 +36,11 @@ public class ClassApplication extends Application {
 
         // TODO: Move this to where you establish a user session
         logUser();
-
     }
+    public FirebaseAuth getAuthProvider(){
+        return authenticationProvider.getAuth();
+    }
+
     private void logUser() {
         // TODO: Use the current user's information
         // You can call any combination of these three methods
@@ -66,14 +72,6 @@ public class ClassApplication extends Application {
         authenticationProvider.signin(email,password);
     }
 
-    public void signout() {
-        authenticationProvider.signout();
-    }
-
-    public FirebaseUser getCurrentUser() {
-        return authenticationProvider.getCurrentUser();
-    }
-
     public void getDir(String path) {
         storageProvider.getDir(path);
     }
@@ -82,4 +80,6 @@ public class ClassApplication extends Application {
         SettingsActivity.bindPreferenceSummaryToValue(preference);
 
     }
+
+
 }

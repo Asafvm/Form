@@ -1,6 +1,8 @@
 package il.co.diamed.com.form.menu;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +12,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RecoverySystem;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -20,12 +24,15 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 import il.co.diamed.com.form.AppCompatPreferenceActivity;
+import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 
 /**
@@ -286,12 +293,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class DataSyncPreferenceFragment extends PreferenceFragment {
         private static final String TAG = "Settings";
+        private ClassApplication application;
+        private ProgressBar progressBar;
+        FirebaseUser user;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
+            application = (ClassApplication) getActivity().getApplication();
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
@@ -304,33 +315,48 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivityForResult(sync.getIntent(), 4321);
+                    ClassApplication application = (ClassApplication) getActivity().getApplication();
+                    application.getAuthProvider().addAuthStateListener(listener);
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    if(user!=null) {
+                        //pplication.signout();
+                        FirebaseAuth.getInstance().signOut();
+                    }else {
+                        signup();
+                    }
                     return true;
                 }
             });
         }
+        public void signup() {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
 
-        public void onActivityResult(int reqCode, int resCode, Intent data) {
-            Log.e(TAG, "got a result " + resCode);
-
-            if (reqCode == 4321) {
-                if (resCode == RESULT_OK) {
+        }
+        FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Activity activity = getActivity();
+                if (activity != null && isAdded()) {
+                    Log.e(TAG, "listener active");
+                    user = firebaseAuth.getCurrentUser();
                     Preference preference = getPreferenceManager().findPreference("pref_sync");
-
-                    if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
-                        Log.e(TAG, "Signed In!");
+                    if (user != null) {
                         preference.setSummary(getString(R.string.loggedin));
-                    }else {
-                        Log.e(TAG, "Signed Out!");
+                        Log.e(TAG, "User logged in");
+                    } else {
                         preference.setSummary(getString(R.string.loggedout));
+                        Log.e(TAG, "User logged out");
                     }
-
-
-                } else {
-                    Log.e(TAG, "signin faild");
+                    unregisterListener();
                 }
             }
-        }
+
+            private void unregisterListener() {
+                application.getAuthProvider().removeAuthStateListener(listener);
+
+            }
+        };
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {

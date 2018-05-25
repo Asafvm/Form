@@ -18,7 +18,16 @@
             android:layout_height="wrap_content"
             android:background="@drawable/main_background"
             >
-
+            <TextView
+                android:id="@+id/titleUser"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="0.1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/upcomingCal"/>
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/upcomingCal"
                 android:layout_width="match_parent"
@@ -27,8 +36,7 @@
                 android:background="@drawable/border"
                 android:alpha="0.8"
                 app:layout_constraintBottom_toTopOf="@id/inventoryShoplist"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintTop_toBottomOf="@id/titleUser"
                 app:layout_constraintVertical_weight="1">
 
                 <TextView

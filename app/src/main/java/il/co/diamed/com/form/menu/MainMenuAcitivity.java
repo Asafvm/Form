@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.res.FileBrowserFragment;
@@ -60,7 +62,6 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         final String timer = sharedPref.getString("timer", "");
         final String speedometer = sharedPref.getString("speedometer", "");
 
-
         calibrationDevices = new Bundle();
         calibrationDevices.putString("thermometer", thermometer);
         calibrationDevices.putString("barometer", barometer);
@@ -68,6 +69,8 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         calibrationDevices.putString("timer", timer);
         calibrationDevices.putString("techName", techname);
         calibrationDevices.putString("signature", signature);
+
+        updateUser();
 
         /** Drawer Code **/
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -154,7 +157,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                     @Override
                     public void onDrawerOpened(@NonNull View drawerView) {
                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        ClassApplication application = (ClassApplication) getApplication();
+
                         String name = sp.getString("techName", "");
                         TextView et = findViewById(R.id.nav_header);
                         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -176,6 +179,25 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                 }
         );
         /** Drawer Code END**/
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUser();
+    }
+
+    private void updateUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        TextView title = findViewById(R.id.titleUser);
+        if(user!=null){
+            title.setText(user.getEmail());
+            title.setBackgroundColor(Color.parseColor("#3C9824"));
+        }else{
+            title.setText(getString(R.string.noUser));
+            title.setBackgroundColor(Color.parseColor("#AF2525"));
+        }
 
     }
 
@@ -248,7 +270,9 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                 mFragmentManager.beginTransaction().remove(mDevicesFragment).commit();
 
             }
-        } else super.onBackPressed();
+        } else{
+            finish();
+        }
     }
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override

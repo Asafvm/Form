@@ -1,6 +1,7 @@
 package il.co.diamed.com.form;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -51,12 +52,14 @@ public class PDFActivity extends AppCompatActivity {
     private PdfReader reader = null;
     private PdfStamper stamper = null;
     private Image checkPNG = null;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
+
             buildPDF();
         } else {
             // Permission is not granted
@@ -64,6 +67,21 @@ public class PDFActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progress = new ProgressDialog(PDFActivity.this);
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void buildPDF() {
@@ -126,6 +144,7 @@ public class PDFActivity extends AppCompatActivity {
         //Upload to firebase
         ClassApplication application = (ClassApplication) getApplication();
         application.uploadFile(dest, destArray);
+
 
         //return to activity
         Intent intent = new Intent();

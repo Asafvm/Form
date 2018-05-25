@@ -26,8 +26,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme"
-        >
+        android:theme="@style/MyTheme">
 
         <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
         <!-- Nav Menu -->
@@ -104,7 +103,11 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
-        <activity android:name=".menu.MainMenuAcitivity"></activity>
+        <activity android:name=".menu.MainMenuAcitivity"
+            android:launchMode="singleTop"
+            />
+        <activity android:name=".devices.FridgeActivity" />
+        <activity android:name=".devices.SepaxActivity"></activity>
     </application>
 
 </manifest>

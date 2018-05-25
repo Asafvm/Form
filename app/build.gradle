@@ -66,12 +66,12 @@ dependencies {
 
     //implementation 'com.android.support:android.v4.widget'
     implementation 'com.android.support:support-compat:27.1.1'
-    implementation 'com.google.firebase:firebase-core:15.0.2'   //analytics
-    implementation 'com.google.firebase:firebase-storage:15.0.2' //upload & download files
-    implementation 'com.google.firebase:firebase-database:15.0.1'
-    implementation 'com.google.firebase:firebase-auth:15.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.0'   //analytics
+    implementation 'com.google.firebase:firebase-storage:16.0.1' //upload & download files
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
 
     //Microsoft
     implementation('com.microsoft.identity.client:msal:0.1.+') {

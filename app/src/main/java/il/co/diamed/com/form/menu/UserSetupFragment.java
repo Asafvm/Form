@@ -109,7 +109,7 @@ public class UserSetupFragment extends Fragment {
                     spedit.apply();
 
                     LoginActivity activity = (LoginActivity)getActivity();
-                    activity.moveToMainMenu();
+                    activity.updatePrefernces();
                 }else {
 
                 }

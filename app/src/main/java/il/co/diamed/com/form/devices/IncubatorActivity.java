@@ -1,5 +1,6 @@
 package il.co.diamed.com.form.devices;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class IncubatorActivity extends AppCompatActivity {
     private final int MIN_TEMP = 35;
     private final int EXPECTED_TIME = 15;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class IncubatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = h.fixDay(dp.getDayOfMonth());
                     String month = h.fixMonth(dp.getMonth());
@@ -95,6 +98,11 @@ public class IncubatorActivity extends AppCompatActivity {
                             month+""+ day+"_"+"Incubator-"+
                             ((RadioButton) findViewById(((RadioGroup)findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
+
+
+
+
+
                     startActivityForResult(intent, 1);
                 }
             }
@@ -162,6 +170,7 @@ public class IncubatorActivity extends AppCompatActivity {
 
             }
         });
+        alertBuilder.setCancelable(false);
         alertBuilder.create().show();
     }
 

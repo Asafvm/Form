@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/footer"
+    app:layout_constraintTop_toBottomOf="@id/header"
+    app:layout_constraintVertical_weight="5"
+    tools:context=".devices.SepaxActivity">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/innerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <include
+            android:id="@+id/serialLayout"
+            layout="@layout/form_serial" />
+
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvSepaxType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxType"
+            app:layout_constraintEnd_toStartOf="@id/rgSepaxType"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+        <RadioGroup
+            android:id="@+id/rgSepaxType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxType"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout">
+
+            <RadioButton
+                android:id="@+id/rbSepaxS100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/rbSepaxS100"
+
+                android:textSize="10sp" />
+            <RadioButton
+                android:id="@+id/rbSepaxRM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/rbSepaxRM"
+
+                android:textSize="10sp" />
+
+        </RadioGroup>
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvIH500software1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware3"
+            app:layout_constraintEnd_toStartOf="@id/etIH500softwareVer"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxType" />
+
+        <EditText
+            android:id="@+id/etIH500softwareVer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/IH500SoftwareVer"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500software1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvIH500software1" />
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvIH500software4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500Textsoftware5"
+            app:layout_constraintEnd_toStartOf="@id/etIH500softwareC"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500software1" />
+
+        <EditText
+            android:id="@+id/etIH500softwareC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500C"
+            android:inputType="number"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500software4"
+            app:layout_constraintEnd_toStartOf="@id/tvIH500softwareC"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tvIH500software4" />
+
+
+        <TextView
+            android:id="@+id/tvIH500softwareC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500GB"
+            app:layout_constraintBaseline_toBaselineOf="@id/etIH500softwareC"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/etIH500softwareC" />
+
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvIH500CentrifugeExpSpeed1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvIH500Centrifuge1"
+            app:layout_constraintEnd_toStartOf="@id/etIH500CentrifugeFrontSpeed"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500softwareC" />
+
+        <EditText
+            android:id="@+id/etIH500CentrifugeFrontSpeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/number1008"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500CentrifugeExpSpeed1"
+            app:layout_constraintEnd_toStartOf="@id/tvIH500CentrifugeRPM"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tvIH500CentrifugeExpSpeed1" />
+
+        <TextView
+            android:id="@+id/tvIH500CentrifugeRPM"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textRPM"
+            app:layout_constraintBaseline_toBaselineOf="@id/etIH500CentrifugeFrontSpeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/etIH500CentrifugeFrontSpeed" />
+        <!-- ***************************************************************************** -->
+
+        <TextView
+            android:id="@+id/tvIH500CentrifugeExpSpeed2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvIH500Centrifuge2"
+            app:layout_constraintEnd_toStartOf="@id/etIH500CentrifugeRearSpeed"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500CentrifugeExpSpeed1" />
+
+        <EditText
+            android:id="@+id/etIH500CentrifugeRearSpeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/number1008"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500CentrifugeExpSpeed2"
+            app:layout_constraintEnd_toStartOf="@id/tvIH500CentrifugeRPM"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tvIH500CentrifugeExpSpeed2" />
+
+        <TextView
+            android:id="@id/tvIH500CentrifugeRPM"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textRPM"
+            app:layout_constraintBaseline_toBaselineOf="@id/etIH500CentrifugeRearSpeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/etIH500CentrifugeRearSpeed" />
+        <!-- ***************************************************************************** -->
+        <!-- Reagent cooling -->
+        <TextView
+            android:id="@+id/tvIH500ReagentFront"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextReagent1"
+            app:layout_constraintEnd_toStartOf="@id/etIH500ReagentFront"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500CentrifugeExpSpeed2" />
+
+        <EditText
+            android:id="@+id/etIH500ReagentFront"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500ReagentTemp"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500ReagentFront"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvIH500ReagentFront" />
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvIH500ReagentRear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextReagent2"
+            app:layout_constraintEnd_toStartOf="@id/etIH500ReagentRear"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500ReagentFront" />
+
+        <EditText
+            android:id="@+id/etIH500ReagentRear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500ReagentTemp"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500ReagentRear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvIH500ReagentRear" />
+        <!-- ***************************************************************************** -->
+        <!-- Incubator -->
+        <TextView
+            android:id="@+id/tvIH500IncubatorFront"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextIncubator1"
+            app:layout_constraintEnd_toStartOf="@id/etIH500IncubatorFront"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500ReagentRear" />
+
+        <EditText
+            android:id="@+id/etIH500IncubatorFront"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500IncubatorTemp"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500IncubatorFront"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvIH500IncubatorFront" />
+        <!-- ***************************************************************************** -->
+        <TextView
+            android:id="@+id/tvIH500IncubatorRear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/IH500TextIncubator2"
+            app:layout_constraintEnd_toStartOf="@id/etIH500IncubatorRear"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500IncubatorFront" />
+
+        <EditText
+            android:id="@+id/etIH500IncubatorRear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/etIH500IncubatorTemp"
+            android:inputType="numberDecimal"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvIH500IncubatorRear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/tvIH500IncubatorRear" />
+        <!-- ***************************************************************************** -->
+        <!-- Parts -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ih500PartsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/divider1"
+            app:layout_constraintTop_toBottomOf="@id/tvIH500IncubatorRear" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
