@@ -19,7 +19,8 @@ import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class HC10Activity extends AppCompatActivity {
+public class HC10Activity extends DevicePrototypeActivity {
+    private Helper h;
 
 
     @Override
@@ -27,7 +28,7 @@ public class HC10Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.device_hc10_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
@@ -49,6 +50,8 @@ public class HC10Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
+
                     Bundle pages = new Bundle();
 
                     pages.putParcelableArrayList("page1", getPage1corText());
@@ -60,15 +63,16 @@ public class HC10Activity extends AppCompatActivity {
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
-                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            dp.getYear()+""+
-                            month+""+day+"_HC10_"+
-                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
-                    startActivityForResult(intent, 1);
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
+                            dp.getYear() + "" +
+                            month + "" + day + "_HC10_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    createPDF(intent);
                 }
 
             }
+
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(447, 653, month + "    " +
@@ -118,7 +122,6 @@ public class HC10Activity extends AppCompatActivity {
             }
 
 
-
             private boolean checkStatus() {
                 if (!isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()))
                     return false;
@@ -129,7 +132,7 @@ public class HC10Activity extends AppCompatActivity {
                 if (!isValidString(((EditText) findViewById(R.id.etHC10ver)).getText().toString()))
                     return false;
 
-                return isValidString(((EditText)findViewById(R.id.formTechName)).getText().toString());
+                return isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
             }
         });
     }
@@ -141,48 +144,5 @@ public class HC10Activity extends AppCompatActivity {
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.etHC10ver)));
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText et = findViewById(R.id.etHC10ver);
-                et.setText("");
-
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
-
-
-
 
 }

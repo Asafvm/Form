@@ -23,34 +23,36 @@ import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class GeneralUseActivity extends AppCompatActivity {
+public class GeneralUseActivity extends DevicePrototypeActivity {
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.device_general_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
-        Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
-        final String techname = Objects.requireNonNull(bundle).getString("techName");
-        final String signature = bundle.getString("signature");
+        Bundle bundle = Objects.requireNonNull(getIntent().getExtras());
+        Bundle cal_data = bundle.getBundle("cal");
+        final String techname = Objects.requireNonNull(cal_data).getString("techName");
+        final String signature = cal_data.getString("signature");
         //get views
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(bundle.getInt("type"));
 
         //default basic values
-
-
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
         {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
+
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = h.fixDay(dp.getDayOfMonth());
                     String month = h.fixMonth(dp.getMonth());
@@ -71,7 +73,7 @@ public class GeneralUseActivity extends AppCompatActivity {
                     corText.add(new Tuple(450, 487, ((EditText) findViewById(R.id.etVer)).getText().toString(), false));                        //ver
                     corText.add(new Tuple(514, 662, month + "  " +
                             (dp.getYear() + 1), false));                        //Next Date
-                    if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
+                    if (((Switch) findViewById(R.id.verUpdateSwitch)).isChecked()) {
                         corText.add(new Tuple(292, 470, ((EditText) findViewById(R.id.etNewVer)).getText().toString(), false));
                     }
                     corText.add(new Tuple(435, 139, "!", false));                        //Signature
@@ -80,17 +82,17 @@ public class GeneralUseActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_general_yearly.pdf");
 
                     Bundle pages = new Bundle();
-                    pages.putParcelableArrayList("page1",corText);
+                    pages.putParcelableArrayList("page1", corText);
                     intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
-                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            dp.getYear()+""+
-                            month+""+day+"_"+
-                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
-                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
-                    startActivityForResult(intent, 1);
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
+                            dp.getYear() + "" +
+                            month + "" + day + "_" +
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    createPDF(intent);
                 }
 
             }
@@ -105,13 +107,13 @@ public class GeneralUseActivity extends AppCompatActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.etVer)).getText().toString()))
                     return false;
-                if (((Switch)findViewById(R.id.verUpdateSwitch)).isChecked()) {
+                if (((Switch) findViewById(R.id.verUpdateSwitch)).isChecked()) {
                     if (!isValidString(((EditText) findViewById(R.id.etNewVer)).getText().toString()))
                         return false;
                 }
-                return isValidString(((EditText)findViewById(R.id.formTechName)).getText().toString()) &&
-                        ((Switch)findViewById(R.id.generalCleaningSwitch)).isChecked() &&
-                        ((Switch)findViewById(R.id.selfTextSwitch)).isChecked();
+                return isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
+                        ((Switch) findViewById(R.id.generalCleaningSwitch)).isChecked() &&
+                        ((Switch) findViewById(R.id.selfTextSwitch)).isChecked();
             }
         });
     }
@@ -123,58 +125,11 @@ public class GeneralUseActivity extends AppCompatActivity {
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.etVer)));
         h.setListener(((EditText) findViewById(R.id.etNewVer)));
-        setListener(((Switch)findViewById(R.id.verUpdateSwitch)));
+        setListener(((Switch) findViewById(R.id.verUpdateSwitch)));
 
-        ((Switch)findViewById(R.id.generalCleaningSwitch)).setChecked(true);
-        ((Switch)findViewById(R.id.selfTextSwitch)).setChecked(true);
-        ((Switch)findViewById(R.id.verUpdateSwitch)).setChecked(true);
+        ((Switch) findViewById(R.id.verUpdateSwitch)).setChecked(false);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText et = findViewById(R.id.etNewVer);
-                et.setVisibility(View.INVISIBLE);
-                et.setText("");
-                et = findViewById(R.id.etVer);
-                et.setText("");
-                et = findViewById(R.id.etDeviceSerial);
-                et.setText("");
-                Switch s = findViewById(R.id.verUpdateSwitch);
-                s.setChecked(false);
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
 
     private void setListener(Switch s) {
         s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -191,8 +146,6 @@ public class GeneralUseActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 }
 

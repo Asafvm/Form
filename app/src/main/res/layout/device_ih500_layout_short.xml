@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintHorizontal_weight="3"
             app:layout_constraintStart_toEndOf="@id/tvIH500software2"
             app:layout_constraintTop_toBottomOf="@id/serialLayout">
 
@@ -50,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/rbIH5007sp1"
-
-                android:textSize="10sp" />
+                 />
 
         </RadioGroup>
         <!-- ***************************************************************************** -->
@@ -71,6 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/IH500SoftwareVer"
+            android:inputType="text"
             app:layout_constraintBaseline_toBaselineOf="@id/tvIH500software1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
@@ -273,12 +273,5 @@
             app:layout_constraintBottom_toTopOf="@+id/divider1"
             app:layout_constraintTop_toBottomOf="@id/tvIH500IncubatorRear" />
 
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toTopOf="@id/footer"
-            app:layout_constraintTop_toBottomOf="@id/ih500PartsList" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

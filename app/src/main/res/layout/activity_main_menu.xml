@@ -33,8 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/border"
-                android:alpha="0.8"
+                android:background="@drawable/shape_window_menu"
                 app:layout_constraintBottom_toTopOf="@id/inventoryShoplist"
                 app:layout_constraintTop_toBottomOf="@id/titleUser"
                 app:layout_constraintVertical_weight="1">
@@ -54,8 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/border"
-                android:alpha="0.8"
+                android:background="@drawable/shape_window_menu"
                 app:layout_constraintTop_toBottomOf="@id/upcomingCal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_weight="1">

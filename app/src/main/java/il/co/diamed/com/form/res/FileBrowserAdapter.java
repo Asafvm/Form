@@ -111,7 +111,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             if(v.isActivated()){
                 v.setActivated(false);
                 markedList.remove(this.textView.getText().toString());
-                v.setBackgroundColor(Color.parseColor("#dddddd"));
+                v.setBackgroundColor(Color.parseColor("#8da1e7"));
             }else if(!markedList.isEmpty()) {
                 markedList.add(this.textView.getText().toString());
                 v.setActivated(true);
@@ -126,6 +126,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
 
         @Override
         public boolean onLongClick(View v) {
+
             if(v.findViewById(R.id.file_share_button).getVisibility()== View.INVISIBLE) {
                 return false;
             }else {
@@ -133,9 +134,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
                 v.setActivated(true);
                 v.setBackgroundColor(Color.parseColor("#1243FF"));
 
-
-
-                return false;
+                return true;
             }
         }
         private void shareBatch(){

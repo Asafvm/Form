@@ -28,7 +28,7 @@ import il.co.diamed.com.form.R;
 
 
 public class FileBrowserFragment extends Fragment {
-    private final String TAG = "FileBrowserActivity";
+    private static final String TAG = "FileBrowserFragment";
     private String path;
 
     RecyclerView recyclerView;
@@ -166,9 +166,6 @@ public class FileBrowserFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("path", filename);
             mFileBrowserFragment.setArguments(bundle);
-            //Intent intent = new Intent(this, FileBrowserActivity.class);
-            //intent.putExtra("path", filename);
-            //startActivity(intent);
             FragmentManager mFragmentManager = getFragmentManager();
             FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -254,9 +251,9 @@ public class FileBrowserFragment extends Fragment {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("לקוח יקר,");
         stringBuilder.append('\n');
-        stringBuilder.append("בתאריך " + date.substring(0, 4) + "/" +
+        stringBuilder.append("בתאריך " + date.substring(6) + "/" +
                 date.substring(4, 6) + "/" +
-                date.substring(6) + " בוצע כיול תקופתי עבור המכשירים הבאים");
+                date.substring(0, 4) + " בוצע כיול תקופתי עבור המכשירים הבאים");
         stringBuilder.append('\n');
         String message = stringBuilder.toString();
         return message;

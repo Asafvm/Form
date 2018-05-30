@@ -15,6 +15,7 @@ import il.co.diamed.com.form.res.providers.AnalyticsProvider;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.res.providers.AuthenticationProvider;
 import il.co.diamed.com.form.menu.SettingsActivity;
+import il.co.diamed.com.form.res.providers.DatabaseProvider;
 import il.co.diamed.com.form.res.providers.StorageProvider;
 import io.fabric.sdk.android.Fabric;
 
@@ -25,6 +26,7 @@ public class ClassApplication extends Application {
     StorageProvider storageProvider;
     AuthenticationProvider authenticationProvider;
     SettingsActivity settings;
+    DatabaseProvider dataabase;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -33,8 +35,8 @@ public class ClassApplication extends Application {
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
         authenticationProvider = new AuthenticationProvider();
+        dataabase = new DatabaseProvider();
 
-        // TODO: Move this to where you establish a user session
         logUser();
     }
     public FirebaseAuth getAuthProvider(){

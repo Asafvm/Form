@@ -2,6 +2,7 @@ package il.co.diamed.com.form.menu;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,14 +12,21 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +49,6 @@ public class LoginActivity extends FragmentActivity implements
         MicrosoftSigninFragment.OnFragmentInteractionListener {
     private static final int MY_PERMISSIONS_REQUEST_CONTACTS = 0;
 
-    private ProgressBar progressBar;
     private static final String TAG = "Login";
     private ClassApplication application;
     private UserSetupFragment mUserSetupFragment;
@@ -54,13 +61,10 @@ public class LoginActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
-        progressBar = findViewById(R.id.pbLogin);
         setProgressInfo("Starting",0);
 
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-
 
         signinUser();
 
@@ -109,12 +113,21 @@ public class LoginActivity extends FragmentActivity implements
         }
     }
     private void init() {
+
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        setContentView(R.layout.activity_login);
+
         View decorView = getWindow().getDecorView();
+        Slide slide = new Slide();
+        slide.setDuration(500);
+        slide.setSlideEdge(Gravity.END);
+        getWindow().setEnterTransition(slide);
+        getWindow().setExitTransition(new Fade());
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-        setContentView(R.layout.activity_login);
+
     }
     private void signinToMicrosoft() {
         FragmentManager mFragmentManager;
@@ -219,6 +232,12 @@ public class LoginActivity extends FragmentActivity implements
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String fontsize = sharedPref.getString("sync_fontsize", "");
+        if(fontsize.equals("")) {
+            SharedPreferences.Editor spedit = sharedPref.edit();
+            spedit.putString("sync_fontsize", "12");
+        }
         final String techname = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
         final String thermometer = sharedPref.getString("thermometer", "");
@@ -230,7 +249,11 @@ public class LoginActivity extends FragmentActivity implements
                 barometer.equals("") || timer.equals("") || speedometer.equals("")) {
 
             mUserSetupFragment = new UserSetupFragment();
-            fragmentTransaction.add(R.id.fragment_container, mUserSetupFragment).commit();
+            Slide slide = new Slide();
+            slide.setSlideEdge(Gravity.RIGHT);
+            slide.setDuration(600);
+            mUserSetupFragment.setEnterTransition(slide);
+            fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
 
         } else {
             moveToMainMenu();
@@ -244,9 +267,10 @@ public class LoginActivity extends FragmentActivity implements
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), MainMenuAcitivity.class);
                 startActivity(intent);
-                finish();
+
             }
         }, 2000);
 

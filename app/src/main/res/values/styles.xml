@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -50,7 +50,6 @@
     </style>
 
     <style name="MyButtonStyle" parent="android:Widget.Button">
-        <item name="android:radius">30dp</item>
     </style>
 
     <style name="MyTheme.NoActionBar">

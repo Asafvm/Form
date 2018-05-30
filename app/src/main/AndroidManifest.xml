@@ -82,8 +82,6 @@
             android:name="io.fabric.ApiKey"
             android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
 
-        <activity android:name=".res.FileBrowserActivity" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"
@@ -103,11 +101,12 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
-        <activity android:name=".menu.MainMenuAcitivity"
-            android:launchMode="singleTop"
-            />
+        <activity
+            android:name=".menu.MainMenuAcitivity"
+            android:launchMode="singleTop" />
         <activity android:name=".devices.FridgeActivity" />
-        <activity android:name=".devices.SepaxActivity"></activity>
+        <activity android:name=".devices.SepaxActivity" />
+        <activity android:name=".devices.DevicePrototypeActivity"></activity>
     </application>
 
 </manifest>

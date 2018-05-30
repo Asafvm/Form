@@ -17,13 +17,14 @@ import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-public class DoconActivity extends AppCompatActivity {
+public class DoconActivity extends DevicePrototypeActivity {
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.device_docon_layout);
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -41,6 +42,7 @@ public class DoconActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = h.fixDay(dp.getDayOfMonth());
                     String month = h.fixMonth(dp.getMonth());
@@ -54,7 +56,7 @@ public class DoconActivity extends AppCompatActivity {
                     corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 498, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 469, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(338, 686, dp.getYear()+"_"+
+                    corText.add(new Tuple(338, 686, dp.getYear() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //report
                     corText.add(new Tuple(421, 158, month + " / " +
                             (dp.getYear() + 1), false));                        //Next Date
@@ -75,7 +77,7 @@ public class DoconActivity extends AppCompatActivity {
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
                             month + "" + day + "_Docon_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-                    startActivityForResult(intent, 1);
+                    createPDF(intent);
                 }
             }
 
@@ -91,44 +93,7 @@ public class DoconActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                restart();
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
-
-    private void restart() {
+    public void restart() {
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
     }
 
@@ -143,5 +108,6 @@ public class DoconActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
     }
+
 }
 

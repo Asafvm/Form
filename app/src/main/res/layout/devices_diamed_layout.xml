@@ -4,67 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/diamedDevices"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
 
-    android:background="#aa0000"
+    android:background="@drawable/background_diamed"
     android:padding="15dp"
     app:layout_constraintVertical_chainStyle="spread">
 
     <Button
         android:id="@+id/idInc"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/incubator"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/idCent"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/centrifuge"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/idInc" />
 
     <Button
         android:id="@+id/idDiacent12"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/diacent12"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/idCent" />
 
     <Button
         android:id="@+id/idDiacentCW"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/diacentCW"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/idDiacent12" />
 
     <Button
         android:id="@+id/idGelstation"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/idGeltation"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/idDiacentCW" />
 
     <Button
         android:id="@+id/ih500"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/ih500"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/idGelstation" />
 
     <Button
         android:id="@+id/ih1000"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/ih1000"
-        app:layout_constraintTop_toBottomOf="@id/ih500" />
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/ih500"
+        />
 
     <Button
         android:id="@+id/test"
@@ -74,6 +89,7 @@
         android:text="test"
         android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/ih1000" />
+
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,12 @@
 package il.co.diamed.com.form.devices;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.google.firebase.storage.OnPausedListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -23,17 +27,17 @@ import il.co.diamed.com.form.devices.res.Tuple;
 import static il.co.diamed.com.form.devices.Helper.isTimeValid;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class CentrifugeActivity extends AppCompatActivity {
+public class CentrifugeActivity extends DevicePrototypeActivity {
     private final int EXPECTED_TIME = 10;
     private int EXPECTED_SPEED = 1030;
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
-        h.setLayout(this,R.layout.device_centrifuge_layout);
-
+        h = new Helper();
+        h.setLayout(this, R.layout.device_centrifuge_layout);
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
@@ -41,11 +45,10 @@ public class CentrifugeActivity extends AppCompatActivity {
         final String timer = bundle.getString("timer");
         //default basic values
         init();
-        ((EditText)findViewById(R.id.formTechName)).setText(techname);
+        ((EditText) findViewById(R.id.formTechName)).setText(techname);
         ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
 
-        findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
@@ -80,72 +83,35 @@ public class CentrifugeActivity extends AppCompatActivity {
                     intent.putExtra("report", "2018_idcent_yearly.pdf");
 
                     Bundle pages = new Bundle();
-                    pages.putParcelableArrayList("page1",corText);
-                    intent.putExtra("pages",pages);
+                    pages.putParcelableArrayList("page1", corText);
+                    intent.putExtra("pages", pages);
 
                     intent.putExtra("signature", signature);
-                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString()+"/"+
-                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString()+"/"+
-                            dp.getYear()+""+
-                            month+""+day+"_"+"Centrifuge-"+
-                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString()+"_"+
-                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()+".pdf");
-                    startActivityForResult(intent,1);
+                    intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
+                            ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
+                            dp.getYear() + "" +
+                            month + "" + day + "_" + "Centrifuge-" +
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
+                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    createPDF(intent);
                 }
             }
 
+
             private boolean checkStatus() {
-                return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
-                        isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
-                        isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
-                        Helper.isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed)).getText().toString()), EXPECTED_SPEED) &&
-                        isTimeValid(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME) &&
-                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
-                        ((Switch)findViewById(R.id.centFanSwitch)).isChecked();
+                if (isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()))
+                    if (isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()))
+                        if (isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
+                            if (Helper.isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed)).getText().toString()), EXPECTED_SPEED))
+                                if (isTimeValid(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME))
+                                    if (isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()))
+                                        if (((Switch) findViewById(R.id.centFanSwitch)).isChecked())
+                                            return true;
+                return false;
 
             }
         });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if(resultCode==RESULT_OK){
-                Toast.makeText(this,R.string.pdfSuccess,Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            }else{
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                restart();
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
-
-
 
     private void setListener(RadioGroup rg) {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -172,24 +138,27 @@ public class CentrifugeActivity extends AppCompatActivity {
                         break;
                 }
                 Helper h = new Helper();
-                h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)),EXPECTED_SPEED);
-                ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));            }
+                h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)), EXPECTED_SPEED);
+                ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
+            }
         });
     }
-    private void restart() {
+    @Override
+    public void restart() {
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
         ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
     }
+
     private void init() {
         Helper h = new Helper();
         h.setListener(((EditText) findViewById(R.id.formMainLocation)));
         h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)),EXPECTED_SPEED);
-        h.setTimeListener(((EditText) findViewById(R.id.centTime)),EXPECTED_TIME);
+        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)), EXPECTED_SPEED);
+        h.setTimeListener(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME);
         setListener(((RadioGroup) findViewById(R.id.rgModelSelect)));
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
@@ -199,8 +168,9 @@ public class CentrifugeActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
 
-        ((Switch)findViewById(R.id.centFanSwitch)).setChecked(true);
+        ((Switch) findViewById(R.id.centFanSwitch)).setChecked(true);
     }
+
 
 
 }

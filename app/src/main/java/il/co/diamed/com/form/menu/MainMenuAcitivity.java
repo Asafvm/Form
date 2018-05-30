@@ -22,9 +22,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +57,17 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
+        Slide slide = new Slide();
+        slide.setDuration(500);
+        slide.setSlideEdge(Gravity.END);
+        getWindow().setEnterTransition(slide);
         setContentView(R.layout.activity_main_menu);
-        //ClassApplication application = (ClassApplication) getApplication();
-        //application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
+
         mFragmentManager = getSupportFragmentManager();
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         final String techname = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
@@ -87,20 +101,20 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
+
                         Log.e(TAG, "itemid: " + menuItem.getItemId() + " - itemname: " + menuItem.getTitle());
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-                        Intent intent = null;
                         switch (menuItem.getItemId()) {
                             case R.id.nav_forms: {
                                 mFragmentTransaction = mFragmentManager.beginTransaction();
+
                                 if (mDevicesFragment == null) {
                                     mDevicesFragment = new DevicesFragment();
                                 }
-                                //mFragmentManager.beginTransaction().detach(mDevicesFragment).attach(mDevicesFragment).commit();
-                                //mFragmentTransaction.setCustomAnimations(R.animator, R.animator.);
+                                Fade fade = new Fade();
+                                fade.setDuration(400);
+                                mDevicesFragment.setEnterTransition(fade);
                                 mFragmentTransaction.addToBackStack(null);
                                 mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
 
@@ -108,23 +122,14 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                                 break;
                             }
                             case R.id.nav_settings: {
-                                intent = new Intent(getBaseContext(), SettingsActivity.class);
+                                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+                                startActivity(intent);
                                 break;
                             }
                             case R.id.nav_files: {
-                                if (mFileBrowserFragment == null) {
-                                    mFileBrowserFragment = new FileBrowserFragment();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/");
-                                    mFileBrowserFragment.setArguments(bundle);
-                                }
                                 if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
                                         == PackageManager.PERMISSION_GRANTED) {
-                                    mFragmentTransaction = mFragmentManager.beginTransaction();
-                                    //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-                                    mFragmentTransaction.addToBackStack(null);
-                                    mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
-
+                                    launchFileBrowser();
                                 } else {
                                     // Permission is not granted
                                     getPermission();
@@ -139,9 +144,12 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                             default:
 
                         }
-                        if (intent != null)
-                            startActivity(intent);
+
+                        // close drawer when item is tapped
+                        mDrawerLayout.closeDrawers();
                         return true;
+
+
                     }
                 });
 
@@ -211,18 +219,34 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay!
-                    mFragmentTransaction = mFragmentManager.beginTransaction();
-                    //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-                    mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
-                    mFragmentTransaction.addToBackStack(null);
 
-                    // permission denied, boo! Disable the
+                    launchFileBrowser();
+
+                    // permission denied, boo!
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.noReadPermission), Toast.LENGTH_SHORT).show();
 
                 }
             }
         }
+    }
+
+    private void launchFileBrowser() {
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        if (mFileBrowserFragment == null) {
+            mFileBrowserFragment = new FileBrowserFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/");
+            mFileBrowserFragment.setArguments(bundle);
+        }
+        Slide slide = new Slide();
+        slide.setSlideEdge(Gravity.RIGHT);
+        slide.setDuration(500);
+        mFileBrowserFragment.setEnterTransition(slide);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
+
     }
 
 
@@ -240,13 +264,6 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         mDevicesFragment.deviceSelect(view);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.module_container);
-        fragment.onActivityResult(requestCode, resultCode, data);
-    }
 
     public void getPermission() {
         ActivityCompat.requestPermissions(this,

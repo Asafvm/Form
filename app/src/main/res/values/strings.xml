@@ -54,24 +54,20 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">סינכרון</string>
+    <string name="pref_header_data_sync">הגדרות נוספות</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
+    <string-array name="pref_sync_font_size_titles">
+        <item>קטן</item>
+        <item>רגיל</item>
+        <item>גדול</item>
+        <item>גדול מאוד</item>
     </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
+    <string-array name="pref_sync_font_size_values">
+        <item>10</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
     </string-array>
 
     <string-array name="list_preference_entries">
@@ -91,7 +87,7 @@
     <string name="pref_title_system_sync_settings">הגדרות סינכרון</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_signture">חתימה</string>
+    <string name="pref_header_signture">פרטי משתמש</string>
 
     <string name="pref_title_show_signature_confirmation">הצג חתימה בדו"ח</string>
 
@@ -203,8 +199,8 @@
     <string name="verUpdate">עדכון גרסה</string>
     <string name="selfText">ביצוע self test</string>
     <string name="etNewVer">גרסה חדשה</string>
-    <string name="cancelButton">Cancel</string>
-    <string name="okButton">OK</string>
+    <string name="cancelButton">לא</string>
+    <string name="okButton">כן</string>
     <string name="doAnother">צור דו\"ח נוסף?</string>
 
 
@@ -314,7 +310,7 @@
     <string name="IH500Textsoftware2">OS (Operating System)</string>
     <string name="IH500Textsoftware3">Software version IH-500</string>
     <string name="IH500Textsoftware4">System start-up without errors</string>
-    <string name="rbIH5007sp1">Windows 7\nSP1</string>
+    <string name="rbIH5007sp1">Windows 7 SP1</string>
     <string name="IH500SoftwareVer">Version</string>
     <string name="IH500Textsoftware5">Hard disk available space on Main PC</string>
     <string name="IH500GB">GB</string>
@@ -413,7 +409,7 @@
     <string name="missing">מידע דרוש</string>
     <string name="loggedin">מחובר</string>
     <string name="loggedout">לא מחובר</string>
-    <string name="mailSubject">כיול ציוד ידני</string>
+    <string name="mailSubject">כיול ציוד</string>
     <string name="navForms">דוח\"ות כיול</string>
     <string name="soon">בקרוב.....</string>
     <string name="cancel">ביטול</string>
@@ -434,6 +430,8 @@
     <string name="rbSepaxRM">RM</string>
     <string name="rbSepaxS100">S100</string>
     <string name="tvSepaxType">Sepax Type</string>
+    <string name="logUser">התחבר / התנתק</string>
+    <string name="pref_title_sync_fontsize">גודל טקסט</string>
 
 
     <!-- Strings related to Settings -->

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#dddddd"
+    android:background="#8da1e7"
     android:paddingHorizontal="10dp"
-    android:layout_marginVertical="1dp"
+    android:layout_marginBottom="3dp"
     android:alpha="0.8"
     android:gravity="start"
 

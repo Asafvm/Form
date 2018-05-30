@@ -3,50 +3,60 @@
 <android.support.constraint.ConstraintLayout android:id="@+id/medigalDevices"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#0044ff"
+    android:background="@drawable/background_medigal"
     android:padding="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Button
         android:id="@+id/plasma"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/plasma"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <Button
         android:id="@+id/ultraCW"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/diacentUltra"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/plasma" />
 
     <Button
         android:id="@+id/docon"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/docon"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/ultraCW" />
 
     <Button
         android:id="@+id/fridge"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/fridge"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/docon" />
 
     <Button
         android:id="@+id/sepax"
+        android:background="@drawable/shape_button_device_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="deviceSelect"
         android:text="@string/sepax"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/fridge" />
 
 

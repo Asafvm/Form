@@ -20,14 +20,15 @@ import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class SepaxActivity extends AppCompatActivity {
+public class SepaxActivity extends DevicePrototypeActivity {
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.activity_sepax);
 
 
@@ -57,6 +58,7 @@ public class SepaxActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
 
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
@@ -74,7 +76,7 @@ public class SepaxActivity extends AppCompatActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_Sepax_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-                    startActivityForResult(intent, 1);
+                    createPDF(intent);
                 }
 
             }
@@ -221,45 +223,5 @@ public class SepaxActivity extends AppCompatActivity {
         h.setListener(((EditText) findViewById(R.id.formTechName)));
 
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
-
 
 }

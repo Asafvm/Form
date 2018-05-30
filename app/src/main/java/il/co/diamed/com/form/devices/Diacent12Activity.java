@@ -24,7 +24,7 @@ import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
 import static il.co.diamed.com.form.devices.Helper.isTimeValid;
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class Diacent12Activity extends AppCompatActivity {
+public class Diacent12Activity extends DevicePrototypeActivity {
 
     private static final int EXPECTED_12_TIME1 = 15;
     private static final int EXPECTED_12_TIME2 = 20;
@@ -32,13 +32,14 @@ public class Diacent12Activity extends AppCompatActivity {
     private static final int EXPECTED_12_SPEED1 = 1000;
     private static final int EXPECTED_12_SPEED2 = 2000;
     private static final int EXPECTED_12_SPEED3 = 3000;
+    private Helper h;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.device_diacent12_layout);
 
 
@@ -61,7 +62,7 @@ public class Diacent12Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     Intent intent = new Intent(getBaseContext(), PDFActivity.class);
                     ArrayList<Tuple> corText;
 
@@ -82,7 +83,7 @@ public class Diacent12Activity extends AppCompatActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_Diacent12_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-                    startActivityForResult(intent, 1);
+                    createPDF(intent);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
                 }
@@ -132,7 +133,6 @@ public class Diacent12Activity extends AppCompatActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
                     return false;
-
                 if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
                     return false;
                 if (!isTimeValid(((EditText) findViewById(R.id.centTime1)), EXPECTED_12_TIME1))
@@ -153,45 +153,6 @@ public class Diacent12Activity extends AppCompatActivity {
         });
 
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                initDiacent12();
-
-            }
-            //       }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
 
     private void init() {
         Helper h = new Helper();
@@ -202,7 +163,7 @@ public class Diacent12Activity extends AppCompatActivity {
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-
+        initDiacent12();
     }
 
     private void initDiacent12() {
@@ -221,7 +182,6 @@ public class Diacent12Activity extends AppCompatActivity {
         ((EditText) findViewById(R.id.centSpeed3000)).setText("");
         ((EditText) findViewById(R.id.centTime3)).setText(R.string.time30);
         ((Switch) findViewById(R.id.cent12checkHolders)).setChecked(true);
-
 
     }
 

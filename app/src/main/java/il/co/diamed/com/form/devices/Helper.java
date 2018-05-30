@@ -1,11 +1,13 @@
 package il.co.diamed.com.form.devices;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -16,7 +18,7 @@ import android.widget.TextView;
 import il.co.diamed.com.form.R;
 
 public class Helper extends AppCompatActivity {
-
+    int fSize;
 
     public void setLayout(Activity activity, int resLayout) {
         View lowLayout = activity.findViewById(R.id.lowLayout);
@@ -26,12 +28,18 @@ public class Helper extends AppCompatActivity {
         lowLayout = activity.getLayoutInflater().inflate(resLayout, parent, false);
         parent.addView(lowLayout, index);
 
+        //SET FONT SIZE
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+        String fontsize = sharedPref.getString("sync_fontsize", "12");
+        fSize = Integer.valueOf(fontsize);
+
+
         setButtons((ViewGroup) lowLayout.getParent());
+
 
     }
 
     public void setButtons(ViewGroup layout) {
-
         for (int i = 0; i < layout.getChildCount(); i++) {
             View view = layout.getChildAt(i);
             if (view instanceof ViewGroup)
@@ -51,12 +59,15 @@ public class Helper extends AppCompatActivity {
 
                 }
                 if(view instanceof TextView){
-                    ((TextView) view).setMaxLines(1);
-                    ((TextView) view).setTextSize(12);
+
+                    ((TextView) view).setMaxLines(2);
+                    ((TextView) view).setTextSize(fSize);
                 }
                 if(view instanceof EditText){
-                    ((TextView) view).setMaxLines(1);
-                    ((TextView) view).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    ((EditText) view).setMaxLines(1);
+                    view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    ((EditText)view).setHintTextColor(Color.RED);
+
                 }
                 if (view instanceof EditText) {
                     setListener((EditText) view);
@@ -80,7 +91,7 @@ public class Helper extends AppCompatActivity {
                 if(editText.getText().toString().equals("")) {
                     //editText.setError("מידע דרוש");//.setHintTextColor(Color.RED);
                 }else {
-                    editText.setError(null);
+                    //editText.setError(null);
                 }
             }
 
@@ -95,7 +106,7 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
 
             }
 
@@ -119,7 +130,7 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
 
             }
 
@@ -132,7 +143,7 @@ public class Helper extends AppCompatActivity {
                         editText.setTextColor(Color.BLACK);
                     }
                 } catch (Exception e) {
-                    editText.setHintTextColor(Color.RED);
+                    //editText.setHintTextColor(Color.RED);
                 }
             }
 
@@ -169,7 +180,7 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
 
             }
 
@@ -182,7 +193,7 @@ public class Helper extends AppCompatActivity {
                         editText.setTextColor(Color.BLACK);
                     }
                 } catch (Exception e) {
-                    editText.setHintTextColor(Color.RED);
+                    //editText.setHintTextColor(Color.RED);
                 }
 
             }
@@ -211,7 +222,7 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
 
             }
 
@@ -224,7 +235,7 @@ public class Helper extends AppCompatActivity {
                         editText.setTextColor(Color.BLACK);
                     }
                 } catch (Exception e) {
-                    editText.setHintTextColor(Color.RED);
+                    //editText.setHintTextColor(Color.RED);
                 }
 
             }
@@ -238,7 +249,7 @@ public class Helper extends AppCompatActivity {
                         editText.setTextColor(Color.BLACK);
                     }
                 } catch (Exception e) {
-                    editText.setHintTextColor(Color.RED);
+                    //editText.setHintTextColor(Color.RED);
                 }
             }
         });
@@ -248,7 +259,7 @@ public class Helper extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                editText.setHintTextColor(Color.RED);
+                //editText.setHintTextColor(Color.RED);
 
             }
 
@@ -261,7 +272,7 @@ public class Helper extends AppCompatActivity {
                         editText.setTextColor(Color.BLACK);
                     }
                 } catch (Exception e) {
-                    editText.setHintTextColor(Color.RED);
+                    //editText.setHintTextColor(Color.RED);
                 }
             }
 
@@ -285,6 +296,24 @@ public class Helper extends AppCompatActivity {
             return "0"+date;
         }else{
             return ""+date;
+        }
+
+    }
+    public void setError(EditText editText, boolean error){
+        if(error){
+            editText.setError("מידע דרוש");
+        }else{
+            editText.setError(null);
+        }
+    }
+
+    public void setPDFprogress(Activity activity, String text, boolean visible){
+        if(visible) {
+            activity.findViewById(R.id.PDFprogressLayout).setVisibility(View.VISIBLE);
+            ((TextView)activity.findViewById(R.id.tvPDF)).setText(text);
+
+        }else{
+            activity.findViewById(R.id.PDFprogressLayout).setVisibility(View.INVISIBLE);
         }
 
     }

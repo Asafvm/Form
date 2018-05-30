@@ -2,11 +2,6 @@
 
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
-    <SwitchPreference
-        android:defaultValue="true"
-        android:summary="שם וחתימה יוצגו אוטומטית בדוח"
-        android:key="show_signature_confirmation"
-        android:title="@string/pref_title_show_signature_confirmation" />
 
     <EditTextPreference
         android:capitalize="characters"

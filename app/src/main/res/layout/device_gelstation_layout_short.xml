@@ -453,11 +453,5 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@id/gsPartsList" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

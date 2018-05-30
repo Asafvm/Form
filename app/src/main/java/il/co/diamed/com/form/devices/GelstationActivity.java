@@ -21,13 +21,14 @@ import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class GelstationActivity extends AppCompatActivity {
+public class GelstationActivity extends DevicePrototypeActivity {
     private final double VOLT_THRESHOLD = 0.3;
     private final int VACCUM_MIN = 600;
     private final int PRESSURE_MIN = 180;
     private int EXPECTED_SPEED = 1000;
     private final int EXPECTED_TEMP_HIGH = 37;
     private final int EXPECTED_TEMP_LOW = 25;
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class GelstationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
                     pages.putParcelableArrayList("page2", getPage2corText());
@@ -80,7 +81,7 @@ public class GelstationActivity extends AppCompatActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_Gelstation_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-                    startActivityForResult(intent, 1);
+                    createPDF(intent);
                 }
 
             }
@@ -101,17 +102,17 @@ public class GelstationActivity extends AppCompatActivity {
                 corText.add(new Tuple(344, 470, "", false));           //rubber ok
                 corText.add(new Tuple(394, 452, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgGSsoftware1)).getCheckedRadioButtonId())).getText().toString(), false));           //overall ok
                 corText.add(new Tuple(344, 452, "", false));           //overall ok
-                corText.add(new Tuple(394, 432, "C:\\"+((EditText) findViewById(R.id.etGSsoftwareC)).getText().toString()+"    "+
-                        "D:\\"+((EditText) findViewById(R.id.etGSsoftwareD)).getText().toString(), false));           //free space
+                corText.add(new Tuple(394, 432, "C:\\" + ((EditText) findViewById(R.id.etGSsoftwareC)).getText().toString() + "    " +
+                        "D:\\" + ((EditText) findViewById(R.id.etGSsoftwareD)).getText().toString(), false));           //free space
                 corText.add(new Tuple(344, 434, "", false));           //rubber ok
                 corText.add(new Tuple(344, 416, "", false));           //overall ok
 
                 corText.add(new Tuple(344, 379, "", false));           //rubber ok
-                corText.add(new Tuple(288, 359, ((EditText) findViewById(R.id.etGScommon24)).getText().toString()+"v", false));           //overall ok
+                corText.add(new Tuple(288, 359, ((EditText) findViewById(R.id.etGScommon24)).getText().toString() + "v", false));           //overall ok
                 corText.add(new Tuple(344, 361, "", false));           //overall ok
-                corText.add(new Tuple(288, 341, ((EditText) findViewById(R.id.etGScommon8)).getText().toString()+"v", false));           //rubber ok
+                corText.add(new Tuple(288, 341, ((EditText) findViewById(R.id.etGScommon8)).getText().toString() + "v", false));           //rubber ok
                 corText.add(new Tuple(344, 343, "", false));           //rubber ok
-                corText.add(new Tuple(288, 323, ((EditText) findViewById(R.id.etGScommon12)).getText().toString()+"v", false));           //overall ok
+                corText.add(new Tuple(288, 323, ((EditText) findViewById(R.id.etGScommon12)).getText().toString() + "v", false));           //overall ok
                 corText.add(new Tuple(344, 325, "", false));           //overall ok
                 corText.add(new Tuple(344, 307, "", false));           //rubber ok
 
@@ -250,45 +251,4 @@ public class GelstationActivity extends AppCompatActivity {
         ((EditText) findViewById(R.id.etGSsoftwareD)).setText("");
         ((EditText) findViewById(R.id.etGSsoftwareC)).setText("");
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
-    }
-
-
 }

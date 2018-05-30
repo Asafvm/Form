@@ -1,6 +1,7 @@
 package il.co.diamed.com.form;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -10,12 +11,17 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.itextpdf.text.BadElementException;
@@ -40,11 +46,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import il.co.diamed.com.form.devices.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.Helper;
 import il.co.diamed.com.form.devices.res.Tuple;
+import il.co.diamed.com.form.res.FileBrowserFragment;
 
-public class PDFActivity extends AppCompatActivity {
-    private static final String TAG = "PDFActivity: ";
+public class PDFBuilderFragment extends Fragment {
+    private static final String TAG = "PDFFragment: ";
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private File file;   //iText var
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
@@ -54,32 +62,26 @@ public class PDFActivity extends AppCompatActivity {
     private PdfReader reader = null;
     private PdfStamper stamper = null;
     private Image checkPNG = null;
-    ProgressDialog progress;
+
+
+    private FileBrowserFragment.OnFragmentInteractionListener mListener;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            buildPDF();
-        } else {
-            // Permission is not granted
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
-        }
+        Helper h = new Helper();
+        h.setPDFprogress(getActivity(), "בונה טופס", true);
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     private void buildPDF() {
-        Bundle bundle = getIntent().getExtras();
-
+        Bundle bundle = null;
+        if (getArguments() != null) // Use the current directory as title
+            bundle = getArguments();//getIntent().getExtras();
+        else {
+            activityFailed();
+        }
         String src = "assets/" + Objects.requireNonNull(bundle).getString("report");
 
         String signature = bundle.getString("signature");
@@ -121,36 +123,27 @@ public class PDFActivity extends AppCompatActivity {
             reader.close();
         }
 
+        //Upload to firebase
+        ClassApplication application = (ClassApplication) getActivity().getApplication();
+        application.uploadFile(dest, destArray);
+
         //show preview
         Intent target = new Intent(Intent.ACTION_VIEW);
         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
                 Intent.FLAG_ACTIVITY_NO_HISTORY);
-        Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+        Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
         target.setDataAndType(uri, "application/pdf");
         try {
             startActivity(target);
         } catch (ActivityNotFoundException e) {
             // Instruct the user to install a PDF reader here, or something
         }
-
-
-        //Upload to firebase
-        ClassApplication application = (ClassApplication) getApplication();
-        application.uploadFile(dest, destArray);
-
-
-        //return to activity
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-
-
-        finish();
+        closeFragment();
     }
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
 
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
@@ -162,7 +155,7 @@ public class PDFActivity extends AppCompatActivity {
                     buildPDF();
                 } else {
                     // permission denied, boo! Disable the
-                    Toast.makeText(getApplicationContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
                     activityFailed();
                 }
             }
@@ -170,11 +163,15 @@ public class PDFActivity extends AppCompatActivity {
     }
 
     private void activityFailed() {
-        Intent intent = new Intent();
-        setResult(RESULT_CANCELED, intent);
-        finish();
+        closeFragment();
     }
 
+    public void closeFragment() {
+
+        Helper h = new Helper();
+        h.setPDFprogress(getActivity(), "", false);
+        getActivity().onBackPressed();
+    }
 
     //ITEXT
 
@@ -246,7 +243,7 @@ public class PDFActivity extends AppCompatActivity {
 
         InputStream ims = null;
         try {
-            ims = getAssets().open(url);
+            ims = getActivity().getAssets().open(url);
         } catch (IOException e) {
             Log.e(TAG, "ims = null");
             activityFailed();
@@ -266,20 +263,22 @@ public class PDFActivity extends AppCompatActivity {
     }
 
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        //findViewById(R.id.PDFprogressLayout).setVisibility(View.VISIBLE);
-        Helper h = new Helper();
-        h.setPDFprogress(this,"", false);
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            buildPDF();
+        } else {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+        }
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Helper h = new Helper();
-        h.setPDFprogress(this,"בונה טופס", true);
-    }
+
+
 }
 

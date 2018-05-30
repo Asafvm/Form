@@ -23,14 +23,15 @@ import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
 
-public class FridgeActivity extends AppCompatActivity {
+public class FridgeActivity extends DevicePrototypeActivity {
+    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
+        h = new Helper();
         h.setLayout(this, R.layout.activity_fridge);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
@@ -51,6 +52,7 @@ public class FridgeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = h.fixDay(dp.getDayOfMonth());
                     String month = h.fixMonth(dp.getMonth());
@@ -85,7 +87,7 @@ public class FridgeActivity extends AppCompatActivity {
                             dp.getYear() + "" + month + "" + day + "_" +
                             ((EditText) findViewById(R.id.etModel)).getText().toString() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-                    startActivityForResult(intent, 1);
+                    createPDF(intent);
                 }
 
             }
@@ -97,7 +99,7 @@ public class FridgeActivity extends AppCompatActivity {
                 if (!isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()))
                     return false;
                 //if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
-                    //return false;
+                //return false;
                 return isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
             }
         });
@@ -108,50 +110,6 @@ public class FridgeActivity extends AppCompatActivity {
         h.setListener(((EditText) findViewById(R.id.formMainLocation)));
         h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
         //h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-                doAnother();
-                setResult(RESULT_OK);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
-
-    private void doAnother() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //((EditText) findViewById(R.id.etDeviceSerial)).setText("");
-                ((EditText) findViewById(R.id.etMesTemp)).setText("");
-                ((EditText) findViewById(R.id.etSysTemp)).setText("");
-                ((EditText) findViewById(R.id.etSensor)).setText("");
-                ((EditText) findViewById(R.id.etModel)).setText("");
-
-
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-        alertBuilder.create().show();
     }
 
 }

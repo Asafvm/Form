@@ -1,5 +1,6 @@
 package il.co.diamed.com.form.menu;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,22 +54,6 @@ public class DevicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        final String techname = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
-        final String thermometer = sharedPref.getString("thermometer", "");
-        final String barometer = sharedPref.getString("barometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String speedometer = sharedPref.getString("speedometer", "");
-
-
-        calibrationDevices = new Bundle();
-        calibrationDevices.putString("thermometer", thermometer);
-        calibrationDevices.putString("barometer", barometer);
-        calibrationDevices.putString("speedometer", speedometer);
-        calibrationDevices.putString("timer", timer);
-        calibrationDevices.putString("techName", techname);
-        calibrationDevices.putString("signature", signature);
 
     }
 
@@ -82,23 +69,7 @@ public class DevicesFragment extends Fragment {
         adapter = new SimpleFragmentPagerAdapter(getContext(),getChildFragmentManager());//getActivity().getSupportFragmentManager());
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.e("pager",String.valueOf(position));
-                viewPager.setCurrentItem(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = view.findViewById(R.id.tabs);
 
@@ -109,7 +80,7 @@ public class DevicesFragment extends Fragment {
 
 
     public void deviceSelect(View view) {
-        Intent intent;
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.idInc:
                 intent = new Intent(getContext(), IncubatorActivity.class);
@@ -168,31 +139,32 @@ public class DevicesFragment extends Fragment {
                 break;
             //////////////////////////////
             case R.id.test:
-                //Crashlytics.getInstance().crash(); // Force a crash
                 intent = new Intent(getContext(), MultiLayoutActivity.class);
-                break;
-            default:
-                intent = null;
                 break;
         }
         if (intent != null) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+            final String techname = sharedPref.getString("techName", "");
+            final String signature = sharedPref.getString("signature", "");
+            final String thermometer = sharedPref.getString("thermometer", "");
+            final String barometer = sharedPref.getString("barometer", "");
+            final String timer = sharedPref.getString("timer", "");
+            final String speedometer = sharedPref.getString("speedometer", "");
+
+
+            calibrationDevices = new Bundle();
+            calibrationDevices.putString("thermometer", thermometer);
+            calibrationDevices.putString("barometer", barometer);
+            calibrationDevices.putString("speedometer", speedometer);
+            calibrationDevices.putString("timer", timer);
+            calibrationDevices.putString("techName", techname);
+            calibrationDevices.putString("signature", signature);
             intent.putExtra("cal", calibrationDevices);
             startActivityForResult(intent, 1);
         } else
             Toast.makeText(getContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getContext(), R.string.pdfSuccess, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), R.string.pdfFailed, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
