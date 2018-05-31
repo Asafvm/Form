@@ -62,6 +62,7 @@ public class Helper extends AppCompatActivity {
 
                     ((TextView) view).setMaxLines(2);
                     ((TextView) view).setTextSize(fSize);
+
                 }
                 if(view instanceof EditText){
                     ((EditText) view).setMaxLines(1);

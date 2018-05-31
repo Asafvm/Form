@@ -1,15 +1,11 @@
 package il.co.diamed.com.form.devices;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,7 +25,7 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
         setContentView(R.layout.generic_device_activity);
         h = new Helper();
-        h.setLayout(this, R.layout.activity_sepax);
+        h.setLayout(this, R.layout.device_sepax_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -83,33 +79,47 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
             private ArrayList<Tuple> getPage1corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(470, 628, month + "    " +
-                        (dp.getYear() + 1), false));                        //Next Date
-                corText.add(new Tuple(90, 658, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
+                corText.add(new Tuple(400, 625, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(),false));        //serial
+                corText.add(new Tuple(380, 680, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                         ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
-                corText.add(new Tuple(463, 658, day + " " +
-                        month + "  " +
-                        dp.getYear(), false));                        //Date
-                //corText.add(new Tuple(380,30));                        //Signature
-                corText.add(new Tuple(422, 570, "", false));           //temp ok
-                corText.add(new Tuple(422, 545, "", false));           //time ok
-                corText.add(new Tuple(422, 521, "", false));           //fan ok
 
-                corText.add(new Tuple(253, 467, "", false));           //rubber ok
-                corText.add(new Tuple(253, 449, "", false));           //overall ok
-                corText.add(new Tuple(253, 538, "", false));           //rubber ok
-                corText.add(new Tuple(253, 413, "", false));           //overall ok
-                corText.add(new Tuple(253, 394, "", false));           //rubber ok
-                corText.add(new Tuple(253, 375, "", false));           //rubber ok
-                corText.add(new Tuple(253, 358, "", false));           //overall ok
+                corText.add(new Tuple(56, 632, "", false));
+                corText.add(new Tuple(100, 583,"6110017250",false));        //Multimeter
 
-                corText.add(new Tuple(538, 282, "", false));           //overall ok
-                corText.add(new Tuple(538, 264, "", false));           //overall ok
-                //corText.add(new Tuple(430, 242, "", false));           //rubber ok
 
-                corText.add(new Tuple(538, 162, "", false));           //overall ok
-                corText.add(new Tuple(538, 144, "", false));           //rubber ok
-                corText.add(new Tuple(538, 126, "", false));           //rubber ok
+                corText.add(new Tuple(543, 504, "", false));
+                corText.add(new Tuple(200, 497, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(),false));        //serial
+
+                //add piston position
+
+                corText.add(new Tuple(543, 491, "", false));
+                //corText.add(new Tuple(543, 478, "", false)); no printer
+                corText.add(new Tuple(543, 466, "", false));
+
+                corText.add(new Tuple(525, 440, "", false)); //N/A
+                //corText.add(new Tuple(525, 425, "", false));
+                //corText.add(new Tuple(525, 412, "", false));
+                //corText.add(new Tuple(525, 399, "", false));
+
+                //corText.add(new Tuple(269, 435, "", false)); no printer
+                corText.add(new Tuple(269, 422, "", false));
+                corText.add(new Tuple(237, 408, "English", false));
+
+                corText.add(new Tuple(543, 274, "", false));
+                corText.add(new Tuple(543, 261, "", false));
+
+                corText.add(new Tuple(543, 221, "", false));
+                corText.add(new Tuple(543, 208, "", false));
+                corText.add(new Tuple(543, 195, "", false));
+
+                corText.add(new Tuple(543, 167, "", false));
+
+                corText.add(new Tuple(543, 140, "", false));
+                corText.add(new Tuple(543, 127, "", false));
+                corText.add(new Tuple(543, 113, "", false));
+
+                //check for sealing system test
+                corText.add(new Tuple(543, 50, "", false)); //N/A
 
                 return corText;
             }
@@ -117,35 +127,41 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
             private ArrayList<Tuple> getPage2corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(538, 710, "", false));           //overall ok
-                corText.add(new Tuple(538, 692, "", false));           //rubber ok
-                corText.add(new Tuple(538, 673, "", false));           //overall ok
-                corText.add(new Tuple(538, 655, "", false));           //rubber ok
-                corText.add(new Tuple(538, 637, "", false));           //overall ok
+                corText.add(new Tuple(542, 671, "", false));
 
+                corText.add(new Tuple(542, 624, "", false));
 
-                corText.add(new Tuple(538, 567, "", false));           //rubber ok
-                corText.add(new Tuple(538, 549, "", false));           //temp ok
-                corText.add(new Tuple(538, 531, "", false));           //time ok
-                corText.add(new Tuple(538, 512, "", false));           //fan ok
+                corText.add(new Tuple(542, 602, "", false));
+                corText.add(new Tuple(542, 590, "", false));
+                corText.add(new Tuple(542, 579, "", false));
+                corText.add(new Tuple(542, 568, "", false));
+                corText.add(new Tuple(542, 557, "", false));
 
-                corText.add(new Tuple(538, 443, "", false));           //rubber ok
-                corText.add(new Tuple(538, 425, "", false));           //overall ok
-                corText.add(new Tuple(538, 407, "", false));           //overall ok
-                corText.add(new Tuple(538, 388, "", false));           //rubber ok
-                corText.add(new Tuple(538, 367, "", false));           //overall ok
-                //corText.add(new Tuple(430, 344, "", false));           //rubber ok
-                //corText.add(new Tuple(430, 319, "", false));           //overall ok
-                //corText.add(new Tuple(430, 295, "", false));           //overall ok
+                corText.add(new Tuple(542, 498, "", false));
+                corText.add(new Tuple(542, 487, "", false));
 
-                corText.add(new Tuple(538, 239, "", false));           //overall ok
-                corText.add(new Tuple(538, 220, "", false));           //rubber ok
-                corText.add(new Tuple(538, 202, "", false));           //overall ok
-                corText.add(new Tuple(538, 184, "", false));           //rubber ok
-                corText.add(new Tuple(538, 163, "", false));           //overall ok
-                corText.add(new Tuple(538, 142, "", false));           //rubber ok
-                //corText.add(new Tuple(430, 121, "", false));           //rubber ok
-                //corText.add(new Tuple(430, 94, "", false));           //rubber ok
+                corText.add(new Tuple(542, 464, "", false));
+                corText.add(new Tuple(542, 452, "", false));
+
+                corText.add(new Tuple(542, 418, "", false));
+                corText.add(new Tuple(542, 407, "", false));
+                corText.add(new Tuple(542, 395, "", false));
+                corText.add(new Tuple(542, 384, "", false));
+
+                corText.add(new Tuple(542, 326, "", false));
+                corText.add(new Tuple(542, 315, "", false));
+
+                corText.add(new Tuple(542, 269, "", false));
+
+                corText.add(new Tuple(542, 246, "", false));
+                corText.add(new Tuple(542, 235, "", false));
+
+                corText.add(new Tuple(542, 199, "", false));
+                corText.add(new Tuple(542, 187, "", false));
+
+                corText.add(new Tuple(542, 161, "", false));
+                corText.add(new Tuple(542, 148, "", false));
+                corText.add(new Tuple(542, 135, "", false));
 
                 return corText;
             }
@@ -153,31 +169,39 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
             private ArrayList<Tuple> getPage3corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
-                corText.add(new Tuple(542, 684, "", false));           //rubber ok
-                corText.add(new Tuple(542, 671, "", false));           //rubber ok
-                corText.add(new Tuple(542, 658, "", false));           //rubber ok
-                corText.add(new Tuple(542, 645, "", false));           //rubber ok
-                corText.add(new Tuple(542, 633, "", false));           //rubber ok
-                corText.add(new Tuple(542, 620, "", false));           //rubber ok
+                corText.add(new Tuple(542, 689, "", false));
+                corText.add(new Tuple(542, 677, "", false));
+                corText.add(new Tuple(542, 664, "", false));
+                corText.add(new Tuple(542, 651, "", false));
+                corText.add(new Tuple(542, 639, "", false));
+                corText.add(new Tuple(542, 626, "", false));
 
-                corText.add(new Tuple(541, 585, "", false));           //rubber ok
-                corText.add(new Tuple(541, 572, "", false));           //rubber ok
+                corText.add(new Tuple(542, 589, "", false));
+                corText.add(new Tuple(542, 576, "", false));
 
-                corText.add(new Tuple(540, 480, "", false));           //rubber ok
-                corText.add(new Tuple(540, 469, "", false));           //rubber ok
-                corText.add(new Tuple(540, 458, "", false));           //rubber ok
-                corText.add(new Tuple(540, 447, "", false));           //rubber ok
 
-                corText.add(new Tuple(539, 386, "", false));           //rubber ok
 
-                corText.add(new Tuple(539, 325, "", false));           //rubber ok
-                corText.add(new Tuple(539, 312, "", false));           //rubber ok
+                corText.add(new Tuple(500, 537, "N/A", false));
+                corText.add(new Tuple(542, 539, "", false));
+                /* N/A
+                corText.add(new Tuple(542, 485, "", false));
+                corText.add(new Tuple(542, 474, "", false));
+                corText.add(new Tuple(542, 462, "", false));
+                corText.add(new Tuple(542, 450, "", false));
 
-                corText.add(new Tuple(539, 251, "", false));           //rubber ok
+                corText.add(new Tuple(542, 390, "", false));
 
-                corText.add(new Tuple(539, 196, "", false));           //rubber ok
+                corText.add(new Tuple(542, 329, "", false));
+                corText.add(new Tuple(542, 316, "", false));
 
-                corText.add(new Tuple(539, 150, "", false));           //rubber ok
+                corText.add(new Tuple(542, 255, "", false));
+                */
+
+                corText.add(new Tuple(500, 215, "N/A", false));
+                corText.add(new Tuple(542, 217, "", false));
+                //corText.add(new Tuple(542, 199, "", false)); N/A
+
+                corText.add(new Tuple(542, 152, "", false));
 
                 return corText;
             }
@@ -186,21 +210,26 @@ public class SepaxActivity extends DevicePrototypeActivity {
                 ArrayList<Tuple> corText = new ArrayList<>();
 
                 //YES
-                corText.add(new Tuple(492, 685, "", false));           //rubber ok
-                corText.add(new Tuple(492, 672, "", false));           //rubber ok
-                corText.add(new Tuple(492, 659, "", false));           //rubber ok
-                corText.add(new Tuple(492, 646, "", false));           //rubber ok
-                corText.add(new Tuple(492, 634, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 689, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 676, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 663, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 650, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 638, "", false));           //rubber ok
                 //NO
-                corText.add(new Tuple(540, 685, "", false));           //overall ok
-                corText.add(new Tuple(540, 672, "", false));           //overall ok
-                corText.add(new Tuple(540, 659, "", false));           //overall ok
-                corText.add(new Tuple(540, 646, "", false));           //overall ok
-                corText.add(new Tuple(540, 634, "", false));           //overall ok
+                corText.add(new Tuple(541, 689, "", false));           //overall ok
+                corText.add(new Tuple(541, 676, "", false));           //overall ok
+                corText.add(new Tuple(541, 663, "", false));           //overall ok
+                corText.add(new Tuple(541, 650, "", false));           //overall ok
+                corText.add(new Tuple(541, 638, "", false));           //overall ok
 
-                corText.add(new Tuple(539, 118, "", false));           //overall ok
 
-                corText.add(new Tuple(100, 61, day +"/"+ month + "/"+ dp.getYear(), true));                        //Tech Name
+
+                corText.add(new Tuple(150, 267, "X-Ring", false));           //Part
+
+
+                corText.add(new Tuple(542, 119, "", false));           //PASS
+
+                corText.add(new Tuple(100, 61, day +" / "+ month + " / "+ dp.getYear(), true));                        //Tech Name
                 corText.add(new Tuple(380, 60, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                 corText.add(new Tuple(440, 19, "!", false));                        //Signature
 

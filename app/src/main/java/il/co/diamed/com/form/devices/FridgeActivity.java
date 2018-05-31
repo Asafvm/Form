@@ -1,18 +1,12 @@
 package il.co.diamed.com.form.devices;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +26,7 @@ public class FridgeActivity extends DevicePrototypeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
         h = new Helper();
-        h.setLayout(this, R.layout.activity_fridge);
+        h.setLayout(this, R.layout.device_fridge_layout);
         h.setListener((EditText) findViewById(R.id.formTechName));
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -59,15 +53,20 @@ public class FridgeActivity extends DevicePrototypeActivity {
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 426, "", false));           //temp ok
 
-                    corText.add(new Tuple(490, 269, "", false));           //overall ok
+                    if(((RadioGroup)findViewById(R.id.rgTypeSelect)).getCheckedRadioButtonId()==R.id.rbFridge)
+                        corText.add(new Tuple(138, 508, "", false));           //fridge
+                    else
+                        corText.add(new Tuple(204, 508, "", false));           //sensor
+
+                    corText.add(new Tuple(482, 269, "", false));           //overall ok
 
                     corText.add(new Tuple(335, 617, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " + ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));             //Location
                     corText.add(new Tuple(340, 163, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));            //Tech Name
-                    corText.add(new Tuple(100, 615, day + "    " + month + "    " + dp.getYear(), false));                        //Date
-                    //corText.add(new Tuple(125, 633, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(100, 615, day + "    " + month + "     " + dp.getYear(), false));                        //Date
+                    corText.add(new Tuple(95, 525, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(365, 525, ((EditText) findViewById(R.id.etModel)).getText().toString(), false));                        //ver
-                    corText.add(new Tuple(405, 242, month + "   " + (dp.getYear() + 1), false));                        //Next Date
-                    corText.add(new Tuple(72, 525, ((EditText) findViewById(R.id.etSensor)).getText().toString(), false));
+                    corText.add(new Tuple(406, 213, month + "    " + (dp.getYear() + 1), false));                        //Next Date
+                    //corText.add(new Tuple(72, 525, ((EditText) findViewById(R.id.etSensor)).getText().toString(), false));
                     corText.add(new Tuple(278, 382, thermometer, false));
                     corText.add(new Tuple(410, 422, ((EditText) findViewById(R.id.etSysTemp)).getText().toString(), false));
                     corText.add(new Tuple(275, 422, ((EditText) findViewById(R.id.etMesTemp)).getText().toString(), false));

@@ -1,6 +1,8 @@
 package il.co.diamed.com.form.res;
 
-public class FileBrowserItem {
+import android.support.annotation.NonNull;
+
+public class FileBrowserItem implements Comparable{
     private String text;
 private boolean directory;
 
@@ -16,5 +18,14 @@ private boolean directory;
 
     public boolean isDirectory() {
         return directory;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if (!directory)
+            return -1;
+        else
+            return(this.text.compareTo(((FileBrowserItem)o).getText()));
+
     }
 }

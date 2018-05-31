@@ -12,22 +12,67 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/innerGeneralLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp">
 
         <include
             android:id="@+id/serialLayout"
-            layout="@layout/form_serial" />
+            layout="@layout/form_serial"
+            />
+
+        <TextView
+            android:id="@+id/tvFridgeType"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvSystemType"
+            android:labelFor="@id/etSysTemp"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rgTypeSelect"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout"
+            app:layout_constraintBottom_toTopOf="@id/tvModel"/>
+        <RadioGroup
+            android:id="@+id/rgTypeSelect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvFridgeType"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout"
+            app:layout_constraintBottom_toTopOf="@id/tvModel"
+
+            >
+
+            <RadioButton
+                android:id="@+id/rbSensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sensor"/>
+            <RadioButton
+                android:id="@+id/rbFridge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fridge"
+                android:checked="true"/>
+
+        </RadioGroup>
+
 
         <TextView
             android:id="@+id/tvModel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="@string/fridgeModel"
             android:labelFor="@id/etModel"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/etModel"
-            app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+            app:layout_constraintTop_toBottomOf="@id/tvFridgeType"
+            app:layout_constraintBottom_toTopOf="@id/tvSysTemp"/>
 
         <EditText
             android:id="@+id/etModel"
@@ -49,54 +94,26 @@
             app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tvSensor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/fridgeSensor"
-            android:labelFor="@id/etSensor"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etSensor"
-            app:layout_constraintTop_toBottomOf="@id/tvModel" />
 
-
-        <EditText
-            android:id="@+id/etSensor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@id/tvSensor"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintStart_toEndOf="@id/spacer1"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvSensor" />
-
-        <Space
-            android:id="@+id/spacer1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/etSensor"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvSysTemp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="@string/fridgeSysTemp"
             android:labelFor="@id/etSysTemp"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/etSysTemp"
-            app:layout_constraintTop_toBottomOf="@id/tvSensor" />
+            app:layout_constraintTop_toBottomOf="@id/tvModel"
+            app:layout_constraintBottom_toTopOf="@id/tvMesTemp"/>
 
         <EditText
             android:id="@+id/etSysTemp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textAlignment="textEnd"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSysTemp"
             app:layout_constraintEnd_toStartOf="@id/tvSysTemp"
@@ -115,20 +132,22 @@
         <TextView
             android:id="@+id/tvMesTemp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="@string/fridgeMesTemp"
             android:labelFor="@id/etMesTemp"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/etMesTemp"
-            app:layout_constraintTop_toBottomOf="@id/tvSysTemp" />
+            app:layout_constraintTop_toBottomOf="@id/tvSysTemp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         <EditText
             android:id="@+id/etMesTemp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@id/tvMesTemp"
             app:layout_constraintHorizontal_weight="0.4"
@@ -139,7 +158,7 @@
             android:id="@+id/spacer3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/etSensor"
+            app:layout_constraintEnd_toStartOf="@id/etMesTemp"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent" />

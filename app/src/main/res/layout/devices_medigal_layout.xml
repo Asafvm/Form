@@ -57,6 +57,7 @@
         android:onClick="deviceSelect"
         android:text="@string/sepax"
         android:layout_margin="10dp"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/fridge" />
 
 

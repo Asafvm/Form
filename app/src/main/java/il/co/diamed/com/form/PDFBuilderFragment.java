@@ -70,8 +70,7 @@ public class PDFBuilderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Helper h = new Helper();
-        h.setPDFprogress(getActivity(), "בונה טופס", true);
+
     }
 
 
@@ -168,8 +167,6 @@ public class PDFBuilderFragment extends Fragment {
 
     public void closeFragment() {
 
-        Helper h = new Helper();
-        h.setPDFprogress(getActivity(), "", false);
         getActivity().onBackPressed();
     }
 

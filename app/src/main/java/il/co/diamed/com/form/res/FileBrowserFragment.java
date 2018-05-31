@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import il.co.diamed.com.form.BuildConfig;
@@ -94,7 +96,7 @@ public class FileBrowserFragment extends Fragment {
                 }
             }
         }
-
+        Collections.sort(values);
         adapter = new FileBrowserAdapter(values, getContext());
         recyclerView.setAdapter(adapter);
 
@@ -279,7 +281,6 @@ public class FileBrowserFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

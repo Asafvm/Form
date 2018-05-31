@@ -25,6 +25,9 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     private List<FileBrowserItem> list;
     private List<String> markedList;
     private Context context;
+    private String colorMarked = "#173793";
+    private String colorUnmarked = "#B9E6EA";
+
 
     FileBrowserAdapter(List<FileBrowserItem> list, Context context) {
         this.list = list;
@@ -41,7 +44,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             @Override
             public void onClick(View v) {
                 v.setActivated(!v.isActivated());
-                v.setBackgroundColor(v.isActivated() ? Color.BLUE : Color.parseColor("#eeeeee"));
+                v.setBackgroundColor(Color.parseColor(v.isActivated() ? colorMarked : colorUnmarked));
             }
         });
         return new FileBrowserAdapter.ViewHolder(v);
@@ -56,9 +59,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         if (item.isDirectory()) {
             holder.icon.setImageResource(R.drawable.ic_folder_white_36dp);
             holder.share.setVisibility(View.GONE);
-
         }
-
     }
 
     @Override
@@ -87,7 +88,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
                 public void onClick(View v) {
                     if(markedList.isEmpty()) {
                         v.setActivated(false);
-                        v.setBackgroundColor(Color.parseColor("#dddddd"));
+                        v.setBackgroundColor(Color.parseColor(colorUnmarked));
                         Log.e(TAG, textView.getText().toString());
                         Intent i = new Intent(BROADCAST_FILTER);
                         i.putExtra("share", true);
@@ -98,6 +99,8 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
                     }
                 }
             });
+
+            /** TODO: implement manual upload to server and delete option **/
 
         }
 
@@ -111,11 +114,11 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             if(v.isActivated()){
                 v.setActivated(false);
                 markedList.remove(this.textView.getText().toString());
-                v.setBackgroundColor(Color.parseColor("#8da1e7"));
+                v.setBackgroundColor(Color.parseColor(colorUnmarked));
             }else if(!markedList.isEmpty()) {
                 markedList.add(this.textView.getText().toString());
                 v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor("#2243FF"));
+                v.setBackgroundColor(Color.parseColor(colorMarked));
             }else{
                 Log.e(TAG, this.textView.getText().toString());
                 Intent i = new Intent(BROADCAST_FILTER);
@@ -132,7 +135,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             }else {
                 markedList.add(this.textView.getText().toString());
                 v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor("#1243FF"));
+                v.setBackgroundColor(Color.parseColor(colorMarked));
 
                 return true;
             }

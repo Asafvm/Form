@@ -1,5 +1,6 @@
 package il.co.diamed.com.form.menu;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -165,6 +166,16 @@ public class DevicesFragment extends Fragment {
             Toast.makeText(getContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onResume() {
+        Activity activity = getActivity();
+        if (activity != null && isAdded()) {
+            super.onResume();
+        }else{
+            if(activity!=null)
+                activity.onBackPressed();
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -197,7 +208,6 @@ public class DevicesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

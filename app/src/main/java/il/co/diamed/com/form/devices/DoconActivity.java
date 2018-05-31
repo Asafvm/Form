@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import il.co.diamed.com.form.PDFActivity;
@@ -46,18 +47,19 @@ public class DoconActivity extends DevicePrototypeActivity {
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = h.fixDay(dp.getDayOfMonth());
                     String month = h.fixMonth(dp.getMonth());
+                    Date date = new Date();
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(320, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString(), true));                        //Location
                     corText.add(new Tuple(310, 117, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                     corText.add(new Tuple(150, 686, day + "/" + month + "/" + dp.getYear(), false));                        //Date
                     corText.add(new Tuple(90, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(390, 607, ((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(390, 607, "MDA V"+((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 498, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 469, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(338, 686, dp.getYear() + "_" +
-                            ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //report
+                    corText.add(new Tuple(338, 686,
+                            dp.getYear() + "-" + date.getTime()/1000, false));                        //report
                     corText.add(new Tuple(421, 158, month + " / " +
                             (dp.getYear() + 1), false));                        //Next Date
 
@@ -103,10 +105,6 @@ public class DoconActivity extends DevicePrototypeActivity {
         h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
         h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
         h.setListener(((EditText) findViewById(R.id.formTechName)));
-
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
-        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
     }
 
 }

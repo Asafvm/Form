@@ -44,7 +44,6 @@ public class ClassApplication extends Application {
     }
 
     private void logUser() {
-        // TODO: Use the current user's information
         // You can call any combination of these three methods
         if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
             FirebaseUser user =FirebaseAuth.getInstance().getCurrentUser();

@@ -282,7 +282,6 @@ public class LoginActivity extends FragmentActivity implements
     }
     @Override
     public void onFragmentInteraction(Uri uri) {
-        //TODO: what is this?
     }
 }
 

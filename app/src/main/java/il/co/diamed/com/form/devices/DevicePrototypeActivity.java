@@ -20,7 +20,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
     private android.app.FragmentTransaction mFragmentTransaction;
     private android.app.FragmentManager mFragmentManager;
     private PDFBuilderFragment mPDFBuilderFragment;
-
+    private Helper h = new Helper();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +29,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
     public void createPDF(Intent intent) {
 
+        h.setPDFprogress(this, "בונה טופס", true);
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mPDFBuilderFragment = new PDFBuilderFragment();
         mPDFBuilderFragment.setArguments(intent.getExtras());
@@ -38,6 +39,8 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        h.setPDFprogress(this, "", false);
+
         if (mPDFBuilderFragment != null) {
             android.app.FragmentManager manager = getFragmentManager();
             android.app.FragmentTransaction trans = manager.beginTransaction();
