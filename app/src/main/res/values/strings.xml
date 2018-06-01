@@ -467,7 +467,39 @@
     <string name="tvSepaxTitleSensor">Optical line sensor tests</string>
     <string name="tvSepaxSensor1">Red LED</string>
     <string name="tvSepaxSensor1_2">Green LED</string>
-
+    <string name="tvSepaxSensornofilter">Without filter</string>
+    <string name="tvSepaxSensorwithfilter">Black filter</string>
+    <string name="tvSepaxTitleSecurity">Security tests</string>
+    <string name="tvSepaxSecurity1">Check the two temperature sensors</string>
+    <string name="tvSepaxSecurityTemp1"><![CDATA[0.4< C <0.7]]></string>
+    <string name="tvSepaxSecurityTemp2"><![CDATA[18°C< I <40°C]]></string>
+    <string name="tvSepaxTitleElectric">Electrical power adjust</string>
+    <string name="tvSepaxElectric1">+ 5.1V Fuse 1</string>
+    <string name="tvSepaxElectricTemp1"><![CDATA[5.0 < value < 5.2]]></string>
+    <string name="tvSepaxElectric2">+ 15.1V Fuse 2</string>
+    <string name="tvSepaxElectricTemp2"><![CDATA[14.8 < value < 15.3]]></string>
+    <string name="tvSepaxElectric3">- 15.1V</string>
+    <string name="tvSepaxElectricTemp3"><![CDATA[-15.3 < value < -14.8]]></string>
+    <string name="tvSepaxElectric4">- 12.1V Fuse 3</string>
+    <string name="tvSepaxElectricTemp4"><![CDATA[-12.3 < value < -11.8]]></string>
+    <string name="tvSepaxElectric5">+ 26.1V Fuse 4</string>
+    <string name="tvSepaxElectricTemp5"><![CDATA[25.5 < value < 26.3]]></string>
+    <string name="tvSepaxElectric6">+ 48.1V Fuse 5</string>
+    <string name="tvSepaxElectricTemp6"><![CDATA[47.5 < value < 48.3]]></string>
+    <string name="tvSepaxTitleUser">User function tests</string>
+    <string name="tvSepaxUser1">Software Version</string>
+    <string name="switchSepaxSW2">SW2</string>
+    <string name="switchSepaxSW3">SW3</string>
+    <string name="switchSepaxSW4">SW4</string>
+    <string name="etSepaxAir7_1"><![CDATA[1500 < value < 1800 mbar]]></string>
+    <string name="etSepaxAir8_1"><![CDATA[value < -700 mbar]]></string>
+    <string name="etSepaxAir9_1"><![CDATA[50< value < 150 mbar]]></string>
+    <string name="etSepaxVolume1">=1</string>
+    <string name="etSepaxVolume2"><![CDATA[69<value<76]]></string>
+    <string name="etSepaxVolume3"><![CDATA[390<value<410]]></string>
+    <string name="etSepaxVolume4"><![CDATA[390<value<410]]></string>
+    <string name="tvSepaxeSensornfhint"><![CDATA[5.5 < value < 6.0V]]></string>
+    <string name="tvSepaxeSensorwfhint"><![CDATA[0.0 < value < 0.2V]]></string>
 
     <!-- Strings related to Settings -->
 

@@ -1,9 +1,6 @@
 package il.co.diamed.com.form.devices;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -11,12 +8,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
 
@@ -90,7 +85,7 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                     corText.add(new Tuple(105, 30, "!", false));                        //Signature
 
 
-                    Intent intent = new Intent(getBaseContext(), PDFActivity.class);
+                    Intent intent = new Intent();
                     intent.putExtra("report", "2018_plasma_biyearly.pdf");
 
                     Bundle pages = new Bundle();

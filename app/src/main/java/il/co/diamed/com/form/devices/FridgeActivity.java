@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
 
@@ -73,7 +71,7 @@ public class FridgeActivity extends DevicePrototypeActivity {
 
                     corText.add(new Tuple(140, 163, "!", false));                        //Signature
 
-                    Intent intent = new Intent(getBaseContext(), PDFActivity.class);
+                    Intent intent = new Intent();
                     intent.putExtra("report", "2018_fridge_yearly.pdf");
 
                     Bundle pages = new Bundle();

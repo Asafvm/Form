@@ -204,6 +204,7 @@ public class FileBrowserFragment extends Fragment {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("application/pdf");
         shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
+        shareIntent.putExtra(Intent.EXTRA_BCC, new String[]{"Itsik.Benatar@diamed.co.il"});
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject));
         shareIntent.putExtra(Intent.EXTRA_TEXT, getMailHeader(files[0]) + getMailBody(files[1],files[2]));
         shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file));

@@ -48,7 +48,7 @@ public class LoginActivity extends FragmentActivity implements
         UserSetupFragment.OnFragmentInteractionListener,
         MicrosoftSigninFragment.OnFragmentInteractionListener {
     private static final int MY_PERMISSIONS_REQUEST_CONTACTS = 0;
-
+    private MicrosoftSigninFragment mMicrosoftSigninFragment;
     private static final String TAG = "Login";
     private ClassApplication application;
     private UserSetupFragment mUserSetupFragment;
@@ -130,13 +130,13 @@ public class LoginActivity extends FragmentActivity implements
 
     }
     private void signinToMicrosoft() {
-        FragmentManager mFragmentManager;
-        MicrosoftSigninFragment mMicrosoftSigninFragment = new MicrosoftSigninFragment();
-        mFragmentManager = getSupportFragmentManager();
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+
+
         if (mMicrosoftSigninFragment == null) {
             mMicrosoftSigninFragment = new MicrosoftSigninFragment();
         }
-        FragmentTransaction ft = mFragmentManager.beginTransaction();
         //ft.setCustomAnimations(R.animator, R.animator.fade_in);
         ft.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
     }

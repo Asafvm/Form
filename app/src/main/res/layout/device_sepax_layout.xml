@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lowLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintVertical_weight="5"
@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="15dp"
-
         >
 
         <include
@@ -54,6 +53,7 @@
             android:id="@+id/etSepaxParam1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxParam1"
             app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleAir"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/etSepaxAir1"
+            android:inputType="number"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.7"
@@ -113,6 +114,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/etSepaxAir2"
+            android:inputType="number"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.7"
@@ -135,6 +137,7 @@
             android:id="@+id/etSepaxAir3_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir3_1"
@@ -157,6 +160,7 @@
             android:id="@+id/etSepaxAir3_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir3"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir3_2"
             app:layout_constraintHorizontal_weight="0.2"
@@ -168,12 +172,10 @@
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxAir3_2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir3"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxAir1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/etSepaxAir3_2"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir1" />
+            app:layout_constraintStart_toEndOf="@id/etSepaxAir3_2" />
 
         <TextView
             android:id="@+id/tvSepaxAir4"
@@ -192,6 +194,7 @@
             android:id="@+id/etSepaxAir4_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir4_1"
@@ -214,6 +217,7 @@
             android:id="@+id/etSepaxAir4_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir4"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir4_2"
             app:layout_constraintHorizontal_weight="0.2"
@@ -225,12 +229,10 @@
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxAir3_2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir4"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxAir1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/etSepaxAir4_2"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir1" />
+            app:layout_constraintStart_toEndOf="@id/etSepaxAir4_2" />
 
         <TextView
             android:id="@+id/tvSepaxAir5"
@@ -249,6 +251,7 @@
             android:id="@+id/etSepaxAir5_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir5_1"
@@ -271,6 +274,7 @@
             android:id="@+id/etSepaxAir5_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir5"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir5_2"
             app:layout_constraintHorizontal_weight="0.2"
@@ -282,7 +286,6 @@
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxAir3_2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir5"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxAir1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="0.2"
@@ -305,6 +308,7 @@
             android:id="@+id/etSepaxAir6_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir6_1"
@@ -327,6 +331,7 @@
             android:id="@+id/etSepaxAir6_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir6"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxAir6_2"
             app:layout_constraintHorizontal_weight="0.2"
@@ -338,12 +343,10 @@
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxAir3_2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir6"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxAir1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/etSepaxAir6_2"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir1" />
+            app:layout_constraintStart_toEndOf="@id/etSepaxAir6_2" />
 
         <TextView
             android:id="@+id/tvSepaxAir7"
@@ -353,7 +356,7 @@
             app:layout_constraintBottom_toTopOf="@id/tvSepaxAir8"
             app:layout_constraintEnd_toStartOf="@id/etSepaxAir7_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxAir6"
             app:layout_constraintVertical_weight="1" />
@@ -362,9 +365,11 @@
             android:id="@+id/etSepaxAir7_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxAir7_1"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir7"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toEndOf="@id/tvSepaxAir7" />
 
         <TextView
@@ -375,7 +380,7 @@
             app:layout_constraintBottom_toTopOf="@id/tvSepaxAir9"
             app:layout_constraintEnd_toStartOf="@id/etSepaxAir8_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxAir7"
             app:layout_constraintVertical_weight="1" />
@@ -384,9 +389,11 @@
             android:id="@+id/etSepaxAir8_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxAir8_1"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir8"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toEndOf="@id/tvSepaxAir8" />
 
         <TextView
@@ -397,7 +404,7 @@
             app:layout_constraintBottom_toTopOf="@id/switchSealSysExch"
             app:layout_constraintEnd_toStartOf="@id/etSepaxAir9_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxAir8"
             app:layout_constraintVertical_weight="1" />
@@ -406,9 +413,11 @@
             android:id="@+id/etSepaxAir9_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxAir9_1"
+            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir9"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintStart_toEndOf="@id/tvSepaxAir9" />
 
         <Switch
@@ -418,26 +427,29 @@
             android:checked="false"
             android:text="@string/switchSealSysExch"
             app:layout_constraintBottom_toTopOf="@id/layoutSealSysExch"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir9" />
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir9"
+            app:layout_constraintVertical_weight="1" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/layoutSealSysExch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxAir11"
-            app:layout_constraintTop_toBottomOf="@id/switchSealSysExch">
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleVolume"
+            app:layout_constraintTop_toBottomOf="@id/switchSealSysExch"
+            app:layout_constraintVertical_weight="1">
 
             <TextView
                 android:id="@+id/tvSepaxAir10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvSepaxAir10"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tvSepaxAir11"
                 app:layout_constraintEnd_toStartOf="@id/etSepaxAir10_1"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintHorizontal_weight="0.3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread"
                 app:layout_constraintVertical_weight="1" />
 
             <EditText
@@ -455,6 +467,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvSepaxAir10_1"
+
                 app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir10"
                 app:layout_constraintEnd_toStartOf="@id/etSepaxAir10_2"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -469,50 +482,51 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.2"
                 app:layout_constraintStart_toEndOf="@id/tvSepaxAir10_1" />
+
+
+            <TextView
+                android:id="@+id/tvSepaxAir11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tvSepaxAir11"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etSepaxAir11_1"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSepaxAir10"
+                app:layout_constraintVertical_weight="1" />
+
+            <EditText
+                android:id="@+id/etSepaxAir11_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvSepaxAir11_1"
+                app:layout_constraintHorizontal_weight="0.2"
+                app:layout_constraintStart_toEndOf="@id/tvSepaxAir11" />
+
+            <TextView
+                android:id="@+id/tvSepaxAir11_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tvSepaxAir11_1"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
+                app:layout_constraintEnd_toStartOf="@id/etSepaxAir11_2"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@id/etSepaxAir11_1" />
+
+            <EditText
+                android:id="@+id/etSepaxAir11_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.2"
+                app:layout_constraintStart_toEndOf="@id/tvSepaxAir11_1" />
         </android.support.constraint.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/tvSepaxAir11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tvSepaxAir11"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleVolume"
-            app:layout_constraintEnd_toStartOf="@id/etSepaxAir11_1"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutSealSysExch"
-            app:layout_constraintVertical_weight="1" />
-
-        <EditText
-            android:id="@+id/etSepaxAir11_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvSepaxAir11_1"
-            app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/tvSepaxAir11" />
-
-        <TextView
-            android:id="@+id/tvSepaxAir11_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tvSepaxAir11_1"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
-            app:layout_constraintEnd_toStartOf="@id/etSepaxAir11_2"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintStart_toEndOf="@id/etSepaxAir11_1" />
-
-        <EditText
-            android:id="@+id/etSepaxAir11_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxAir11"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/tvSepaxAir11_1" />
         <!-- ***************************************************************************** -->
         <TextView
             android:id="@+id/tvSepaxTitleVolume"
@@ -523,7 +537,7 @@
             app:layout_constraintBottom_toTopOf="@id/tvSepaxVolume1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxAir11"
+            app:layout_constraintTop_toBottomOf="@id/layoutSealSysExch"
             app:layout_constraintVertical_weight="1" />
 
 
@@ -544,6 +558,7 @@
             android:id="@+id/etSepaxVolume1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxVolume1"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.2"
@@ -557,7 +572,7 @@
             android:text="@string/tvSepaxVolume2"
             app:layout_constraintEnd_toStartOf="@id/etSepaxVolume2"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxVolume1"
             app:layout_constraintVertical_weight="1" />
@@ -566,9 +581,10 @@
             android:id="@+id/etSepaxVolume2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxVolume2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintStart_toEndOf="@id/tvSepaxVolume2" />
 
         <TextView
@@ -578,7 +594,7 @@
             android:text="@string/tvSepaxVolume3"
             app:layout_constraintEnd_toStartOf="@id/etSepaxVolume3_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxVolume2"
             app:layout_constraintVertical_weight="1" />
@@ -600,7 +616,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume3"
 
             app:layout_constraintEnd_toStartOf="@id/etSepaxVolume3_2"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toEndOf="@id/etSepaxVolume3_1"
             app:layout_constraintVertical_weight="1" />
 
@@ -608,9 +624,10 @@
             android:id="@+id/etSepaxVolume3_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxVolume3"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintStart_toEndOf="@id/tvSepaxVolume3_2" />
 
         <TextView
@@ -620,7 +637,7 @@
             android:text="@string/tvSepaxVolume4"
             app:layout_constraintEnd_toStartOf="@id/etSepaxVolume4_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxVolume3"
             app:layout_constraintVertical_weight="1" />
@@ -631,7 +648,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume4"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxVolume4_3"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toEndOf="@id/tvSepaxVolume4" />
 
         <TextView
@@ -642,7 +659,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume4"
 
             app:layout_constraintEnd_toStartOf="@id/etSepaxVolume4_3"
-            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toEndOf="@id/etSepaxVolume4_1"
             app:layout_constraintVertical_weight="1" />
 
@@ -650,9 +667,10 @@
             android:id="@+id/etSepaxVolume4_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/etSepaxVolume4"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxVolume4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.4"
             app:layout_constraintStart_toEndOf="@id/tvSepaxVolume4_3" />
 
         <TextView
@@ -661,12 +679,23 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/tvSepaxTitleSensor"
-            app:layout_constraintBottom_toTopOf="@id/tvSepaxSensor1"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxSensornofilter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxVolume4"
             app:layout_constraintVertical_weight="1" />
 
+        <TextView
+            android:id="@+id/tvSepaxSensornofilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxSensornofilter"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxSensor1_1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleSensor"
+            app:layout_constraintVertical_weight="1" />
 
         <TextView
             android:id="@+id/tvSepaxSensor1"
@@ -675,18 +704,19 @@
             android:text="@string/tvSepaxSensor1"
             app:layout_constraintEnd_toStartOf="@id/etSepaxSensor1_1"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleSensor"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxSensornofilter"
             app:layout_constraintVertical_weight="1" />
 
         <EditText
             android:id="@+id/etSepaxSensor1_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxeSensornfhint"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor1"
             app:layout_constraintEnd_toStartOf="@id/tvSepaxSensor1_2"
-            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintHorizontal_weight="0.3"
             app:layout_constraintStart_toEndOf="@id/tvSepaxSensor1" />
 
         <TextView
@@ -694,27 +724,346 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxSensor1_2"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor1"
             app:layout_constraintEnd_toStartOf="@id/etSepaxSensor1_2"
-            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toEndOf="@id/etSepaxSensor1_1"
-            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleSensor"
-            app:layout_constraintVertical_weight="1" />
+             />
 
         <EditText
             android:id="@+id/etSepaxSensor1_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxeSensornfhint"
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintHorizontal_weight="0.3"
             app:layout_constraintStart_toEndOf="@id/tvSepaxSensor1_2" />
-        <!-- Parts
+
+        <TextView
+            android:id="@+id/tvSepaxSensorwithfilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxSensorwithfilter"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxSensor2"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxSensor1"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/tvSepaxSensor2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxSensor1"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleSecurity"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxSensor2_1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxSensorwithfilter"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxSensor2_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxeSensorwfhint"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor2"
+            app:layout_constraintEnd_toStartOf="@id/tvSepaxSensor2_2"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxSensor2" />
+
+        <TextView
+            android:id="@+id/tvSepaxSensor2_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxSensor1_2"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor2"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxSensor2_2"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/etSepaxSensor2_1"
+            />
+
+        <EditText
+            android:id="@+id/etSepaxSensor2_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxeSensorwfhint"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSensor2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxSensor2_2" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxTitleSecurity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tvSepaxTitleSecurity"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxSecurity1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxSensor2"
+            app:layout_constraintVertical_weight="1" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxSecurity1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxSecurity1"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleElectric"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxSecurity1_1"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleSecurity"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxSecurity1_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxSecurityTemp1"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSecurity1"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxSecurity1_2"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxSecurity1" />
+
+        <EditText
+            android:id="@+id/etSepaxSecurity1_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxSecurityTemp2"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSecurity1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/etSepaxSecurity1_1" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxTitleElectric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tvSepaxTitleElectric"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxSecurity1"
+            app:layout_constraintVertical_weight="1" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxElectric1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric1"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric2"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric1_1"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleElectric"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric1_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp1"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric1" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxElectric2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric2"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric3"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric2_2"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric1"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric2_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp2"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric2" />
+
+        <TextView
+            android:id="@+id/tvSepaxElectric3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric3"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric4"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric3_3"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric2"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric3_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp3"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric3" />
+
+        <TextView
+            android:id="@+id/tvSepaxElectric4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric4"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric5"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric4_4"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric3"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric4_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp4"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric4" />
+
+        <TextView
+            android:id="@+id/tvSepaxElectric5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric5"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxElectric6"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric5_5"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric4"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric5_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp5"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric5" />
+
+
+        <TextView
+            android:id="@+id/tvSepaxElectric6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxElectric6"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxTitleUser"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxElectric6_6"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric5"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxElectric6_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tvSepaxElectricTemp6"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxElectric6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxElectric6" />
+
+        <TextView
+            android:id="@+id/tvSepaxTitleUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tvSepaxTitleUser"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxUser1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxElectric6"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/tvSepaxUser1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvSepaxUser1"
+            app:layout_constraintBottom_toTopOf="@id/switchSepaxSW2"
+            app:layout_constraintEnd_toStartOf="@id/etSepaxUser1_1"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleUser"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/etSepaxUser1_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxUser1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.1"
+            app:layout_constraintStart_toEndOf="@id/tvSepaxUser1" />
+
+        <Switch
+            android:id="@+id/switchSepaxSW2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/switchSepaxSW2"
+            app:layout_constraintBottom_toTopOf="@id/sepaxPartsList"
+            app:layout_constraintEnd_toStartOf="@id/switchSepaxSW3"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxUser1" />
+
+        <Switch
+            android:id="@+id/switchSepaxSW3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/switchSepaxSW3"
+            app:layout_constraintEnd_toStartOf="@id/switchSepaxSW4"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/switchSepaxSW2"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxUser1" />
+
+        <Switch
+            android:id="@+id/switchSepaxSW4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/switchSepaxSW4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/switchSepaxSW3"
+            app:layout_constraintTop_toBottomOf="@id/tvSepaxUser1" />
+        <!-- Parts -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/sepaxPartsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etSepaxAir8_1" />-->
+            app:layout_constraintTop_toBottomOf="@id/switchSepaxSW2" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

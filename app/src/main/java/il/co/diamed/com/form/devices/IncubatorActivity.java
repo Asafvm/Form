@@ -1,9 +1,7 @@
 package il.co.diamed.com.form.devices;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,16 +9,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.ClassApplication;
-import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
-import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 
 public class IncubatorActivity extends DevicePrototypeActivity {
     private static final String TAG = "IncubatorActivity";
@@ -81,7 +75,7 @@ public class IncubatorActivity extends DevicePrototypeActivity {
 
                     corText.add(new Tuple(135, 33, "!", false));                        //Signature
 
-                    Intent intent = new Intent(getBaseContext(), PDFActivity.class);
+                    Intent intent = new Intent();
 
                     Bundle pages = new Bundle();
                     Bundle page1 = new Bundle();

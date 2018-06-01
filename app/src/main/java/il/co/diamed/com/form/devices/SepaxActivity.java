@@ -10,7 +10,6 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.PDFActivity;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
 
@@ -63,7 +62,7 @@ public class SepaxActivity extends DevicePrototypeActivity {
                     pages.putParcelableArrayList("page4", getPage4corText());
 
 
-                    Intent intent = new Intent(getBaseContext(), PDFActivity.class);
+                    Intent intent = new Intent();
                     intent.putExtra("report", "2018_sepax_yearly.pdf");
                     intent.putExtra("pages", pages);
                     intent.putExtra("signature", signature);

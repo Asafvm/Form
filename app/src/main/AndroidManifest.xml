@@ -56,7 +56,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".devices.IncubatorActivity" />
-        <activity android:name=".PDFActivity" />
         <activity
             android:name=".menu.SettingsActivity"
             android:label="@string/title_activity_settings" />
