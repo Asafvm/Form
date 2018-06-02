@@ -690,11 +690,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tvSepaxSensornofilter"
-            app:layout_constraintEnd_toStartOf="@id/etSepaxSensor1_1"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.3"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxTitleSensor"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxSensor1"
             app:layout_constraintVertical_weight="1" />
 
         <TextView
@@ -707,6 +706,7 @@
             app:layout_constraintHorizontal_weight="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSepaxSensornofilter"
+            app:layout_constraintBottom_toTopOf="@id/tvSepaxSensorwithfilter"
             app:layout_constraintVertical_weight="1" />
 
         <EditText
@@ -830,7 +830,8 @@
             app:layout_constraintBaseline_toBaselineOf="@id/tvSepaxSecurity1"
             app:layout_constraintEnd_toStartOf="@id/etSepaxSecurity1_2"
             app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/tvSepaxSecurity1" />
+            app:layout_constraintStart_toEndOf="@id/tvSepaxSecurity1"
+            />
 
         <EditText
             android:id="@+id/etSepaxSecurity1_2"
