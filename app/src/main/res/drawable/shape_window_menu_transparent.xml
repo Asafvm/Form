@@ -13,8 +13,8 @@
         android:angle="0"
         android:centerX="0.5"
         android:centerY="0.5"
-        android:endColor="#ffffffff"
-        android:startColor="#ffffffff"
+        android:endColor="#88ffffff"
+        android:startColor="#88ffffff"
         android:type="linear"
         android:gradientRadius="250dp"
         />

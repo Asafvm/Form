@@ -9,6 +9,9 @@ import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
+import il.co.diamed.com.form.inventory.InventoryItem;
 import il.co.diamed.com.form.menu.LoginActivity;
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
@@ -26,7 +29,7 @@ public class ClassApplication extends Application {
     StorageProvider storageProvider;
     AuthenticationProvider authenticationProvider;
     SettingsActivity settings;
-    DatabaseProvider dataabase;
+    DatabaseProvider mDataabase;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,7 +38,8 @@ public class ClassApplication extends Application {
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
         authenticationProvider = new AuthenticationProvider();
-        dataabase = new DatabaseProvider();
+        mDataabase = new DatabaseProvider();
+        mDataabase.initializeDatabase();
 
         logUser();
     }
@@ -82,5 +86,8 @@ public class ClassApplication extends Application {
 
     }
 
+    public DatabaseProvider getDatabaseProvider(){
+        return mDataabase;
+    }
 
 }

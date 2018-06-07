@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.res;
+package il.co.diamed.com.form.filebrowser;
 
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,17 +67,9 @@ public class FileBrowserFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_file_browser, container, false);
-
-
-        //getActivity().registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
-
         recyclerView = view.findViewById(R.id.recycler_file_view);
-        //recyclerView.hasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        //ClassApplication application = (ClassApplication)getApplication();
-        //application.getDir("MediForms/");
         ((TextView) view.findViewById(R.id.path_text)).setText(path);
 
         // Read all files sorted into the values-array

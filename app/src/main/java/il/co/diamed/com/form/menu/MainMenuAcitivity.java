@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -22,36 +21,44 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.transition.Fade;
 import android.transition.Slide;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import il.co.diamed.com.form.ClassApplication;
-import il.co.diamed.com.form.res.FileBrowserFragment;
+import il.co.diamed.com.form.devices.DevicesFragment;
+import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.inventory.InventoryAdapter;
+import il.co.diamed.com.form.inventory.InventoryFragment;
+import il.co.diamed.com.form.inventory.InventoryItem;
+import il.co.diamed.com.form.inventory.InventoryViewerAdapter;
+import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragment.OnFragmentInteractionListener,
-        FileBrowserFragment.OnFragmentInteractionListener {
+        FileBrowserFragment.OnFragmentInteractionListener, InventoryFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "MainMenu";
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
     private DrawerLayout mDrawerLayout;
     private Bundle calibrationDevices;
-    private FragmentTransaction mFragmentTransaction;
     private FragmentManager mFragmentManager;
     private DevicesFragment mDevicesFragment;
+    private InventoryFragment mInventoryFragment;
     FileBrowserFragment mFileBrowserFragment;
 
     @Override
@@ -86,6 +93,10 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
 
         updateUser();
 
+
+        /** in stock summery **/
+        setInventorySummery();
+
         /** Drawer Code **/
         mDrawerLayout = findViewById(R.id.drawer_layout);
         //set icon
@@ -107,7 +118,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                         // For example, swap UI fragments here
                         switch (menuItem.getItemId()) {
                             case R.id.nav_forms: {
-                                mFragmentTransaction = mFragmentManager.beginTransaction();
+                                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
                                 if (mDevicesFragment == null) {
                                     mDevicesFragment = new DevicesFragment();
@@ -138,7 +149,8 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                                 break;
                             }
                             case R.id.nav_stock: {
-                                Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
+                                showInventory();
                                 break;
                             }
                             default:
@@ -190,6 +202,38 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
 
     }
 
+    private void showInventory() {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        if (mInventoryFragment == null) {
+            mInventoryFragment = new InventoryFragment();
+        }
+        Slide slide = new Slide();
+        slide.setDuration(500);
+        mInventoryFragment.setEnterTransition(slide);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mInventoryFragment).commit();
+    }
+
+    private void setInventorySummery() {
+
+        ClassApplication application = (ClassApplication) getApplication();
+        DatabaseProvider provider = application.getDatabaseProvider();
+        RecyclerView recyclerView = findViewById(R.id.recycler_missing_items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<InventoryItem> missingInv = provider.getMissingInv();
+        RecyclerView.Adapter adapter = new InventoryViewerAdapter(missingInv, this);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInventory();
+            }
+        });
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -199,10 +243,10 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
     private void updateUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         TextView title = findViewById(R.id.titleUser);
-        if(user!=null){
+        if (user != null) {
             title.setText(user.getEmail());
             title.setBackgroundColor(Color.parseColor("#3C9824"));
-        }else{
+        } else {
             title.setText(getString(R.string.noUser));
             title.setBackgroundColor(Color.parseColor("#AF2525"));
         }
@@ -232,7 +276,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
     }
 
     private void launchFileBrowser() {
-        mFragmentTransaction = mFragmentManager.beginTransaction();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         if (mFileBrowserFragment == null) {
             mFileBrowserFragment = new FileBrowserFragment();
@@ -287,10 +331,13 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                 mFragmentManager.beginTransaction().remove(mDevicesFragment).commit();
 
             }
-        } else{
+            setInventorySummery();
+
+        } else {
             finish();
         }
     }
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

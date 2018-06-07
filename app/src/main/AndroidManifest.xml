@@ -105,7 +105,7 @@
             android:launchMode="singleTop" />
         <activity android:name=".devices.FridgeActivity" />
         <activity android:name=".devices.SepaxActivity" />
-        <activity android:name=".devices.DevicePrototypeActivity"></activity>
+        <activity android:name=".devices.res.DevicePrototypeActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,7 @@
-package il.co.diamed.com.form;
+package il.co.diamed.com.form.devices.res;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,15 +12,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.itextpdf.text.BadElementException;
@@ -46,10 +39,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import il.co.diamed.com.form.devices.DevicePrototypeActivity;
-import il.co.diamed.com.form.devices.Helper;
+import il.co.diamed.com.form.BuildConfig;
+import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.Tuple;
-import il.co.diamed.com.form.res.FileBrowserFragment;
+import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 
 public class PDFBuilderFragment extends Fragment {
     private static final String TAG = "PDFFragment: ";

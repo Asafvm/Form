@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;
@@ -89,7 +91,7 @@ public class SepaxActivity extends DevicePrototypeActivity {
                 corText.add(new Tuple(543, 504, "", false));
                 corText.add(new Tuple(200, 497, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(),false));        //serial
 
-                //add piston position
+                corText.add(new Tuple(200, 470, ((EditText) findViewById(R.id.etSepaxParam1)).getText().toString(),false));
 
                 corText.add(new Tuple(543, 491, "", false));
                 //corText.add(new Tuple(543, 478, "", false)); no printer
@@ -105,20 +107,39 @@ public class SepaxActivity extends DevicePrototypeActivity {
                 corText.add(new Tuple(237, 408, "English", false));
 
                 corText.add(new Tuple(543, 274, "", false));
+                corText.add(new Tuple(170, 274, ((EditText) findViewById(R.id.etSepaxAir1)).getText().toString(),false));
                 corText.add(new Tuple(543, 261, "", false));
+                corText.add(new Tuple(170, 259, ((EditText) findViewById(R.id.etSepaxAir2)).getText().toString(),false));
 
                 corText.add(new Tuple(543, 221, "", false));
+                corText.add(new Tuple(160, 221, ((EditText) findViewById(R.id.etSepaxAir3_1)).getText().toString(),false));
+                corText.add(new Tuple(280, 221, ((EditText) findViewById(R.id.etSepaxAir3_2)).getText().toString(),false));
                 corText.add(new Tuple(543, 208, "", false));
+                corText.add(new Tuple(160, 208, ((EditText) findViewById(R.id.etSepaxAir4_1)).getText().toString(),false));
+                corText.add(new Tuple(280, 208, ((EditText) findViewById(R.id.etSepaxAir4_2)).getText().toString(),false));
                 corText.add(new Tuple(543, 195, "", false));
+                corText.add(new Tuple(160, 195, ((EditText) findViewById(R.id.etSepaxAir5_1)).getText().toString(),false));
+                corText.add(new Tuple(280, 195, ((EditText) findViewById(R.id.etSepaxAir5_2)).getText().toString(),false));
 
                 corText.add(new Tuple(543, 167, "", false));
+                corText.add(new Tuple(160, 167, ((EditText) findViewById(R.id.etSepaxAir6_1)).getText().toString(),false));
+                corText.add(new Tuple(320, 167, ((EditText) findViewById(R.id.etSepaxAir6_2)).getText().toString(),false));
 
                 corText.add(new Tuple(543, 140, "", false));
+                corText.add(new Tuple(260, 138, ((EditText) findViewById(R.id.etSepaxAir7_1)).getText().toString(),false));
                 corText.add(new Tuple(543, 127, "", false));
+                corText.add(new Tuple(260, 125, ((EditText) findViewById(R.id.etSepaxAir8_1)).getText().toString(),false));
                 corText.add(new Tuple(543, 113, "", false));
+                corText.add(new Tuple(260, 111, ((EditText) findViewById(R.id.etSepaxAir9_1)).getText().toString(),false));
 
                 //check for sealing system test
+                //N/A
                 corText.add(new Tuple(543, 50, "", false)); //N/A
+
+                //checked
+                corText.add(new Tuple(490, 50, "", false)); //N/A
+                corText.add(new Tuple(150, 50, ((EditText) findViewById(R.id.etSepaxAir10_1)).getText().toString(),false));
+                corText.add(new Tuple(300, 50, ((EditText) findViewById(R.id.etSepaxAir10_2)).getText().toString(),false));
 
                 return corText;
             }
@@ -126,41 +147,77 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
             private ArrayList<Tuple> getPage2corText() {
                 ArrayList<Tuple> corText = new ArrayList<>();
+                //check for sealing system test
                 corText.add(new Tuple(542, 671, "", false));
+                corText.add(new Tuple(150, 670, ((EditText) findViewById(R.id.etSepaxAir11_1)).getText().toString(),false));
+                corText.add(new Tuple(320, 670, ((EditText) findViewById(R.id.etSepaxAir11_2)).getText().toString(),false));
 
                 corText.add(new Tuple(542, 624, "", false));
+                corText.add(new Tuple(160, 624, ((EditText) findViewById(R.id.etSepaxVolume1)).getText().toString(),false));
 
-                corText.add(new Tuple(542, 602, "", false));
+                corText.add(new Tuple(542, 603, "", false));
+                corText.add(new Tuple(160, 601, ((EditText) findViewById(R.id.etSepaxVolume2)).getText().toString(),false));
                 corText.add(new Tuple(542, 590, "", false));
+                corText.add(new Tuple(155, 589, ((EditText) findViewById(R.id.etSepaxVolume3_1)).getText().toString(),false));
+                corText.add(new Tuple(420, 589, ((EditText) findViewById(R.id.etSepaxVolume3_2)).getText().toString(),false));
                 corText.add(new Tuple(542, 579, "", false));
+                corText.add(new Tuple(155, 578, ((EditText) findViewById(R.id.etSepaxVolume4_1)).getText().toString(),false));
+                corText.add(new Tuple(420, 578, ((EditText) findViewById(R.id.etSepaxVolume4_3)).getText().toString(),false));
                 corText.add(new Tuple(542, 568, "", false));
                 corText.add(new Tuple(542, 557, "", false));
 
                 corText.add(new Tuple(542, 498, "", false));
+                corText.add(new Tuple(110, 498, ((EditText) findViewById(R.id.etSepaxSensor1_1)).getText().toString(),false));
                 corText.add(new Tuple(542, 487, "", false));
+                corText.add(new Tuple(110, 486, ((EditText) findViewById(R.id.etSepaxSensor1_2)).getText().toString(),false));
 
                 corText.add(new Tuple(542, 464, "", false));
+                corText.add(new Tuple(110, 464, ((EditText) findViewById(R.id.etSepaxSensor2_1)).getText().toString(),false));
                 corText.add(new Tuple(542, 452, "", false));
+                corText.add(new Tuple(110, 452, ((EditText) findViewById(R.id.etSepaxSensor2_2)).getText().toString(),false));
 
                 corText.add(new Tuple(542, 418, "", false));
                 corText.add(new Tuple(542, 407, "", false));
                 corText.add(new Tuple(542, 395, "", false));
+                corText.add(new Tuple(235, 395, ((EditText) findViewById(R.id.etSepaxSecurity1_1)).getText().toString(),false));
+                corText.add(new Tuple(342, 395, ((EditText) findViewById(R.id.etSepaxSecurity1_2)).getText().toString(),false));
                 corText.add(new Tuple(542, 384, "", false));
 
                 corText.add(new Tuple(542, 326, "", false));
+                corText.add(new Tuple(220, 326, ((EditText) findViewById(R.id.etSepaxElectric1_1)).getText().toString(),false));
                 corText.add(new Tuple(542, 315, "", false));
+                corText.add(new Tuple(220, 314, ((EditText) findViewById(R.id.etSepaxElectric2_2)).getText().toString(),false));
+                corText.add(new Tuple(220, 280, ((EditText) findViewById(R.id.etSepaxElectric3_3)).getText().toString(),false));
 
                 corText.add(new Tuple(542, 269, "", false));
-
+                corText.add(new Tuple(220, 268, ((EditText) findViewById(R.id.etSepaxElectric4_4)).getText().toString(),false));
                 corText.add(new Tuple(542, 246, "", false));
+                corText.add(new Tuple(220, 246, ((EditText) findViewById(R.id.etSepaxElectric5_5)).getText().toString(),false));
                 corText.add(new Tuple(542, 235, "", false));
+                corText.add(new Tuple(220, 235, ((EditText) findViewById(R.id.etSepaxElectric6_6)).getText().toString(),false));
 
                 corText.add(new Tuple(542, 199, "", false));
                 corText.add(new Tuple(542, 187, "", false));
-
+                corText.add(new Tuple(450, 172, ((EditText) findViewById(R.id.etSepaxUser1_1)).getText().toString(),false));
                 corText.add(new Tuple(542, 161, "", false));
                 corText.add(new Tuple(542, 148, "", false));
                 corText.add(new Tuple(542, 135, "", false));
+
+
+                if(((Switch)findViewById(R.id.switchSepaxSW2)).isChecked())
+                    corText.add(new Tuple(507, 92, "", false));
+                else
+                    corText.add(new Tuple(478, 92, "", false));
+
+                if(((Switch)findViewById(R.id.switchSepaxSW3)).isChecked())
+                    corText.add(new Tuple(507, 79, "", false));
+                else
+                    corText.add(new Tuple(478, 79, "", false));
+
+                if(((Switch)findViewById(R.id.switchSepaxSW4)).isChecked())
+                    corText.add(new Tuple(507, 66, "", false));
+                else
+                    corText.add(new Tuple(478, 66, "", false));
 
                 return corText;
             }
@@ -209,17 +266,17 @@ public class SepaxActivity extends DevicePrototypeActivity {
                 ArrayList<Tuple> corText = new ArrayList<>();
 
                 //YES
-                //corText.add(new Tuple(492, 689, "", false));           //rubber ok
-                //corText.add(new Tuple(492, 676, "", false));           //rubber ok
-                //corText.add(new Tuple(492, 663, "", false));           //rubber ok
-                //corText.add(new Tuple(492, 650, "", false));           //rubber ok
-                //corText.add(new Tuple(492, 638, "", false));           //rubber ok
+                //corText.add(new Tuple(492, 689, "", false));
+                //corText.add(new Tuple(492, 676, "", false));
+                //corText.add(new Tuple(492, 663, "", false));
+                //corText.add(new Tuple(492, 650, "", false));
+                //corText.add(new Tuple(492, 638, "", false));
                 //NO
-                corText.add(new Tuple(541, 689, "", false));           //overall ok
-                corText.add(new Tuple(541, 676, "", false));           //overall ok
-                corText.add(new Tuple(541, 663, "", false));           //overall ok
-                corText.add(new Tuple(541, 650, "", false));           //overall ok
-                corText.add(new Tuple(541, 638, "", false));           //overall ok
+                corText.add(new Tuple(541, 689, "", false));
+                corText.add(new Tuple(541, 676, "", false));
+                corText.add(new Tuple(541, 663, "", false));
+                corText.add(new Tuple(541, 650, "", false));
+                corText.add(new Tuple(541, 638, "", false));
 
 
 

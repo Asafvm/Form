@@ -1,16 +1,13 @@
-package il.co.diamed.com.form.devices;
+package il.co.diamed.com.form.devices.res;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import il.co.diamed.com.form.PDFBuilderFragment;
+import il.co.diamed.com.form.devices.Helper;
+import il.co.diamed.com.form.devices.res.PDFBuilderFragment;
 import il.co.diamed.com.form.R;
 
 public class DevicePrototypeActivity extends AppCompatActivity {

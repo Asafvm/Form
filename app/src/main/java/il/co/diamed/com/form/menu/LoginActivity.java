@@ -44,7 +44,7 @@ import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 
-public class LoginActivity extends FragmentActivity implements
+public class LoginActivity extends AppCompatActivity implements
         UserSetupFragment.OnFragmentInteractionListener,
         MicrosoftSigninFragment.OnFragmentInteractionListener {
     private static final int MY_PERMISSIONS_REQUEST_CONTACTS = 0;
@@ -130,15 +130,16 @@ public class LoginActivity extends FragmentActivity implements
 
     }
     private void signinToMicrosoft() {
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
         if (mMicrosoftSigninFragment == null) {
             mMicrosoftSigninFragment = new MicrosoftSigninFragment();
         }
         //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-        ft.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
+
+        fragmentTransaction.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
     }
 
     public void quitApp(String message) {

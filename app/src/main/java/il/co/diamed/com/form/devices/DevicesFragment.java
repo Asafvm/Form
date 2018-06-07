@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.menu;
+package il.co.diamed.com.form.devices;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -35,6 +35,7 @@ import il.co.diamed.com.form.devices.IncubatorActivity;
 import il.co.diamed.com.form.devices.PlasmaThawerActivity;
 import il.co.diamed.com.form.devices.SepaxActivity;
 import il.co.diamed.com.form.devices.res.SimpleFragmentPagerAdapter;
+import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.res.MultiLayoutActivity;
 
 import static android.app.Activity.RESULT_OK;
@@ -197,16 +198,6 @@ public class DevicesFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

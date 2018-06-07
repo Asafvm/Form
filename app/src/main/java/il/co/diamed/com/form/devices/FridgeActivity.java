@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
 import static il.co.diamed.com.form.devices.Helper.isValidString;

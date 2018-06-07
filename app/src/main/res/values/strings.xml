@@ -500,6 +500,13 @@
     <string name="etSepaxVolume4"><![CDATA[390<value<410]]></string>
     <string name="tvSepaxeSensornfhint"><![CDATA[5.5 < value < 6.0V]]></string>
     <string name="tvSepaxeSensorwfhint"><![CDATA[0.0 < value < 0.2V]]></string>
+    <string name="updateInventory">עדכן מלאי</string>
+    <string name="insertInventory">הוסף חלק</string>
+    <string name="inStock">כמות</string>
+    <string name="itemDescription">שם החלק</string>
+    <string name="itemSerial">מספר סידורי</string>
+    <string name="confirm">אישור</string>
+    <string name="insertTitle">הוסף חלק</string>
 
     <!-- Strings related to Settings -->
 

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
 public class DoconActivity extends DevicePrototypeActivity {

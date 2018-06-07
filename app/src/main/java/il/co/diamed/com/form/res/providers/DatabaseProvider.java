@@ -1,12 +1,13 @@
 package il.co.diamed.com.form.res.providers;
 
-import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.NumberPicker;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,99 +15,171 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-import il.co.diamed.com.form.res.ObjectLocation;
+import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.inventory.InventoryItem;
 
 public class DatabaseProvider {
     private final String TAG = "Database";
+    private HashMap<String,InventoryItem> labInv = null;
+    private HashMap<String,InventoryItem> myInv = null;
+    private boolean labFlag = false, myFlag = false;
+    private DatabaseReference myDatabaseRef;
+    private DatabaseReference labDatabaseRef;
 
     public DatabaseProvider(){
-        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        final ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG,"Single data changed ");
-                Log.e(TAG,"Snapshot children count: "+dataSnapshot.getChildrenCount());
-                printTree(dataSnapshot.getChildrenCount(),dataSnapshot);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG,"Single Canceled");
-            }
-        };
-
-        ChildEventListener listener1 = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.e(TAG,"Child added "+s);
-                Log.e(TAG,"Child added "+dataSnapshot.getValue());
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.e(TAG,"Child Changed");
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG,"Child Removed");
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.e(TAG,"Child Moved");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG,"Child - Canceled");
-            }
-        };
-
-        OnCompleteListener completeListener = new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                Log.e(TAG, "Completed");
-                mDatabase.addListenerForSingleValueEvent(listener);
-            }
-        };
-
-        mDatabase.addListenerForSingleValueEvent(listener);
-/*
-        Log.e(TAG,"Before adding");
-        ObjectLocation location = new ObjectLocation("medical","herzelia","Somemail@you.no","09-8348567");
-        mDatabase.child("locations").child(location.getLocName()).setValue(location).addOnCompleteListener(completeListener);
-
-        Log.e(TAG,"adding MH");
-        location = new ObjectLocation("מעיני הישועה","בני ברק","Somemail@you.no","09-8333567");
-        mDatabase.child("locations").child(location.getLocName()).setValue(location).addOnCompleteListener(completeListener);
-
-        Log.e(TAG,"adding M");
-        location = new ObjectLocation("מאיר","כפר סבא","Somemail@you.no","09-83489347");
-        mDatabase.child("locations").child(location.getLocName()).setValue(location).addOnCompleteListener(completeListener);
-*/
-
-        //mDatabase.addListenerForSingleValueEvent(listener);
-        //mDatabase.addChildEventListener(listener1);
     }
 
-    private void printTree(long childrenCount, DataSnapshot dataSnapshot) {
-        Log.e(TAG, "key: " + dataSnapshot.getKey()+"\ncount: "+dataSnapshot.getChildrenCount());
+    public List<InventoryItem> getLabInv(){
+        if(labFlag) {
+            return new ArrayList<>(labInv.values());
+        }else{
+            return null;
+        }
+    }
+
+    public List<InventoryItem> getMyInv() {
+        if(myFlag) {
+            return new ArrayList<>(myInv.values());
+        }else{
+            return null;
+        }
+    }
+
+    public void initializeDatabase(){
+        myFlag = false;
+        labFlag = false;
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            myDatabaseRef = mDatabase.child("Parts/" + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+            labDatabaseRef = mDatabase.child("Parts/Lab");
+
+            myDatabaseRef.addListenerForSingleValueEvent(myListener);
+            labDatabaseRef.addListenerForSingleValueEvent(labListener);
+        }else{
+
+            FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+
+        }
+
+    }
+    private FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+            initializeDatabase();
+
+    };
 
 
-            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                if(ds.hasChildren()){
-                    printTree(ds.getChildrenCount(),ds);
-                }else {
-                    Log.e(TAG, "child: " + ds.getValue());
+    private ValueEventListener labListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            labInv = getInv(dataSnapshot);
+            labFlag = true;
+            if(myFlag){
+                refreshDatabase();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            labFlag = true;
+        }
+    };
+
+    private ValueEventListener myListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            myInv = getInv(dataSnapshot);
+            myFlag = true;
+            if(labFlag){
+                refreshDatabase();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            myFlag = true;
+        }
+    };
+
+    public void refreshDatabase() {
+        for(InventoryItem labItem : labInv.values()){    //for every part in the lab
+            if(myInv.containsKey(labItem.getSerial())){        // if it exists already
+                myInv.get(labItem.getSerial()).setMinimum(labItem.getMinimum()); //update minimum (just in case)
+
+            }else{
+                try {
+                    if (Integer.valueOf(labItem.getMinimum()) > 0) { //check if it's mandatory part
+                        labItem.setinStock("0");                       //update to 0 in stock
+                        myInv.put(labItem.getSerial(),labItem);
+                    }
+                }catch (NumberFormatException e){
+                    Log.e(TAG, labItem.getDescription() +" has invalid minimum of: "+labItem.getMinimum());
                 }
             }
+        }
+
+    }
+
+
+    private HashMap<String,InventoryItem> getInv(DataSnapshot dataSnapshot) {
+        HashMap<String,InventoryItem> tempValues = new HashMap<>();
+        if(dataSnapshot.getValue()==null) {//root
+            Log.e(TAG, "Cannot browse root folder");
+        }else {
+            if (dataSnapshot.getValue() == null) {//root
+                Log.e(TAG, "Database " + dataSnapshot.getKey() + " does not exists");
+            } else {  //Parts
+                for (DataSnapshot ds : dataSnapshot.getChildren()) { //Serial numbers
+                    InventoryItem temp = new InventoryItem(ds.getValue(InventoryItem.class));
+                    tempValues.put(temp.getSerial(),temp);
+                }
+            }
+        }
+        return tempValues;
+    }
+
+
+    public void updateDatabase(List<InventoryItem> currentList){
+        for(InventoryItem item : currentList)
+            myDatabaseRef.child(item.getSerial()).setValue(item);
+    }
+
+    public List<InventoryItem> getMissingInv() {
+        if(myFlag) {
+            List<InventoryItem> missingInv = new ArrayList<>();
+            for (InventoryItem item : myInv.values()) {
+                if (item.getInStock().compareTo(item.getMinimum()) < 0 || item.getInStock().equals("0"))
+                    missingInv.add(myInv.get(item.getSerial()));
+            }
+
+            return missingInv;
+        }else
+            return null;
+    }
+
+    public String[] getLabParts() {
+        if(labFlag) {
+            Set<String> serials = labInv.keySet();
+            return serials.toArray(new String[serials.size()]);
+        }else
+            return null;
+    }
+
+    public String getPartInfo(String serial) {
+        return (labInv.keySet().contains(serial)) ? labInv.get(serial).getDescription() : "";
+    }
+
+    public void addToMyInventory(String serial, Integer inStock) {
+        InventoryItem item = labInv.get(serial);
+        item.setinStock(String.valueOf(inStock));
+        myInv.put(serial,item);
+        //refreshDatabase();
 
 
     }

@@ -12,60 +12,72 @@
         android:layout_height="wrap_content" />
 
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/mainWindow"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mainWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_background">
+
+        <TextView
+            android:id="@+id/titleUser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/main_background"
-            >
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/upcomingCal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="0.1" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/upcomingCal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_window_menu_transparent"
+            app:layout_constraintBottom_toTopOf="@id/inventoryShoplist"
+            app:layout_constraintTop_toBottomOf="@id/titleUser"
+            app:layout_constraintVertical_weight="1">
+
             <TextView
-                android:id="@+id/titleUser"
+                android:id="@+id/titleCal"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:text="כיולים הבאים"
                 android:textAlignment="center"
-                android:gravity="center"
-                app:layout_constraintVertical_chainStyle="spread"
-                app:layout_constraintVertical_weight="0.1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/upcomingCal"/>
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/upcomingCal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/shape_window_menu"
-                app:layout_constraintBottom_toTopOf="@id/inventoryShoplist"
-                app:layout_constraintTop_toBottomOf="@id/titleUser"
-                app:layout_constraintVertical_weight="1">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/titleCal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="כיולים הבאים"
-                    android:textAlignment="center"/>
-
-            </android.support.constraint.ConstraintLayout>
-
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/inventoryShoplist"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/shape_window_menu"
-                app:layout_constraintTop_toBottomOf="@id/upcomingCal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_weight="1">
-                <TextView
-                    android:id="@+id/titleInv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="חסר במלאי"
-                    android:textAlignment="center"/>
-
-            </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/inventoryShoplist"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_window_menu_transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upcomingCal"
+            app:layout_constraintVertical_weight="1">
+
+            <TextView
+                android:id="@+id/titleInv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="חסר במלאי"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@id/recycler_missing_items"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_missing_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/titleInv" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <FrameLayout
@@ -80,7 +92,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_view"
-        app:headerLayout="@layout/nav_header" />
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_view" />
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
 </android.support.v4.widget.DrawerLayout>

@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.res;
+package il.co.diamed.com.form.filebrowser;
 
 import android.support.annotation.NonNull;
 
