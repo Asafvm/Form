@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 import il.co.diamed.com.form.R;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder> {
+    private final String TAG = "InventoryAdapter";
     private List<InventoryItem> list;
     private Context context;
     private View currentView = null;
@@ -56,17 +58,21 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().equals("")) {
-                    item.setinStock(s.toString());
-                    int stock = Integer.valueOf(item.getInStock());
-                    int minimum = Integer.valueOf(item.getMinimum());
-                    if (stock > minimum) {
-                        holder.inStock.setBackgroundResource(R.drawable.shape_item_enough);
-                    } else if (stock == minimum) {
-                        holder.inStock.setBackgroundResource(R.drawable.shape_item_warning);
-                    } else {
-                        holder.inStock.setBackgroundResource(R.drawable.shape_item_low);
+                try {
+                    if (!s.toString().equals("")) {
+                        item.setinStock(s.toString());
+                        int stock = Integer.valueOf(item.getInStock());
+                        int minimum = Integer.valueOf(item.getMinimum());
+                        if (stock > minimum) {
+                            holder.inStock.setBackgroundResource(R.drawable.shape_item_enough);
+                        } else if (stock == minimum) {
+                            holder.inStock.setBackgroundResource(R.drawable.shape_item_warning);
+                        } else {
+                            holder.inStock.setBackgroundResource(R.drawable.shape_item_low);
+                        }
                     }
+                }catch (NumberFormatException e){
+                    Log.e(TAG,"Error converting value at: "+item.getId()+" - "+item.getDescription());
                 }
             }
         });

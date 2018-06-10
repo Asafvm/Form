@@ -16,21 +16,15 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
-import static il.co.diamed.com.form.devices.Helper.isTimeValid;
-import static il.co.diamed.com.form.devices.Helper.isValidString;
-
 public class DiacentCWActivity extends DevicePrototypeActivity {
     private static final int EXPECTED_CW_SPEED = 2500;
     private static final int EXPECTED_CW_TIME = 60;
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_diacentcw_layout);
+        setLayout(R.layout.device_diacentcw_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -42,8 +36,8 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(Objects.requireNonNull(bundle).getString("techName"));
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
 
         {
@@ -114,7 +108,7 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
                     return false;
                 if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString())), EXPECTED_CW_SPEED))
                     return false;
-                if (!isTimeValid(((EditText) findViewById(R.id.centCWtime)), EXPECTED_CW_TIME))
+                if (!isTimeValid(findViewById(R.id.centCWtime), EXPECTED_CW_TIME))
                     return false;
                 if (!((Switch) findViewById(R.id.centCheckHolders)).isChecked())
                     return false;
@@ -130,11 +124,10 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
 
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
@@ -143,10 +136,8 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
 
     private void initDiacentCW() {
 
-        /* Diacent CW */
-        Helper h = new Helper();
-        h.setTimeListener(((EditText) findViewById(R.id.centCWtime)), EXPECTED_CW_TIME);
-        h.setSpeedListener(((EditText) findViewById(R.id.centcwSpeed2500)), EXPECTED_CW_SPEED);
+        /* Diacent CW */setTimeListener(findViewById(R.id.centCWtime), EXPECTED_CW_TIME);
+        setSpeedListener(findViewById(R.id.centcwSpeed2500), EXPECTED_CW_SPEED);
         ((EditText) findViewById(R.id.centcwSpeed2500)).setText("");
         ((EditText) findViewById(R.id.centCWtime)).setText(R.string.time60);
         ((Switch) findViewById(R.id.centCheckHolders)).setChecked(true);

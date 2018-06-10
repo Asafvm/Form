@@ -15,7 +15,6 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class GelstationActivity extends DevicePrototypeActivity {
     private final double VOLT_THRESHOLD = 0.3;
@@ -24,15 +23,13 @@ public class GelstationActivity extends DevicePrototypeActivity {
     private int EXPECTED_SPEED = 1000;
     private final int EXPECTED_TEMP_HIGH = 37;
     private final int EXPECTED_TEMP_LOW = 25;
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        final Helper h = new Helper();
-        h.setLayout(this, R.layout.device_gelstation_layout_short);
+        setLayout(R.layout.device_gelstation_layout_short);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -43,17 +40,16 @@ public class GelstationActivity extends DevicePrototypeActivity {
         final String barometer = bundle.getString("barometer");
 
 
-        Helper helper = new Helper();
         init();
-        helper.setListener((EditText) findViewById(R.id.formTechName));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -206,24 +202,23 @@ public class GelstationActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setSpeedListener(((EditText) findViewById(R.id.etGScentrifugation)), EXPECTED_SPEED);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_37)), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator1_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
-        h.setTempListener(((EditText) findViewById(R.id.etGSincubator2_25)), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon24)), 24, VOLT_THRESHOLD);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon8)), 8, VOLT_THRESHOLD);
-        h.setVoltListener(((EditText) findViewById(R.id.etGScommon12)), 12, VOLT_THRESHOLD);
-        h.setBarListener(((EditText) findViewById(R.id.etGSfluidVaccum)), VACCUM_MIN);
-        h.setBarListener(((EditText) findViewById(R.id.etGSfluidPressure)), PRESSURE_MIN);
-        h.setListener(((EditText) findViewById(R.id.etGSsoftwareD)));
-        h.setListener(((EditText) findViewById(R.id.etGSsoftwareC)));
-        h.setListener(((EditText) findViewById(R.id.etGSsoftware1)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
+        setSpeedListener(findViewById(R.id.etGScentrifugation), EXPECTED_SPEED);
+        setTempListener(findViewById(R.id.etGSincubator1_37), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
+        setTempListener(findViewById(R.id.etGSincubator2_37), EXPECTED_TEMP_HIGH - 2, EXPECTED_TEMP_HIGH + 2);
+        setTempListener(findViewById(R.id.etGSincubator1_25), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
+        setTempListener(findViewById(R.id.etGSincubator2_25), EXPECTED_TEMP_LOW - 2, EXPECTED_TEMP_LOW + 2);
+        setVoltListener(findViewById(R.id.etGScommon24), 24, VOLT_THRESHOLD);
+        setVoltListener(findViewById(R.id.etGScommon8), 8, VOLT_THRESHOLD);
+        setVoltListener(findViewById(R.id.etGScommon12), 12, VOLT_THRESHOLD);
+        setBarListener(findViewById(R.id.etGSfluidVaccum), VACCUM_MIN);
+        setBarListener(findViewById(R.id.etGSfluidPressure), PRESSURE_MIN);
+        setListener(findViewById(R.id.etGSsoftwareD));
+        setListener(findViewById(R.id.etGSsoftwareC));
+        setListener(findViewById(R.id.etGSsoftware1));
 
 
         ((EditText) findViewById(R.id.formMainLocation)).setText("");

@@ -16,19 +16,16 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class PlasmaThawerActivity extends DevicePrototypeActivity {
     private final double EXPECTED_TEMP = 36.4;
     private final int EXPECTED_TIME = 10;
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_plasma_layout);
+        setLayout(R.layout.device_plasma_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -42,11 +39,11 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
 
         //default basic values
         init();
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -114,7 +111,7 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                         isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
                         ((Switch) findViewById(R.id.ptAlarmCheck)).isChecked() &&
                         ((Switch) findViewById(R.id.ptOilCheck)).isChecked() &&
-                        Helper.isTempValid(((EditText) findViewById(R.id.ptTemp)), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
+                        isTempValid(findViewById(R.id.ptTemp), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
 
             }
         });
@@ -130,13 +127,12 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setTempListener(((EditText) findViewById(R.id.ptTemp)), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
-        h.setTimeListener(((EditText) findViewById(R.id.ptTime)), EXPECTED_TIME);
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
+        setTempListener(findViewById(R.id.ptTemp), EXPECTED_TEMP - 1, EXPECTED_TEMP + 1);
+        setTimeListener(findViewById(R.id.ptTime), EXPECTED_TIME);
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.dh8);
         ((EditText) findViewById(R.id.formMainLocation)).setText("");

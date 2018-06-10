@@ -5,6 +5,8 @@
     <supports-screens android:anyDensity="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -16,8 +18,6 @@
     <meta-data
         android:name="firebase_crashlytics_collection_enabled"
         android:value="false" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".ClassApplication"
@@ -49,10 +49,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Add in your scheme/host from registered redirect URI -->
-                <!-- By default, the scheme should be similar to 'msal[appId]' -->
-                <data
-                    android:host="auth"
-                    android:scheme="msalb3131887-d338-4d8d-a0fb-89c5db805612" />
+                <data android:scheme="msalb3131887-d338-4d8d-a0fb-89c5db805612"
+                    android:host="auth" />
             </intent-filter>
         </activity>
         <activity android:name=".devices.IncubatorActivity" />

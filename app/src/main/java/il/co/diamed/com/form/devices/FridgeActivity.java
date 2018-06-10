@@ -14,19 +14,15 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
-
 public class FridgeActivity extends DevicePrototypeActivity {
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_fridge_layout);
-        h.setListener((EditText) findViewById(R.id.formTechName));
+        setLayout(R.layout.device_fridge_layout);
+        setListener(findViewById(R.id.formTechName));
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
@@ -47,8 +43,8 @@ public class FridgeActivity extends DevicePrototypeActivity {
                 if (checkStatus()) {
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 426, "", false));           //temp ok
 
@@ -96,18 +92,17 @@ public class FridgeActivity extends DevicePrototypeActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()))
                     return false;
-                //if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
-                //return false;
+                if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
+                    return false;
                 return isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
             }
         });
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        //h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
     }
 
 }

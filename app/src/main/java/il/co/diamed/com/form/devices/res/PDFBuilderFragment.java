@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -42,23 +43,17 @@ import java.util.Objects;
 import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.res.Tuple;
-import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 
 public class PDFBuilderFragment extends Fragment {
     private static final String TAG = "PDFFragment: ";
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private File file;   //iText var
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
-    public static final String IMG = "assets/checkmark.png";
 
     private BaseFont bf = null;
     private PdfReader reader = null;
     private PdfStamper stamper = null;
     private Image checkPNG = null;
-
-
-    private FileBrowserFragment.OnFragmentInteractionListener mListener;
 
 
     @Override
@@ -81,14 +76,15 @@ public class PDFBuilderFragment extends Fragment {
         String destArray = bundle.getString("destArray");
         String dest = DEST + destArray;
 
-        checkPNG = getImageFromPNG("checkmark.png");
+        checkPNG = getImageFromPNG();
         checkPNG.scalePercent(1);
         try {
             file = new File(dest);
-            file.getParentFile().mkdirs();
-            bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            reader = new PdfReader(src);
-            stamper = new PdfStamper(reader, new FileOutputStream(dest));
+            if(file.getParentFile().mkdirs()){
+                bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                reader = new PdfReader(src);
+                stamper = new PdfStamper(reader, new FileOutputStream(dest));
+            }
         } catch (Exception e) {
             activityFailed();
         }
@@ -136,7 +132,7 @@ public class PDFBuilderFragment extends Fragment {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
 
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
@@ -230,25 +226,24 @@ public class PDFBuilderFragment extends Fragment {
         }
     }
 
-    private Image getImageFromPNG(String url) {//}, int width, int height) {
+    private Image getImageFromPNG() {//}, int width, int height) {
 
         InputStream ims = null;
         try {
-            ims = getActivity().getAssets().open(url);
+            ims = getActivity().getAssets().open("checkmark.png");
         } catch (IOException e) {
             Log.e(TAG, "ims = null");
             activityFailed();
         }
 
         Bitmap bmpOrigin = BitmapFactory.decodeStream(ims);
-        Bitmap bmp = Bitmap.createScaledBitmap(bmpOrigin, bmpOrigin.getWidth(), bmpOrigin.getHeight(), true);
         ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
         bmpOrigin.compress(Bitmap.CompressFormat.PNG, 100, stream2);
         Image image = null;
         try {
             image = Image.getInstance(stream2.toByteArray());
         } catch (BadElementException | IOException e) {
-            Log.e(TAG, url + " ---" + e.getMessage());
+            Log.e(TAG, "checkmark.png" + " ---" + e.getMessage());
         }
         return image;
     }

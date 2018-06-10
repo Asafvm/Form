@@ -13,7 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/viewSwipe"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/btnUpdateInventory">
     <ScrollView
         android:id="@+id/viewScroller"
         android:layout_width="match_parent"
@@ -21,7 +26,6 @@
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnUpdateInventory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/path_text"
         >
@@ -34,11 +38,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
     <Button
         android:id="@+id/btnUpdateInventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/viewScroller"
+        app:layout_constraintTop_toBottomOf="@id/viewSwipe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnInsertInventory"
@@ -50,7 +55,7 @@
         android:id="@+id/btnInsertInventory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/viewScroller"
+        app:layout_constraintTop_toBottomOf="@id/viewSwipe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnUpdateInventory"
         app:layout_constraintEnd_toEndOf="parent"

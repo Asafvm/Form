@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,17 +36,9 @@ public class FileBrowserFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<FileBrowserItem> values;
-    private OnFragmentInteractionListener mListener;
 
     public FileBrowserFragment() {
         // Required empty public constructor
-    }
-
-    public static FileBrowserFragment newInstance(String param1, String param2) {
-        FileBrowserFragment fragment = new FileBrowserFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -53,18 +46,19 @@ public class FileBrowserFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) // Use the current directory as title
             path = getArguments().getString("path");
-
-        getActivity().setTitle(path);
+        if(getActivity()!=null && isAdded())
+            getActivity().setTitle(path);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         //LocalBroadcastManager.getInstance(getActivity())
-        getContext().registerReceiver(mReceiver,
-                new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
-
+        if(getContext()!=null) {
+            getContext().registerReceiver(mReceiver,
+                    new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_file_browser, container, false);
         recyclerView = view.findViewById(R.id.recycler_file_view);
@@ -77,7 +71,8 @@ public class FileBrowserFragment extends Fragment {
         values = new ArrayList<>();
         File dir = new File(path);
         if (!dir.canRead()) {
-            getActivity().setTitle(getActivity().getTitle() + " (inaccessible)");
+            if(getActivity()!=null && isAdded())
+                getActivity().setTitle(getActivity().getTitle() + " (inaccessible)");
         }
         String[] list = dir.list();
         if (list != null) {
@@ -95,23 +90,6 @@ public class FileBrowserFragment extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -142,7 +120,8 @@ public class FileBrowserFragment extends Fragment {
     public void onPause() {
         super.onPause();
         //getActivity().unregisterReceiver(mReceiver);
-        getActivity().overridePendingTransition(0, 0);
+        if(getActivity()!=null && isAdded())
+            getActivity().overridePendingTransition(0, 0);
     }
 
     private void onListItemClick(String filename) {
@@ -159,31 +138,36 @@ public class FileBrowserFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("path", filename);
             mFileBrowserFragment.setArguments(bundle);
+
             FragmentManager mFragmentManager = getFragmentManager();
-            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+            FragmentTransaction mFragmentTransaction;
+            if(mFragmentManager!=null) {
+                mFragmentTransaction = mFragmentManager.beginTransaction();
 
-            //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-            mFragmentTransaction.addToBackStack(null);
-            mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
-
-
-            getActivity().overridePendingTransition(0, 0);
+                //ft.setCustomAnimations(R.animator, R.animator.fade_in);
+                mFragmentTransaction.addToBackStack(null);
+                mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
+            }
+            if(getActivity()!=null && isAdded())
+                getActivity().overridePendingTransition(0, 0);
         } else {
-            Intent target = new Intent(Intent.ACTION_VIEW);
-            target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
-                    Intent.FLAG_ACTIVITY_NO_HISTORY);
-            Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
-            target.setDataAndType(uri, "application/pdf");
-            try {
-                startActivity(target);
-            } catch (ActivityNotFoundException e) {
-                // Instruct the user to install a PDF reader here, or something
+            if(getContext()!=null) {
+                Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
+                        Intent.FLAG_ACTIVITY_NO_HISTORY);
+                Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
+                target.setDataAndType(uri, "application/pdf");
+                try {
+                    startActivity(target);
+                } catch (ActivityNotFoundException e) {
+                    // Instruct the user to install a PDF reader here, or something
+                }
             }
         }
     }
 
     private void shareItem(String filename) {
-        String[] files = new String[0];
+        String[] files;
         files = filename.split("_");
         if (path.endsWith(File.separator)) {
             filename = path + filename;
@@ -201,7 +185,8 @@ public class FileBrowserFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_BCC, new String[]{"Itsik.Benatar@diamed.co.il"});
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject) + " - " + pathBreak[location - 2]+ ", " + pathBreak[location - 1]);
         shareIntent.putExtra(Intent.EXTRA_TEXT, getMailHeader(files[0]) + getMailBody(files[1],files[2]));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file));
+        if(getContext()!=null)
+            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file));
         startActivity(shareIntent);
     }
 
@@ -226,7 +211,8 @@ public class FileBrowserFragment extends Fragment {
             File file = new File(filename);
 
             stringBuilder.append(getMailBody(batchfile[1],batchfile[2]));
-            files.add(FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID,file));
+            if(getContext()!=null)
+                files.add(FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID,file));
         }
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
         shareIntent.putExtra(Intent.EXTRA_TEXT, getMailHeader(filenames[0].split("_")[0])+stringBuilder.toString());
@@ -236,24 +222,18 @@ public class FileBrowserFragment extends Fragment {
     }
 
     private String getMailBody(String type, String serial) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("דגם " + type + " מספר סידורי " + serial.replace(".pdf", ""));
-        stringBuilder.append('\n');
-        String message = stringBuilder.toString();
-        return message;
+        return ("דגם " + type + " מספר סידורי " + serial.replace(".pdf", "")) +
+                '\n';
     }
 
     private String getMailHeader(String date) {
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("לקוח יקר,");
-        stringBuilder.append('\n');
-        stringBuilder.append("בתאריך " + date.substring(6) + "/" +
+        return "לקוח יקר," +
+                '\n' +
+                "בתאריך " + date.substring(6) + "/" +
                 date.substring(4, 6) + "/" +
-                date.substring(0, 4) + " בוצע כיול תקופתי עבור המכשירים הבאים");
-        stringBuilder.append('\n');
-        String message = stringBuilder.toString();
-        return message;
+                date.substring(0, 4) + " בוצע כיול תקופתי עבור המכשירים הבאים" +
+                '\n';
 
     }
 
@@ -261,21 +241,9 @@ public class FileBrowserFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getContext().unregisterReceiver(mReceiver);
+        if(getContext()!=null)
+            getContext().unregisterReceiver(mReceiver);
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 }

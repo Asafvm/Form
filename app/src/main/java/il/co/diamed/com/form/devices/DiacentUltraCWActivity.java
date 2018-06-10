@@ -15,23 +15,17 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
-import static il.co.diamed.com.form.devices.Helper.isTimeValid;
-import static il.co.diamed.com.form.devices.Helper.isValidString;
-
 public class DiacentUltraCWActivity extends DevicePrototypeActivity {
 
     private static final int EXPECTED_CW_SPEED = 2500;
     private static final int EXPECTED_CW_TIME = 60;
-    private Helper h;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_diacentcw_layout);
+        setLayout(R.layout.device_diacentcw_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -43,8 +37,8 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
         initDiacentCW();
         ((EditText) findViewById(R.id.formTechName)).setText(techName);
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
 
@@ -110,7 +104,7 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
                         isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
                         isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
                         isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centcwSpeed2500)).getText().toString())), EXPECTED_CW_SPEED) &&
-                        isTimeValid(((EditText) findViewById(R.id.centCWtime)), EXPECTED_CW_TIME) &&
+                        isTimeValid(findViewById(R.id.centCWtime), EXPECTED_CW_TIME) &&
                         ((Switch) findViewById(R.id.centCheckHolders)).isChecked() &&
                         ((Switch) findViewById(R.id.centCheckRemaining)).isChecked() &&
                         ((Switch) findViewById(R.id.centCheckFilling)).isChecked() &&
@@ -126,13 +120,10 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
     private void initDiacentCW() {
 
         /* Diacent CW */
-
-
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");

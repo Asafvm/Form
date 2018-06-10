@@ -1,13 +1,12 @@
 package il.co.diamed.com.form.menu;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Fade;
@@ -29,33 +27,28 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.DevicesFragment;
 import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
-import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.inventory.InventoryAdapter;
 import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.inventory.InventoryItem;
 import il.co.diamed.com.form.inventory.InventoryViewerAdapter;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
-public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragment.OnFragmentInteractionListener,
-        FileBrowserFragment.OnFragmentInteractionListener, InventoryFragment.OnFragmentInteractionListener {
+public class MainMenuAcitivity extends AppCompatActivity  {
 
     private static final String TAG = "MainMenu";
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
     private DrawerLayout mDrawerLayout;
-    private Bundle calibrationDevices;
     private FragmentManager mFragmentManager;
     private DevicesFragment mDevicesFragment;
     private InventoryFragment mInventoryFragment;
@@ -83,7 +76,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         final String timer = sharedPref.getString("timer", "");
         final String speedometer = sharedPref.getString("speedometer", "");
 
-        calibrationDevices = new Bundle();
+        Bundle calibrationDevices = new Bundle();
         calibrationDevices.putString("thermometer", thermometer);
         calibrationDevices.putString("barometer", barometer);
         calibrationDevices.putString("speedometer", speedometer);
@@ -94,10 +87,10 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         updateUser();
 
 
-        /** in stock summery **/
+        // in stock summery
         setInventorySummery();
 
-        /** Drawer Code **/
+        // Drawer Code
         mDrawerLayout = findViewById(R.id.drawer_layout);
         //set icon
         ActionBar actionbar = getSupportActionBar();
@@ -107,62 +100,59 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         }
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
+                menuItem -> {
+                    // set item as selected to persist highlight
+                    menuItem.setChecked(true);
 
-                        Log.e(TAG, "itemid: " + menuItem.getItemId() + " - itemname: " + menuItem.getTitle());
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_forms: {
-                                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                    Log.e(TAG, "itemid: " + menuItem.getItemId() + " - itemname: " + menuItem.getTitle());
+                    // Add code here to update the UI based on the item selected
+                    // For example, swap UI fragments here
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_forms: {
+                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-                                if (mDevicesFragment == null) {
-                                    mDevicesFragment = new DevicesFragment();
-                                }
-                                Fade fade = new Fade();
-                                fade.setDuration(400);
-                                mDevicesFragment.setEnterTransition(fade);
-                                mFragmentTransaction.addToBackStack(null);
-                                mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
-
-
-                                break;
+                            if (mDevicesFragment == null) {
+                                mDevicesFragment = new DevicesFragment();
                             }
-                            case R.id.nav_settings: {
-                                Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
-                                startActivity(intent);
-                                break;
-                            }
-                            case R.id.nav_files: {
-                                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                                        == PackageManager.PERMISSION_GRANTED) {
-                                    launchFileBrowser();
-                                } else {
-                                    // Permission is not granted
-                                    getPermission();
-                                }
+                            Fade fade = new Fade();
+                            fade.setDuration(400);
+                            mDevicesFragment.setEnterTransition(fade);
+                            mFragmentTransaction.addToBackStack(null);
+                            mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
 
-                                break;
-                            }
-                            case R.id.nav_stock: {
-                                //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
-                                showInventory();
-                                break;
-                            }
-                            default:
 
+                            break;
                         }
+                        case R.id.nav_settings: {
+                            Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
+                            startActivity(intent);
+                            break;
+                        }
+                        case R.id.nav_files: {
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    == PackageManager.PERMISSION_GRANTED) {
+                                launchFileBrowser();
+                            } else {
+                                // Permission is not granted
+                                getPermission();
+                            }
 
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        return true;
-
+                            break;
+                        }
+                        case R.id.nav_stock: {
+                            //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
+                            showInventory();
+                            break;
+                        }
+                        default:
 
                     }
+
+                    // close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
+                    return true;
+
+
                 });
 
 
@@ -198,7 +188,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
                     }
                 }
         );
-        /** Drawer Code END**/
+        // Drawer Code END
 
     }
 
@@ -225,12 +215,8 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
         RecyclerView.Adapter adapter = new InventoryViewerAdapter(missingInv, this);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInventory();
-            }
-        });
+        recyclerView.setOnClickListener(v ->
+                showInventory());
 
     }
 
@@ -255,7 +241,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
 
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL: {
@@ -285,7 +271,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
             mFileBrowserFragment.setArguments(bundle);
         }
         Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.RIGHT);
+        slide.setSlideEdge(Gravity.END);
         slide.setDuration(500);
         mFileBrowserFragment.setEnterTransition(slide);
         mFragmentTransaction.addToBackStack(null);
@@ -316,12 +302,6 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-
-    }
-
-    @Override
     public void onBackPressed() {
 
         if (mFragmentManager.getBackStackEntryCount() > 0) {
@@ -337,7 +317,7 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
             finish();
         }
     }
-
+/*
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -346,5 +326,5 @@ public class MainMenuAcitivity extends AppCompatActivity implements DevicesFragm
 
         }
     };
-
+*/
 }

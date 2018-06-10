@@ -1,8 +1,9 @@
 package il.co.diamed.com.form.inventory;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-public class InventoryItem implements Comparable {
+public class InventoryItem implements Comparable<InventoryItem> {
     private String id;
     private String description;
     private String inStock;
@@ -46,8 +47,8 @@ public class InventoryItem implements Comparable {
 
 
     @Override
-    public int compareTo(@NonNull Object o) {
-        return 0;//(this.id.compareTo(((InventoryItem)o).getId()));
+    public int compareTo(@NonNull InventoryItem o) {
+        return this.serial.compareTo(o.getSerial());
 
     }
 
@@ -104,10 +105,16 @@ public class InventoryItem implements Comparable {
     }
 
     public void setinStock(String inStock) {
-        this.inStock = inStock;
+        try {
+            if (Integer.valueOf(inStock) >= 0)
+                this.inStock = inStock;
+        }catch (Exception e){
+            Log.e("InventoryItem", "Invalid stock value: "+inStock);
+        }
     }
 
     public void setMinimum(String minimum) {
         this.minimum = minimum;
     }
+
 }

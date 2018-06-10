@@ -22,16 +22,13 @@ public class IncubatorActivity extends DevicePrototypeActivity {
     private final int MAX_TEMP = 39;
     private final int MIN_TEMP = 35;
     private final int EXPECTED_TIME = 15;
-    private Helper h;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_incubator_layout);
-
+        setLayout(R.layout.device_incubator_layout);
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
@@ -39,7 +36,7 @@ public class IncubatorActivity extends DevicePrototypeActivity {
         final String timer = bundle.getString("timer");
         //get views
         init();
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
@@ -50,8 +47,8 @@ public class IncubatorActivity extends DevicePrototypeActivity {
             public void onClick(View view) {
                 if (checkStatus()) {
                     DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
 
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 469, "", false));           //temp ok
@@ -79,7 +76,6 @@ public class IncubatorActivity extends DevicePrototypeActivity {
                     Intent intent = new Intent();
 
                     Bundle pages = new Bundle();
-                    Bundle page1 = new Bundle();
                     pages.putParcelableArrayList("page1", corText);
                     intent.putExtra("pages", pages);
 
@@ -98,12 +94,12 @@ public class IncubatorActivity extends DevicePrototypeActivity {
             }
 
             private boolean checkStatus() {
-                return Helper.isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
-                        Helper.isTempValid(((EditText) findViewById(R.id.temp)), MIN_TEMP, MAX_TEMP) &&
-                        Helper.isTimeValid(((EditText) findViewById(R.id.time)), EXPECTED_TIME) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
+                return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
+                        isTempValid(findViewById(R.id.temp), MIN_TEMP, MAX_TEMP) &&
+                        isTimeValid(findViewById(R.id.time), EXPECTED_TIME) &&
+                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
                         ((Switch) findViewById(R.id.incRubberSwitch)).isChecked() &&
                         ((Switch) findViewById(R.id.incFanSwitch)).isChecked();
 
@@ -121,13 +117,12 @@ public class IncubatorActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setTempListener(((EditText) findViewById(R.id.temp)), MIN_TEMP, MAX_TEMP);
-        h.setTimeListener(((EditText) findViewById(R.id.time)), EXPECTED_TIME);
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
+        setTempListener(findViewById(R.id.temp), MIN_TEMP, MAX_TEMP);
+        setTimeListener(findViewById(R.id.time), EXPECTED_TIME);
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.si);
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
@@ -139,7 +134,7 @@ public class IncubatorActivity extends DevicePrototypeActivity {
         ((Switch) findViewById(R.id.incRubberSwitch)).setChecked(true);
         ((Switch) findViewById(R.id.incFanSwitch)).setChecked(true);
 
-        ((Button) findViewById(R.id.formSubmitButton)).setActivated(false);
+        findViewById(R.id.formSubmitButton).setActivated(false);
     }
 
 }

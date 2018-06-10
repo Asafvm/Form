@@ -15,18 +15,15 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class SepaxActivity extends DevicePrototypeActivity {
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_sepax_layout);
+        setLayout(R.layout.device_sepax_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -37,17 +34,16 @@ public class SepaxActivity extends DevicePrototypeActivity {
         final String barometer = bundle.getString("barometer");
 
 
-        Helper helper = new Helper();
         init();
-        helper.setListener((EditText) findViewById(R.id.formTechName));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -301,11 +297,10 @@ public class SepaxActivity extends DevicePrototypeActivity {
 
     private void init() {
 
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
 
     }
 

@@ -11,7 +11,6 @@ import il.co.diamed.com.form.R;
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private Context mContext;
-    private FragmentManager mFragmentManager;
 
     public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
         super(fm);

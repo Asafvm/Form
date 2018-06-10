@@ -15,21 +15,19 @@ import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
 public class DoconActivity extends DevicePrototypeActivity {
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_docon_layout);
+        setLayout(R.layout.device_docon_layout);
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         //get views
         init();
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
@@ -41,8 +39,8 @@ public class DoconActivity extends DevicePrototypeActivity {
                 if (checkStatus()) {
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
                     Date date = new Date();
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(320, 662, ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + " - " +
@@ -80,10 +78,10 @@ public class DoconActivity extends DevicePrototypeActivity {
             }
 
             private boolean checkStatus() {
-                return Helper.isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
-                        Helper.isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
+                return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
 
             }
         });
@@ -96,11 +94,10 @@ public class DoconActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
     }
 
 }

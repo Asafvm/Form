@@ -13,10 +13,7 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
-
 public class HC10Activity extends DevicePrototypeActivity {
-    private Helper h;
 
 
     @Override
@@ -24,9 +21,8 @@ public class HC10Activity extends DevicePrototypeActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_hc10_layout);
-        h.setListener((EditText) findViewById(R.id.formTechName));
+        setLayout(R.layout.device_hc10_layout);
+        setListener(findViewById(R.id.formTechName));
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
@@ -37,8 +33,8 @@ public class HC10Activity extends DevicePrototypeActivity {
         //default basic values
 
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -134,11 +130,10 @@ public class HC10Activity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.etHC10ver)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.etHC10ver));
     }
 
 }

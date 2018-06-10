@@ -17,19 +17,16 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class GeneralUseActivity extends DevicePrototypeActivity {
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_general_layout);
-        h.setListener((EditText) findViewById(R.id.formTechName));
+        setLayout(R.layout.device_general_layout);
+        setListener((EditText) findViewById(R.id.formTechName));
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras());
         Bundle cal_data = bundle.getBundle("cal");
@@ -50,8 +47,8 @@ public class GeneralUseActivity extends DevicePrototypeActivity {
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
 
                     DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(355, 543, "", false));           //temp ok
                     corText.add(new Tuple(355, 525, "", false));           //time ok
@@ -115,12 +112,11 @@ public class GeneralUseActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.etVer)));
-        h.setListener(((EditText) findViewById(R.id.etNewVer)));
+        setListener(((EditText) findViewById(R.id.formMainLocation)));
+        setListener(((EditText) findViewById(R.id.formRoomLocation)));
+        setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        setListener(((EditText) findViewById(R.id.etVer)));
+        setListener(((EditText) findViewById(R.id.etNewVer)));
         setListener(((Switch) findViewById(R.id.verUpdateSwitch)));
 
         ((Switch) findViewById(R.id.verUpdateSwitch)).setChecked(false);

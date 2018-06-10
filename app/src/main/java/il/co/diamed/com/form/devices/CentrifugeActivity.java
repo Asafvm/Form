@@ -16,27 +16,24 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isTimeValid;
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class CentrifugeActivity extends DevicePrototypeActivity {
     private final int EXPECTED_TIME = 10;
     private int EXPECTED_SPEED = 1030;
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_centrifuge_layout);
+        setLayout(R.layout.device_centrifuge_layout);
+
+        //default basic values
+        init();
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
         final String techname = Objects.requireNonNull(bundle).getString("techName");
         final String signature = bundle.getString("signature");
         final String speedometer = bundle.getString("speedometer");
         final String timer = bundle.getString("timer");
-        //default basic values
-        init();
+
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
 
@@ -45,8 +42,8 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
             public void onClick(View view) {
                 if (checkStatus()) {
                     DatePicker dp = findViewById(R.id.formDate);
-                    String day = h.fixDay(dp.getDayOfMonth());
-                    String month = h.fixMonth(dp.getMonth());
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(219, 448, "", false));           //speed ok
                     corText.add(new Tuple(214, 313, "", false));           //time ok
@@ -94,8 +91,8 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
                 if (isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()))
                     if (isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()))
                         if (isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
-                            if (Helper.isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed)).getText().toString()), EXPECTED_SPEED))
-                                if (isTimeValid(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME))
+                            if (isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed)).getText().toString()), EXPECTED_SPEED))
+                                if (isTimeValid(findViewById(R.id.centTime), EXPECTED_TIME))
                                     if (isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()))
                                         if (((Switch) findViewById(R.id.centFanSwitch)).isChecked())
                                             return true;
@@ -106,33 +103,29 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
     }
 
     private void setListener(RadioGroup rg) {
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.c6S:
-                        EXPECTED_SPEED = 1175;
-                        break;
-                    case R.id.c12S:
-                        EXPECTED_SPEED = 1030;
-                        break;
-                    case R.id.c12SII:
-                        EXPECTED_SPEED = 1030;
-                        break;
-                    case R.id.c24S:
-                        EXPECTED_SPEED = 910;
-                        break;
-                    case R.id.l:
-                        EXPECTED_SPEED = 1030;
-                        break;
-                    default:
-                        EXPECTED_SPEED = 0;
-                        break;
-                }
-                Helper h = new Helper();
-                h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)), EXPECTED_SPEED);
-                ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
+        rg.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch (radioGroup.getCheckedRadioButtonId()) {
+                case R.id.c6S:
+                    EXPECTED_SPEED = 1175;
+                    break;
+                case R.id.c12S:
+                    EXPECTED_SPEED = 1030;
+                    break;
+                case R.id.c12SII:
+                    EXPECTED_SPEED = 1030;
+                    break;
+                case R.id.c24S:
+                    EXPECTED_SPEED = 910;
+                    break;
+                case R.id.l:
+                    EXPECTED_SPEED = 1030;
+                    break;
+                default:
+                    EXPECTED_SPEED = 0;
+                    break;
             }
+            setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
+            ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         });
     }
     @Override
@@ -144,13 +137,12 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed)), EXPECTED_SPEED);
-        h.setTimeListener(((EditText) findViewById(R.id.centTime)), EXPECTED_TIME);
+        setListener(((EditText) findViewById(R.id.formMainLocation)));
+        setListener(((EditText) findViewById(R.id.formRoomLocation)));
+        setListener(((EditText) findViewById(R.id.etDeviceSerial)));
+        setListener(((EditText) findViewById(R.id.formTechName)));
+        setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
+        setTimeListener(findViewById(R.id.centTime), EXPECTED_TIME);
         setListener(((RadioGroup) findViewById(R.id.rgModelSelect)));
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);

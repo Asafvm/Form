@@ -16,10 +16,6 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isSpeedValid;
-import static il.co.diamed.com.form.devices.Helper.isTimeValid;
-import static il.co.diamed.com.form.devices.Helper.isValidString;
-
 public class Diacent12Activity extends DevicePrototypeActivity {
 
     private static final int EXPECTED_12_TIME1 = 15;
@@ -28,15 +24,12 @@ public class Diacent12Activity extends DevicePrototypeActivity {
     private static final int EXPECTED_12_SPEED1 = 1000;
     private static final int EXPECTED_12_SPEED2 = 2000;
     private static final int EXPECTED_12_SPEED3 = 3000;
-    private Helper h;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_diacent12_layout);
+        setLayout(R.layout.device_diacent12_layout);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -48,8 +41,8 @@ public class Diacent12Activity extends DevicePrototypeActivity {
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(Objects.requireNonNull(bundle).getString("techName"));
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
 
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
@@ -131,15 +124,15 @@ public class Diacent12Activity extends DevicePrototypeActivity {
                     return false;
                 if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
                     return false;
-                if (!isTimeValid(((EditText) findViewById(R.id.centTime1)), EXPECTED_12_TIME1))
+                if (!isTimeValid(findViewById(R.id.centTime1), EXPECTED_12_TIME1))
                     return false;
                 if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed2000)).getText().toString())), EXPECTED_12_SPEED2))
                     return false;
-                if (!isTimeValid(((EditText) findViewById(R.id.centTime2)), EXPECTED_12_TIME2))
+                if (!isTimeValid(findViewById(R.id.centTime2), EXPECTED_12_TIME2))
                     return false;
                 if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed3000)).getText().toString())), EXPECTED_12_SPEED3))
                     return false;
-                if (!isTimeValid(((EditText) findViewById(R.id.centTime3)), EXPECTED_12_TIME3))
+                if (!isTimeValid(findViewById(R.id.centTime3), EXPECTED_12_TIME3))
                     return false;
                 if (!((Switch) findViewById(R.id.cent12checkHolders)).isChecked())
                     return false;
@@ -151,11 +144,10 @@ public class Diacent12Activity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
@@ -164,13 +156,12 @@ public class Diacent12Activity extends DevicePrototypeActivity {
 
     private void initDiacent12() {
         /* Diacent 12 */
-        Helper h = new Helper();
-        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed1000)), EXPECTED_12_SPEED1);
-        h.setTimeListener(((EditText) findViewById(R.id.centTime1)), EXPECTED_12_TIME1);
-        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed2000)), EXPECTED_12_SPEED2);
-        h.setTimeListener(((EditText) findViewById(R.id.centTime2)), EXPECTED_12_TIME2);
-        h.setSpeedListener(((EditText) findViewById(R.id.centSpeed3000)), EXPECTED_12_SPEED3);
-        h.setTimeListener(((EditText) findViewById(R.id.centTime3)), EXPECTED_12_TIME3);
+        setSpeedListener(findViewById(R.id.centSpeed1000), EXPECTED_12_SPEED1);
+        setTimeListener(findViewById(R.id.centTime1), EXPECTED_12_TIME1);
+        setSpeedListener(findViewById(R.id.centSpeed2000), EXPECTED_12_SPEED2);
+        setTimeListener(findViewById(R.id.centTime2), EXPECTED_12_TIME2);
+        setSpeedListener(findViewById(R.id.centSpeed3000), EXPECTED_12_SPEED3);
+        setTimeListener(findViewById(R.id.centTime3), EXPECTED_12_TIME3);
         ((EditText) findViewById(R.id.centSpeed1000)).setText("");
         ((EditText) findViewById(R.id.centTime1)).setText(R.string.time15);
         ((EditText) findViewById(R.id.centSpeed2000)).setText("");

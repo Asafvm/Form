@@ -31,7 +31,7 @@
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="android:editTextStyle">@style/MyEditTextStyle</item>
         <item name="android:buttonStyle">@style/MyButtonStyle</item>
-        <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
         <item name="android:layoutDirection">ltr</item>
     </style>
 
@@ -43,7 +43,8 @@
 
 
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:padding">4sp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
         <item name="android:autoSizeMinTextSize" tools:targetApi="o">5sp</item>
         <item name="android:autoSizeMaxTextSize" tools:targetApi="o">18sp</item>
         <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
@@ -56,6 +57,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+
+
 
     <style name="MyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

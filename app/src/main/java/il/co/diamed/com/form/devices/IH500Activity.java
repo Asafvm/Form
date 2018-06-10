@@ -13,21 +13,18 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
 import il.co.diamed.com.form.devices.res.Tuple;
 
-import static il.co.diamed.com.form.devices.Helper.isValidString;
 
 public class IH500Activity extends DevicePrototypeActivity {
     private int EXPECTED_SPEED = 1008;
     private final double EXPECTED_INCUBATOR_TEMP = 38.5;
     private final int EXPECTED_REAGENT_TEMP = 13;
-    private Helper h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.generic_device_activity);
-        h = new Helper();
-        h.setLayout(this, R.layout.device_ih500_layout_short);
+        setLayout(R.layout.device_ih500_layout_short);
 
 
         Bundle bundle = Objects.requireNonNull(getIntent().getExtras()).getBundle("cal");
@@ -38,17 +35,16 @@ public class IH500Activity extends DevicePrototypeActivity {
         final String barometer = bundle.getString("barometer");
 
 
-        Helper helper = new Helper();
         init();
-        helper.setListener((EditText) findViewById(R.id.formTechName));
+        setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
         final DatePicker dp = findViewById(R.id.formDate);
-        final String day = h.fixDay(dp.getDayOfMonth());
-        final String month = h.fixMonth(dp.getMonth());
+        final String day = fixDay(dp.getDayOfMonth());
+        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -190,19 +186,18 @@ public class IH500Activity extends DevicePrototypeActivity {
 
     private void init() {
 
-        Helper h = new Helper();
-        h.setListener(((EditText) findViewById(R.id.formMainLocation)));
-        h.setListener(((EditText) findViewById(R.id.formRoomLocation)));
-        h.setListener(((EditText) findViewById(R.id.etDeviceSerial)));
-        h.setListener(((EditText) findViewById(R.id.formTechName)));
-        h.setSpeedListener(((EditText) findViewById(R.id.etIH500CentrifugeFrontSpeed)), EXPECTED_SPEED);
-        h.setSpeedListener(((EditText) findViewById(R.id.etIH500CentrifugeRearSpeed)), EXPECTED_SPEED);
-        h.setTempListener(((EditText) findViewById(R.id.etIH500IncubatorFront)), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
-        h.setTempListener(((EditText) findViewById(R.id.etIH500IncubatorRear)), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
-        h.setTempListener(((EditText) findViewById(R.id.etIH500ReagentFront)), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
-        h.setTempListener(((EditText) findViewById(R.id.etIH500ReagentRear)), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
-        h.setListener(((EditText) findViewById(R.id.etIH500softwareC)));
-        h.setListener(((EditText) findViewById(R.id.etIH500softwareVer)));
+        setListener(findViewById(R.id.formMainLocation));
+        setListener(findViewById(R.id.formRoomLocation));
+        setListener(findViewById(R.id.etDeviceSerial));
+        setListener(findViewById(R.id.formTechName));
+        setSpeedListener(findViewById(R.id.etIH500CentrifugeFrontSpeed), EXPECTED_SPEED);
+        setSpeedListener(findViewById(R.id.etIH500CentrifugeRearSpeed), EXPECTED_SPEED);
+        setTempListener(findViewById(R.id.etIH500IncubatorFront), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
+        setTempListener(findViewById(R.id.etIH500IncubatorRear), EXPECTED_INCUBATOR_TEMP - 1, EXPECTED_INCUBATOR_TEMP + 1);
+        setTempListener(findViewById(R.id.etIH500ReagentFront), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
+        setTempListener(findViewById(R.id.etIH500ReagentRear), EXPECTED_REAGENT_TEMP - 1, EXPECTED_REAGENT_TEMP + 1);
+        setListener(findViewById(R.id.etIH500softwareC));
+        setListener(findViewById(R.id.etIH500softwareVer));
 
         ((EditText) findViewById(R.id.formMainLocation)).setText("");
         ((EditText) findViewById(R.id.formRoomLocation)).setText("");

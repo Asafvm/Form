@@ -1,53 +1,30 @@
 package il.co.diamed.com.form.devices;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.CentrifugeActivity;
-import il.co.diamed.com.form.devices.Diacent12Activity;
-import il.co.diamed.com.form.devices.DiacentCWActivity;
-import il.co.diamed.com.form.devices.DiacentUltraCWActivity;
-import il.co.diamed.com.form.devices.DoconActivity;
-import il.co.diamed.com.form.devices.FridgeActivity;
-import il.co.diamed.com.form.devices.GelstationActivity;
-import il.co.diamed.com.form.devices.GeneralUseActivity;
-import il.co.diamed.com.form.devices.HC10Activity;
-import il.co.diamed.com.form.devices.IH1000Activity;
-import il.co.diamed.com.form.devices.IH500Activity;
-import il.co.diamed.com.form.devices.IncubatorActivity;
-import il.co.diamed.com.form.devices.PlasmaThawerActivity;
-import il.co.diamed.com.form.devices.SepaxActivity;
 import il.co.diamed.com.form.devices.res.SimpleFragmentPagerAdapter;
-import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.res.MultiLayoutActivity;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class DevicesFragment extends Fragment {
-    private static final String TAG = "DeviceFragment";
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
-    private Bundle calibrationDevices;
+    //private static final String TAG = "DeviceFragment";
     private ViewPager viewPager;
     private SimpleFragmentPagerAdapter adapter;
-    private OnFragmentInteractionListener mListener;
 
     public DevicesFragment() {
         // Required empty public constructor
@@ -60,7 +37,7 @@ public class DevicesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_devices, container, false);
@@ -154,7 +131,7 @@ public class DevicesFragment extends Fragment {
             final String speedometer = sharedPref.getString("speedometer", "");
 
 
-            calibrationDevices = new Bundle();
+            Bundle calibrationDevices = new Bundle();
             calibrationDevices.putString("thermometer", thermometer);
             calibrationDevices.putString("barometer", barometer);
             calibrationDevices.putString("speedometer", speedometer);
@@ -178,28 +155,13 @@ public class DevicesFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {
-        Log.e(TAG,"Detached");
         super.onDetach();
         viewPager = null;
         adapter = null;
-        mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
 }

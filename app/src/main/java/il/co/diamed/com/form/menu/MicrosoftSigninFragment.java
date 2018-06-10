@@ -2,6 +2,8 @@ package il.co.diamed.com.form.menu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.microsoft.aad.adal.AuthenticationSettings.INSTANCE;
+
 public class MicrosoftSigninFragment extends Fragment {
     final static String CLIENT_ID = "b3131887-d338-4d8d-a0fb-89c5db805612";
     private static final String TAG = "MicrosoftSignInF: ";
@@ -67,12 +71,22 @@ public class MicrosoftSigninFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "Logging Activity Started");
-        super.onCreate(savedInstanceState);
-        loggingApp = new PublicClientApplication(
-                getContext(),
-                CLIENT_ID);
-        Log.d(TAG, "Logging signin");
-        signIn();
+        ConnectivityManager cm =
+                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        if(isConnected) {
+            Log.d(TAG, "connecting to microsoft");
+            super.onCreate(savedInstanceState);
+            loggingApp = new PublicClientApplication(
+                    getContext(),
+                    CLIENT_ID);
+            signIn();
+        }else{
+            Log.e(TAG, "No internet connection");
+        }
         return null;
     }
 
@@ -107,7 +121,6 @@ public class MicrosoftSigninFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
-
 
     public void signout() {
         Log.e(TAG,"Signing out");
@@ -188,7 +201,7 @@ public class MicrosoftSigninFragment extends Fragment {
             @Override
             public void onError(MsalException exception) {
                 /* Failed to acquireToken */
-                Log.d(TAG, "Authentication failed: " + exception.toString());
+                Log.d(TAG, "Silent Authentication failed: " + exception.toString());
 
                 if (exception instanceof MsalClientException) {
                     /* Exception inside MSAL, more info inside MsalError.java */
@@ -231,7 +244,7 @@ public class MicrosoftSigninFragment extends Fragment {
             @Override
             public void onError(MsalException exception) {
                 /* Failed to acquireToken */
-                Log.d(TAG, "Authentication failed: " + exception.toString());
+                Log.d(TAG, "Interactive Authentication failed: " + exception.toString());
 
                 if (exception instanceof MsalClientException) {
                     /* Exception inside MSAL, more info inside MsalError.java */
