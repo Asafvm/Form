@@ -48,6 +48,14 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
         {
+            String getnextdate() {
+                if((dp.getMonth() + 7) > 12)
+                    return String.valueOf(dp.getYear() + 1);
+                else
+                    return String.valueOf(dp.getYear());
+
+            }
+
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
@@ -72,11 +80,10 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                             dp.getYear(), false));                        //Date
                     corText.add(new Tuple(200, 552, ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));                        //type
                     corText.add(new Tuple(425, 552, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(280, 449, ((EditText) findViewById(R.id.ptTemp)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(275, 450, ((EditText) findViewById(R.id.ptTemp)).getText().toString(), false));                        //temp
                     //corText.add(new Tuple(425, 455));                        //temp expected
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.ptTime)).getText().toString(), false));                        //Time
-                    corText.add(new Tuple(430, 57, month + "   " +
-                            (dp.getYear() + 1), false));                        //Next Date
+                    corText.add(new Tuple(430, 57, fixMonth(dp.getMonth() + 6) + "   " + getnextdate(), false));                        //Next Date
 
                     corText.add(new Tuple(350, 405, thermometer, false));                        //thermometer
                     corText.add(new Tuple(400, 269, timer, false));                        //Timer
@@ -94,7 +101,7 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                     intent.putExtra("destArray", ((EditText) findViewById(R.id.formMainLocation)).getText().toString() + "/" +
                             ((EditText) findViewById(R.id.formRoomLocation)).getText().toString() + "/" +
                             dp.getYear() + "" +
-                            month+ "" + day + "_PlasmaThawer-" +
+                            month + "" + day + "_PlasmaThawer-" +
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
 
                     createPDF(intent);

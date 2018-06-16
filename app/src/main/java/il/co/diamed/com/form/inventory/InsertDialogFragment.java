@@ -36,16 +36,16 @@ public class InsertDialogFragment extends DialogFragment {
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         }
-        if(getContext()!=null) {
+        if (getContext() != null) {
             View v = inflater.inflate(R.layout.fragment_inventory_insert, container, false);
 
-        this.setCancelable(false);
+            this.setCancelable(false);
 
 
-        //get parts serial list
-        ClassApplication application = (ClassApplication) getActivity().getApplication();
-        DatabaseProvider provider = application.getDatabaseProvider();
-        String[] PARTS = provider.getLabParts();
+            //get parts serial list
+            ClassApplication application = (ClassApplication) getActivity().getApplication();
+            DatabaseProvider provider = application.getDatabaseProvider();
+            String[] PARTS = provider.getLabParts();
 
             ArrayAdapter<String> arrayadapter = new ArrayAdapter<>(getContext(),
                     android.R.layout.simple_spinner_dropdown_item, PARTS);
@@ -62,11 +62,10 @@ public class InsertDialogFragment extends DialogFragment {
                     if (validInStock(inStock)) {
                         ((EditText) v.findViewById(R.id.etItem_inStock)).setError(null);
                         //add part from lab
-                        if (!provider.addToMyInventory(textView.getText().toString(), Integer.valueOf(inStock))) {
+                        if (!provider.addToMyLocalInventory(textView.getText().toString(), Integer.valueOf(inStock))) {
                             Log.e(TAG, "Error on updating inStock");
                         }
                         dismiss();
-
                     } else {
                         ((EditText) v.findViewById(R.id.etItem_inStock)).setError("כמות לא תקינה", getActivity().getDrawable(R.drawable.ic_error_black_24dp));
                     }
@@ -83,14 +82,14 @@ public class InsertDialogFragment extends DialogFragment {
                     this.dismiss());
 
             return v;
-        }else
+        } else
             return null;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(getDialog().getWindow()!=null && isAdded()) {
+        if (getDialog().getWindow() != null && isAdded()) {
             Window window = getDialog().getWindow();
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             lp.copyFrom(window.getAttributes());
@@ -103,7 +102,7 @@ public class InsertDialogFragment extends DialogFragment {
     private boolean verifyPart(String description) {
         if (getView() != null) {
             if (description.equals("")) {
-                ((EditText) getView().findViewById(R.id.etItem_serial)).setError("חלק לא קיים במערכת",getActivity().getDrawable(R.drawable.ic_error_black_24dp));
+                ((EditText) getView().findViewById(R.id.etItem_serial)).setError("חלק לא קיים במערכת", getActivity().getDrawable(R.drawable.ic_warning_black_24dp));
                 ((TextView) getView().findViewById(R.id.etItem_description)).setText("-");
                 getView().findViewById(R.id.etItem_inStock).setVisibility(View.INVISIBLE);
                 return true;
@@ -135,6 +134,7 @@ public class InsertDialogFragment extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+
     }
 }
 

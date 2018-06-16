@@ -24,6 +24,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
 
     private PDFBuilderFragment mPDFBuilderFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,16 +118,16 @@ public class DevicePrototypeActivity extends AppCompatActivity {
                         ((Switch) view).setChecked(true);
                     }
                 }
-                if(view instanceof TextView){
+                if (view instanceof TextView) {
 
                     ((TextView) view).setMaxLines(2);
                     ((TextView) view).setTextSize(fSize);
                 }
             }
-            if(view instanceof EditText){
+            if (view instanceof EditText) {
                 ((EditText) view).setMaxLines(1);
                 view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                ((EditText)view).setHintTextColor(Color.RED);
+                ((EditText) view).setHintTextColor(Color.RED);
             }
             if (view instanceof EditText) {
                 setListener((EditText) view);
@@ -335,30 +336,31 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         });
     }
 
-    public String fixDay(int date){
+    public String fixDay(int date) {
 
-        if (date<10){
-            return "0"+date;
-        }else{
-            return ""+date;
+        if (date < 10) {
+            return "0" + date;
+        } else {
+            return "" + date;
         }
     }
-    public String fixMonth(int date){
-        date++;
-        if (date<10){
-            return "0"+date;
-        }else{
-            return ""+date;
+
+    public String fixMonth(int date) {
+        date = (date % 12) + 1;
+        if (date < 10) {
+            return "0" + date;
+        } else {
+            return "" + date;
         }
 
     }
 
-    public void setPDFprogress(Activity activity, String text, boolean visible){
-        if(visible) {
+    public void setPDFprogress(Activity activity, String text, boolean visible) {
+        if (visible) {
             activity.findViewById(R.id.PDFprogressLayout).setVisibility(View.VISIBLE);
-            ((TextView)activity.findViewById(R.id.tvPDF)).setText(text);
+            ((TextView) activity.findViewById(R.id.tvPDF)).setText(text);
 
-        }else{
+        } else {
             activity.findViewById(R.id.PDFprogressLayout).setVisibility(View.INVISIBLE);
         }
 

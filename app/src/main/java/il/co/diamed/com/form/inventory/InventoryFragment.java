@@ -19,18 +19,18 @@ import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
-public class InventoryFragment extends Fragment{
+public class InventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
-
     RecyclerView recyclerView;
     RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter;
+    DatabaseProvider provider;
     List<InventoryItem> values;
     ClassApplication application;
+    SwipeRefreshLayout refreshLayout;
 
     public InventoryFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -38,29 +38,31 @@ public class InventoryFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
-        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.viewSwipe);
-        refreshLayout.setOnRefreshListener(() -> {
-            refresh();
-            refreshLayout.setRefreshing(false);
-        });
-
-        recyclerView = view.findViewById(R.id.recycler_inventory_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        values = new ArrayList<>();
-
-        // insert data from firebase
+        refreshLayout = view.findViewById(R.id.viewSwipe);
+        refreshLayout.setOnRefreshListener(this::refresh);
         if (getActivity() != null && isAdded()) {
+            recyclerView = view.findViewById(R.id.recycler_inventory_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            values = new ArrayList<>();
             application = (ClassApplication) getActivity().getApplication();
-            DatabaseProvider provider = application.getDatabaseProvider();
+            provider = application.getDatabaseProvider();
+            /*RecyclerView recyclerView = view.findViewById(R.id.recycler_inventory_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            values = new ArrayList<>();
+
+            // insert data from firebase
+
+            application = (ClassApplication) getActivity().getApplication();
+            provider = application.getDatabaseProvider();
             values = provider.getMyInv();
             if (values == null) {
                 Log.e(TAG, "My database does not exists");
             } else {
                 Collections.sort(values);
-                adapter = new InventoryAdapter(values, getContext());
+                RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter = new InventoryAdapter(values, getContext());
                 recyclerView.setAdapter(adapter);
             }
-
+*/
             view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> provider.updateRemoteInv(values));
 
 
@@ -76,9 +78,37 @@ public class InventoryFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
+    }
+
+    @Override
+    public void onDestroy() {
+        provider.updateRemoteInv(values);
+        super.onDestroy();
+
+    }
+
+    private void initView() {
+        if (getView() != null && getActivity() != null && isAdded()) {
+            // insert data from firebase
+            values = provider.getMyInv();
+            if (values == null) {
+                Log.e(TAG, "My database does not exists");
+            } else {
+                Collections.sort(values);
+                adapter = new InventoryAdapter(values, getContext());
+                recyclerView.setAdapter(adapter);
+            }
+        }
+    }
+
     private void refresh() {
         if (getFragmentManager() != null) {
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            initView();
+            refreshLayout.setRefreshing(false);
         } else {
             Log.e(TAG, "Fragment manager == null");
         }

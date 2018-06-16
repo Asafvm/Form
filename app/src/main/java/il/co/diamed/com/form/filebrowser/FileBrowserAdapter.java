@@ -39,12 +39,9 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     public FileBrowserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_file_browser_item, parent, false);
         v.setClickable(true);
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setActivated(!v.isActivated());
-                v.setBackgroundColor(Color.parseColor(v.isActivated() ? colorMarked : colorUnmarked));
-            }
+        v.setOnClickListener(v1 -> {
+            v1.setActivated(!v1.isActivated());
+            v1.setBackgroundColor(Color.parseColor(v1.isActivated() ? colorMarked : colorUnmarked));
         });
         return new FileBrowserAdapter.ViewHolder(v);
 
@@ -82,20 +79,17 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             download = itemView.findViewById(R.id.file_download_button);
             share = itemView.findViewById(R.id.file_share_button);
 
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(markedList.isEmpty()) {
-                        v.setActivated(false);
-                        v.setBackgroundColor(Color.parseColor(colorUnmarked));
-                        Log.e(TAG, textView.getText().toString());
-                        Intent i = new Intent(BROADCAST_FILTER);
-                        i.putExtra("share", true);
-                        i.putExtra("filename", textView.getText().toString());
-                        context.sendBroadcast(i);
-                    }else{
-                        shareBatch();
-                    }
+            share.setOnClickListener(v -> {
+                if(markedList.isEmpty()) {
+                    v.setActivated(false);
+                    v.setBackgroundColor(Color.parseColor(colorUnmarked));
+                    Log.e(TAG, textView.getText().toString());
+                    Intent i = new Intent(BROADCAST_FILTER);
+                    i.putExtra("share", true);
+                    i.putExtra("filename", textView.getText().toString());
+                    context.sendBroadcast(i);
+                }else{
+                    shareBatch();
                 }
             });
 

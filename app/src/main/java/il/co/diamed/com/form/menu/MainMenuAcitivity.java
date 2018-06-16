@@ -1,6 +1,8 @@
 package il.co.diamed.com.form.menu;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -317,7 +319,7 @@ public class MainMenuAcitivity extends AppCompatActivity  {
             finish();
         }
     }
-/*
+
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -326,5 +328,5 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
         }
     };
-*/
+
 }

@@ -80,11 +80,11 @@ public class PDFBuilderFragment extends Fragment {
         checkPNG.scalePercent(1);
         try {
             file = new File(dest);
-            if(file.getParentFile().mkdirs()){
-                bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-                reader = new PdfReader(src);
-                stamper = new PdfStamper(reader, new FileOutputStream(dest));
-            }
+            file.getParentFile().mkdirs();
+            bf = BaseFont.createFont("assets/font/arialuni.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            reader = new PdfReader(src);
+            stamper = new PdfStamper(reader, new FileOutputStream(dest));
+
         } catch (Exception e) {
             activityFailed();
         }

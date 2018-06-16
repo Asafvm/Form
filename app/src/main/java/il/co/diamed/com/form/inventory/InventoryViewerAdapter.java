@@ -57,13 +57,10 @@ public class InventoryViewerAdapter extends RecyclerView.Adapter<InventoryViewer
             @Override
             public void afterTextChanged(Editable s) {
                 if (item.getInStock().compareTo(item.getMinimum()) > 0) {
-                    //holder.inStock.setBackgroundColor(Color.parseColor("#31F288"));
                     holder.inStock.setBackgroundResource(R.drawable.shape_item_enough);
                 } else if (item.getInStock().compareTo(item.getMinimum()) == 0) {
-                    //holder.inStock.setBackgroundColor(Color.parseColor("#31F288"));
                     holder.inStock.setBackgroundResource(R.drawable.shape_item_warning);
                 } else{
-                    //holder.inStock.setBackgroundColor(Color.parseColor("#F2319B"));
                     holder.inStock.setBackgroundResource(R.drawable.shape_item_low);
                 }
             }

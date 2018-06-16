@@ -12,7 +12,6 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <meta-data
@@ -104,6 +103,9 @@
         <activity android:name=".devices.FridgeActivity" />
         <activity android:name=".devices.SepaxActivity" />
         <activity android:name=".devices.res.DevicePrototypeActivity"></activity>
+
+        <service android:name=".res.providers.DatabaseProviderService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

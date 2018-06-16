@@ -66,8 +66,8 @@
                 android:layout_height="wrap_content"
                 android:text="חסר במלאי"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@id/recycler_missing_items"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recycler_missing_items"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_missing_items"

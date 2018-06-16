@@ -1,6 +1,7 @@
 package il.co.diamed.com.form.menu;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -21,11 +22,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.transition.Fade;
+import android.transition.Scene;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -51,33 +57,51 @@ public class LoginActivity extends AppCompatActivity implements
     private MicrosoftSigninFragment mMicrosoftSigninFragment;
     private static final String TAG = "Login";
     private ClassApplication application;
-    private UserSetupFragment mUserSetupFragment;
     JSONObject userDetails;
     private FirebaseUser user;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        setProgressInfo("Starting",0);
+        setProgressInfo("Starting", 0);
 
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
+        moveLogo(200, 0);
+        moveLogo(-350, 1100);
+
+
+
 
         signinUser();
 
     }
 
+
+
+    private void moveLogo(float distance, int duration) {
+        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.loginLogo), "translationY", distance);
+        animation.setDuration(duration);
+        animation.start();
+
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(duration);
+        findViewById(R.id.loginLogo).startAnimation(anim);
+
+
+
+    }
+
     public void signinUser() {
-        setProgressInfo("Starting app",10);
+        setProgressInfo("Starting app", 10);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Log.e(TAG, "No active user");
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                setProgressInfo("Logging to Microsoft",30);
+                setProgressInfo("Logging to Microsoft", 30);
                 signinToMicrosoft();
 
             } else {
@@ -89,14 +113,14 @@ public class LoginActivity extends AppCompatActivity implements
 
         } else {
             Log.d(TAG, "Logged: " + user.getEmail());
-            updatePrefernces();
+            updateTechTools();
         }
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.
@@ -112,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements
             }
         }
     }
+
     private void init() {
 
         //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -129,6 +154,7 @@ public class LoginActivity extends AppCompatActivity implements
         decorView.setSystemUiVisibility(uiOptions);
 
     }
+
     private void signinToMicrosoft() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -164,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     public void verifyUser(JSONObject response) {
-        setProgressInfo("Got user from Microsoft",50);
+        setProgressInfo("Got user from Microsoft", 50);
         userDetails = response;
 
         try {
@@ -177,23 +203,24 @@ public class LoginActivity extends AppCompatActivity implements
         }
 
     }
+
     final FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             user = firebaseAuth.getCurrentUser();
 
             if (user != null) {
-                setProgressInfo("Logged with: "+user.getEmail(),70);
+                setProgressInfo("Logged with: " + user.getEmail(), 70);
                 Log.e(TAG, "User logged in");
                 updateUserDetails();
-            }else{
+            } else {
                 Log.e(TAG, "User logged out");
             }
         }
     };
 
     private void updateUserDetails() {
-        setProgressInfo("Updating info",70);
+        setProgressInfo("Updating info", 70);
         application.getAuthProvider().removeAuthStateListener(listener);
         Log.d(TAG, "Setting User Info");
 
@@ -206,27 +233,29 @@ public class LoginActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+        if (profileUpdates != null) {
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User profile updated.");
                             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                             SharedPreferences.Editor spedit = sharedPref.edit();
-                            if(sharedPref.getString("techName", "").equals(""))
+                            if (sharedPref.getString("techName", "").equals(""))
                                 spedit.putString("techName", user.getDisplayName());
-                            spedit.putString("techeMail", user.getEmail());
-                            spedit.putString("techePhone", user.getPhoneNumber());
+                            if (sharedPref.getString("techeMail", "").equals(""))
+                                spedit.putString("techeMail", user.getEmail());
+                            if (sharedPref.getString("techePhone", "").equals(""))
+                                spedit.putString("techePhone", user.getPhoneNumber());
                             spedit.apply();
-                            updatePrefernces();
+
+                            updateTechTools();
                         }
-                    }
-                });
+                    });
+        }
     }
 
-    public void updatePrefernces() {  //user logged, start app
-        setProgressInfo("Updating Prefernces",90);
+    public void updateTechTools() {  //user logged, start app
+        setProgressInfo("Updating Prefernces", 90);
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -235,9 +264,10 @@ public class LoginActivity extends AppCompatActivity implements
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String fontsize = sharedPref.getString("sync_fontsize", "");
-        if(fontsize.equals("")) {
+        if (fontsize.equals("")) {
             SharedPreferences.Editor spedit = sharedPref.edit();
             spedit.putString("sync_fontsize", "12");
+            spedit.apply();
         }
         final String techname = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
@@ -249,7 +279,7 @@ public class LoginActivity extends AppCompatActivity implements
         if (techname.equals("") || signature.equals("") || thermometer.equals("") ||
                 barometer.equals("") || timer.equals("") || speedometer.equals("")) {
 
-            mUserSetupFragment = new UserSetupFragment();
+            UserSetupFragment mUserSetupFragment = new UserSetupFragment();
             Slide slide = new Slide();
             slide.setSlideEdge(Gravity.RIGHT);
             slide.setDuration(600);
@@ -260,8 +290,9 @@ public class LoginActivity extends AppCompatActivity implements
             moveToMainMenu();
         }
     }
+
     private void moveToMainMenu() {
-        setProgressInfo("Ready... Set.... GO!",100);
+        setProgressInfo("Ready... Set.... GO!", 100);
         //String user_email = user.getEmail();
         //Toast.makeText(getApplicationContext(), getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();
         Handler handler = new Handler();
@@ -276,11 +307,13 @@ public class LoginActivity extends AppCompatActivity implements
         }, 2000);
 
     }
-    public void setProgressInfo(String text, int percent){
 
-        ((TextView)findViewById(R.id.tvProgress)).setText(text);
-        ((ProgressBar)findViewById(R.id.pbLogin)).setProgress(percent);
+    public void setProgressInfo(String text, int percent) {
+
+        ((TextView) findViewById(R.id.tvProgress)).setText(text);
+        ((ProgressBar) findViewById(R.id.pbLogin)).setProgress(percent);
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }

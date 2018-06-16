@@ -71,8 +71,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
                             holder.inStock.setBackgroundResource(R.drawable.shape_item_low);
                         }
                     }
-                }catch (NumberFormatException e){
-                    Log.e(TAG,"Error converting value at: "+item.getId()+" - "+item.getDescription());
+                } catch (NumberFormatException e) {
+                    Log.e(TAG, "Error converting value at: " + item.getId() + " - " + item.getDescription() +
+                            "\nstock: " + item.getInStock() + " minimum: " + item.getMinimum());
                 }
             }
         });
@@ -123,15 +124,20 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
                 currentView = itemView;
                 itemView.setActivated(true);
                 add.setVisibility(View.VISIBLE);
-                sub.setVisibility(View.VISIBLE);
+                if (Integer.valueOf(inStock.getText().toString()) > 0)
+                    sub.setVisibility(View.VISIBLE);
                 add.setOnClickListener(v1 -> {
                     int stock = Integer.valueOf(inStock.getText().toString());
                     inStock.setText(String.valueOf(stock + 1));
+                    sub.setVisibility(View.VISIBLE);
                 });
                 sub.setOnClickListener(v1 -> {
                     int stock = Integer.valueOf(inStock.getText().toString());
+
+                    inStock.setText(String.valueOf(stock - 1));
                     if (stock > 0)
-                        inStock.setText(String.valueOf(stock - 1));
+                        sub.setVisibility(View.INVISIBLE);
+
 
                 });
             }

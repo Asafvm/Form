@@ -12,70 +12,24 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserManagmentProvider{ 
     private final String TAG = "UserManagmentProvider";
-    private FirebaseUser mFirebaseUser;
-    private FirebaseAuth mFirebaseAuth;
+
 
     public UserManagmentProvider(){
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
     }
 
 
-    public FirebaseUser getUser(){
-        return mFirebaseAuth.getCurrentUser();
-    }
+
 
 
     public void signout() {
-        mFirebaseAuth.signOut();
+        FirebaseAuth.getInstance().signOut();
     }
 
     public FirebaseUser getCurrentUser() {
-        return mFirebaseAuth.getCurrentUser();
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-
-
-    public FirebaseUser signin(final String email, final String password) {
-        mFirebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            //updateUI(null);
-                        }
-
-                        // ...
-                    }
-                });
-        return mFirebaseAuth.getCurrentUser();
-    }
-
-    public void createUser(final String email, final String password) {
-        mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            signin(email, password);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            //updateUI(null);
-                        }
-
-                    }
-                });
-    }
 
     private void updateUI(FirebaseUser currentUser) {
         if(currentUser!=null)
