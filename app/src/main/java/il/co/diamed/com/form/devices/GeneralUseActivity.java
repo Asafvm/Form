@@ -44,11 +44,12 @@ public class GeneralUseActivity extends DevicePrototypeActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
-                    findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
+
 
                     DatePicker dp = findViewById(R.id.formDate);
                     String day = fixDay(dp.getDayOfMonth());
                     String month = fixMonth(dp.getMonth());
+
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(355, 543, "", false));           //temp ok
                     corText.add(new Tuple(355, 525, "", false));           //time ok

@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.HashMap;
+
+import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.CaptureSignature;
 
@@ -93,20 +96,36 @@ public class UserSetupFragment extends Fragment {
         view.findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!((EditText)view.findViewById(R.id.etName)).getText().toString().equals("")&&
-                   !((EditText)view.findViewById(R.id.etThermometer)).getText().toString().equals("")&&
-                   !((EditText)view.findViewById(R.id.etBarometer)).getText().toString().equals("")&&
-                   !((EditText)view.findViewById(R.id.etTimer)).getText().toString().equals("")&&
-                   !((EditText)view.findViewById(R.id.etSpeedometer)).getText().toString().equals("")&&
+                String name =((EditText)view.findViewById(R.id.etName)).getText().toString();
+                String thermometer = ((EditText)view.findViewById(R.id.etThermometer)).getText().toString();
+                String barometer = ((EditText)view.findViewById(R.id.etBarometer)).getText().toString();
+                String timer = ((EditText)view.findViewById(R.id.etTimer)).getText().toString();
+                String speedometer = ((EditText)view.findViewById(R.id.etSpeedometer)).getText().toString();
+
+                if(!name.equals("")&&
+                   !thermometer.equals("")&&
+                   !barometer.equals("")&&
+                   !timer.equals("")&&
+                   !speedometer.equals("")&&
                    !(sharedPref.getString("signature", "").equals(""))){
 
                     SharedPreferences.Editor spedit = sharedPref.edit();
-                    spedit.putString("techName", ((EditText)view.findViewById(R.id.etName)).getText().toString());
-                    spedit.putString("speedometer", ((EditText)view.findViewById(R.id.etSpeedometer)).getText().toString());
-                    spedit.putString("thermometer", ((EditText)view.findViewById(R.id.etThermometer)).getText().toString());
-                    spedit.putString("barometer", ((EditText)view.findViewById(R.id.etBarometer)).getText().toString());
-                    spedit.putString("timer", ((EditText)view.findViewById(R.id.etTimer)).getText().toString());
+                    spedit.putString("techName", name);
+                    spedit.putString("speedometer", speedometer);
+                    spedit.putString("thermometer", thermometer);
+                    spedit.putString("barometer", barometer);
+                    spedit.putString("timer", timer);
                     spedit.apply();
+
+                    HashMap<String,String> userInfo = new HashMap<>();
+                    userInfo.put("techName", name);
+                    userInfo.put("speedometer", speedometer);
+                    userInfo.put("thermometer", thermometer);
+                    userInfo.put("barometer", barometer);
+                    userInfo.put("timer", timer);
+
+                    ClassApplication application = (ClassApplication)getActivity().getApplication();
+                    application.getDatabaseProvider(getContext()).uploadUserData(userInfo);
 
                     LoginActivity activity = (LoginActivity)getActivity();
                     activity.updateTechTools();

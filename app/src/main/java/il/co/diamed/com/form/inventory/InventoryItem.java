@@ -3,8 +3,11 @@ package il.co.diamed.com.form.inventory;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
+
 public class InventoryItem implements Comparable<InventoryItem> {
-    private String id;
     private String description;
     private String inStock;
     private String serial;
@@ -13,16 +16,17 @@ public class InventoryItem implements Comparable<InventoryItem> {
     private String cost;
     private String row;
     private String drawer;
-
     private String area;
-    private String minimum;
+    private String minimum_lab;
+    private String minimum_car;
     private String device;
     private String active;
+    private String id;
 
     public InventoryItem() {
 
     }
-
+/*
     public InventoryItem(String serial, String description, String inStock) {
         this.serial = serial;
         this.description = description;
@@ -41,15 +45,33 @@ public class InventoryItem implements Comparable<InventoryItem> {
         this.company = item.company;
         this.cost = item.cost;
         this.device = item.device;
-        this.minimum = item.minimum;
+        this.minimum_lab = item.minimum_lab;
+        this.minimum_car = item.minimum_car;
         this.supplier = item.supplier;
     }
-
+*/
 
     @Override
     public int compareTo(@NonNull InventoryItem o) {
         return this.serial.compareTo(o.getSerial());
 
+    }
+
+
+    public String getMinimum_lab() {
+        return minimum_lab;
+    }
+
+    public void setMinimum_lab(String minimum_lab) {
+        this.minimum_lab = minimum_lab;
+    }
+
+    public String getMinimum_car() {
+        return minimum_car;
+    }
+
+    public void setMinimum_car(String minimum_car) {
+        this.minimum_car = minimum_car;
     }
 
     public String getInStock() {
@@ -64,9 +86,6 @@ public class InventoryItem implements Comparable<InventoryItem> {
         return active;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public String getSupplier() {
         return supplier;
@@ -96,12 +115,12 @@ public class InventoryItem implements Comparable<InventoryItem> {
         return area;
     }
 
-    public String getMinimum() {
-        return minimum;
-    }
-
     public String getDevice() {
         return device;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setinStock(String inStock) {
@@ -113,8 +132,7 @@ public class InventoryItem implements Comparable<InventoryItem> {
         }
     }
 
-    public void setMinimum(String minimum) {
-        this.minimum = minimum;
+    public void setId(String id) {
+        this.id = id;
     }
-
 }

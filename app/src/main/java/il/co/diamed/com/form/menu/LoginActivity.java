@@ -46,9 +46,12 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class LoginActivity extends AppCompatActivity implements
         UserSetupFragment.OnFragmentInteractionListener,
@@ -269,14 +272,14 @@ public class LoginActivity extends AppCompatActivity implements
             spedit.putString("sync_fontsize", "12");
             spedit.apply();
         }
-        final String techname = sharedPref.getString("techName", "");
+        final String name = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
         final String thermometer = sharedPref.getString("thermometer", "");
         final String barometer = sharedPref.getString("barometer", "");
         final String timer = sharedPref.getString("timer", "");
         final String speedometer = sharedPref.getString("speedometer", "");
 
-        if (techname.equals("") || signature.equals("") || thermometer.equals("") ||
+        if (name.equals("") || signature.equals("") || thermometer.equals("") ||
                 barometer.equals("") || timer.equals("") || speedometer.equals("")) {
 
             UserSetupFragment mUserSetupFragment = new UserSetupFragment();
@@ -287,11 +290,22 @@ public class LoginActivity extends AppCompatActivity implements
             fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
 
         } else {
+            HashMap<String,String> userInfo = new HashMap<>();
+            userInfo.put("techName", name);
+            userInfo.put("speedometer", speedometer);
+            userInfo.put("thermometer", thermometer);
+            userInfo.put("barometer", barometer);
+            userInfo.put("timer", timer);
+
+            ClassApplication application = (ClassApplication)getApplication();
+            application.getDatabaseProvider(this).uploadUserData(userInfo);
             moveToMainMenu();
         }
     }
 
     private void moveToMainMenu() {
+        application.getDatabaseProvider(this).initialize();
+
         setProgressInfo("Ready... Set.... GO!", 100);
         //String user_email = user.getEmail();
         //Toast.makeText(getApplicationContext(), getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();

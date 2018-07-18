@@ -42,7 +42,8 @@
             <TextView
                 android:id="@+id/titleCal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="0.1"
                 android:text="כיולים הבאים"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,8 +64,9 @@
             <TextView
                 android:id="@+id/titleInv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="חסר במלאי"
+                app:layout_constraintVertical_weight="0.1"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/recycler_missing_items"/>
@@ -72,7 +74,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_missing_items"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="0.9"
                 app:layout_constraintTop_toBottomOf="@id/titleInv"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />

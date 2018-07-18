@@ -42,9 +42,7 @@ public class IH500Activity extends DevicePrototypeActivity {
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
-        final DatePicker dp = findViewById(R.id.formDate);
-        final String day = fixDay(dp.getDayOfMonth());
-        final String month = fixMonth(dp.getMonth());
+
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -52,6 +50,9 @@ public class IH500Activity extends DevicePrototypeActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    final DatePicker dp = findViewById(R.id.formDate);
+                    final String day = fixDay(dp.getDayOfMonth());
+                    final String month = fixMonth(dp.getMonth());
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
 
                     Bundle pages = new Bundle();
@@ -75,6 +76,10 @@ public class IH500Activity extends DevicePrototypeActivity {
             }
 
             private ArrayList<Tuple> getPage1corText() {
+                final DatePicker dp = findViewById(R.id.formDate);
+                final String day = fixDay(dp.getDayOfMonth());
+                final String month = fixMonth(dp.getMonth());
+
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(470, 628, month + "    " +
                         (dp.getYear() + 1), false));                        //Next Date

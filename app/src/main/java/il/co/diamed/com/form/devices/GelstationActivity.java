@@ -47,9 +47,6 @@ public class GelstationActivity extends DevicePrototypeActivity {
 
         //default basic values
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
-        final DatePicker dp = findViewById(R.id.formDate);
-        final String day = fixDay(dp.getDayOfMonth());
-        final String month = fixMonth(dp.getMonth());
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
 
@@ -57,6 +54,9 @@ public class GelstationActivity extends DevicePrototypeActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    DatePicker dp = findViewById(R.id.formDate);
+                    String day = fixDay(dp.getDayOfMonth());
+                    String month = fixMonth(dp.getMonth());
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     Bundle pages = new Bundle();
                     pages.putParcelableArrayList("page1", getPage1corText());
@@ -79,6 +79,9 @@ public class GelstationActivity extends DevicePrototypeActivity {
             }
 
             private ArrayList<Tuple> getPage1corText() {
+                DatePicker dp = findViewById(R.id.formDate);
+                String day = fixDay(dp.getDayOfMonth());
+                String month = fixMonth(dp.getMonth());
                 ArrayList<Tuple> corText = new ArrayList<>();
 
                 corText.add(new Tuple(457, 632, month + "   " + (dp.getYear() + 1), false));                        //Next Date

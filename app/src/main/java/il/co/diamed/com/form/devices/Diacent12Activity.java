@@ -40,9 +40,7 @@ public class Diacent12Activity extends DevicePrototypeActivity {
 
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(Objects.requireNonNull(bundle).getString("techName"));
-        final DatePicker dp = findViewById(R.id.formDate);
-        final String day = fixDay(dp.getDayOfMonth());
-        final String month = fixMonth(dp.getMonth());
+
 
 
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
@@ -51,6 +49,10 @@ public class Diacent12Activity extends DevicePrototypeActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    final DatePicker dp = findViewById(R.id.formDate);
+                    final String day = fixDay(dp.getDayOfMonth());
+                    final String month = fixMonth(dp.getMonth());
+
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     Intent intent = new Intent();
                     ArrayList<Tuple> corText;
@@ -80,6 +82,10 @@ public class Diacent12Activity extends DevicePrototypeActivity {
 
 
             private ArrayList<Tuple> getDiacent12TextCor() {
+                final DatePicker dp = findViewById(R.id.formDate);
+                final String day = fixDay(dp.getDayOfMonth());
+                final String month = fixMonth(dp.getMonth());
+
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(205, 452, "", false));           //speed1 ok
                 corText.add(new Tuple(205, 479, "", false));           //speed2 ok

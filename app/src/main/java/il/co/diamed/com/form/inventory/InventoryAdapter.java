@@ -45,7 +45,23 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         holder.description.setText(item.getDescription());
         holder.sub.setVisibility(View.INVISIBLE);
         holder.add.setVisibility(View.INVISIBLE);
+
+        holder.add.setOnClickListener(v1 -> {
+            int stock = Integer.valueOf(holder.inStock.getText().toString());
+            holder.inStock.setText(String.valueOf(stock + 1));
+            holder.sub.setVisibility(View.VISIBLE);
+        });
+        holder.sub.setOnClickListener(v1 -> {
+            int stock = Integer.valueOf(holder.inStock.getText().toString());
+
+            holder.inStock.setText(String.valueOf(stock - 1));
+            if (!(stock > 1))
+                holder.sub.setVisibility(View.INVISIBLE);
+        });
+
+
         holder.inStock.addTextChangedListener(new TextWatcher() {
+            String origin = item.getInStock();
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -53,7 +69,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(!s.toString().equals(origin)){
+                    holder.description.setTextColor(Color.parseColor("#FFB400"));
+                }else{
+                    holder.description.setTextColor(Color.BLACK);
+                }
             }
 
             @Override
@@ -62,7 +82,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
                     if (!s.toString().equals("")) {
                         item.setinStock(s.toString());
                         int stock = Integer.valueOf(item.getInStock());
-                        int minimum = Integer.valueOf(item.getMinimum());
+                        int minimum = Integer.valueOf(item.getMinimum_car());
                         if (stock > minimum) {
                             holder.inStock.setBackgroundResource(R.drawable.shape_item_enough);
                         } else if (stock == minimum) {
@@ -73,7 +93,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
                     }
                 } catch (NumberFormatException e) {
                     Log.e(TAG, "Error converting value at: " + item.getId() + " - " + item.getDescription() +
-                            "\nstock: " + item.getInStock() + " minimum: " + item.getMinimum());
+                            "\nstock: " + item.getInStock() + " minimum: " + item.getMinimum_car());
                 }
             }
         });
@@ -87,8 +107,11 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         return list.size();
     }
 
+    public List<InventoryItem> getList(){
+        return list;
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
         TextView serial;
         TextView description;
         TextView inStock;
@@ -98,13 +121,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             serial = itemView.findViewById(R.id.item_serial);
             description = itemView.findViewById(R.id.item_description);
             inStock = itemView.findViewById(R.id.item_inStock);
             add = itemView.findViewById(R.id.addItem);
             sub = itemView.findViewById(R.id.subItem);
-
-
         }
 
 
@@ -126,24 +148,18 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
                 add.setVisibility(View.VISIBLE);
                 if (Integer.valueOf(inStock.getText().toString()) > 0)
                     sub.setVisibility(View.VISIBLE);
-                add.setOnClickListener(v1 -> {
-                    int stock = Integer.valueOf(inStock.getText().toString());
-                    inStock.setText(String.valueOf(stock + 1));
-                    sub.setVisibility(View.VISIBLE);
-                });
-                sub.setOnClickListener(v1 -> {
-                    int stock = Integer.valueOf(inStock.getText().toString());
-
-                    inStock.setText(String.valueOf(stock - 1));
-                    if (stock > 0)
-                        sub.setVisibility(View.INVISIBLE);
 
 
-                });
             }
         }
 
 
+        @Override
+        public boolean onLongClick(View v) {
+            inStock.setText("0");
+
+            return true;
+        }
     }
 }
 

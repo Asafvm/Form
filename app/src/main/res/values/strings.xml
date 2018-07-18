@@ -503,6 +503,7 @@
     <string name="tvSepaxeSensornfhint"><![CDATA[5.5 < value < 6.0V]]></string>
     <string name="tvSepaxeSensorwfhint"><![CDATA[0.0 < value < 0.2V]]></string>
     <string name="updateInventory">עדכן מלאי</string>
+    <string name="sharedInventory">מלאי משותף</string>
     <string name="inStock">כמות</string>
     <string name="itemDescription">שם החלק</string>
     <string name="itemSerial">מספר סידורי</string>

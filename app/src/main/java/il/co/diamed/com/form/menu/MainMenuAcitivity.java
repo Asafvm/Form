@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -55,17 +56,21 @@ public class MainMenuAcitivity extends AppCompatActivity  {
     private DevicesFragment mDevicesFragment;
     private InventoryFragment mInventoryFragment;
     FileBrowserFragment mFileBrowserFragment;
+    ClassApplication application;
+    DatabaseProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
+        application = (ClassApplication) getApplication();
+        provider = application.getDatabaseProvider(this);
         Slide slide = new Slide();
         slide.setDuration(500);
         slide.setSlideEdge(Gravity.END);
         getWindow().setEnterTransition(slide);
+        setContentView(R.layout.activity_main_menu);
         setContentView(R.layout.activity_main_menu);
 
         mFragmentManager = getSupportFragmentManager();
@@ -209,23 +214,39 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
     private void setInventorySummery() {
 
-        ClassApplication application = (ClassApplication) getApplication();
-        DatabaseProvider provider = application.getDatabaseProvider();
+
         RecyclerView recyclerView = findViewById(R.id.recycler_missing_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<InventoryItem> missingInv = provider.getMissingInv();
-        RecyclerView.Adapter adapter = new InventoryViewerAdapter(missingInv, this);
-        recyclerView.setAdapter(adapter);
+        if(missingInv!=null) {
+            try {
+                unregisterReceiver(databaseReceiver);
+            }catch (Exception ignored){}
+            RecyclerView.Adapter adapter = new InventoryViewerAdapter(missingInv, this);
+            recyclerView.setAdapter(adapter);
 
-        recyclerView.setOnClickListener(v ->
-                showInventory());
-
+            recyclerView.setOnClickListener(v ->
+                    showInventory());
+        }else{
+            registerReceiver(databaseReceiver,
+                    new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
+        }
     }
+
+    private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "Database alert!");
+            setInventorySummery();
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
         updateUser();
+
+
     }
 
     private void updateUser() {
@@ -311,7 +332,6 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
             if (mDevicesFragment != null) {
                 mFragmentManager.beginTransaction().remove(mDevicesFragment).commit();
-
             }
             setInventorySummery();
 

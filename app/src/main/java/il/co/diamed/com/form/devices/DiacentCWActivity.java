@@ -35,15 +35,16 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
 
         init();
         ((EditText) findViewById(R.id.formTechName)).setText(Objects.requireNonNull(bundle).getString("techName"));
-        final DatePicker dp = findViewById(R.id.formDate);
-        final String day = fixDay(dp.getDayOfMonth());
-        final String month = fixMonth(dp.getMonth());
+
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
 
         {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    final DatePicker dp = findViewById(R.id.formDate);
+                    final String day = fixDay(dp.getDayOfMonth());
+                    final String month = fixMonth(dp.getMonth());
 
                     Intent intent = new Intent();
                     ArrayList<Tuple> corText;
@@ -71,6 +72,10 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
             }
 
             private ArrayList<Tuple> getDiacentCWTextCor() {
+                final DatePicker dp = findViewById(R.id.formDate);
+                final String day = fixDay(dp.getDayOfMonth());
+                final String month = fixMonth(dp.getMonth());
+
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(204, 505, "", false));           //speed ok
                 corText.add(new Tuple(190, 385, "", false));           //time ok

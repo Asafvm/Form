@@ -38,30 +38,5 @@
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/btnUpdateInventory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_button_submit"
-        android:text="@string/sharedInventory"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnInsertInventory"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewSwipe"
-
-        />
-
-    <Button
-        android:id="@+id/btnInsertInventory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_button_submit"
-        android:text="@string/insertInventory"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnUpdateInventory"
-        app:layout_constraintTop_toBottomOf="@id/viewSwipe"
-
-        />
 
 </android.support.constraint.ConstraintLayout>

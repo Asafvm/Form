@@ -36,9 +36,7 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
 
         initDiacentCW();
         ((EditText) findViewById(R.id.formTechName)).setText(techName);
-        final DatePicker dp = findViewById(R.id.formDate);
-        final String day = fixDay(dp.getDayOfMonth());
-        final String month = fixMonth(dp.getMonth());
+
 
         (findViewById(R.id.formSubmitButton)).setOnClickListener(new View.OnClickListener()
 
@@ -46,6 +44,10 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
             @Override
             public void onClick(View view) {
                 if (checkStatus()) {
+                    final DatePicker dp = findViewById(R.id.formDate);
+                    final String day = fixDay(dp.getDayOfMonth());
+                    final String month = fixMonth(dp.getMonth());
+
                     findViewById(R.id.pbPDF).setVisibility(View.VISIBLE);
                     Intent intent = new Intent();
                     ArrayList<Tuple> corText;
@@ -73,6 +75,10 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
             }
 
             private ArrayList<Tuple> getDiacentCWTextCor() {
+                final DatePicker dp = findViewById(R.id.formDate);
+                final String day = fixDay(dp.getDayOfMonth());
+                final String month = fixMonth(dp.getMonth());
+
                 ArrayList<Tuple> corText = new ArrayList<>();
                 corText.add(new Tuple(190, 481, "", false));           //speed ok
                 corText.add(new Tuple(190, 345, "", false));           //time ok

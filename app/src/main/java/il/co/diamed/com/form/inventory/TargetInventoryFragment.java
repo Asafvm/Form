@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,34 +12,27 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
-public class InventoryFragment extends Fragment {
+public class TargetInventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
     RecyclerView recyclerView;
-    RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter;
+    RecyclerView.Adapter<InventoryViewerAdapter.ViewHolder> adapter;
     DatabaseProvider provider;
     List<InventoryItem> values;
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
-    UsersInventoryFragment mUsersInventoryFragment;
-    public InventoryFragment() {
+    public TargetInventoryFragment() {
         // Required empty public constructor
     }
 
@@ -50,7 +41,7 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_inventory, container, false);
+        View view = inflater.inflate(R.layout.fragment_target_inventory, container, false);
 
         refreshLayout = view.findViewById(R.id.viewSwipe);
         refreshLayout.setOnRefreshListener(this::refresh);
@@ -59,35 +50,10 @@ public class InventoryFragment extends Fragment {
             provider = application.getDatabaseProvider(getContext());
             recyclerView = view.findViewById(R.id.recycler_inventory_view);
 
-            view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> {
-                showUsersInventory();
-
-            });
-
-            view.findViewById(R.id.btnInsertInventory).setOnClickListener(v -> {
-                // Create the fragment and show it as a dialog.
-                InsertDialogFragment newFragment = InsertDialogFragment.newInstance();
-                newFragment.show(getActivity().getFragmentManager(), "dialog");
-
-
-            });
         }
         return view;
     }
 
-    private void showUsersInventory() {
-        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        if(mUsersInventoryFragment==null)
-            mUsersInventoryFragment = new UsersInventoryFragment();
-
-        Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.END);
-        slide.setDuration(500);
-        mUsersInventoryFragment.setEnterTransition(slide);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, mUsersInventoryFragment).commit();
-    }
 
 
     @Override
@@ -95,7 +61,7 @@ public class InventoryFragment extends Fragment {
         super.onResume();
         Log.e(TAG, "resume");
         if(getContext()!=null)
-            getContext().registerReceiver(databaseReceiver,new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
+            getContext().registerReceiver(databaseReceiver,new IntentFilter(DatabaseProvider.BROADCAST_TARGET_DB_READY));
         initView();
     }
 
@@ -106,14 +72,15 @@ public class InventoryFragment extends Fragment {
 
     private void initView() {
         if (getContext() != null && getActivity() != null && isAdded()) {
-            // insert data from firebase
-            values = provider.getMyInv();
+            //insert data from firebase
+            String targetName = getArguments().getString("target");
+            values = provider.getTargetInv(targetName);
             if (values == null) {
                 Log.e(TAG, "My database does not exists, waiting for broadcast");
             } else {
                 refreshLayout.setRefreshing(false);
                 Collections.sort(values);
-                adapter = new InventoryAdapter(values, getContext());
+                adapter = new InventoryViewerAdapter(values, getContext());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
             }
@@ -132,8 +99,6 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(values!=null)
-            provider.uploadMyInv(values);
         try {
             if(getContext()!=null)
                 getContext().unregisterReceiver(databaseReceiver);

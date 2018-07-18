@@ -1,6 +1,7 @@
 package il.co.diamed.com.form;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +29,6 @@ public class ClassApplication extends Application {
         analyticsProvider = new AnalyticsProvider(this);
         storageProvider = new StorageProvider();
         mAuthenticationProvider = new AuthenticationProvider();
-        mDatabaseProvider = new DatabaseProvider();
-        mDatabaseProvider.initializeDatabase();
 
         logUser();
     }
@@ -67,9 +66,12 @@ public class ClassApplication extends Application {
         mAuthenticationProvider.signin(email,password);
     }
 
-    public DatabaseProvider getDatabaseProvider(){
+    public DatabaseProvider getDatabaseProvider(Context context)
+    {
+        mDatabaseProvider = new DatabaseProvider(context);
         return mDatabaseProvider;
     }
+
 
 
 
