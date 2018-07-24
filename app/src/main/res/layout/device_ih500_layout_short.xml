@@ -9,7 +9,7 @@
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintVertical_weight="5"
-    tools:context=".devices.IH500Activity">
+    tools:context=".calibration.IH500Activity">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

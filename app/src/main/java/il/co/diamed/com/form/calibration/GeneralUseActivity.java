@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.devices;
+package il.co.diamed.com.form.calibration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
-import il.co.diamed.com.form.devices.res.Tuple;
+import il.co.diamed.com.form.calibration.res.DevicePrototypeActivity;
+import il.co.diamed.com.form.calibration.res.Tuple;
 
 
 public class GeneralUseActivity extends DevicePrototypeActivity {

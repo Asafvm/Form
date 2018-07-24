@@ -233,7 +233,7 @@ public class DatabaseProvider {
                 }
             }
         }
-        return (HashMap<String,InventoryItem>)tempValues;
+        return tempValues;
     }
 
 

@@ -12,7 +12,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/innerGeneralLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:padding="30dp">
 
         <include
             android:id="@+id/serialLayout"

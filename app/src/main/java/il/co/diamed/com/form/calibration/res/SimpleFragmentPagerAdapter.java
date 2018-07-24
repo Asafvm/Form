@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.devices.res;
+package il.co.diamed.com.form.calibration.res;
 
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
@@ -30,7 +30,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
 
         } else{// (position == 2){
             Log.e("Adapter","2");
-            return new SamsungFragment();
+            return new POCFragment();
         }
     }
 
@@ -52,7 +52,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
             case 1:
                 return mContext.getString(R.string.medigal);
             case 2:
-                return mContext.getString(R.string.samsung);
+                return mContext.getString(R.string.poc);
 
             default:
                 return null;

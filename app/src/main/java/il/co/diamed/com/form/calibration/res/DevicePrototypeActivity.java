@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.devices.res;
+package il.co.diamed.com.form.calibration.res;
 
 import android.app.Activity;
 import android.content.Intent;

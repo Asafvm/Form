@@ -24,8 +24,8 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     private List<FileBrowserItem> list;
     private List<String> markedList;
     private Context context;
-    private String colorMarked = "#173793";
-    private String colorUnmarked = "#B9E6EA";
+    private String colorMarked = "#0095ff";
+    private String colorUnmarked = "#cccccc";
 
 
     FileBrowserAdapter(List<FileBrowserItem> list, Context context) {
@@ -126,11 +126,19 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             if(v.findViewById(R.id.file_share_button).getVisibility()== View.INVISIBLE) {
                 return false;
             }else {
-                markedList.add(this.textView.getText().toString());
-                v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor(colorMarked));
+                if(v.isActivated()){
+                    markedList.remove(this.textView.getText().toString());
+                    v.setActivated(false);
+                    v.setBackgroundColor(Color.parseColor(colorUnmarked));
 
-                return true;
+                    return true;
+                }else {
+                    markedList.add(this.textView.getText().toString());
+                    v.setActivated(true);
+                    v.setBackgroundColor(Color.parseColor(colorMarked));
+
+                    return true;
+                }
             }
         }
         private void shareBatch(){

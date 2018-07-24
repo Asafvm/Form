@@ -2,8 +2,6 @@ package il.co.diamed.com.form.menu;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,32 +11,22 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
 import android.transition.Fade;
-import android.transition.Scene;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -48,10 +36,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.res.providers.DatabaseProvider;
+import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 
 public class LoginActivity extends AppCompatActivity implements
         UserSetupFragment.OnFragmentInteractionListener,
@@ -162,24 +149,16 @@ public class LoginActivity extends AppCompatActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
         if (mMicrosoftSigninFragment == null) {
             mMicrosoftSigninFragment = new MicrosoftSigninFragment();
         }
-        //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-
         fragmentTransaction.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
     }
 
     public void quitApp(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-        }, 2000);
+        handler.postDelayed(() -> android.os.Process.killProcess(android.os.Process.myPid()), 2000);
     }
 
 
@@ -284,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements
 
             UserSetupFragment mUserSetupFragment = new UserSetupFragment();
             Slide slide = new Slide();
-            slide.setSlideEdge(Gravity.RIGHT);
+            slide.setSlideEdge(Gravity.END);
             slide.setDuration(600);
             mUserSetupFragment.setEnterTransition(slide);
             fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
@@ -310,14 +289,11 @@ public class LoginActivity extends AppCompatActivity implements
         //String user_email = user.getEmail();
         //Toast.makeText(getApplicationContext(), getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MainMenuAcitivity.class);
-                startActivity(intent);
+        handler.postDelayed(() -> {
+            finish();
+            Intent intent = new Intent(getApplicationContext(), MainMenuAcitivity.class);
+            startActivity(intent);
 
-            }
         }, 2000);
 
     }

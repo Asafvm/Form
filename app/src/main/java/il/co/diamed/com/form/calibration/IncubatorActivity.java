@@ -1,9 +1,8 @@
-package il.co.diamed.com.form.devices;
+package il.co.diamed.com.form.calibration;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
-import il.co.diamed.com.form.devices.res.Tuple;
+import il.co.diamed.com.form.calibration.res.DevicePrototypeActivity;
+import il.co.diamed.com.form.calibration.res.Tuple;
 
 public class IncubatorActivity extends DevicePrototypeActivity {
     private static final String TAG = "IncubatorActivity";

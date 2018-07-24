@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.devices;
+package il.co.diamed.com.form.calibration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.res.DevicePrototypeActivity;
-import il.co.diamed.com.form.devices.res.Tuple;
+import il.co.diamed.com.form.calibration.res.DevicePrototypeActivity;
+import il.co.diamed.com.form.calibration.res.Tuple;
 
 
 public class PlasmaThawerActivity extends DevicePrototypeActivity {
@@ -80,7 +80,7 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                     corText.add(new Tuple(305, 309, ((EditText) findViewById(R.id.ptTime)).getText().toString(), false));                        //Time
 
                     if ((dp.getMonth() + 7) > 12)
-                        corText.add(new Tuple(430, 57, fixMonth(dp.getMonth() + 6) + "   " + dp.getYear()+1, false));                        //Next Date
+                        corText.add(new Tuple(430, 57, fixMonth(dp.getMonth() + 6) + "   " + (dp.getYear()+1), false));                        //Next Date
                     else
                         corText.add(new Tuple(430, 57, fixMonth(dp.getMonth() + 6) + "   " + dp.getYear(), false));                        //Next Date
 
@@ -131,6 +131,7 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.si);
         ((EditText) findViewById(R.id.ptTemp)).setText(String.valueOf(""));
         ((EditText) findViewById(R.id.ptTime)).setText(String.valueOf(EXPECTED_TIME));
+        ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.dh8);
     }
 
     private void init() {

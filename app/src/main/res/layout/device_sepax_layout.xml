@@ -9,7 +9,7 @@
     app:layout_constraintBottom_toTopOf="@id/footer"
     app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintVertical_weight="5"
-    tools:context=".devices.SepaxActivity">
+    tools:context=".calibration.SepaxActivity">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

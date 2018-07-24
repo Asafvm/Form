@@ -38,7 +38,7 @@ class UsersInventoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((ArrayList<String>)mChildList.get(groupPosition)).size()/2;
+        return mChildList.get(groupPosition).size()/2;
     }
 
     @Override
@@ -85,30 +85,19 @@ class UsersInventoryAdapter extends BaseExpandableListAdapter {
         if(convertView==null)
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_inventory_user, parent, false);
         convertView.setClickable(true);
-        if(childPosition%2 == 0) {
-            name = ((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition);
-            count = ((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition + 1);
+            name = mChildList.get(groupPosition).get(childPosition*2);
+            count = mChildList.get(groupPosition).get(childPosition*2 + 1);
             ((TextView) convertView.findViewById(R.id.user_name)).setText(name);
             ((TextView) convertView.findViewById(R.id.user_inStock)).setText(count);
-            total += Integer.valueOf(((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition + 1));
-        }else{
-            name = ((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition + 1);
-            count = ((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition + 2);
-            ((TextView) convertView.findViewById(R.id.user_name)).setText(name);
-            ((TextView) convertView.findViewById(R.id.user_inStock)).setText(count);
-            total += Integer.valueOf(((ArrayList<String>) mChildList.get(groupPosition)).get(childPosition + 2));
-        }
-        //((TextView) parent.findViewById(R.id.item_inStock)).setText(String.valueOf(total));
+            total += Integer.valueOf(mChildList.get(groupPosition).get(childPosition*2 + 1));
+
 
 
         String finalName = name;
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BROADCAST_TARGET_SELECTED);
-                intent.putExtra("target", finalName);
-                mContext.sendBroadcast(intent);
-            }
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(BROADCAST_TARGET_SELECTED);
+            intent.putExtra("target", finalName);
+            mContext.sendBroadcast(intent);
         });
 
         return convertView;

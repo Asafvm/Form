@@ -513,5 +513,8 @@
 
     <!-- Strings related to Settings -->
 
+    <string name="google_map_key">AIzaSyAsk4L2GHkqpD7GWgka4MhDVIR4KoP_7vk</string>
+    <string name="pref_header_location">מפה</string>
+    <string name="poc">P.O.C.</string>
 
 </resources>

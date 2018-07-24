@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -24,6 +23,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
@@ -40,7 +40,8 @@ import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.devices.DevicesFragment;
+import il.co.diamed.com.form.contacts.MapFragment;
+import il.co.diamed.com.form.calibration.DevicesFragment;
 import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.inventory.InventoryItem;
@@ -55,6 +56,7 @@ public class MainMenuAcitivity extends AppCompatActivity  {
     private FragmentManager mFragmentManager;
     private DevicesFragment mDevicesFragment;
     private InventoryFragment mInventoryFragment;
+    private MapFragment mMapFragment;
     FileBrowserFragment mFileBrowserFragment;
     ClassApplication application;
     DatabaseProvider provider;
@@ -116,17 +118,7 @@ public class MainMenuAcitivity extends AppCompatActivity  {
                     // For example, swap UI fragments here
                     switch (menuItem.getItemId()) {
                         case R.id.nav_forms: {
-                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-
-                            if (mDevicesFragment == null) {
-                                mDevicesFragment = new DevicesFragment();
-                            }
-                            Fade fade = new Fade();
-                            fade.setDuration(400);
-                            mDevicesFragment.setEnterTransition(fade);
-                            mFragmentTransaction.addToBackStack(null);
-                            mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
-
+                            showForms();
 
                             break;
                         }
@@ -149,6 +141,11 @@ public class MainMenuAcitivity extends AppCompatActivity  {
                         case R.id.nav_stock: {
                             //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
                             showInventory();
+                            break;
+                        }
+                        case R.id.nav_map: {
+                            Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
+                            //showMap();
                             break;
                         }
                         default:
@@ -199,17 +196,40 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
     }
 
+    private void showForms() {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        if (mDevicesFragment == null) {
+            mDevicesFragment = new DevicesFragment();
+        }
+        Fade fade = new Fade();
+        fade.setDuration(400);
+        mDevicesFragment.setEnterTransition(fade);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
+
+    }
+
     private void showInventory() {
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         if (mInventoryFragment == null) {
             mInventoryFragment = new InventoryFragment();
         }
-        Slide slide = new Slide();
-        slide.setDuration(500);
-        mInventoryFragment.setEnterTransition(slide);
+        mInventoryFragment.setEnterTransition(new Slide().setDuration(500));
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.replace(R.id.module_container, mInventoryFragment).commit();
+    }
+
+    private void showMap() {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        if (mMapFragment == null) {
+            mMapFragment = new MapFragment();
+        }
+        mMapFragment.setEnterTransition(new Explode().setDuration(500));
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mMapFragment).commit();
     }
 
     private void setInventorySummery() {
@@ -314,7 +334,11 @@ public class MainMenuAcitivity extends AppCompatActivity  {
     }
 
     public void deviceSelect(View view) {
-        mDevicesFragment.deviceSelect(view);
+        if(mDevicesFragment.isAdded())
+            mDevicesFragment.deviceSelect(view);
+        else{
+            showForms();
+        }
     }
 
 

@@ -52,27 +52,27 @@
                     android:host="auth" />
             </intent-filter>
         </activity>
-        <activity android:name=".devices.IncubatorActivity" />
+        <activity android:name=".calibration.IncubatorActivity" />
         <activity
             android:name=".menu.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".res.CaptureSignature"
             android:theme="@style/theme.Transparent" />
-        <activity android:name=".devices.CentrifugeActivity" />
-        <activity android:name=".devices.PlasmaThawerActivity" />
-        <activity android:name=".devices.Diacent12Activity" />
-        <activity android:name=".devices.DiacentCWActivity" />
+        <activity android:name=".calibration.CentrifugeActivity" />
+        <activity android:name=".calibration.PlasmaThawerActivity" />
+        <activity android:name=".calibration.Diacent12Activity" />
+        <activity android:name=".calibration.DiacentCWActivity" />
         <activity
-            android:name=".devices.GeneralUseActivity"
+            android:name=".calibration.GeneralUseActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".devices.GelstationActivity" />
-        <activity android:name=".devices.DiacentUltraCWActivity" />
+        <activity android:name=".calibration.GelstationActivity" />
+        <activity android:name=".calibration.DiacentUltraCWActivity" />
         <activity android:name=".res.MultiLayoutActivity" />
-        <activity android:name=".devices.IH500Activity" />
-        <activity android:name=".devices.IH1000Activity" />
-        <activity android:name=".devices.DoconActivity" />
-        <activity android:name=".devices.HC10Activity" />
+        <activity android:name=".calibration.IH500Activity" />
+        <activity android:name=".calibration.IH1000Activity" />
+        <activity android:name=".calibration.DoconActivity" />
+        <activity android:name=".calibration.HC10Activity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -100,12 +100,13 @@
         <activity
             android:name=".menu.MainMenuAcitivity"
             android:launchMode="singleTop" />
-        <activity android:name=".devices.FridgeActivity" />
-        <activity android:name=".devices.SepaxActivity" />
-        <activity android:name=".devices.res.DevicePrototypeActivity"></activity>
+        <activity android:name=".calibration.FridgeActivity" />
+        <activity android:name=".calibration.SepaxActivity" />
+        <activity android:name=".calibration.res.DevicePrototypeActivity"></activity>
 
-        <service android:name=".res.providers.DatabaseProviderService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_key"/>
     </application>
 
 </manifest>

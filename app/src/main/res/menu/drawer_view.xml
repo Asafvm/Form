@@ -16,6 +16,11 @@
             android:id="@+id/nav_stock"
             android:icon="@drawable/ic_storage_white_24dp"
             android:title="@string/navStock"/>
+
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_location_on_white_24dp"
+            android:title="@string/pref_header_location" />
     </group>
     <group
         android:id="@+id/menu_bottom"
