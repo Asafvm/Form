@@ -191,12 +191,16 @@ public class FileBrowserFragment extends Fragment {
     }
 
     private void shareItem(String[] filenames) {
+
+        String[] pathBreak = path.split("/");
+        int location = pathBreak.length;
+
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("application/pdf");
         shareIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
         shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject));
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject) + " - " + pathBreak[location - 2]+ ", " + pathBreak[location - 1]);
         StringBuilder stringBuilder = new StringBuilder();
         ArrayList<Uri> files = new ArrayList<>();
         String[] batchfile;

@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,16 +18,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class InventoryFragment extends Fragment {
@@ -37,10 +31,10 @@ public class InventoryFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter;
     DatabaseProvider provider;
-    List<InventoryItem> values;
+    List<Part> values;
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
-    UsersInventoryFragment mUsersInventoryFragment;
+    SharedInventoryFragment mUsersInventoryFragment;
     public InventoryFragment() {
         // Required empty public constructor
     }
@@ -79,7 +73,7 @@ public class InventoryFragment extends Fragment {
         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         if(mUsersInventoryFragment==null)
-            mUsersInventoryFragment = new UsersInventoryFragment();
+            mUsersInventoryFragment = new SharedInventoryFragment();
 
         Slide slide = new Slide();
         slide.setSlideEdge(Gravity.END);

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,12 +50,27 @@ public class DoconActivity extends DevicePrototypeActivity {
                     corText.add(new Tuple(310, 117, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                     corText.add(new Tuple(150, 686, day + "/" + month + "/" + dp.getYear(), false));                        //Date
                     corText.add(new Tuple(90, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
-                    corText.add(new Tuple(390, 607, "MDA V"+((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(390, 607, "MDA V" + ((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 498, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
-                    corText.add(new Tuple(405, 469, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));                        //temp
+                    corText.add(new Tuple(405, 469, ((EditText) findViewById(R.id.etDoconW700)).getText().toString(), false));
+
+                    if (!((EditText) findViewById(R.id.etDoconComment_alert)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 380, ((EditText) findViewById(R.id.etDoconComment_alert)).getText().toString(), true));
+                    if (!((EditText) findViewById(R.id.etDoconComment_barcode)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 358, ((EditText) findViewById(R.id.etDoconComment_barcode)).getText().toString(), true));
+                    if (!((EditText) findViewById(R.id.etDoconComment_display)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 335, ((EditText) findViewById(R.id.etDoconComment_display)).getText().toString(), true));
+                    if (!((EditText) findViewById(R.id.etDoconComment_cleaning)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 312, ((EditText) findViewById(R.id.etDoconComment_cleaning)).getText().toString(), true));
+                    if (!((EditText) findViewById(R.id.etDoconComment_sensor)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 289, ((EditText) findViewById(R.id.etDoconComment_sensor)).getText().toString(), true));
+                    if (!((EditText) findViewById(R.id.etDoconComment_battery)).getText().toString().isEmpty())
+                        corText.add(new Tuple(100, 265, ((EditText) findViewById(R.id.etDoconComment_battery)).getText().toString(), true));
+
+
                     corText.add(new Tuple(338, 686,
-                            dp.getYear() + "-" + date.getTime()/1000, false));                        //report
+                            dp.getYear() + "-" + date.getTime() / 1000, false));                        //report
                     corText.add(new Tuple(421, 158, month + " / " +
                             (dp.getYear() + 1), false));                        //Next Date
 
@@ -73,6 +90,8 @@ public class DoconActivity extends DevicePrototypeActivity {
                             ((DatePicker) findViewById(R.id.formDate)).getYear() + "" +
                             month + "" + day + "_Docon_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type", "Docon");
+                    intent.putExtra("model", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString());
                     createPDF(intent);
                 }
             }
@@ -91,6 +110,12 @@ public class DoconActivity extends DevicePrototypeActivity {
     @Override
     public void restart() {
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_alert)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_barcode)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_display)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_cleaning)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_sensor)).setText("");
+        ((EditText) findViewById(R.id.etDoconComment_battery)).setText("");
     }
 
     private void init() {
@@ -98,6 +123,7 @@ public class DoconActivity extends DevicePrototypeActivity {
         setListener(findViewById(R.id.formRoomLocation));
         setListener(findViewById(R.id.etDeviceSerial));
         setListener(findViewById(R.id.formTechName));
+
     }
 
 }

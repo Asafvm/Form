@@ -65,6 +65,9 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_DiacentCW_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type", "DiacentCW");
+                    intent.putExtra("model", "");
+
                     createPDF(intent);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
@@ -129,12 +132,8 @@ public class DiacentCWActivity extends DevicePrototypeActivity {
 
 
     private void init() {
-        setListener(findViewById(R.id.formMainLocation));
-        setListener(findViewById(R.id.formRoomLocation));
         setListener(findViewById(R.id.etDeviceSerial));
         setListener(findViewById(R.id.formTechName));
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         initDiacentCW();
     }

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -70,6 +72,8 @@ public class IH500Activity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_IH500_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+
+                    intent.putExtra("type", "IH500");
                     createPDF(intent);
                 }
 
@@ -204,8 +208,6 @@ public class IH500Activity extends DevicePrototypeActivity {
         setListener(findViewById(R.id.etIH500softwareC));
         setListener(findViewById(R.id.etIH500softwareVer));
 
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText) findViewById(R.id.etIH500CentrifugeFrontSpeed)).setText("");
         ((EditText) findViewById(R.id.etIH500CentrifugeRearSpeed)).setText("");

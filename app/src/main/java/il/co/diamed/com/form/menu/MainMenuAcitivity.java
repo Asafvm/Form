@@ -23,7 +23,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
@@ -40,15 +39,15 @@ import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.contacts.MapFragment;
+import il.co.diamed.com.form.field.MapFragment;
 import il.co.diamed.com.form.calibration.DevicesFragment;
 import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.inventory.InventoryFragment;
-import il.co.diamed.com.form.inventory.InventoryItem;
+import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryViewerAdapter;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
-public class MainMenuAcitivity extends AppCompatActivity  {
+public class MainMenuAcitivity extends AppCompatActivity {
 
     private static final String TAG = "MainMenu";
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 0;
@@ -72,7 +71,6 @@ public class MainMenuAcitivity extends AppCompatActivity  {
         slide.setDuration(500);
         slide.setSlideEdge(Gravity.END);
         getWindow().setEnterTransition(slide);
-        setContentView(R.layout.activity_main_menu);
         setContentView(R.layout.activity_main_menu);
 
         mFragmentManager = getSupportFragmentManager();
@@ -144,8 +142,8 @@ public class MainMenuAcitivity extends AppCompatActivity  {
                             break;
                         }
                         case R.id.nav_map: {
-                            Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
-                            //showMap();
+                            //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
+                            showMap();
                             break;
                         }
                         default:
@@ -227,7 +225,7 @@ public class MainMenuAcitivity extends AppCompatActivity  {
         if (mMapFragment == null) {
             mMapFragment = new MapFragment();
         }
-        mMapFragment.setEnterTransition(new Explode().setDuration(500));
+        mMapFragment.setEnterTransition(new Slide().setDuration(500));
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.replace(R.id.module_container, mMapFragment).commit();
     }
@@ -237,19 +235,21 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_missing_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<InventoryItem> missingInv = provider.getMissingInv();
-        if(missingInv!=null) {
+        List<Part> missingInv = provider.getMissingInv();
+        if (missingInv != null) {
             try {
                 unregisterReceiver(databaseReceiver);
-            }catch (Exception ignored){}
+            } catch (Exception ignored) { }
             RecyclerView.Adapter adapter = new InventoryViewerAdapter(missingInv, this);
             recyclerView.setAdapter(adapter);
 
             recyclerView.setOnClickListener(v ->
                     showInventory());
-        }else{
+        } else {
+
             registerReceiver(databaseReceiver,
                     new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
+
         }
     }
 
@@ -334,9 +334,9 @@ public class MainMenuAcitivity extends AppCompatActivity  {
     }
 
     public void deviceSelect(View view) {
-        if(mDevicesFragment.isAdded())
+        if (mDevicesFragment != null && mDevicesFragment.isAdded() && !mDevicesFragment.isDetached())
             mDevicesFragment.deviceSelect(view);
-        else{
+        else {
             showForms();
         }
     }
@@ -354,9 +354,6 @@ public class MainMenuAcitivity extends AppCompatActivity  {
         if (mFragmentManager.getBackStackEntryCount() > 0) {
             mFragmentManager.popBackStackImmediate();
 
-            if (mDevicesFragment != null) {
-                mFragmentManager.beginTransaction().remove(mDevicesFragment).commit();
-            }
             setInventorySummery();
 
         } else {
@@ -364,6 +361,8 @@ public class MainMenuAcitivity extends AppCompatActivity  {
         }
     }
 
+
+/*
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -372,5 +371,18 @@ public class MainMenuAcitivity extends AppCompatActivity  {
 
         }
     };
+*/
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(databaseReceiver);
+        } catch (Exception ignored) { }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ClassApplication.deleteCache(this);
+    }
 }

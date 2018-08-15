@@ -2,10 +2,13 @@ package il.co.diamed.com.form;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
 
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsProvider;
@@ -17,7 +20,7 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class ClassApplication extends Application {
-    private final String TAG = "ClassApplication";
+    private static final String TAG = "ClassApplication";
     AnalyticsProvider analyticsProvider;
     StorageProvider storageProvider;
     AuthenticationProvider mAuthenticationProvider;
@@ -74,5 +77,25 @@ public class ClassApplication extends Application {
 
 
 
+    public static void deleteCache(Context context) {
+        try {
+            Log.e(TAG, "Deleting cache");
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception ignored) {}
+    }
 
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else
+            return dir != null && dir.isFile() && dir.delete();
+    }
 }

@@ -19,4 +19,10 @@
             app:layout_constraintVertical_weight="0.8"
             />
     </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/module_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
 </FrameLayout>

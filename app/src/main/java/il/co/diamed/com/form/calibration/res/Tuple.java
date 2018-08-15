@@ -12,11 +12,11 @@ public class Tuple<X, Y> implements Parcelable,Serializable{
     private String text;
     private boolean rtl;
 
-    public Tuple(float x, float y, java.lang.String text, boolean b) {
+    public Tuple(float x, float y, java.lang.String text, boolean rtl) {
         this.x = x;
         this.y = y;
         this.text = text;
-        this.rtl = b;
+        this.rtl = rtl;
     }
 
     public float getX() {

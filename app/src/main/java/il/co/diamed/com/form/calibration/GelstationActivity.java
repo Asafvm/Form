@@ -73,6 +73,8 @@ public class GelstationActivity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_Gelstation_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type", "Gelstation");
+                    intent.putExtra("model", "");
                     createPDF(intent);
                 }
 
@@ -223,9 +225,6 @@ public class GelstationActivity extends DevicePrototypeActivity {
         setListener(findViewById(R.id.etGSsoftwareC));
         setListener(findViewById(R.id.etGSsoftware1));
 
-
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
 
         ((EditText) findViewById(R.id.etGSsoftware1)).setText("3.18");

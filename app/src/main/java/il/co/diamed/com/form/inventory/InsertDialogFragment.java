@@ -146,14 +146,14 @@ public class InsertDialogFragment extends DialogFragment {
     public void getPartsDB() {
 
         if (getContext() != null) {
-            List<InventoryItem> labParts = provider.getLabInv();
+            List<Part> labParts = provider.getLabInv();
             if (labParts != null) {
                 try {
                     try {
                         getContext().unregisterReceiver(databaseReceiver);
                     } catch (Exception ignored) {}
                     ArrayList<String> ids = new ArrayList<>();
-                    for (InventoryItem item : labParts) {
+                    for (Part item : labParts) {
                         ids.add(item.getSerial());
                     }
                     String[] PARTS = ids.toArray(new String[ids.size()]);

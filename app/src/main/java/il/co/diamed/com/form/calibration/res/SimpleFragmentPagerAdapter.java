@@ -12,10 +12,13 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private Context mContext;
 
-    public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
-        super(fm);
+
+    public SimpleFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
+        super(fragmentManager);
         mContext = context;
+
     }
+
 
     // This determines the fragment for each tab
     @Override

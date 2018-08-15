@@ -12,18 +12,23 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.calibration.res.DeviceDialogFragment;
 import il.co.diamed.com.form.calibration.res.SimpleFragmentPagerAdapter;
 import il.co.diamed.com.form.res.MultiLayoutActivity;
 
 
-public class DevicesFragment extends Fragment {
+public class DevicesFragment extends Fragment implements DeviceDialogFragment.OnLocationSelected {
     //private static final String TAG = "DeviceFragment";
     private ViewPager viewPager;
     private SimpleFragmentPagerAdapter adapter;
-
+    private String location;
+    private String sublocation;
+    private TextView tvLocation;
+    DeviceDialogFragment newFragment;
     public DevicesFragment() {
         // Required empty public constructor
     }
@@ -31,7 +36,11 @@ public class DevicesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(getFragmentManager()!=null) {
+            newFragment = new DeviceDialogFragment();
+            newFragment.setTargetFragment(this, 0);
+            newFragment.show(getFragmentManager(), "dialog");
+        }
     }
 
     @Override
@@ -43,7 +52,7 @@ public class DevicesFragment extends Fragment {
         // Find the view pager that will allow the user to swipe between fragments
         viewPager = view.findViewById(R.id.pager);
         // Create an adapter that knows which fragment should be shown on each page
-        adapter = new SimpleFragmentPagerAdapter(getContext(),getChildFragmentManager());//getActivity().getSupportFragmentManager());
+        adapter = new SimpleFragmentPagerAdapter(getContext(), getChildFragmentManager());//getActivity().getSupportFragmentManager());
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
 
@@ -51,6 +60,17 @@ public class DevicesFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tabs);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        view.findViewById(R.id.titleButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getFragmentManager()!=null) {
+                    newFragment.show(getFragmentManager(), "dialog");
+
+                }
+            }
+        });
+
 
         return view;
     }
@@ -128,7 +148,7 @@ public class DevicesFragment extends Fragment {
             final String timer = sharedPref.getString("timer", "");
             final String speedometer = sharedPref.getString("speedometer", "");
 
-
+            
             Bundle calibrationDevices = new Bundle();
             calibrationDevices.putString("thermometer", thermometer);
             calibrationDevices.putString("barometer", barometer);
@@ -137,6 +157,8 @@ public class DevicesFragment extends Fragment {
             calibrationDevices.putString("techName", techname);
             calibrationDevices.putString("signature", signature);
             intent.putExtra("cal", calibrationDevices);
+            intent.putExtra("location", location);
+            intent.putExtra("sublocation", sublocation);
             startActivityForResult(intent, 1);
         } else
             Toast.makeText(getContext(), R.string.noDevice, Toast.LENGTH_SHORT).show();
@@ -147,8 +169,8 @@ public class DevicesFragment extends Fragment {
         Activity activity = getActivity();
         if (activity != null && isAdded()) {
             super.onResume();
-        }else{
-            if(activity!=null)
+        } else {
+            if (activity != null)
                 activity.onBackPressed();
         }
     }
@@ -162,4 +184,11 @@ public class DevicesFragment extends Fragment {
     }
 
 
+    @Override
+    public void sendLocation(String location, String sublocation) {
+        this.location = location;
+        this.sublocation = sublocation;
+        ((TextView)getView().findViewById(R.id.titleText)).setText(String.format("%s - %s", location, sublocation));
+
+    }
 }

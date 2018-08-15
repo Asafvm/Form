@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -61,6 +63,7 @@ public class HC10Activity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_HC10_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type", "HC10");
                     createPDF(intent);
                 }
 

@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import java.util.ArrayList;
@@ -67,7 +69,8 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_UltraCW_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-
+                    intent.putExtra("type", "UltraCW");
+                    intent.putExtra("model", "");
                     createPDF(intent);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
@@ -126,12 +129,8 @@ public class DiacentUltraCWActivity extends DevicePrototypeActivity {
     private void initDiacentCW() {
 
         /* Diacent CW */
-        setListener(findViewById(R.id.formMainLocation));
-        setListener(findViewById(R.id.formRoomLocation));
         setListener(findViewById(R.id.etDeviceSerial));
         setListener(findViewById(R.id.formTechName));
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
 
 

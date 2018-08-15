@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import il.co.diamed.com.form.R;
@@ -37,6 +38,8 @@ public class IncubatorActivity extends DevicePrototypeActivity {
         init();
         setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
+
+        //Device class
 
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()
@@ -88,6 +91,11 @@ public class IncubatorActivity extends DevicePrototypeActivity {
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
 
+                    intent.putExtra("type", "Incubator");
+                    intent.putExtra("model", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString());
+
+
+
                     createPDF(intent);
                 }
             }
@@ -124,8 +132,6 @@ public class IncubatorActivity extends DevicePrototypeActivity {
         setTimeListener(findViewById(R.id.time), EXPECTED_TIME);
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.si);
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText) findViewById(R.id.temp)).setText(String.valueOf(""));
         ((EditText) findViewById(R.id.time)).setText(String.valueOf(EXPECTED_TIME));

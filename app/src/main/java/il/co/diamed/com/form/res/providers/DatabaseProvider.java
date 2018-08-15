@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,11 +17,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 
-import il.co.diamed.com.form.inventory.InventoryItem;
+import il.co.diamed.com.form.field.Address;
+import il.co.diamed.com.form.field.Device;
+import il.co.diamed.com.form.field.Location;
+import il.co.diamed.com.form.field.SubLocation;
+import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryUser;
 
 public class DatabaseProvider {
@@ -28,11 +31,13 @@ public class DatabaseProvider {
     public static final String BROADCAST_DB_READY = "database_provider_data_ready";
     public static final String BROADCAST_LABDB_READY = "database_provider_lab_data_ready";
     public static final String BROADCAST_TARGET_DB_READY = "database_provider_target_data_ready";
+    public static final String BROADCAST_LOCDB_READY = "database_provider_location_data_ready";
+    public static final String BROADCAST_LOCATION_READY = "database_provider_location_ready";
     private final String TAG = "Database";
-    private static HashMap<String, InventoryItem> labDB = null;
-    private static HashMap<String, InventoryItem> myDB = null;
-    private static HashMap<String, InventoryItem> targetDB = null;
-    private List<ArrayList<InventoryUser>> allUsers = null;
+    private static HashMap<String, Part> labDB;
+    private static HashMap<String, Part> myDB;
+    private static HashMap<String, Part> targetDB;
+    private List<ArrayList<InventoryUser>> allUsers;
     private final String USER_DB = "Users/";
     private Context context;
     private boolean lab_busy = false;
@@ -40,15 +45,28 @@ public class DatabaseProvider {
     private String DB = "Parts/";
     private boolean target_busy = false;
     private String last_target = "";
+    private boolean loc_busy;
+    private String LOCATION_DB = "Location";
+    private static ArrayList<Location> locDB;
 
     public DatabaseProvider(Context context) {
         this.context = context;
 
     }
 
-    public List<InventoryItem> getLabInv() {
+    public ArrayList<Location> getLocDB() {
+        if (locDB != null)
+            return locDB;
+        else if (!loc_busy) {
+            downloadLocDB();
+        }
+        return null;
+
+    }
+
+    public List<Part> getLabInv() {
         if (labDB != null && !lab_busy) {
-            List<InventoryItem> labDBsorted = new ArrayList<>(labDB.values());
+            List<Part> labDBsorted = new ArrayList<>(labDB.values());
             Collections.sort(labDBsorted);
             return labDBsorted;
         } else {
@@ -60,18 +78,18 @@ public class DatabaseProvider {
     }
 
     public List<ArrayList<InventoryUser>> getUsersInv() {
-        if (allUsers!=null) {
+        if (allUsers != null) {
             return allUsers;
         } else {
-            if(labDB!=null){
+            if (labDB != null) {
                 orginizeUsersData();
-            }else
+            } else
                 getLabInv();
         }
         return null;
     }
 
-    public List<InventoryItem> getMyInv() {
+    public List<Part> getMyInv() {
         if (myDB != null && !my_busy) {
             return new ArrayList<>(myDB.values());
         } else {
@@ -82,8 +100,8 @@ public class DatabaseProvider {
         return null;
     }
 
-    public List<InventoryItem> getTargetInv(String target) {
-        if(!last_target.equals(target)) {
+    public List<Part> getTargetInv(String target) {
+        if (!last_target.equals(target)) {
             last_target = target;
             targetDB = null;
         }
@@ -128,6 +146,7 @@ public class DatabaseProvider {
 
     }
 
+
     private FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
         if (FirebaseAuth.getInstance().getCurrentUser() != null)        //if user logged
             downloadMyDB();
@@ -156,6 +175,8 @@ public class DatabaseProvider {
     private ValueEventListener labListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
             labDB = getInv(dataSnapshot);
 
             lab_busy = false;
@@ -190,7 +211,7 @@ public class DatabaseProvider {
 
     private void refreshDatabase() {
         if (labDB != null & myDB != null) {
-            for (InventoryItem labItem : labDB.values()) {    //for every part in the lab
+            for (Part labItem : labDB.values()) {    //for every part in the lab
                 if (myDB.containsKey(labItem.getId())) {        // if it exists already
                     myDB.get(labItem.getId()).setMinimum_car(labItem.getMinimum_car()); //update minimum (just in case)
                 } else {
@@ -215,8 +236,8 @@ public class DatabaseProvider {
     }
 
 
-    private HashMap<String, InventoryItem> getInv(DataSnapshot dataSnapshot) {
-        HashMap<String, InventoryItem> tempValues = new HashMap<>();
+    private HashMap<String, Part> getInv(DataSnapshot dataSnapshot) {
+        HashMap<String, Part> tempValues = new HashMap<>();
         if (dataSnapshot.getValue() == null) {//root
             Log.e(TAG, "Cannot browse root folder");
         } else {
@@ -224,11 +245,11 @@ public class DatabaseProvider {
                 Log.e(TAG, "Database " + dataSnapshot.getKey() + " does not exists");
             } else {  //Parts
                 for (DataSnapshot ds : dataSnapshot.getChildren()) { //Serial numbers
-                    InventoryItem temp = ds.getValue(InventoryItem.class);
+                    Part temp = ds.getValue(Part.class);
                     if (temp != null) {
                         temp.setId(ds.getKey());
                         tempValues.put(temp.getId(), temp);
-                    }else
+                    } else
                         Log.e(TAG, "Invalid item recieved on getInv()");
                 }
             }
@@ -240,12 +261,12 @@ public class DatabaseProvider {
     /**
      * @param currentList update remote personal database
      */
-    public void uploadMyInv(List<InventoryItem> currentList) {
+    public void uploadMyInv(List<Part> currentList) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(USER_DB).child(user.getUid()).child(DB);
             if (currentList != null) {
-                for (InventoryItem item : currentList) {
+                for (Part item : currentList) {
                     if (item.getInStock().equals("0") && (item.getMinimum_car().equals("0") || item.getMinimum_car().equals("00")))
                         mDatabase.child(item.getId()).removeValue().addOnSuccessListener(aVoid -> Log.d(TAG, "Unused part " + item.getDescription() + " removed from list"));
                     else
@@ -258,10 +279,10 @@ public class DatabaseProvider {
         }
     }
 
-    public List<InventoryItem> getMissingInv() {
+    public List<Part> getMissingInv() {
         if (myDB != null) {
-            List<InventoryItem> missingInv = new ArrayList<>();
-            for (InventoryItem item : myDB.values()) {
+            List<Part> missingInv = new ArrayList<>();
+            for (Part item : myDB.values()) {
                 if (item.getInStock().compareTo(item.getMinimum_car()) <= 0)
                     missingInv.add(myDB.get(item.getId()));
             }
@@ -274,16 +295,16 @@ public class DatabaseProvider {
 
 
     public String getPartInfo(String serial) {
-        for (InventoryItem item : labDB.values())
+        for (Part item : labDB.values())
             if (item.getSerial().equals(serial))
                 return item.getDescription();
         return "";
     }
 
     public boolean addMyDB(String serial, Integer inStock) {
-        InventoryItem target = null;
+        Part target = null;
         if (myDB != null) {
-            for (InventoryItem myItem : myDB.values()) {    //search local
+            for (Part myItem : myDB.values()) {    //search local
                 if (myItem.getSerial().equals(serial)) {
                     target = myItem;
                 }
@@ -295,7 +316,7 @@ public class DatabaseProvider {
                 uploadMyInv(new ArrayList<>(myDB.values()));
                 return true;
             } else {
-                for (InventoryItem item : labDB.values())   //serach remote
+                for (Part item : labDB.values())   //serach remote
                     if (item.getSerial().equals(serial))
                         target = item;
                 if (target != null) {
@@ -319,19 +340,17 @@ public class DatabaseProvider {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 allUsers = new ArrayList<>();
-                ArrayList<InventoryItem> labDBsorted = new ArrayList<>(labDB.values());
+                ArrayList<Part> labDBsorted = new ArrayList<>(labDB.values());
                 Collections.sort(labDBsorted);
-                for (InventoryItem item : labDBsorted){//labDB.values()){
+                for (Part item : labDBsorted) {//labDB.values()){
                     //HashMap<String,String> holders = new HashMap<>();
                     ArrayList<InventoryUser> holders = new ArrayList<>();
                     for (DataSnapshot users : dataSnapshot.getChildren()) {    //gor every user, get data base1
                         String id = users.getKey();
-                        String name = (String)users.child("Info").child("techName").getValue();
-                        HashMap<String,String> stock = ((HashMap<String,String>)users.child("Parts").child(item.getId()).getValue());
+                        String name = (String) users.child("Info").child("techName").getValue();
+                        HashMap<String, String> stock = ((HashMap<String, String>) users.child("Parts").child(item.getId()).getValue());
                         String inStock = stock == null ? "0" : stock.get("inStock");
                         InventoryUser user = new InventoryUser(id, name, inStock);
-                        //HashMap<String,String> userInv = ;
-                        //holders.put(name != null ? name : id, inStock == null ? "0" : inStock);
                         holders.add(user);
                     }
                     allUsers.add(holders);
@@ -339,6 +358,7 @@ public class DatabaseProvider {
                 Intent intent = new Intent(BROADCAST_USER_DB_READY);
                 context.sendBroadcast(intent);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -351,13 +371,17 @@ public class DatabaseProvider {
         getMyInv();
     }
 
+
+    /***************************** My Database *************************************/
+
+
     public void uploadUserData(HashMap<String, String> userInfo) {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child("Info");
-            for(String key : userInfo.keySet()){
+            for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
             }
         } else {
@@ -365,4 +389,173 @@ public class DatabaseProvider {
         }
     }
 
+    /***************************** LabDatabase *************************************/
+
+
+    /***************************** Target User Database *************************************/
+
+
+    /***************************** LOCATION *************************************/
+
+
+    private void downloadLocDB() {
+        loc_busy = true;
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(LOCATION_DB);
+        mDatabase.addValueEventListener(locListener);
+
+    }
+
+    private ValueEventListener locListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+            ArrayList<Location> locations = new ArrayList<>();
+            for (DataSnapshot locationChild : dataSnapshot.getChildren()) {
+                locations.add(locationChild.getValue(Location.class));
+            }
+
+            locDB = locations;
+            loc_busy = false;
+            Intent intent = new Intent(BROADCAST_LOCDB_READY);
+            context.sendBroadcast(intent);
+
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            my_busy = false;
+        }
+    };
+
+
+    public void createLocation(String loc, String subLoc) {
+        Location location = null;
+        SubLocation subLocation = null;
+        if (locDB != null && !loc_busy) {
+            for (Location dblocation : locDB) {
+                if (dblocation.getName().equals(loc)) {
+                    //location exists, check sublocation
+                    location = dblocation;
+                    for (SubLocation dbsubLocation : location.getSubLocation()) {
+                        if (dbsubLocation.getName().equals(subLoc)) {
+                            //location and sublocation exists
+                            subLocation = dbsubLocation;
+                        }
+                    }
+                }
+            }
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+            if (location == null) {
+                location = new Location(loc, new Address("", "", ""), "");
+                subLocation = new SubLocation(subLoc, "");
+                location.addSublocation(subLocation);
+                databaseReference.child(location.getName()).setValue(location);
+            } else if (subLocation == null) {
+                subLocation = new SubLocation(subLoc, "");
+                location.addSublocation(subLocation);
+                databaseReference.child(location.getName()).setValue(location);
+            }
+
+            Intent intent = new Intent(BROADCAST_LOCATION_READY);
+            context.sendBroadcast(intent);
+
+
+        } else {
+            if (!loc_busy) {
+                downloadLocDB();
+            }
+        }
+    }
+
+    public boolean updateLocation(String loc, String subLoc, Device device) {
+        if (locDB != null && !loc_busy) {
+            boolean devFound = false;
+            Location targetLoc = null;
+            SubLocation targetSubloc = null;
+
+            for (Location location : locDB) {
+                for (SubLocation subLocation : location.getSubLocation()) {
+                    if (subLocation.getDevices() != null) {
+                        for (Device labDevice : subLocation.getDevices().values()) {
+                            if (device.getDev_codename().equals(labDevice.getDev_codename()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
+                                devFound = true;
+                                if (loc.equals(location.getName())) {
+                                    //device exists at location, can update
+                                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                    DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+                                    if(labDevice.getDev_install_date()!=null){
+                                        device.setDev_install_date(labDevice.getDev_install_date());
+                                    }
+                                    subLocation.addDevice(device);
+                                    databaseReference.child(location.getName()).setValue(location);
+                                    return true;
+
+                                } else {
+                                    // device exists somewhere else, move or cancel
+                                    /** TODO: implement this! **/
+                                    Toast.makeText(context, "Device exists at " + location.getName() + " - " + subLocation.getName(), Toast.LENGTH_SHORT).show();
+                                    return false;
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            if (!devFound) {
+                //device not found, create new device
+                for (Location location : locDB) {
+                    if (location.getName().equals(loc)) {
+                        targetLoc = location;
+                        for (SubLocation subLocation : location.getSubLocation()) {
+                            if (subLocation.getName().equals(subLoc)) {
+                                targetSubloc = subLocation;
+                                subLocation.addDevice(device);
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+                                databaseReference.child(location.getName()).setValue(location);
+                                return true;
+                            }
+                        }
+
+                    }
+                }
+                if (targetLoc != null && targetSubloc == null) {
+                    SubLocation subLocation = new SubLocation(subLoc, "");
+                    subLocation.addDevice(device);
+                    targetLoc.addSublocation(subLocation);
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+                    databaseReference.child(targetLoc.getName()).setValue(targetLoc);
+                    return true;
+                } else if (targetLoc == null) {
+                    Location location = new Location(loc, new Address("", "", ""), "");
+                    SubLocation subLocation = new SubLocation(subLoc, "");
+                    subLocation.addDevice(device);
+                    location.addSublocation(subLocation);
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+                    databaseReference.child(location.getName()).setValue(location);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public boolean updateLocation(Location location) {
+        if (locDB != null && !loc_busy) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+            databaseReference.child(location.getName()).setValue(location);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

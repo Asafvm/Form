@@ -2,6 +2,8 @@ package il.co.diamed.com.form.calibration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -82,6 +84,9 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
                             month + "" + day + "_" + "Centrifuge-" +
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+
+                    intent.putExtra("type", "Centrifuge");
+                    intent.putExtra("model",((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString());
                     createPDF(intent);
                 }
             }
@@ -109,7 +114,7 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
                     EXPECTED_SPEED = 1175;
                     break;
                 case R.id.c12S:
-                    EXPECTED_SPEED = 1030;
+                    EXPECTED_SPEED = 1175;
                     break;
                 case R.id.c12SII:
                     EXPECTED_SPEED = 1030;
@@ -124,7 +129,7 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
                     EXPECTED_SPEED = 0;
                     break;
             }
-            setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
+            //setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
             ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         });
     }
@@ -146,15 +151,31 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
         setListener(((RadioGroup) findViewById(R.id.rgModelSelect)));
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
+
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
 
+        ((EditText) findViewById(R.id.centExpectedSpeed)).addTextChangedListener(speedListener);
         ((Switch) findViewById(R.id.centFanSwitch)).setChecked(true);
     }
 
+    TextWatcher speedListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            EXPECTED_SPEED = Integer.valueOf(((EditText) findViewById(R.id.centExpectedSpeed)).getText().toString());
+            setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
 }

@@ -7,8 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +27,7 @@ public class TargetInventoryFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter<InventoryViewerAdapter.ViewHolder> adapter;
     DatabaseProvider provider;
-    List<InventoryItem> values;
+    List<Part> values;
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
     public TargetInventoryFragment() {

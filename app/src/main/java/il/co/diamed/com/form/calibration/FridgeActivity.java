@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
@@ -48,10 +49,10 @@ public class FridgeActivity extends DevicePrototypeActivity {
                     ArrayList<Tuple> corText = new ArrayList<>();
                     corText.add(new Tuple(205, 426, "", false));           //temp ok
 
-                    if(((RadioGroup)findViewById(R.id.rgTypeSelect)).getCheckedRadioButtonId()==R.id.rbFridge)
-                        corText.add(new Tuple(138, 508, "", false));           //fridge
-                    else
+                    if(((RadioGroup)findViewById(R.id.rgTypeSelect)).getCheckedRadioButtonId()==R.id.rbSensor)
                         corText.add(new Tuple(204, 508, "", false));           //sensor
+                    else
+                        corText.add(new Tuple(138, 508, "", false));           //fridge/freezer
 
                     corText.add(new Tuple(482, 269, "", false));           //overall ok
 
@@ -81,6 +82,10 @@ public class FridgeActivity extends DevicePrototypeActivity {
                             dp.getYear() + "" + month + "" + day + "_" +
                             ((EditText) findViewById(R.id.etModel)).getText().toString() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type",
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgTypeSelect)).getCheckedRadioButtonId())).getText().toString());
+                    intent.putExtra("model", ((EditText) findViewById(R.id.etModel)).getText().toString());
+
                     createPDF(intent);
                 }
 

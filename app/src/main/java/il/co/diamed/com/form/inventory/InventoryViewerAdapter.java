@@ -1,7 +1,6 @@
 package il.co.diamed.com.form.inventory;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -17,10 +16,10 @@ import java.util.List;
 import il.co.diamed.com.form.R;
 
 public class InventoryViewerAdapter extends RecyclerView.Adapter<InventoryViewerAdapter.ViewHolder> {
-    private List<InventoryItem> list;
+    private List<Part> list;
     private Context context;
 
-    public InventoryViewerAdapter(List<InventoryItem> list, Context context) {
+    public InventoryViewerAdapter(List<Part> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -37,7 +36,7 @@ public class InventoryViewerAdapter extends RecyclerView.Adapter<InventoryViewer
 
     @Override
     public void onBindViewHolder(@NonNull final InventoryViewerAdapter.ViewHolder holder, int position) {
-        final InventoryItem item = list.get(position);
+        final Part item = list.get(position);
         holder.serial.setText(item.getSerial());
         holder.description.setText(item.getDescription());
         holder.sub.setVisibility(View.INVISIBLE);

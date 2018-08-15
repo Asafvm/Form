@@ -70,6 +70,7 @@ public class IH1000Activity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" +day + "_IH1000_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+                    intent.putExtra("type", "IH1000");
                     createPDF(intent);
                 }
             }
@@ -214,8 +215,6 @@ public class IH1000Activity extends DevicePrototypeActivity {
         setListener(findViewById(R.id.etIH1000softwareVer2));
         setListener(findViewById(R.id.etIH1000softwareVer));
 
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText) findViewById(R.id.etIH1000CentrifugeRightSpeed)).setText("");
         ((EditText) findViewById(R.id.etIH1000CentrifugeCenterSpeed)).setText("");

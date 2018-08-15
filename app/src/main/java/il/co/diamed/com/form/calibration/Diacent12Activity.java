@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import java.util.ArrayList;
@@ -74,6 +76,9 @@ public class Diacent12Activity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_Diacent12_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+
+                    intent.putExtra("type", "Diacent12");
+                    intent.putExtra("model", "");
                     createPDF(intent);
                 } else {
                     Log.e("Diacent: ", "checkStatus Failed");
@@ -128,17 +133,17 @@ public class Diacent12Activity extends DevicePrototypeActivity {
                     return false;
                 if (!isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()))
                     return false;
-                if (!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
+                if (!((EditText) findViewById(R.id.centSpeed1000)).getText().toString().isEmpty() &&!isSpeedValid(Integer.valueOf(((EditText) findViewById(R.id.centSpeed1000)).getText().toString()), EXPECTED_12_SPEED1))
                     return false;
-                if (!isTimeValid(findViewById(R.id.centTime1), EXPECTED_12_TIME1))
+                if (!((EditText) findViewById(R.id.centTime1)).getText().toString().isEmpty() &&!isTimeValid(findViewById(R.id.centTime1), EXPECTED_12_TIME1))
                     return false;
-                if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed2000)).getText().toString())), EXPECTED_12_SPEED2))
+                if (!((EditText) findViewById(R.id.centSpeed2000)).getText().toString().isEmpty() &&!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed2000)).getText().toString())), EXPECTED_12_SPEED2))
                     return false;
-                if (!isTimeValid(findViewById(R.id.centTime2), EXPECTED_12_TIME2))
+                if (!((EditText) findViewById(R.id.centTime2)).getText().toString().isEmpty() &&!isTimeValid(findViewById(R.id.centTime2), EXPECTED_12_TIME2))
                     return false;
-                if (!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed3000)).getText().toString())), EXPECTED_12_SPEED3))
+                if (!((EditText) findViewById(R.id.centSpeed3000)).getText().toString().isEmpty() &&!isSpeedValid(Integer.valueOf((((EditText) findViewById(R.id.centSpeed3000)).getText().toString())), EXPECTED_12_SPEED3))
                     return false;
-                if (!isTimeValid(findViewById(R.id.centTime3), EXPECTED_12_TIME3))
+                if (!((EditText) findViewById(R.id.centTime3)).getText().toString().isEmpty() &&!isTimeValid(findViewById(R.id.centTime3), EXPECTED_12_TIME3))
                     return false;
                 if (!((Switch) findViewById(R.id.cent12checkHolders)).isChecked())
                     return false;
@@ -150,12 +155,8 @@ public class Diacent12Activity extends DevicePrototypeActivity {
     }
 
     private void init() {
-        setListener(findViewById(R.id.formMainLocation));
-        setListener(findViewById(R.id.formRoomLocation));
         setListener(findViewById(R.id.etDeviceSerial));
         setListener(findViewById(R.id.formTechName));
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         initDiacent12();
     }

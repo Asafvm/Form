@@ -19,11 +19,11 @@ import il.co.diamed.com.form.R;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ViewHolder> {
     private final String TAG = "InventoryAdapter";
-    private List<InventoryItem> list;
+    private List<Part> list;
     private Context context;
     private View currentView = null;
 
-    InventoryAdapter(List<InventoryItem> list, Context context) {
+    InventoryAdapter(List<Part> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -40,7 +40,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull final InventoryAdapter.ViewHolder holder, int position) {
-        final InventoryItem item = list.get(position);
+        final Part item = list.get(position);
         holder.serial.setText(item.getSerial());
         holder.description.setText(item.getDescription());
         holder.sub.setVisibility(View.INVISIBLE);
@@ -107,7 +107,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.View
         return list.size();
     }
 
-    public List<InventoryItem> getList(){
+    public List<Part> getList(){
         return list;
     }
 

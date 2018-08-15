@@ -4,25 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".calibration.DevicesFragment">
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/mainWindow"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context="il.co.diamed.com.form.calibration.DevicesFragment"
+        android:id="@+id/mainWindow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context="il.co.diamed.com.form.calibration.DevicesFragment"
 
         >
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tabs"
+            >
+
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textColor="#009900"
+                android:gravity="center"
+                app:layout_constraintBaseline_toBaselineOf="@id/titleButton"
+                app:layout_constraintEnd_toStartOf="@id/titleLabel"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/titleLoctionLabel"
+                android:layout_marginEnd="3dp"
+                android:gravity="center"
+                app:layout_constraintBaseline_toBaselineOf="@id/titleButton"
+                app:layout_constraintEnd_toStartOf="@id/titleButton"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@id/titleText" />
+
+            <Button
+                android:id="@+id/titleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/btnChangeLocation"
+                android:background="@drawable/shape_button_submit_thin_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toEndOf="@id/titleLabel" />
+        </android.support.constraint.ConstraintLayout>
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_background_white_border_black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/title"
+
+            >
 
             <android.support.design.widget.TabItem
                 android:layout_width="0dp"
@@ -44,8 +92,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabs"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tabs" />
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

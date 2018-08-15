@@ -2,30 +2,25 @@ package il.co.diamed.com.form.inventory;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import il.co.diamed.com.form.R;
 
-class UsersInventoryAdapter extends BaseExpandableListAdapter {
+class SharedInventoryAdapter extends BaseExpandableListAdapter {
 
     public static final String BROADCAST_TARGET_SELECTED = "target_user_selected";
     private Context mContext;
-    private List<InventoryItem> mGroupList;
+    private List<Part> mGroupList;
     private List<ArrayList<String>> mChildList;
 
-    public UsersInventoryAdapter(List<InventoryItem> list, List<ArrayList<String>> childValues, Context context) {
+    public SharedInventoryAdapter(List<Part> list, List<ArrayList<String>> childValues, Context context) {
         this.mContext = context;
         this.mGroupList = list;
         this.mChildList = childValues;
@@ -72,9 +67,9 @@ class UsersInventoryAdapter extends BaseExpandableListAdapter {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_inventory_item_users, parent, false);
         //View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_inventory_item, parent, false);
         //v.setClickable(true);
-        ((TextView) convertView.findViewById(R.id.item_serial)).setText(((InventoryItem)getGroup(groupPosition)).getSerial());
-        ((TextView) convertView.findViewById(R.id.item_description)).setText(((InventoryItem)getGroup(groupPosition)).getDescription());
-        //((TextView) convertView.findViewById(R.id.item_inStock)).setText(((InventoryItem)getGroup(groupPosition)).getInStock());
+        ((TextView) convertView.findViewById(R.id.item_serial)).setText(((Part)getGroup(groupPosition)).getSerial());
+        ((TextView) convertView.findViewById(R.id.item_description)).setText(((Part)getGroup(groupPosition)).getDescription());
+        //((TextView) convertView.findViewById(R.id.item_inStock)).setText(((Part)getGroup(groupPosition)).getInStock());
         return convertView;
     }
 

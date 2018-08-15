@@ -1,178 +1,373 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lowLayout"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:padding="30dp"
+    android:padding="10dp"
     app:layout_constraintBottom_toTopOf="@id/footer"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/header"
-    app:layout_constraintVertical_weight="3">
+    app:layout_constraintVertical_weight="4">
 
-    <include
-        android:id="@+id/serialLayout"
-        layout="@layout/form_serial" />
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/innerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvDoconVer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/etVer"
+        <include
+            android:id="@+id/serialLayout"
+            layout="@layout/form_serial" />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/etDoconVer"
-        app:layout_constraintTop_toBottomOf="@id/serialLayout"
-        app:layout_constraintBottom_toTopOf="@id/tvDoconW200"/>
 
-    <EditText
-        android:id="@+id/etDoconVer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/DoconVer"
-        android:inputType="numberDecimal"
-        android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconVer"
-        app:layout_constraintEnd_toStartOf="@id/tvDoconVer"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/spacer" />
+        <TextView
+            android:id="@+id/tvDeviceModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doconType"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/rgModelSelect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
-    <Space
-        android:id="@+id/spacer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+        <RadioGroup
+            android:id="@+id/rgModelSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconVer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDeviceModel">
 
-    <TextView
-        android:id="@+id/tvDoconW200"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/doconWeight200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/etDoconW200"
-        app:layout_constraintTop_toBottomOf="@id/tvDoconVer"
-        app:layout_constraintBottom_toTopOf="@id/tvDoconW500"/>
+            <RadioButton
+                android:id="@+id/docon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/docon1" />
 
-    <EditText
-        android:id="@+id/etDoconW200"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/DoconWeight200"
-        android:inputType="numberDecimal"
-        android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW200"
-        app:layout_constraintEnd_toStartOf="@id/tvDoconW200"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/tvDocongr" />
+            <RadioButton
+                android:id="@+id/docon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/docon2" />
 
-    <TextView
-        android:id="@id/tvDocongr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textGR"
-        app:layout_constraintBaseline_toBaselineOf="@id/etDoconW200"
-        app:layout_constraintEnd_toStartOf="@id/etDoconW200"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/spacer1" />
+        </RadioGroup>
 
-    <Space
-        android:id="@+id/spacer1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serialLayout" />
 
-    <TextView
-        android:id="@+id/tvDoconW500"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/doconWeight500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/etDoconW500"
-        app:layout_constraintTop_toBottomOf="@id/tvDoconW200"
-        app:layout_constraintBottom_toTopOf="@id/tvDoconW700"/>
+        <TextView
+            android:id="@+id/tvDoconVer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/etVer"
 
-    <EditText
-        android:id="@+id/etDoconW500"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/DoconWeight500"
-        android:inputType="numberDecimal"
-        android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW500"
-        app:layout_constraintEnd_toStartOf="@id/tvDoconW500"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/tvDocongr" />
+            app:layout_constraintBottom_toTopOf="@id/tvDoconW200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconVer"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
 
-    <TextView
-        android:id="@id/tvDocongr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textGR"
-        app:layout_constraintBaseline_toBaselineOf="@id/etDoconW500"
-        app:layout_constraintEnd_toStartOf="@id/etDoconW500"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/spacer2" />
 
-    <Space
-        android:id="@+id/spacer2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="0.6"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/etDoconVer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/DoconVer"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconVer"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconW200"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconVer"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/tvDoconVerLabel"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
 
-    <TextView
-        android:id="@+id/tvDoconW700"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/doconWeight700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/etDoconW700"
-        app:layout_constraintTop_toBottomOf="@id/tvDoconW500" />
 
-    <EditText
-        android:id="@+id/etDoconW700"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/DoconWeight700"
-        android:inputType="numberDecimal"
-        android:textAlignment="textEnd"
-        app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW700"
-        app:layout_constraintEnd_toStartOf="@id/tvDoconW700"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/tvDocongr" />
+        <TextView
+            android:id="@+id/tvDoconVerLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tvVer"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconVer"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconW200"
+            app:layout_constraintEnd_toStartOf="@id/etDoconVer"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgModelSelect" />
 
-    <TextView
-        android:id="@+id/tvDocongr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textGR"
-        app:layout_constraintBaseline_toBaselineOf="@id/etDoconW700"
-        app:layout_constraintEnd_toStartOf="@id/etDoconW700"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@id/spacer3" />
 
-    <Space
-        android:id="@+id/spacer3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/tvDocongr"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="0.6"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvDoconW200"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/doconWeight200"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconW500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconW200"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconVer" />
+
+        <EditText
+            android:id="@+id/etDoconW200"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/DoconWeight200"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW200"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconW200"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/spacer1" />
+
+        <TextView
+            android:id="@+id/tvDocongr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textGR"
+            app:layout_constraintBaseline_toBaselineOf="@id/etDoconW200"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW200"
+
+            />
+
+        <Space
+            android:id="@+id/spacer1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW200"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/serialLayout" />
+
+        <TextView
+            android:id="@+id/tvDoconW500"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/doconWeight500"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconW700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconW500"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconW200" />
+
+        <EditText
+            android:id="@+id/etDoconW500"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/DoconWeight500"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW500"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconW500"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/spacer2" />
+
+        <TextView
+            android:id="@id/tvDocongr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textGR"
+            app:layout_constraintBaseline_toBaselineOf="@id/etDoconW500"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW500"
+
+            />
+
+        <Space
+            android:id="@+id/spacer2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW500"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDoconW700"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/doconWeight700"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_alert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconW700"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconW500" />
+
+        <EditText
+            android:id="@+id/etDoconW700"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/DoconWeight700"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconW700"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconW700"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/spacer3" />
+
+        <TextView
+            android:id="@id/tvDocongr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textGR"
+            app:layout_constraintBaseline_toBaselineOf="@id/etDoconW700"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW700" />
+
+        <Space
+            android:id="@+id/spacer3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/etDoconW700"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.3"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_alert"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_alert"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_barcode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_alert"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconW700" />
+
+        <EditText
+            android:id="@+id/etDoconComment_alert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_alert"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_alert"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_barcode"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_barcode"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_display"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_barcode"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconComment_alert" />
+
+        <EditText
+            android:id="@+id/etDoconComment_barcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_barcode"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_barcode"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_display"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_display"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_cleaning"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_display"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconComment_barcode" />
+
+        <EditText
+            android:id="@+id/etDoconComment_display"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_display"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_display"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_cleaning"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_cleaning"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_sensor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_cleaning"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconComment_display" />
+
+        <EditText
+            android:id="@+id/etDoconComment_cleaning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_cleaning"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_cleaning"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_sensor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_sensor"
+            app:layout_constraintBottom_toTopOf="@id/tvDoconComment_battery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_sensor"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconComment_cleaning" />
+
+        <EditText
+            android:id="@+id/etDoconComment_sensor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_sensor"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_sensor"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvDoconComment_battery"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/tvDoconComment_battery"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintStart_toEndOf="@id/etDoconComment_battery"
+            app:layout_constraintTop_toBottomOf="@id/tvDoconComment_sensor" />
+
+        <EditText
+            android:id="@+id/etDoconComment_battery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/comments"
+            android:inputType="text"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDoconComment_battery"
+            app:layout_constraintEnd_toStartOf="@id/tvDoconComment_battery"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

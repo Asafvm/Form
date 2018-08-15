@@ -7,7 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 
-public class InventoryItem implements Comparable<InventoryItem> {
+public class Part implements Comparable<Part> {
     private String description;
     private String inStock;
     private String serial;
@@ -23,17 +23,17 @@ public class InventoryItem implements Comparable<InventoryItem> {
     private String active;
     private String id;
 
-    public InventoryItem() {
+    public Part() {
 
     }
 /*
-    public InventoryItem(String serial, String description, String inStock) {
+    public Part(String serial, String description, String inStock) {
         this.serial = serial;
         this.description = description;
         this.inStock = inStock;
     }
 
-    public InventoryItem(InventoryItem item) {
+    public Part(Part item) {
         this.id = item.id;
         this.serial = item.serial;
         this.description = item.description;
@@ -52,7 +52,7 @@ public class InventoryItem implements Comparable<InventoryItem> {
 */
 
     @Override
-    public int compareTo(@NonNull InventoryItem o) {
+    public int compareTo(@NonNull Part o) {
         return this.serial.compareTo(o.getSerial());
 
     }
@@ -128,7 +128,7 @@ public class InventoryItem implements Comparable<InventoryItem> {
             if (Integer.valueOf(inStock) >= 0)
                 this.inStock = inStock;
         }catch (Exception e){
-            Log.e("InventoryItem", "Invalid stock value: "+inStock);
+            Log.e("Part", "Invalid stock value: "+inStock);
         }
     }
 

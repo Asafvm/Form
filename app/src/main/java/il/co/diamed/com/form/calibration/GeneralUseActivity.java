@@ -86,6 +86,9 @@ public class GeneralUseActivity extends DevicePrototypeActivity {
                             month + "" + day + "_" +
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" +
                             ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
+
+                    intent.putExtra("type",
+                            ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString());
                     createPDF(intent);
                 }
 

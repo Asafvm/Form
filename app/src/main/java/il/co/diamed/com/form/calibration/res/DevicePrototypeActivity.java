@@ -1,7 +1,11 @@
 package il.co.diamed.com.form.calibration.res;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,33 +18,94 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.field.Device;
+import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class DevicePrototypeActivity extends AppCompatActivity {
 
 
     private PDFBuilderFragment mPDFBuilderFragment;
+    private String location = "";
+    private String sublocation = "";
+    DatabaseProvider provider;
+
+    protected static String dev_name;
+    protected static String dev_model;
+    protected static String dev_serial;
+    protected static Date install_date;
+    protected static String comments;
+    protected static Date next_maintenance;
+    protected static boolean under_warranty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
+        Bundle data = getIntent().getExtras();
+        location = data.getString("location");
+        sublocation = data.getString("sublocation");
+        //location upload test
+        ClassApplication application = (ClassApplication) getApplication();
+        provider = application.getDatabaseProvider(this);
+        findViewById(R.id.formSubmitButton).setActivated(false);
+
+        if (!(location.equals("") && sublocation.equals("")))
+            provider.createLocation(location, sublocation);
     }
 
+
     public void createPDF(Intent intent) {
+        DatePicker dp = findViewById(R.id.formDate);
+        Calendar calendar = new GregorianCalendar(dp.getYear(),
+                dp.getMonth(),
+                dp.getDayOfMonth());
+
+        if (intent.hasExtra("type")) {
+            dev_name = intent.getExtras().getString("type");
+            if(dev_name.equals("Plasma Thawer")){
+                calendar.add(Calendar.MONTH, 6);
+                next_maintenance = calendar.getTime();
+            }else{
+                calendar.add(Calendar.YEAR, 1);
+                next_maintenance = calendar.getTime();
+            }
+        }
+        if (intent.hasExtra("model")) {
+            dev_model = intent.getExtras().getString("model");
+        }
+
+        dev_serial = ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString();
+
+        //install_date = dp.getDayOfMonth()+"/"+(dp.getMonth()+1)+"/"+dp.getYear();
+        comments = "";
+        under_warranty = false;
+
+        Device device = new Device(dev_name, dev_model, dev_serial, next_maintenance);
+        provider.updateLocation(location, sublocation, device);
 
         setPDFprogress(this, "בונה טופס", true);
 
-        android.app.FragmentTransaction mFragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction mFragmentTransaction = getFragmentManager().beginTransaction();
         mPDFBuilderFragment = new PDFBuilderFragment();
         mPDFBuilderFragment.setArguments(intent.getExtras());
         mFragmentTransaction.replace(R.id.pdffragment_container, mPDFBuilderFragment).addToBackStack(null).commit();
 
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -94,10 +159,18 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
         //SET FONT SIZE
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String fontsize = sharedPref.getString("sync_fontsize", "12");
-        fSize = Integer.valueOf(fontsize);
+        String fontsize = sharedPref.getString("sync_fontsize", "");
+        if (fontsize.equals("")) {
+            fSize = 12;
+        } else {
+            fSize = Integer.valueOf(fontsize);
+        }
 
         setButtons((ViewGroup) lowLayout.getParent());
+
+
+        ((TextView) findViewById(R.id.formMainLocation)).setText(location);
+        ((TextView) findViewById(R.id.formRoomLocation)).setText(sublocation);
     }
 
     public void setButtons(ViewGroup layout) {
@@ -122,17 +195,29 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
                     ((TextView) view).setMaxLines(2);
                     ((TextView) view).setTextSize(fSize);
+
+                }
+                if (view instanceof EditText) {
+                    ((EditText) view).setMaxLines(1);
+                    view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+                    Double tSize = (float)fSize/1.3;
+
+                    ((EditText) view).setTextSize(tSize.floatValue());
+
+                    ((EditText) view).setHintTextColor(Color.RED);
+                    ((EditText) view).setText("");
+                }
+                if (view instanceof RadioButton) {
+                    ((RadioButton) view).setMaxLines(1);
+                    view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    Double tSize = (float)fSize/1.5;
+
+                    ((RadioButton) view).setTextSize(tSize.floatValue());
+
                 }
             }
-            if (view instanceof EditText) {
-                ((EditText) view).setMaxLines(1);
-                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                ((EditText) view).setHintTextColor(Color.RED);
-            }
-            if (view instanceof EditText) {
-                setListener((EditText) view);
-                ((EditText) view).setText("");
-            }
+
         }
     }
 
@@ -365,4 +450,37 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LOCATION_READY));
+        registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(databaseReceiver);
+        unregisterReceiver(databaseLocDBReceiver);
+    }
+
+    private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!(location.equals("") && sublocation.equals("")))
+                provider.createLocation(location, sublocation);
+        }
+
+    };
+
+    private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            //Toast.makeText(getApplicationContext(), "Location Ready", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.formSubmitButton).setActivated(true);
+        }
+
+    };
 }

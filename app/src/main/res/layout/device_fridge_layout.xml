@@ -13,7 +13,7 @@
         android:id="@+id/innerGeneralLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="30dp">
+        android:paddingHorizontal="15dp">
 
         <include
             android:id="@+id/serialLayout"
@@ -52,6 +52,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sensor"/>
+            <RadioButton
+                android:id="@+id/rbFreezer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/freezer"
+                android:checked="true"/>
             <RadioButton
                 android:id="@+id/rbFridge"
                 android:layout_width="wrap_content"

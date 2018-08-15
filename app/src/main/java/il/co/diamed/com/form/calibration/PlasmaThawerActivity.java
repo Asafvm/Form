@@ -103,7 +103,8 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
                             dp.getYear() + "" +
                             month + "" + day + "_PlasmaThawer-" +
                             ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString() + "_" + ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString() + ".pdf");
-
+                    intent.putExtra("type", "Plasma Thawer");
+                    intent.putExtra("model", ((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString());
                     createPDF(intent);
                 }
 
@@ -143,8 +144,6 @@ public class PlasmaThawerActivity extends DevicePrototypeActivity {
         setTimeListener(findViewById(R.id.ptTime), EXPECTED_TIME);
 
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.dh8);
-        ((EditText) findViewById(R.id.formMainLocation)).setText("");
-        ((EditText) findViewById(R.id.formRoomLocation)).setText("");
         ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
         ((EditText) findViewById(R.id.ptExpectedTemp)).setText(String.valueOf(EXPECTED_TEMP));
         ((EditText) findViewById(R.id.ptTemp)).setText(String.valueOf(""));

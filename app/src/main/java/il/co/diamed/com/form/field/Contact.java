@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.contacts;
+package il.co.diamed.com.form.field;
 
 public class Contact {
     String fname;
@@ -6,5 +6,11 @@ public class Contact {
     String phone;
     String email;
     boolean isMain;
+
+    public Contact(){
+
+    }
+
+
 
 }

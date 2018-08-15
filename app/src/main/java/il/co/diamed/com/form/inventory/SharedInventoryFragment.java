@@ -22,28 +22,26 @@ import android.widget.ExpandableListView;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.HashMap;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
-public class UsersInventoryFragment extends Fragment {
+public class SharedInventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
     ExpandableListView expendableView;
     ExpandableListAdapter adapter;
     DatabaseProvider provider;
-    List<InventoryItem> groupValues;
+    List<Part> groupValues;
     List<ArrayList<String>> childValues;
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
     TargetInventoryFragment mTargetInventoryFragment;
     List<ArrayList<InventoryUser>> users;
 
-    public UsersInventoryFragment() {
+    public SharedInventoryFragment() {
         // Required empty public constructor
     }
 
@@ -72,7 +70,7 @@ public class UsersInventoryFragment extends Fragment {
         Log.e(TAG, "resume");
         if (getContext() != null) {
             getContext().registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_USER_DB_READY));
-            getContext().registerReceiver(targetUserReceiver, new IntentFilter(UsersInventoryAdapter.BROADCAST_TARGET_SELECTED));
+            getContext().registerReceiver(targetUserReceiver, new IntentFilter(SharedInventoryAdapter.BROADCAST_TARGET_SELECTED));
         }
         initView();
     }
@@ -87,7 +85,7 @@ public class UsersInventoryFragment extends Fragment {
             if (groupValues != null && users != null) {
                 HashMap<String,String> values = new HashMap<>();
                 childValues = new ArrayList<>();
-                //for (InventoryItem item : groupValues) {
+                //for (Part item : groupValues) {
 
                 for (ArrayList<InventoryUser> group : users) {
                     ArrayList<String> child = new ArrayList<>();
@@ -98,7 +96,7 @@ public class UsersInventoryFragment extends Fragment {
                     childValues.add(child);
                 }
 
-                adapter = new UsersInventoryAdapter(groupValues, childValues, getContext());
+                adapter = new SharedInventoryAdapter(groupValues, childValues, getContext());
                 expendableView.setAdapter(adapter);
             }
         }

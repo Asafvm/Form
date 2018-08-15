@@ -399,7 +399,7 @@
     <string name="IH1000TextParts">Parts replaced</string>
     <string name="doconWeight200">משקולת 200 גרם</string>
     <string name="DoconWeight200">200</string>
-    <string name="textGR">gr</string>
+    <string name="textGR">גרם</string>
     <string name="doconWeight500">משקולת 500 גרם</string>
     <string name="DoconWeight500">500</string>
     <string name="doconWeight700">משקולת 700 גרם</string>
@@ -420,12 +420,12 @@
     <string name="noWritePermission">אין הרשאה ליצירת קבצים</string>
     <string name="noReadPermission">אין הרשאת גישה לקבצים</string>
     <string name="noContactsPermission">אין גישה לאנשי קשר</string>
-    <string name="DoconVer">MDA Ver</string>
+    <string name="DoconVer">מספר גרסה</string>
     <string name="userDetailsTitle">עידכון פרטי משתמש</string>
     <string name="updateDetails">עדכן פרטים</string>
     <string name="fridgeModel">דגם מקרר / מקפיא</string>
     <string name="fridgeSysTemp">טמפרטורה במערכת</string>
-    <string name="fridge">מקרר / מקפיא</string>
+    <string name="fridge">מקרר</string>
     <string name="sepax">Sepax</string>
     <string name="fridgeMesTemp">טמפרטורה נמדדת</string>
     <string name="rbSepaxRM">RM</string>
@@ -516,5 +516,19 @@
     <string name="google_map_key">AIzaSyAsk4L2GHkqpD7GWgka4MhDVIR4KoP_7vk</string>
     <string name="pref_header_location">מפה</string>
     <string name="poc">P.O.C.</string>
+    <string name="chooseLocation">בחר מקום</string>
+    <string name="btnChangeLocation">שנה מיקום</string>
+    <string name="titleLoctionLabel">מכין דוחו\"ת עבור:</string>
+    <string name="docon1">1</string>
+    <string name="docon2">2</string>
+    <string name="tvVer">MDA Version:</string>
+    <string name="tvDoconComment_alert">בדיקת התראות</string>
+    <string name="comments">הערות</string>
+    <string name="tvDoconComment_barcode">בדיקת סורק ברקוד</string>
+    <string name="tvDoconComment_display">בדיקת תצוגה</string>
+    <string name="tvDoconComment_cleaning">נקיון מכשיר</string>
+    <string name="tvDoconComment_sensor">בדיקת חיישני קלאמפים</string>
+    <string name="tvDoconComment_battery">בדיקת סוללות</string>
+    <string name="doconType">Docon Model</string>
 
 </resources>

@@ -46,7 +46,7 @@ public class InventoryUser implements Comparable<InventoryUser> {
             if (Integer.valueOf(inStock) >= 0)
                 this.inStock = inStock;
         }catch (Exception e){
-            Log.e("InventoryItem", "Invalid stock value: "+inStock);
+            Log.e("Part", "Invalid stock value: "+inStock);
         }
     }
 
