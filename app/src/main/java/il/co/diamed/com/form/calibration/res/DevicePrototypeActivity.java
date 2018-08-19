@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,15 +55,14 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
         Bundle data = getIntent().getExtras();
-        location = data.getString("location");
-        sublocation = data.getString("sublocation");
+        if(data!=null) {
+            location = data.getString("location");
+            sublocation = data.getString("sublocation");
+        }
         //location upload test
         ClassApplication application = (ClassApplication) getApplication();
         provider = application.getDatabaseProvider(this);
-        findViewById(R.id.formSubmitButton).setActivated(false);
 
-        if (!(location.equals("") && sublocation.equals("")))
-            provider.createLocation(location, sublocation);
     }
 
 
@@ -71,6 +71,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         Calendar calendar = new GregorianCalendar(dp.getYear(),
                 dp.getMonth(),
                 dp.getDayOfMonth());
+
 
         if (intent.hasExtra("type")) {
             dev_name = intent.getExtras().getString("type");
@@ -92,10 +93,13 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         comments = "";
         under_warranty = false;
 
-        Device device = new Device(dev_name, dev_model, dev_serial, next_maintenance);
-        provider.updateLocation(location, sublocation, device);
 
         setPDFprogress(this, "בונה טופס", true);
+
+        Device device = new Device(dev_name, dev_model, dev_serial, next_maintenance);
+        provider.updateLocation(((TextView) findViewById(R.id.formMainLocation)).getText().toString(),
+                ((TextView) findViewById(R.id.formRoomLocation)).getText().toString(), device);
+
 
         FragmentTransaction mFragmentTransaction = getFragmentManager().beginTransaction();
         mPDFBuilderFragment = new PDFBuilderFragment();
@@ -201,7 +205,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
                     ((EditText) view).setMaxLines(1);
                     view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-                    Double tSize = (float)fSize/1.3;
+                    Double tSize = (float)fSize/1.2;
 
                     ((EditText) view).setTextSize(tSize.floatValue());
 
@@ -214,6 +218,13 @@ public class DevicePrototypeActivity extends AppCompatActivity {
                     Double tSize = (float)fSize/1.5;
 
                     ((RadioButton) view).setTextSize(tSize.floatValue());
+
+                }
+                if (view instanceof Button) {
+                    view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    Double tSize = (float)fSize/1.4;
+
+                    ((Button) view).setTextSize(tSize.floatValue());
 
                 }
             }
@@ -450,37 +461,5 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LOCATION_READY));
-        registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(databaseReceiver);
-        unregisterReceiver(databaseLocDBReceiver);
-    }
-
-    private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!(location.equals("") && sublocation.equals("")))
-                provider.createLocation(location, sublocation);
-        }
-
-    };
-
-    private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            //Toast.makeText(getApplicationContext(), "Location Ready", Toast.LENGTH_SHORT).show();
-            findViewById(R.id.formSubmitButton).setActivated(true);
-        }
-
-    };
 }

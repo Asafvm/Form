@@ -2,8 +2,14 @@ package il.co.diamed.com.form.menu;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +45,7 @@ import java.util.HashMap;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
+import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class LoginActivity extends AppCompatActivity implements
         UserSetupFragment.OnFragmentInteractionListener,
@@ -55,20 +62,23 @@ public class LoginActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        setProgressInfo("Starting", 0);
+        setProgressInfo("Checking Latest Version", 0);
 
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
         moveLogo(200, 0);
         moveLogo(-350, 1100);
 
-
-
-
-        signinUser();
+        String appVer = application.getAppVer();
+        String databaseVer = application.getDatabaseProvider(this).getAppVer();
+        if(!databaseVer.equals("") && appVer.compareTo(databaseVer)>=0)
+            signinUser();
+        else{
+            Log.e(TAG, "Current ver: "+databaseVer);
+            Log.e(TAG, "App ver: "+appVer);
+        }
 
     }
-
 
 
     private void moveLogo(float distance, int duration) {
@@ -79,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(duration);
         findViewById(R.id.loginLogo).startAnimation(anim);
-
 
 
     }
@@ -269,14 +278,15 @@ public class LoginActivity extends AppCompatActivity implements
             fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
 
         } else {
-            HashMap<String,String> userInfo = new HashMap<>();
+            HashMap<String, String> userInfo = new HashMap<>();
             userInfo.put("techName", name);
             userInfo.put("speedometer", speedometer);
             userInfo.put("thermometer", thermometer);
             userInfo.put("barometer", barometer);
             userInfo.put("timer", timer);
+            userInfo.put("AppVer",application.getAppVer());
 
-            ClassApplication application = (ClassApplication)getApplication();
+            ClassApplication application = (ClassApplication) getApplication();
             application.getDatabaseProvider(this).uploadUserData(userInfo);
             moveToMainMenu();
         }
@@ -306,6 +316,51 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(databaseLocDBReceiver);
+    }
+
+    private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String appVer = application.getAppVer();
+            String databaseVer = application.getDatabaseProvider(getApplicationContext()).getAppVer();
+            if(!databaseVer.equals("") && appVer.compareTo(databaseVer)>=0)
+                signinUser();
+            else{
+                Log.e(TAG, "Current ver: "+databaseVer);
+                Log.e(TAG, "App ver: "+appVer);
+
+                displayAlert(databaseVer);
+
+
+
+            }
+        }
+
+    };
+
+    private void displayAlert(String databaseVer) {
+        new AlertDialog.Builder(this)
+                .setTitle("גרסהה לא מעודכנת")
+                .setMessage("קיימת גרסה חדשה יותר ("+databaseVer+")")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(R.string.confirm, (dialog, whichButton) -> quitApp("גרסה לא עדכנית"))
+                .show();
+
+
     }
 }
 

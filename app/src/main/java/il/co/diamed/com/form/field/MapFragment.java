@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,10 +38,8 @@ import il.co.diamed.com.form.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mMap;
-    private ClassApplication application = null;
     private DatabaseProvider provider = null;
     ArrayList<Location> locations = null;
-    private LatLng cameraPos = null;
 
     public MapFragment() {
         // Required empty public constructor
@@ -53,7 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_score_map, container, false);
@@ -93,33 +92,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         if (mMap != null) {
             mMap.setOnInfoWindowClickListener(this);
 
+            if(getActivity() != null) {
+                ClassApplication application = (ClassApplication) getActivity().getApplication();
+                provider = application.getDatabaseProvider(getContext());
 
-            application = (ClassApplication) getActivity().getApplication();
-            provider = application.getDatabaseProvider(getContext());
-
-            populateMap();
-
+                populateMap();
+            }
         }
     }
 
     private void populateMap() {
+        mMap.clear();
         locations = provider.getLocDB();
         if (locations != null) {
             Collections.sort(locations);
             for (final Location item : locations) {
                 LatLng latLng = null;
 
-                if (!(item.getLatitude().equals("") && item.getLongtitude().equals(""))) {
-                    latLng = new LatLng(Double.valueOf(item.getLatitude()), Double.valueOf(item.getLongtitude()));
+                if (item.getLatitude() != -1 && item.getLongtitude() != -1) {
+                    latLng = new LatLng(item.getLatitude(),item.getLongtitude());
                 } else {
                     Geocoder geocoder = new Geocoder(getContext());
-                    List<Address> address = null;
+                    List<Address> address;
                     try {
                         address = geocoder.getFromLocationName(item.getName(), 1);
                         if (address != null && address.size() > 0) {
                             latLng = new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
-                            item.setLatitude(String.valueOf(address.get(0).getLatitude()));
-                            item.setLongtitude(String.valueOf(address.get(0).getLongitude()));
+                            item.setLatitude(latLng.latitude);
+                            item.setLongtitude(latLng.longitude);
                             provider.updateLocation(item);
                         }
                     } catch (IOException e) {
@@ -130,13 +130,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 if (latLng != null) {
                     MarkerOptions options = new MarkerOptions().position(latLng);
 
-                    String body = "";
+                    StringBuilder body = new StringBuilder();
                     for (SubLocation subLocation : item.getSubLocation()) {
-                        body += (subLocation.getName() + " - " + ((subLocation.getDevices().size() == 1) ? ("מכשיר " + subLocation.getDevices().size() + "\n") : (subLocation.getDevices().size() + " מכשירים\n")));
+                        if(subLocation!=null)
+                            body.append(subLocation.getName()).append(" - ").append((subLocation.getDevices().size() == 1) ? ("מכשיר " + subLocation.getDevices().size() + "\n") : (subLocation.getDevices().size() + " מכשירים\n"));
                     }
                     Marker m = mMap.addMarker(options);
                     m.setTitle(item.getName());
-                    m.setTag(body);
+                    m.setTag(body.toString());
 
 
                     mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -167,10 +168,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         return true;
                     });
 
-                    cameraPos = latLng;
-
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraPos));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cameraPos, 8f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8f));
 
                 }
             }
@@ -182,19 +181,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onInfoWindowClick(Marker marker) {
         //call info fragment and pass location info
         //Toast.makeText(getContext(),"עוד לא מוכן", Toast.LENGTH_SHORT).show();
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        LocationInfoFragment infoFragment = new LocationInfoFragment();
-        Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.BOTTOM);
-        slide.setDuration(500);
-        infoFragment.setEnterTransition(slide);
-        Bundle bundle = new Bundle();
-        bundle.putString("location", marker.getTitle());
+        if(getFragmentManager() != null) {
+            FragmentManager mFragmentManager = getFragmentManager();
+            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+            LocationInfoFragment infoFragment = new LocationInfoFragment();
+            Slide slide = new Slide();
+            slide.setSlideEdge(Gravity.BOTTOM);
+            slide.setDuration(500);
+            infoFragment.setEnterTransition(slide);
+            Bundle bundle = new Bundle();
+            bundle.putString("location", marker.getTitle());
 
-        infoFragment.setArguments(bundle);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, infoFragment).commit();
+            infoFragment.setArguments(bundle);
+            mFragmentTransaction.addToBackStack(null);
+            mFragmentTransaction.replace(R.id.module_container, infoFragment).commit();
+        }
     }
 
 

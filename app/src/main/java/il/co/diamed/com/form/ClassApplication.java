@@ -2,7 +2,10 @@ package il.co.diamed.com.form;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -97,5 +100,15 @@ public class ClassApplication extends Application {
             return dir.delete();
         } else
             return dir != null && dir.isFile() && dir.delete();
+    }
+
+    public String getAppVer() {
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -72,6 +73,9 @@ public class MainMenuAcitivity extends AppCompatActivity {
         slide.setSlideEdge(Gravity.END);
         getWindow().setEnterTransition(slide);
         setContentView(R.layout.activity_main_menu);
+
+        ((TextView)findViewById(R.id.appver)).setText(String.format("גרסה %s", application.getAppVer()));
+
 
         mFragmentManager = getSupportFragmentManager();
 

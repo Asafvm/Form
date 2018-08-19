@@ -43,6 +43,7 @@ import java.util.Objects;
 import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 
 public class PDFBuilderFragment extends Fragment {
     private static final String TAG = "PDFFragment: ";
@@ -115,7 +116,7 @@ public class PDFBuilderFragment extends Fragment {
         //Upload to firebase
         ClassApplication application = (ClassApplication) getActivity().getApplication();
         application.uploadFile(dest, destArray);
-
+        application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
         //show preview
         Intent target = new Intent(Intent.ACTION_VIEW);
         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |

@@ -69,6 +69,9 @@ public class DoconActivity extends DevicePrototypeActivity {
                         corText.add(new Tuple(100, 265, ((EditText) findViewById(R.id.etDoconComment_battery)).getText().toString(), true));
 
 
+                    corText.add(new Tuple(245, 429, ((EditText) findViewById(R.id.etDoconW200_code)).getText().toString(), true));
+                    corText.add(new Tuple(-10, 429, ((EditText) findViewById(R.id.etDoconW500_code)).getText().toString(), true));
+
                     corText.add(new Tuple(338, 686,
                             dp.getYear() + "-" + date.getTime() / 1000, false));                        //report
                     corText.add(new Tuple(421, 158, month + " / " +

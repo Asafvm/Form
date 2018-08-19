@@ -530,5 +530,7 @@
     <string name="tvDoconComment_sensor">בדיקת חיישני קלאמפים</string>
     <string name="tvDoconComment_battery">בדיקת סוללות</string>
     <string name="doconType">Docon Model</string>
+    <string name="doconWeight700_code">מס\"ד 200</string>
+    <string name="doconWeight500_code">מס\"ד 500</string>
 
 </resources>

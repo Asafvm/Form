@@ -186,9 +186,11 @@ public class DevicesFragment extends Fragment implements DeviceDialogFragment.On
 
     @Override
     public void sendLocation(String location, String sublocation) {
-        this.location = location;
-        this.sublocation = sublocation;
-        ((TextView)getView().findViewById(R.id.titleText)).setText(String.format("%s - %s", location, sublocation));
+        this.location = location.trim();
+        this.sublocation = sublocation.trim();
+        if(getView()!=null) {
+            ((TextView) getView().findViewById(R.id.titleText)).setText(String.format("%s - %s", location, sublocation));
+        }
 
     }
 }
