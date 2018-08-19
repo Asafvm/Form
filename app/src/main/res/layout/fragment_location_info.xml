@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".field.LocationInfoFragment">
+    tools:context=".data_objects.LocationInfoFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

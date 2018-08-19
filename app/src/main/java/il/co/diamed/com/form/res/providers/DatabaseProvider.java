@@ -19,10 +19,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import il.co.diamed.com.form.field.Address;
-import il.co.diamed.com.form.field.Device;
-import il.co.diamed.com.form.field.Location;
-import il.co.diamed.com.form.field.SubLocation;
+import il.co.diamed.com.form.data_objects.Address;
+import il.co.diamed.com.form.data_objects.Device;
+import il.co.diamed.com.form.data_objects.Location;
+import il.co.diamed.com.form.data_objects.SubLocation;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryUser;
 
@@ -540,7 +540,7 @@ public class DatabaseProvider {
 
                                         } else {
                                             // device exists somewhere else, move or cancel
-                                            /** TODO: implement this! **/
+                                            /** TODO: implement move or cancel! **/
                                             Toast.makeText(context, "Device exists at " + location.getName() + " - " + subLocation.getName(), Toast.LENGTH_SHORT).show();
                                             return false;
 

@@ -1,4 +1,4 @@
-package il.co.diamed.com.form.field;
+package il.co.diamed.com.form.data_objects;
 
 public class Address {
     private String city;

@@ -2,10 +2,7 @@ package il.co.diamed.com.form.calibration.res;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,7 +28,7 @@ import java.util.GregorianCalendar;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.field.Device;
+import il.co.diamed.com.form.data_objects.Device;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class DevicePrototypeActivity extends AppCompatActivity {

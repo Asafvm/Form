@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.field.MapFragment;
+import il.co.diamed.com.form.data_objects.MapFragment;
 import il.co.diamed.com.form.calibration.DevicesFragment;
 import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
 import il.co.diamed.com.form.inventory.InventoryFragment;
