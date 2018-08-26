@@ -44,6 +44,7 @@ import java.util.HashMap;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
@@ -66,8 +67,9 @@ public class LoginActivity extends AppCompatActivity implements
 
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-        moveLogo(200, 0);
-        moveLogo(-350, 1100);
+
+        moveLogo(400, 0);
+        moveLogo(0, 1100);
 
         String appVer = application.getAppVer();
         String databaseVer = application.getDatabaseProvider(this).getAppVer();
@@ -288,6 +290,7 @@ public class LoginActivity extends AppCompatActivity implements
 
             ClassApplication application = (ClassApplication) getApplication();
             application.getDatabaseProvider(this).uploadUserData(userInfo);
+
             moveToMainMenu();
         }
     }
@@ -296,8 +299,6 @@ public class LoginActivity extends AppCompatActivity implements
         application.getDatabaseProvider(this).initialize();
 
         setProgressInfo("Ready... Set.... GO!", 100);
-        //String user_email = user.getEmail();
-        //Toast.makeText(getApplicationContext(), getString(R.string.loggedin) + " " + user_email, Toast.LENGTH_LONG).show();
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             finish();

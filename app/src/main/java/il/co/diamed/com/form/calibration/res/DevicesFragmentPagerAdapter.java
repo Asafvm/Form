@@ -8,12 +8,12 @@ import android.util.Log;
 
 import il.co.diamed.com.form.R;
 
-public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
+public class DevicesFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private Context mContext;
 
 
-    public SimpleFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
+    public DevicesFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;
 

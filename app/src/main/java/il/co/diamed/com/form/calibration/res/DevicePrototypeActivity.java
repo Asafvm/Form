@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +55,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generic_device_activity);
         Bundle data = getIntent().getExtras();
-        if(data!=null) {
+        if (data != null) {
             location = data.getString("location");
             sublocation = data.getString("sublocation");
         }
@@ -72,11 +75,14 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
         if (intent.hasExtra("type")) {
             dev_name = intent.getExtras().getString("type");
-            if(dev_name.equals("Plasma Thawer")){
+            if (dev_name.equals("Plasma Thawer")) {
                 calendar.add(Calendar.MONTH, 6);
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
                 next_maintenance = calendar.getTime();
-            }else{
+
+            } else {
                 calendar.add(Calendar.YEAR, 1);
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
                 next_maintenance = calendar.getTime();
             }
         }
@@ -104,8 +110,6 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         mFragmentTransaction.replace(R.id.pdffragment_container, mPDFBuilderFragment).addToBackStack(null).commit();
 
     }
-
-
 
 
     @Override
@@ -202,7 +206,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
                     ((EditText) view).setMaxLines(1);
                     view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-                    Double tSize = (float)fSize/1.2;
+                    Double tSize = (float) fSize / 1.2;
 
                     ((EditText) view).setTextSize(tSize.floatValue());
 
@@ -212,14 +216,14 @@ public class DevicePrototypeActivity extends AppCompatActivity {
                 if (view instanceof RadioButton) {
                     ((RadioButton) view).setMaxLines(1);
                     view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    Double tSize = (float)fSize/1.5;
+                    Double tSize = (float) fSize / 1.5;
 
                     ((RadioButton) view).setTextSize(tSize.floatValue());
 
                 }
                 if (view instanceof Button) {
                     view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    Double tSize = (float)fSize/1.4;
+                    Double tSize = (float) fSize / 1.4;
 
                     ((Button) view).setTextSize(tSize.floatValue());
 
@@ -231,6 +235,24 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
 
     public void setListener(final EditText editText) {
+        InputFilter filter = new InputFilter() {
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if (!isAllowd(source.charAt(i))) { // Accept only letter & digits ; otherwise just return
+                        return "";
+                    }
+                }
+                return null;
+            }
+
+            private boolean isAllowd(char c) {
+                return !(c == '.' || c == '#' || c == '$' || c == '[' || c == ']');
+            }
+
+        };
+
+        editText.setFilters(new InputFilter[]{filter});
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

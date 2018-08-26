@@ -50,14 +50,14 @@
                 android:text="@string/rbIH1000xpsp3"
                 android:textAlignment="center"
                 android:checked="true"
-                android:textSize="10sp" />
+                />
             <RadioButton
                 android:id="@+id/rbIH1000win7sp1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rbIH10007sp1"
                 android:textAlignment="center"
-                android:textSize="10sp" />
+                 />
 
         </RadioGroup>
         <!-- ***************************************************************************** -->
@@ -79,6 +79,7 @@
             android:hint="@string/IH1000SoftwareVer"
             android:textAlignment="center"
             android:maxLines="1"
+            android:inputType="text"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvIH1000software1"
             app:layout_constraintStart_toEndOf="@id/tvIH1000software1"
@@ -102,6 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/IH1000SoftwareVer"
             android:textAlignment="center"
+            android:inputType="text"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintBaseline_toBaselineOf="@id/tvIH1000software3"
             app:layout_constraintStart_toEndOf="@id/tvIH1000software3"
@@ -149,7 +151,7 @@
             android:id="@+id/tvIH1000software5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/IH1000Textsoftware5"
+            android:text="@string/IH1000Textsoftware6"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="4"
             app:layout_constraintStart_toStartOf="parent"

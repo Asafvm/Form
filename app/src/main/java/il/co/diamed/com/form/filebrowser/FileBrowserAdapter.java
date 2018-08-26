@@ -9,24 +9,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import il.co.diamed.com.form.R;
 
 public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.ViewHolder> {
-    private final String TAG = "FileBrowserAdapter";
     public static final String BROADCAST_FILTER = "FileBrowserAdapter_broadcast_receiver_intent_filter";
     private List<FileBrowserItem> list;
     private List<String> markedList;
     private Context context;
-    private String colorMarked = "#0095ff";
-    private String colorUnmarked = "#cccccc";
 
+    static String colorMarked ="#11ccff";
+    static String colorUnmarked = "#ffffff";
+    private int selectedPos = RecyclerView.NO_POSITION;
 
     FileBrowserAdapter(List<FileBrowserItem> list, Context context) {
         this.list = list;
@@ -39,11 +39,18 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     public FileBrowserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_file_browser_item, parent, false);
         v.setClickable(true);
-        v.setOnClickListener(v1 -> {
-            v1.setActivated(!v1.isActivated());
-            v1.setBackgroundColor(Color.parseColor(v1.isActivated() ? colorMarked : colorUnmarked));
-        });
+
+
         return new FileBrowserAdapter.ViewHolder(v);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
+        if(holder.itemView.isActivated()){
+            holder.itemView.setBackgroundColor(Color.parseColor(colorMarked));
+        }else{
+            holder.itemView.setBackgroundColor(Color.parseColor(colorUnmarked));
+        }
 
     }
 
@@ -51,11 +58,11 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     public void onBindViewHolder(@NonNull final FileBrowserAdapter.ViewHolder holder, int position) {
         final FileBrowserItem item = list.get(position);
         holder.textView.setText(item.getText());
-        holder.download.setVisibility(View.GONE);  //show when viewing online
         if (item.isDirectory()) {
-            holder.icon.setImageResource(R.drawable.ic_folder_white_36dp);
-            holder.share.setVisibility(View.GONE);
+            holder.icon.setImageResource(R.drawable.ic_folder_black_24dp);
         }
+        holder.itemView.setActivated(markedList.contains(holder.textView.getText().toString()));
+
     }
 
     @Override
@@ -63,12 +70,44 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         return list.size();
     }
 
+    public void addToMarked(View childAt) {
+
+        if(markedList.add(((TextView)childAt.findViewById(R.id.file_name)).getText().toString())){
+            childAt.setBackgroundColor(Color.parseColor(colorMarked));
+            childAt.setActivated(true);
+        }
+    }
+    public void removeFromMarked(View childAt) {
+
+        if(markedList.remove(((TextView)childAt.findViewById(R.id.file_name)).getText().toString())){
+            childAt.setActivated(false);
+            childAt.setBackgroundColor(Color.parseColor(colorUnmarked));
+        }
+
+    }
+
+    public void clearMarked() {
+        markedList.clear();
+    }
+
+
+    public void selectAll() {
+        for(FileBrowserItem item : list)
+            markedList.add(item.getText());
+        markedList.remove(".."); //if exists
+    }
+
+    public void removeAll() {
+
+    }
+
+    public List<String> getMarkedItems() {
+        return markedList;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
         TextView textView;
         ImageView icon;
-        ImageButton download;
-        ImageButton share;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -76,44 +115,28 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             itemView.setOnLongClickListener(this);
             textView = itemView.findViewById(R.id.file_name);
             icon = itemView.findViewById(R.id.file_type_icon);
-            download = itemView.findViewById(R.id.file_download_button);
-            share = itemView.findViewById(R.id.file_share_button);
-
-            share.setOnClickListener(v -> {
-                if(markedList.isEmpty()) {
-                    v.setActivated(false);
-                    v.setBackgroundColor(Color.parseColor(colorUnmarked));
-                    Log.e(TAG, textView.getText().toString());
-                    Intent i = new Intent(BROADCAST_FILTER);
-                    i.putExtra("share", true);
-                    i.putExtra("filename", textView.getText().toString());
-                    context.sendBroadcast(i);
-                }else{
-                    shareBatch();
-                }
-            });
-
-            /** TODO: implement manual upload to server and delete option **/
 
         }
-
 
         public String getText() {
             return this.textView.getText().toString();
         }
 
+
         @Override
         public void onClick(View v) {
-            if(v.isActivated()){
-                v.setActivated(false);
-                markedList.remove(this.textView.getText().toString());
-                v.setBackgroundColor(Color.parseColor(colorUnmarked));
-            }else if(!markedList.isEmpty()) {
-                markedList.add(this.textView.getText().toString());
-                v.setActivated(true);
-                v.setBackgroundColor(Color.parseColor(colorMarked));
-            }else{
-                Log.e(TAG, this.textView.getText().toString());
+            if(!((TextView)v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
+                if (v.isActivated()) {
+
+                    removeFromMarked(v);
+                } else if (!markedList.isEmpty()) {
+                    addToMarked(v);
+                } else {
+                    Intent i = new Intent(BROADCAST_FILTER);
+                    i.putExtra("filename", this.textView.getText().toString());
+                    context.sendBroadcast(i);
+                }
+            }else if(markedList.isEmpty()){
                 Intent i = new Intent(BROADCAST_FILTER);
                 i.putExtra("filename", this.textView.getText().toString());
                 context.sendBroadcast(i);
@@ -123,37 +146,20 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         @Override
         public boolean onLongClick(View v) {
 
-            if(v.findViewById(R.id.file_share_button).getVisibility()== View.INVISIBLE) {
-                return false;
-            }else {
-                if(v.isActivated()){
-                    markedList.remove(this.textView.getText().toString());
-                    v.setActivated(false);
-                    v.setBackgroundColor(Color.parseColor(colorUnmarked));
+            if(!((TextView)v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
+                if (v.isActivated()) {
+                    removeFromMarked(v);
 
                     return true;
-                }else {
-                    markedList.add(this.textView.getText().toString());
-                    v.setActivated(true);
-                    v.setBackgroundColor(Color.parseColor(colorMarked));
+                } else {
+                    addToMarked(v);
 
                     return true;
                 }
             }
-        }
-        private void shareBatch(){
-            Log.e(TAG, "preparing batch");
-            Intent intent = new Intent(BROADCAST_FILTER);
-            String[] arrayList = new String[markedList.size()];
-            for(int i=0; i< markedList.size();i++){
-                arrayList[i] = markedList.get(i);
-            }
-            intent.putExtra("share", true);
-            intent.putExtra("batch", arrayList);
-            context.sendBroadcast(intent);
-        }
+            return false;
 
-
+        }
     }
 }
 

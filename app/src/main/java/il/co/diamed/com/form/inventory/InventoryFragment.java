@@ -16,6 +16,7 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,6 +26,7 @@ import java.util.List;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class InventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
@@ -52,6 +54,7 @@ public class InventoryFragment extends Fragment {
             application = (ClassApplication) getActivity().getApplication();
             provider = application.getDatabaseProvider(getContext());
             recyclerView = view.findViewById(R.id.recycler_inventory_view);
+            recyclerView.setItemAnimator(new SlideInUpAnimator());
 
             view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> {
                 showUsersInventory();

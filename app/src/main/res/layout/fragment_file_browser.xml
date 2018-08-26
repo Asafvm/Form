@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-
+    android:background="#dddddd"
+    android:alpha="1"
     >
+
 
 
     <ListView
@@ -38,8 +39,9 @@
             android:id="@+id/recycler_file_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </ScrollView>
+
+
 </android.support.constraint.ConstraintLayout>

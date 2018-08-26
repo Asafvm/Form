@@ -1,15 +1,17 @@
 package il.co.diamed.com.form.data_objects;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-
+import android.provider.ContactsContract;
 import java.util.HashMap;
 
 @IgnoreExtraProperties
 public class SubLocation implements Comparable<SubLocation>{
 
     private String name;
+    //private Phone phone;
     private HashMap<String, Contact> contacts;
     private HashMap<String, Device> devices;
     private String comments;
@@ -21,6 +23,7 @@ public class SubLocation implements Comparable<SubLocation>{
     public SubLocation(String name, String comments, HashMap<String, Contact> contacts, HashMap<String, Device> devices) {
 
         this.name = name;
+        //this.phone = phone;
         this.comments = comments;
         this.contacts = contacts;
         this.devices = devices;
@@ -87,4 +90,5 @@ public class SubLocation implements Comparable<SubLocation>{
     public int compareTo(@NonNull SubLocation o) {
         return this.name.compareTo(o.getName());
     }
+
 }

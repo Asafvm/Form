@@ -166,7 +166,6 @@ public class MicrosoftSigninFragment extends Fragment {
 
         try {
             users = loggingApp.getUsers();
-
             if (users != null && users.size() == 1) {
                 /* We have 1 user */
                 loggingApp.acquireTokenSilentAsync(SCOPES, users.get(0), getAuthSilentCallback());

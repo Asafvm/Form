@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ import java.util.Objects;
 import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 
 public class PDFBuilderFragment extends Fragment {
@@ -50,7 +52,7 @@ public class PDFBuilderFragment extends Fragment {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private File file;   //iText var
     public static final String DEST = Environment.getExternalStorageDirectory() + "/Documents/MediForms/";
-
+    private Bundle bundle = null;
     private BaseFont bf = null;
     private PdfReader reader = null;
     private PdfStamper stamper = null;
@@ -65,7 +67,7 @@ public class PDFBuilderFragment extends Fragment {
 
 
     private void buildPDF() {
-        Bundle bundle = null;
+
         if (getArguments() != null) // Use the current directory as title
             bundle = getArguments();//getIntent().getExtras();
         else {
@@ -113,22 +115,40 @@ public class PDFBuilderFragment extends Fragment {
             reader.close();
         }
 
-        //Upload to firebase
-        ClassApplication application = (ClassApplication) getActivity().getApplication();
-        application.uploadFile(dest, destArray);
-        application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
         //show preview
         Intent target = new Intent(Intent.ACTION_VIEW);
         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
                 Intent.FLAG_ACTIVITY_NO_HISTORY);
         Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
         target.setDataAndType(uri, "application/pdf");
+
         try {
             startActivity(target);
         } catch (ActivityNotFoundException e) {
             // Instruct the user to install a PDF reader here, or something
         }
-        closeFragment();
+
+
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        alertBuilder.setMessage("שמור קובץ?");
+        alertBuilder.setPositiveButton("שמור", (dialog, which) -> {
+            //Upload to firebase
+            ClassApplication application = (ClassApplication) getActivity().getApplication();
+            application.uploadFile(new File(dest), "MediForms/");
+            application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
+            if (application.getAuthProvider().getCurrentUser() != null)
+                application.logAnalyticsEvent(new AnalyticsEventItem("Create Report", application.getAuthProvider().getCurrentUser().getEmail(),
+                        Objects.requireNonNull(bundle).getString("report"), true, ""));
+            closeFragment();
+        });
+        alertBuilder.setNegativeButton("בטל", (dialog, which) -> {
+            file.delete();
+
+            closeFragment();
+        });
+        alertBuilder.setCancelable(false);
+        alertBuilder.create().show();
     }
 
 

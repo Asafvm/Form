@@ -32,7 +32,7 @@
 
         <activity
             android:name=".menu.LoginActivity"
-            android:theme="@style/MyTheme">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,10 +99,12 @@
 
         <activity
             android:name=".menu.MainMenuAcitivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
         <activity android:name=".calibration.FridgeActivity" />
         <activity android:name=".calibration.SepaxActivity" />
-        <activity android:name=".calibration.res.DevicePrototypeActivity"></activity>
+        <activity android:name=".calibration.res.DevicePrototypeActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

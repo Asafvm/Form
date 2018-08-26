@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,8 +63,12 @@ public class ClassApplication extends Application {
         analyticsProvider.logAnalyticsScreen(analyticsScreenItem);
     }
 
-    public void uploadFile(String dest, String destArray){
+    public void uploadFile(File dest, String destArray){
         storageProvider.uploadFile(dest,destArray);
+    }
+
+    public void getDir(String path){
+        storageProvider.getDir(path);
     }
 
     public void signin(String email, String password){

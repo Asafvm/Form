@@ -1,10 +1,13 @@
 package il.co.diamed.com.form.res.providers;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,28 +17,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
 import il.co.diamed.com.form.data_objects.Device;
 import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.data_objects.SubLocation;
-import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryUser;
+import il.co.diamed.com.form.inventory.Part;
 
-public class DatabaseProvider {
+public class DatabaseProviderService extends Service {
     public static final String BROADCAST_USER_DB_READY = "database_provider_users_data_ready";
     public static final String BROADCAST_DB_READY = "database_provider_data_ready";
     public static final String BROADCAST_LABDB_READY = "database_provider_lab_data_ready";
     public static final String BROADCAST_TARGET_DB_READY = "database_provider_target_data_ready";
     public static final String BROADCAST_LOCDB_READY = "database_provider_location_data_ready";
     public static final String BROADCAST_APPVER = "database_app_ver";
-    public static final String BROADCAST_FIREBASE_DIR = "database_provider_firebase_dir_ready";
     private final String TAG = "Database";
     private static HashMap<String, Part> labDB;
     private static HashMap<String, Part> myDB;
@@ -58,26 +59,25 @@ public class DatabaseProvider {
     private static String appVer = "";
 
 
-    public DatabaseProvider(Context context) {
+    public DatabaseProviderService(Context context) {
         this.context = context;
 
     }
 
     public String getAppVer() {
-        if (appVer.equals("")) {
+        if(appVer.equals("")) {
             FirebaseDatabase.getInstance().getReference().child("AppVer").addListenerForSingleValueEvent(verListener);
             return "";
-        } else {
+        }else {
             return appVer;
         }
     }
-
     private ValueEventListener verListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Intent intent = new Intent(BROADCAST_APPVER);
-            appVer = (String) dataSnapshot.getValue();
-            intent.putExtra("AppVer", appVer);
+            appVer = (String)dataSnapshot.getValue();
+            intent.putExtra("AppVer",appVer);
             context.sendBroadcast(intent);
         }
 
@@ -86,48 +86,6 @@ public class DatabaseProvider {
 
         }
     };
-
-
-
-
-    public void getFirebaseDir(String path) {
-        if(path.equals(""))
-            FirebaseDatabase.getInstance().getReference().child("Files").addListenerForSingleValueEvent(pathListener);
-        else
-            FirebaseDatabase.getInstance().getReference().child(path).addListenerForSingleValueEvent(pathListener);
-    }
-
-    private ValueEventListener pathListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Intent intent = new Intent(BROADCAST_FIREBASE_DIR);
-            HashMap<String,String> files = new HashMap<>();
-            for(DataSnapshot ds : dataSnapshot.getChildren()){
-                if(ds.hasChild("type")){
-                    //is file
-                    files.put((String) ds.child("name").getValue(), (String) ds.child("file_location").getValue());
-                }else{
-                    //is dir
-                    files.put(ds.getKey(), "");
-                }
-            }
-
-            intent.putExtra("filenameArray", files);
-            context.sendBroadcast(intent);
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
-
-
-
-
-
-
-
 
 
     public List<Part> getLabInv() {
@@ -415,7 +373,7 @@ public class DatabaseProvider {
                         String id = users.getKey();
                         String name = (String) users.child("Info").child("techName").getValue();
                         HashMap<String, String> stock = ((HashMap<String, String>) users.child("Parts").child(item.getId()).getValue());
-                        String inStock = (stock == null) ? "0" : stock.get("inStock");
+                        String inStock = stock == null ? "0" : stock.get("inStock");
                         InventoryUser user = new InventoryUser(id, name, inStock);
                         holders.add(user);
                     }
@@ -514,134 +472,70 @@ public class DatabaseProvider {
     };
 
 
+
+
     public boolean updateLocation(String loc, String subLoc, Device device) {
         if (locDB != null && !loc_busy) {
             waitingToUploadDeviceFlag = false;
             boolean deviceFound = false;
-            Location foundLoc = null;
-            SubLocation foundSubloc = null;
             Location targetLoc = null;
             SubLocation targetSubloc = null;
-
-
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
-
 
             for (Location location : locDB) {
                 if (location.getName().equals(loc)) {
                     targetLoc = location;
-                }
-                for (SubLocation subLocation : location.getSubLocation()) {
-                    if (subLocation.getName().equals(subLoc)) {
-                        targetSubloc = subLocation;
-                    }
-                    if (subLocation.getDevices() != null) {
-                        for (Device labDevice : subLocation.getDevices().values()) {
-                            if (device.getDev_codename().equals(labDevice.getDev_codename()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
-                                deviceFound = true;
-                                foundLoc = location;
-                                foundSubloc = subLocation;
-                                //found device somewhere
+                    for (SubLocation subLocation : location.getSubLocation()) {
+                        if (subLocation.getName().equals(subLoc)) {
+                            targetSubloc = subLocation;
+                            int index = location.getSubLocation().indexOf(subLocation);
+                            if (subLocation.getDevices() != null) {
+                                for (Device labDevice : subLocation.getDevices().values()) {
+                                    if (device.getDev_codename().equals(labDevice.getDev_codename()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
+                                        deviceFound = true;
+                                        if (loc.equals(location.getName())) {
+                                            //device exists at location, can update
+                                            if (labDevice.getDev_install_date() != null) {
+                                                device.setDev_install_date(labDevice.getDev_install_date());
+                                            }
+                                            databaseReference.child(location.getName()).child("subLocation").child(String.valueOf(index))
+                                                    .child("devices").child(device.getDev_serial()).setValue(device);
+                                            return true;
+
+                                        } else {
+                                            // device exists somewhere else, move or cancel
+                                            Toast.makeText(context, "Device exists at " + location.getName() + " - " + subLocation.getName(), Toast.LENGTH_SHORT).show();
+                                            return false;
+
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
+
             }
 
-            if (deviceFound) {
-                boolean delete = true;
-                if (foundLoc == targetLoc && foundSubloc == targetSubloc) {
-                    //same location and sub location
-                    //update
-                    int index = targetLoc.getSubLocation().indexOf(targetSubloc);
-
-                    databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(index))
-                            .child("devices").child(device.getDev_serial()).setValue(device);
-                    delete = false;
-                } else if (foundLoc == targetLoc) {
-                    //boolean move = confirmMove(loc,subLoc,foundLoc.getName(),foundSubloc.getName());
-                    //same location, different sub location
-                    //set device at new location
-                    if (targetSubloc == null) {
-                        //if sublocation not exists
-                        targetSubloc = new SubLocation(subLoc, "");
-                        targetSubloc.addDevice(device);
-                        databaseReference.child(targetLoc.getName()).child("subLocation")
-                                .child(String.valueOf(targetLoc.getSubLocation().size())).setValue(targetSubloc);
-                    } else {
-                        //if sublocation exists
-                        int index = 0;
-                        for (SubLocation subLocation : targetLoc.getSubLocation())
-                            if (subLocation.getName().equals(subLoc))
-                                index = targetLoc.getSubLocation().indexOf(subLocation);
-
-                        databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(index))
-                                .child("devices").child(device.getDev_serial()).setValue(device);
-                    }
-
-
-                } else {
-                    //different location
-                    if (targetLoc == null) {
-                        //new location
-                        targetLoc = new Location(loc, new Address("", "", ""), "");
-                        targetSubloc = new SubLocation(subLoc, "");
-                        targetSubloc.addDevice(device);
-                        targetLoc.addSublocation(targetSubloc);
-                        databaseReference.child(targetLoc.getName()).setValue(targetLoc);
-
-                    } else if (targetSubloc == null) {
-                        //new sublocation at existing location
-                        targetSubloc = new SubLocation(subLoc, "");
-                        targetSubloc.addDevice(device);
-                        databaseReference.child(targetLoc.getName()).child("subLocation")
-                                .child(String.valueOf(targetLoc.getSubLocation().size())).setValue(targetSubloc);
-
-                    } else {
-                        //move to existing location and sublocation
-                        int index = 0;
-                        for (SubLocation subLocation : targetLoc.getSubLocation())
-                            if (subLocation.getName().equals(targetSubloc.getName()))
-                                index = targetLoc.getSubLocation().indexOf(subLocation);
-                        databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(index))
-                                .child("devices").child(device.getDev_serial()).setValue(device);
-                    }
-                }
-                //delete original if needed
-                if (delete) {
-                    int index = foundLoc.getSubLocation().indexOf(foundSubloc);
-                    databaseReference.child(foundLoc.getName()).child("subLocation").child(String.valueOf(index))
-                            .child("devices").child(device.getDev_serial()).setValue(null);
-                }
+            //device not found, create new device
+            if (targetLoc == null) {
+                Location location = new Location(loc, new Address("", "", ""), "");
+                SubLocation subLocation = new SubLocation(subLoc, "");
+                subLocation.addDevice(device);
+                location.addSublocation(subLocation);
+                databaseReference.child(location.getName()).setValue(location);
                 return true;
-            } else {    //new device
-                if (targetLoc == null) {
-                    //new location
-                    targetLoc = new Location(loc, new Address("", "", ""), "");
-                    targetSubloc = new SubLocation(subLoc, "");
-                    targetSubloc.addDevice(device);
-                    targetLoc.addSublocation(targetSubloc);
-                    databaseReference.child(targetLoc.getName()).setValue(targetLoc);
-
-                } else if (targetSubloc == null) {
-                    //new sublocation at existing location
-                    targetSubloc = new SubLocation(subLoc, "");
-                    targetSubloc.addDevice(device);
-                    databaseReference.child(targetLoc.getName()).child("subLocation")
-                            .child(String.valueOf(targetLoc.getSubLocation().size())).setValue(targetSubloc);
-
-                } else {
-                    //move to existing location and sublocation
-                    int index = 0;
-                    for (SubLocation subLocation : targetLoc.getSubLocation())
-                        if (subLocation.getName().equals(targetSubloc.getName()))
-                            index = targetLoc.getSubLocation().indexOf(subLocation);
-                    databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(index))
-                            .child("devices").child(device.getDev_serial()).setValue(device);
-                }
+            } else if (targetSubloc == null) {
+                SubLocation subLocation = new SubLocation(subLoc, "");
+                subLocation.addDevice(device);
+                databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(targetLoc.getSubLocation().size()+1)).setValue(subLocation);
                 return true;
+            }else if(!deviceFound){
+                databaseReference.child(targetLoc.getName()).child("subLocation").child(String.valueOf(targetLoc.getSubLocation().indexOf(targetSubloc)))
+                        .child("devices").child(device.getDev_serial()).setValue(device);
             }
+
 
         } else {
             holderLoc = loc;
@@ -651,22 +545,6 @@ public class DatabaseProvider {
             downloadLocDB();
         }
         return false;
-
-    }
-
-    private void confirmMove(String loc, String subLoc, String floc, String fsloc) {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
-        alertBuilder.setMessage("העבר מכשיר מ"+floc+", "+fsloc+"\nאל "+loc+", "+subLoc+"?" );
-        alertBuilder.setPositiveButton(R.string.okButton, (dialog, which) -> {
-            //confirm.set(true);
-        });
-        alertBuilder.setNegativeButton(R.string.cancelButton, (dialog, which) -> {
-            //confirm.set(false);
-        });
-
-        alertBuilder.setCancelable(false);
-        alertBuilder.create().show();
-
     }
 
 
@@ -682,4 +560,9 @@ public class DatabaseProvider {
     }
 
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }

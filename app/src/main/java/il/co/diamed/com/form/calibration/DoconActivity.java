@@ -50,6 +50,7 @@ public class DoconActivity extends DevicePrototypeActivity {
                     corText.add(new Tuple(310, 117, ((EditText) findViewById(R.id.formTechName)).getText().toString(), true));                        //Tech Name
                     corText.add(new Tuple(150, 686, day + "/" + month + "/" + dp.getYear(), false));                        //Date
                     corText.add(new Tuple(90, 607, ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString(), false));                        //Serial
+                    corText.add(new Tuple(300, 631, "Docon "+((RadioButton) findViewById(((RadioGroup) findViewById(R.id.rgModelSelect)).getCheckedRadioButtonId())).getText().toString(), false));
                     corText.add(new Tuple(390, 607, "MDA V" + ((EditText) findViewById(R.id.etDoconVer)).getText().toString(), false));                        //Serial
                     corText.add(new Tuple(405, 527, ((EditText) findViewById(R.id.etDoconW200)).getText().toString(), false));                        //temp
                     corText.add(new Tuple(405, 498, ((EditText) findViewById(R.id.etDoconW500)).getText().toString(), false));                        //temp
@@ -103,7 +104,10 @@ public class DoconActivity extends DevicePrototypeActivity {
                 return isValidString(((EditText) findViewById(R.id.formMainLocation)).getText().toString()) &&
                         isValidString(((EditText) findViewById(R.id.formRoomLocation)).getText().toString()) &&
                         isValidString(((EditText) findViewById(R.id.etDeviceSerial)).getText().toString()) &&
-                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString());
+                        isValidString(((EditText) findViewById(R.id.formTechName)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDoconW200)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDoconW500)).getText().toString()) &&
+                        isValidString(((EditText) findViewById(R.id.etDoconW700)).getText().toString());
 
             }
         });

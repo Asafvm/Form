@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:layout_marginBottom="3dp"
     android:alpha="0.8"
     android:background="@drawable/shape_item_frame"
@@ -16,6 +16,7 @@
         android:id="@+id/item_serial"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/item_description"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -29,6 +30,7 @@
         android:id="@+id/item_description"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/subItem"
         app:layout_constraintHorizontal_weight="0.5"
@@ -53,13 +55,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:textAlignment="center"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/addItem"
         app:layout_constraintHorizontal_weight="0.1"
         app:layout_constraintStart_toEndOf="@id/subItem"
 
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/addItem"
@@ -67,7 +69,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_add_circle_white_36dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/item_inStock"
+        android:baselineAlignBottom="@id/item_inStock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.1"
         app:layout_constraintStart_toEndOf="@id/item_inStock" />

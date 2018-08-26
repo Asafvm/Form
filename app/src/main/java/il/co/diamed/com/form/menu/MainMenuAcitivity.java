@@ -27,10 +27,13 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,9 +42,12 @@ import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.data_objects.MapFragment;
 import il.co.diamed.com.form.calibration.DevicesFragment;
+import il.co.diamed.com.form.filebrowser.BrowserFragment;
 import il.co.diamed.com.form.filebrowser.FileBrowserFragment;
+import il.co.diamed.com.form.filebrowser.FirebaseBrowserFragment;
 import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryViewerAdapter;
@@ -57,14 +63,14 @@ public class MainMenuAcitivity extends AppCompatActivity {
     private InventoryFragment mInventoryFragment;
     private MapFragment mMapFragment;
     FileBrowserFragment mFileBrowserFragment;
+    BrowserFragment mBrowserFragment;
+    FirebaseBrowserFragment mFirebaseBrowserFragment;
     ClassApplication application;
     DatabaseProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         application = (ClassApplication) getApplication();
         provider = application.getDatabaseProvider(this);
         Slide slide = new Slide();
@@ -72,9 +78,10 @@ public class MainMenuAcitivity extends AppCompatActivity {
         slide.setSlideEdge(Gravity.END);
         getWindow().setEnterTransition(slide);
         setContentView(R.layout.activity_main_menu);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         ((TextView)findViewById(R.id.appver)).setText(String.format("גרסה %s", application.getAppVer()));
-
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -234,8 +241,6 @@ public class MainMenuAcitivity extends AppCompatActivity {
     }
 
     private void setInventorySummery() {
-
-
         RecyclerView recyclerView = findViewById(R.id.recycler_missing_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Part> missingInv = provider.getMissingInv();
@@ -255,12 +260,39 @@ public class MainMenuAcitivity extends AppCompatActivity {
 
         }
     }
-
     private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.e(TAG, "Database alert!");
             setInventorySummery();
+        }
+    };
+
+    private void setLocationSummery() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_next_cal);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<Location> next_cal = provider.getLocDB();
+        if (next_cal != null) {
+            try {
+                unregisterReceiver(databaseLocDBReceiver);
+            } catch (Exception ignored) { }
+            //RecyclerView.Adapter adapter = new (next_cal, this);
+            //recyclerView.setAdapter(adapter);
+
+            recyclerView.setOnClickListener(v ->
+                    showInventory());
+        } else {
+
+            registerReceiver(databaseLocDBReceiver,
+                    new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
+
+        }
+    }
+    private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "Location Database alert!");
+            setLocationSummery();
         }
     };
 
@@ -309,7 +341,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
 
     private void launchFileBrowser() {
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-
+/*
         if (mFileBrowserFragment == null) {
             mFileBrowserFragment = new FileBrowserFragment();
             Bundle bundle = new Bundle();
@@ -323,6 +355,29 @@ public class MainMenuAcitivity extends AppCompatActivity {
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
 
+        if (mFirebaseBrowserFragment == null) {
+            mFirebaseBrowserFragment= new FirebaseBrowserFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("path", "Files/MediForms");
+            mFirebaseBrowserFragment.setArguments(bundle);
+        }
+        Slide slide = new Slide();
+        slide.setSlideEdge(Gravity.END);
+        slide.setDuration(500);
+        mFirebaseBrowserFragment.setEnterTransition(slide);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mFirebaseBrowserFragment).commit();
+*/
+        if (mBrowserFragment == null) {
+            mBrowserFragment = new BrowserFragment();
+
+        }
+        Slide slide = new Slide();
+        slide.setSlideEdge(Gravity.END);
+        slide.setDuration(500);
+        mBrowserFragment.setEnterTransition(slide);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mBrowserFragment).commit();
     }
 
 
@@ -380,6 +435,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
         super.onPause();
         try {
             unregisterReceiver(databaseReceiver);
+            unregisterReceiver(databaseLocDBReceiver);
         } catch (Exception ignored) { }
     }
 

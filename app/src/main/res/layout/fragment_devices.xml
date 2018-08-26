@@ -18,10 +18,13 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@android:color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tabs"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="0.06"
+            android:padding="8dp"
             >
 
 
@@ -43,6 +46,7 @@
                 android:text="@string/titleLoctionLabel"
                 android:layout_marginEnd="3dp"
                 android:gravity="center"
+                android:maxLines="1"
                 app:layout_constraintBaseline_toBaselineOf="@id/titleButton"
                 app:layout_constraintEnd_toStartOf="@id/titleButton"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -52,8 +56,9 @@
             <Button
                 android:id="@+id/titleButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/btnChangeLocation"
+                android:gravity="center"
                 android:background="@drawable/shape_button_submit_thin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.3"
@@ -64,11 +69,13 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/shape_background_white_border_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/pager"
+            app:layout_constraintVertical_weight="0.07"
 
             >
 
@@ -91,8 +98,11 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabs" />
+            android:layout_height="0dp"
+            app:layout_constraintVertical_weight="0.8"
+
+            app:layout_constraintTop_toBottomOf="@id/tabs"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

@@ -13,6 +13,7 @@ public class Device implements Comparable<Device> {
     private String dev_serial = "";
     private Date dev_install_date = new Date();
     private Date dev_next_maintenance = new Date();
+    private Date end_of_warranty = new Date();
     private boolean dev_under_warranty = false;
     private String dev_comments = "";
     private double dev_price = 0;
@@ -31,17 +32,19 @@ public class Device implements Comparable<Device> {
         this.dev_next_maintenance = dev_next_maintenance;
     }
 
-    public Device(String dev_codeNumber, String dev_codename, String dev_model, String dev_serial, Date dev_install_date, Date dev_next_maintenance, boolean dev_under_warranty, String dev_comments, double dev_price, ArrayList<Report> reports) {
+    public Device(String dev_codeNumber, String dev_codename, String dev_model, String dev_serial, Date dev_install_date, Date dev_next_maintenance, Date end_of_warranty, boolean dev_under_warranty, String dev_comments, double dev_price, ArrayList<Report> reports) {
         this.dev_codeNumber = dev_codeNumber;
         this.dev_codename = dev_codename;
         this.dev_model = dev_model;
         this.dev_serial = dev_serial;
         this.dev_install_date = dev_install_date;
         this.dev_next_maintenance = dev_next_maintenance;
+        this.end_of_warranty = end_of_warranty;
         this.dev_under_warranty = dev_under_warranty;
         this.dev_comments = dev_comments;
         this.dev_price = dev_price;
         this.reports = reports;
+
     }
 
 
@@ -128,6 +131,14 @@ public class Device implements Comparable<Device> {
     @Override
     public int compareTo(@NonNull Device o) {
         return (this.dev_next_maintenance.compareTo(o.getDev_next_maintenance())) == 0 ? this.getDev_codename().compareTo(o.dev_codename) : this.dev_next_maintenance.compareTo(o.getDev_next_maintenance());
+    }
+
+    public Date getEnd_of_warranty() {
+        return end_of_warranty;
+    }
+
+    public void setEnd_of_warranty(Date end_of_warranty) {
+        this.end_of_warranty = end_of_warranty;
     }
 }
 

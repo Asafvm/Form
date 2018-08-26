@@ -385,6 +385,7 @@
     <string name="IH1000SoftwareVer">xx.xx.xx</string>
     <string name="IH1000Textsoftware4">IHCOM Version</string>
     <string name="IH1000Textsoftware5">Hard disk available space on Master</string>
+    <string name="IH1000Textsoftware6">Hard disk available space on Automate</string>
     <string name="etIH1000C"><![CDATA[>100]]></string>
     <string name="IH1000GB">GB</string>
     <string name="tvIH1000Centrifuge1">Left centrifuge speed (1008 rpm ±0.5%)</string>
@@ -532,5 +533,8 @@
     <string name="doconType">Docon Model</string>
     <string name="doconWeight700_code">מס\"ד 200</string>
     <string name="doconWeight500_code">מס\"ד 500</string>
+    <string name="localBrowser">קבצים מקומיים</string>
+    <string name="remoteBrowser">שרת</string>
+    <string name="docon7">7</string>
 
 </resources>

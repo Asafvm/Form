@@ -50,11 +50,11 @@
                 android:text="@string/docon1" />
 
             <RadioButton
-                android:id="@+id/docon2"
+                android:id="@+id/docon7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/docon2" />
+                android:text="@string/docon7" />
 
         </RadioGroup>
 

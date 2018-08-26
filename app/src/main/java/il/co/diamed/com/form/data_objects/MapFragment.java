@@ -22,13 +22,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
@@ -92,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         if (mMap != null) {
             mMap.setOnInfoWindowClickListener(this);
 
-            if(getActivity() != null) {
+            if (getActivity() != null) {
                 ClassApplication application = (ClassApplication) getActivity().getApplication();
                 provider = application.getDatabaseProvider(getContext());
 
@@ -110,7 +114,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 LatLng latLng = null;
 
                 if (item.getLatitude() != -1 && item.getLongtitude() != -1) {
-                    latLng = new LatLng(item.getLatitude(),item.getLongtitude());
+                    latLng = new LatLng(item.getLatitude(), item.getLongtitude());
                 } else {
                     Geocoder geocoder = new Geocoder(getContext());
                     List<Address> address;
@@ -130,11 +134,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 if (latLng != null) {
                     MarkerOptions options = new MarkerOptions().position(latLng);
 
+
                     StringBuilder body = new StringBuilder();
                     for (SubLocation subLocation : item.getSubLocation()) {
-                        if(subLocation!=null)
+                        if (subLocation != null) {
                             body.append(subLocation.getName()).append(" - ").append((subLocation.getDevices().size() == 1) ? ("מכשיר " + subLocation.getDevices().size() + "\n") : (subLocation.getDevices().size() + " מכשירים\n"));
+                            if (subLocation.getDevices() != null) {
+                                Date date1 = new java.util.Date();
+                                long min_diff = -1;
+                                for (Device device : subLocation.getDevices().values()) {
+                                    Date date2 = device.getDev_next_maintenance();
+                                    long diff = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; //next - today in days
+                                    if (min_diff == -1) {
+                                        min_diff = diff;
+                                    } else if (diff < min_diff) {
+                                        min_diff = diff;
+                                    }
+                                }
+
+                                if (min_diff > 60) { //sometime
+                                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                                }
+                                if (min_diff > 30 && min_diff < 60) { //next month
+                                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                                }
+                                if (min_diff > 0 && min_diff < 30) { //this month
+                                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                                }
+                                if (min_diff <= 0) {    //due
+                                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                }
+
+                            }
+                        }
                     }
+
+
                     Marker m = mMap.addMarker(options);
                     m.setTitle(item.getName());
                     m.setTag(body.toString());
@@ -174,6 +209,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 }
             }
         }
+
     }
 
 
@@ -181,7 +217,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onInfoWindowClick(Marker marker) {
         //call info fragment and pass location info
         //Toast.makeText(getContext(),"עוד לא מוכן", Toast.LENGTH_SHORT).show();
-        if(getFragmentManager() != null) {
+        if (getFragmentManager() != null) {
             FragmentManager mFragmentManager = getFragmentManager();
             FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
             LocationInfoFragment infoFragment = new LocationInfoFragment();

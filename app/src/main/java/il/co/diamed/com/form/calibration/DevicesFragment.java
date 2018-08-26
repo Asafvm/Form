@@ -15,16 +15,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
+
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.calibration.res.DeviceDialogFragment;
-import il.co.diamed.com.form.calibration.res.SimpleFragmentPagerAdapter;
+import il.co.diamed.com.form.calibration.res.DevicesFragmentPagerAdapter;
 import il.co.diamed.com.form.res.MultiLayoutActivity;
 
 
 public class DevicesFragment extends Fragment implements DeviceDialogFragment.OnLocationSelected {
     //private static final String TAG = "DeviceFragment";
     private ViewPager viewPager;
-    private SimpleFragmentPagerAdapter adapter;
+    private DevicesFragmentPagerAdapter adapter;
     private String location;
     private String sublocation;
     private TextView tvLocation;
@@ -52,10 +56,10 @@ public class DevicesFragment extends Fragment implements DeviceDialogFragment.On
         // Find the view pager that will allow the user to swipe between fragments
         viewPager = view.findViewById(R.id.pager);
         // Create an adapter that knows which fragment should be shown on each page
-        adapter = new SimpleFragmentPagerAdapter(getContext(), getChildFragmentManager());//getActivity().getSupportFragmentManager());
+        adapter = new DevicesFragmentPagerAdapter(getContext(), getChildFragmentManager());//getActivity().getSupportFragmentManager());
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
-
+        viewPager.setPageTransformer(true, new AccordionTransformer());
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = view.findViewById(R.id.tabs);
 
