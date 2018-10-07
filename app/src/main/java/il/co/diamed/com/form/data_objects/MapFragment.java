@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,14 +40,23 @@ import java.util.Date;
 import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
+import il.co.diamed.com.form.inventory.InventoryAdapter;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 import il.co.diamed.com.form.R;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
+        GoogleMap.OnMarkerDragListener {
     private GoogleMap mMap;
     private DatabaseProvider provider = null;
     ArrayList<Location> locations = null;
+    private boolean redMarker = true, orgMarker = true, yelMarker = true, grnMarker = true;
+    private ArrayList<Location> display_locations = null;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter<SideLocationsAdapter.ViewHolder> adapter;
+    double originLat = -1, originLong = -1;
+    private Location targetLocation = null;
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -60,6 +73,61 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_score_map, container, false);
+
+        view.findViewById(R.id.mapRedMarker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (redMarker) {
+                    redMarker = false;
+                    v.setBackgroundColor(Color.WHITE);
+                } else {
+                    redMarker = true;
+                    v.setBackgroundColor(Color.parseColor("#bbff0000"));
+                }
+                populateMap();
+            }
+        });
+        view.findViewById(R.id.mapOrgMarker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (orgMarker) {
+                    orgMarker = false;
+                    v.setBackgroundColor(Color.WHITE);
+                } else {
+                    orgMarker = true;
+                    v.setBackgroundColor(Color.parseColor("#bbFDBB1C"));
+
+                }
+                populateMap();
+            }
+        });
+        view.findViewById(R.id.mapYelMarker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (yelMarker) {
+                    yelMarker = false;
+                    v.setBackgroundColor(Color.WHITE);
+                } else {
+                    yelMarker = true;
+                    v.setBackgroundColor(Color.parseColor("#bbffff00"));
+                }
+                populateMap();
+            }
+        });
+        view.findViewById(R.id.mapGrnMarker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (grnMarker) {
+                    grnMarker = false;
+                    v.setBackgroundColor(Color.WHITE);
+                } else {
+                    grnMarker = true;
+                    v.setBackgroundColor(Color.parseColor("#bb00ff00"));
+                }
+                populateMap();
+            }
+        });
+
         setMapIfNeeded();
         return view;
     }
@@ -68,16 +136,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onResume() {
         super.onResume();
         setMapIfNeeded();
-        if (getContext() != null)
+        if (getContext() != null) {
             getContext().registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
-
+            getContext().registerReceiver(locationFocusDBReceiver, new IntentFilter(SideLocationsAdapter.BROADCASE_FOCUS));
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (getContext() != null)
+        if (getContext() != null) {
             getContext().unregisterReceiver(databaseLocDBReceiver);
+            getContext().unregisterReceiver(locationFocusDBReceiver);
+        }
     }
 
     private void setMapIfNeeded() {
@@ -95,6 +166,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMap = googleMap;
         if (mMap != null) {
             mMap.setOnInfoWindowClickListener(this);
+            mMap.setOnMarkerDragListener(this);
 
             if (getActivity() != null) {
                 ClassApplication application = (ClassApplication) getActivity().getApplication();
@@ -107,7 +179,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private void populateMap() {
         mMap.clear();
+
         locations = provider.getLocDB();
+        display_locations = new ArrayList<>();
         if (locations != null) {
             Collections.sort(locations);
             for (final Location item : locations) {
@@ -115,6 +189,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
                 if (item.getLatitude() != -1 && item.getLongtitude() != -1) {
                     latLng = new LatLng(item.getLatitude(), item.getLongtitude());
+
                 } else {
                     Geocoder geocoder = new Geocoder(getContext());
                     List<Address> address;
@@ -125,6 +200,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                             item.setLatitude(latLng.latitude);
                             item.setLongtitude(latLng.longitude);
                             provider.updateLocation(item);
+                        } else {
+                            display_locations.add(item);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -133,7 +210,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
                 if (latLng != null) {
                     MarkerOptions options = new MarkerOptions().position(latLng);
-
+                    long min_diff = 0;
+                    Marker m = null;
 
                     StringBuilder body = new StringBuilder();
                     for (SubLocation subLocation : item.getSubLocation()) {
@@ -141,16 +219,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                             body.append(subLocation.getName()).append(" - ").append((subLocation.getDevices().size() == 1) ? ("מכשיר " + subLocation.getDevices().size() + "\n") : (subLocation.getDevices().size() + " מכשירים\n"));
                             if (subLocation.getDevices() != null) {
                                 Date date1 = new java.util.Date();
-                                long min_diff = -1;
+                                min_diff = 100;
                                 for (Device device : subLocation.getDevices().values()) {
-                                    Date date2 = device.getDev_next_maintenance();
-                                    long diff = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; //next - today in days
-                                    if (min_diff == -1) {
-                                        min_diff = diff;
-                                    } else if (diff < min_diff) {
-                                        min_diff = diff;
+                                    if (device.getDev_under_warranty()) {
+                                        Date date2 = device.getDev_next_maintenance();
+                                        long diff = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; //next - today in days
+                                        if (min_diff == -1) {
+                                            min_diff = diff;
+                                        } else if (diff < min_diff) {
+                                            min_diff = diff;
+                                        }
                                     }
                                 }
+
 
                                 if (min_diff > 60) { //sometime
                                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
@@ -165,49 +246,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                                 }
 
+
                             }
                         }
                     }
 
+                    if (redMarker && min_diff <= 0 ||
+                            orgMarker && (min_diff > 0 && min_diff < 30) ||
+                            yelMarker && (min_diff > 30 && min_diff < 60) ||
+                            grnMarker && min_diff > 60) {
+                        display_locations.add(item);
 
-                    Marker m = mMap.addMarker(options);
-                    m.setTitle(item.getName());
-                    m.setTag(body.toString());
+
+                        m = mMap.addMarker(options);
+                        m.setDraggable(true);
+                        m.setTitle(item.getName());
+                        m.setTag(body.toString());
 
 
-                    mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                        public View getInfoWindow(Marker arg0) {
-                            View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
+                            public View getInfoWindow(Marker arg0) {
+                                View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
 
-                            String title = arg0.getTitle();
-                            String finalBody = (String) arg0.getTag();
-                            ((TextView) v.findViewById(R.id.markerTitle)).setText(title);
-                            ((TextView) v.findViewById(R.id.markerText)).setText(finalBody);
-                            return v;
-                        }
+                                String title = arg0.getTitle();
+                                String finalBody = (String) arg0.getTag();
+                                ((TextView) v.findViewById(R.id.markerTitle)).setText(title);
+                                ((TextView) v.findViewById(R.id.markerText)).setText(finalBody);
+                                return v;
+                            }
 
-                        public View getInfoContents(Marker arg0) {
+                            public View getInfoContents(Marker arg0) {
 
-                            //View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
+                                //View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
 
-                            return null;
+                                return null;
 
-                        }
-                    });
+                            }
+                        });
 
-                    mMap.setOnMarkerClickListener(marker -> {
+                        mMap.setOnMarkerClickListener(marker -> {
+                            marker.showInfoWindow();
+                            return true;
+                        });
 
-                        marker.showInfoWindow();
-
-                        return true;
-                    });
-
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8f));
+                    }
 
                 }
             }
+
+            /*
+               update side list here
+             */
+            if (getView() != null && !display_locations.isEmpty()) {
+                recyclerView = getView().findViewById(R.id.recycler_locationList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                adapter = new SideLocationsAdapter(display_locations, getContext());
+                recyclerView.setAdapter(adapter);
+            }
+
         }
 
     }
@@ -223,7 +322,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             LocationInfoFragment infoFragment = new LocationInfoFragment();
             Slide slide = new Slide();
             slide.setSlideEdge(Gravity.BOTTOM);
-            slide.setDuration(500);
+            slide.setDuration(1000);
             infoFragment.setEnterTransition(slide);
             Bundle bundle = new Bundle();
             bundle.putString("location", marker.getTitle());
@@ -240,7 +339,71 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         public void onReceive(Context context, Intent intent) {
             populateMap();
         }
-
     };
+
+    private BroadcastReceiver locationFocusDBReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            double loc_lat = bundle.getDouble("lat");
+            double loc_long = bundle.getDouble("long");
+            String name = bundle.getString("name");
+            if (loc_lat != -1 && loc_long != -1) {
+
+                LatLng latLng = new LatLng(loc_lat, loc_long);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
+
+            } else {
+
+                MarkerOptions options = new MarkerOptions().position(mMap.getCameraPosition().target);
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                Marker m = mMap.addMarker(options);
+                m.setDraggable(true);
+                m.setTitle(name);
+
+            }
+
+        }
+    };
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        for (Location location : display_locations) {
+            if (location.getName().equals(marker.getTitle())) {
+                targetLocation = location;
+            }
+        }
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+
+        if (getContext() != null && targetLocation != null) {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+            alertBuilder.setMessage("הזז מיקום?");
+            alertBuilder.setPositiveButton("כן", (dialog, which) -> {
+
+                targetLocation.setLatitude(marker.getPosition().latitude);
+                targetLocation.setLongtitude(marker.getPosition().longitude);
+                provider.updateLocation(targetLocation);
+            });
+
+            alertBuilder.setNegativeButton("בטל", (dialog, which) -> {
+                if (targetLocation == null || (targetLocation.getLatitude() == -1 || targetLocation.getLongtitude() == -1)) {
+                    marker.remove();
+                } else {
+                    marker.setPosition(new LatLng(targetLocation.getLatitude(), targetLocation.getLongtitude()));
+                }
+            });
+            alertBuilder.setCancelable(false);
+            alertBuilder.create().show();
+        }
+    }
 
 }

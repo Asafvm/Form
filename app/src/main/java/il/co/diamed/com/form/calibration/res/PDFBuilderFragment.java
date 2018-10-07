@@ -135,7 +135,7 @@ public class PDFBuilderFragment extends Fragment {
         alertBuilder.setPositiveButton("שמור", (dialog, which) -> {
             //Upload to firebase
             ClassApplication application = (ClassApplication) getActivity().getApplication();
-            application.uploadFile(new File(dest), "MediForms/");
+            application.getStorageProvider(getContext()).uploadFile(new File(dest), "MediForms/");
             application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
             if (application.getAuthProvider().getCurrentUser() != null)
                 application.logAnalyticsEvent(new AnalyticsEventItem("Create Report", application.getAuthProvider().getCurrentUser().getEmail(),

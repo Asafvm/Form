@@ -536,5 +536,13 @@
     <string name="localBrowser">קבצים מקומיים</string>
     <string name="remoteBrowser">שרת</string>
     <string name="docon7">7</string>
+    <string name="devUnderWarranty">אחריות ללא הגבלת זמן</string>
+    <string name="editor_installdate">תאריך התקנה</string>
+    <string name="editor_eowdate">תאריך גמר אחריות</string>
+    <string name="editor_title">עריכת פרטי מכשיר</string>
+    <string name="change">שנה</string>
+    <string name="delete_device">מחק מכשיר</string>
+    <string name="move_device">העבר מכשיר</string>
+    <string name="edit">ערוך</string>
 
 </resources>

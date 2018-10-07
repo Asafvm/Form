@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements
     private ClassApplication application;
     JSONObject userDetails;
     private FirebaseUser user;
+    boolean verChecked = false;
 
 
     @Override
@@ -71,15 +72,22 @@ public class LoginActivity extends AppCompatActivity implements
         moveLogo(400, 0);
         moveLogo(0, 1100);
 
+        checkVersion();
+
+
+    }
+
+    private void checkVersion() {
         String appVer = application.getAppVer();
         String databaseVer = application.getDatabaseProvider(this).getAppVer();
-        if(!databaseVer.equals("") && appVer.compareTo(databaseVer)>=0)
-            signinUser();
-        else{
-            Log.e(TAG, "Current ver: "+databaseVer);
-            Log.e(TAG, "App ver: "+appVer);
-        }
-
+        if (!databaseVer.equals("") && appVer.compareTo(databaseVer) >= 0)
+            if (!verChecked) {
+                verChecked = true;
+                signinUser();
+            } else {
+                Log.e(TAG, "Current ver: " + databaseVer);
+                Log.e(TAG, "App ver: " + appVer);
+            }
     }
 
 
@@ -160,9 +168,9 @@ public class LoginActivity extends AppCompatActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (mMicrosoftSigninFragment == null) {
-            mMicrosoftSigninFragment = new MicrosoftSigninFragment();
-        }
+
+        mMicrosoftSigninFragment = new MicrosoftSigninFragment();
+
         fragmentTransaction.replace(R.id.fragment_container, mMicrosoftSigninFragment).commit();
     }
 
@@ -286,7 +294,7 @@ public class LoginActivity extends AppCompatActivity implements
             userInfo.put("thermometer", thermometer);
             userInfo.put("barometer", barometer);
             userInfo.put("timer", timer);
-            userInfo.put("AppVer",application.getAppVer());
+            userInfo.put("AppVer", application.getAppVer());
 
             ClassApplication application = (ClassApplication) getApplication();
             application.getDatabaseProvider(this).uploadUserData(userInfo);
@@ -324,6 +332,7 @@ public class LoginActivity extends AppCompatActivity implements
     public void onResume() {
         super.onResume();
         registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
+        checkVersion();
 
     }
 
@@ -338,14 +347,13 @@ public class LoginActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             String appVer = application.getAppVer();
             String databaseVer = application.getDatabaseProvider(getApplicationContext()).getAppVer();
-            if(!databaseVer.equals("") && appVer.compareTo(databaseVer)>=0)
-                signinUser();
-            else{
-                Log.e(TAG, "Current ver: "+databaseVer);
-                Log.e(TAG, "App ver: "+appVer);
+            if (!databaseVer.equals("") && appVer.compareTo(databaseVer) >= 0)
+                checkVersion();
+            else {
+                Log.e(TAG, "Current ver: " + databaseVer);
+                Log.e(TAG, "App ver: " + appVer);
 
                 displayAlert(databaseVer);
-
 
 
             }
@@ -355,8 +363,8 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void displayAlert(String databaseVer) {
         new AlertDialog.Builder(this)
-                .setTitle("גרסהה לא מעודכנת")
-                .setMessage("קיימת גרסה חדשה יותר ("+databaseVer+")")
+                .setTitle("גרסה לא מעודכנת")
+                .setMessage("קיימת גרסה חדשה יותר (" + databaseVer + ")")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(R.string.confirm, (dialog, whichButton) -> quitApp("גרסה לא עדכנית"))
                 .show();

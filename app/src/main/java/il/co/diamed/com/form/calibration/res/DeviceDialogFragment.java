@@ -11,25 +11,20 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.data_objects.SubLocation;
-import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class DeviceDialogFragment extends DialogFragment {
@@ -163,7 +158,7 @@ public class DeviceDialogFragment extends DialogFragment {
                     ArrayAdapter<String> arrayadapter = new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_spinner_dropdown_item, NAMES);
 */
-                    LocationAdapter arrayadapter = new LocationAdapter(getContext(),
+                    TextAutocompleteAdapter arrayadapter = new TextAutocompleteAdapter(getContext(),
                             android.R.layout.simple_spinner_dropdown_item, location_names);
 
                     textLocation.setAdapter(arrayadapter);
@@ -172,7 +167,7 @@ public class DeviceDialogFragment extends DialogFragment {
                         if (target != null) {
                             /*ArrayAdapter<String> arrayadapter1 = new ArrayAdapter<>(getContext(),
                                     android.R.layout.simple_spinner_dropdown_item, target.toArray(new String[target.size()]));*/
-                            LocationAdapter arrayadapter1 = new LocationAdapter(getContext(),
+                            TextAutocompleteAdapter arrayadapter1 = new TextAutocompleteAdapter(getContext(),
                                     android.R.layout.simple_spinner_dropdown_item, target);
                             textSublocation.setAdapter(arrayadapter1);
                             textSublocation.showDropDown();

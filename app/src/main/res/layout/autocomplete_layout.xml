@@ -7,8 +7,9 @@
     android:alpha="0.8"
     android:background="@drawable/shape_background_green"
     android:gravity="start"
-    android:minHeight="30dp"
-    android:padding="10dp">
+    android:minHeight="40dp"
+    android:padding="10dp"
+    app:layout_goneMarginBottom="1dp">
 
 
     <TextView

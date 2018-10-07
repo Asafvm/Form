@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.List;
 import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.res.providers.StorageProvider;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 import static il.co.diamed.com.form.filebrowser.FileBrowserAdapter.colorMarked;
@@ -46,6 +48,7 @@ public class FileBrowserFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<FileBrowserItem> values;
+    StorageProvider storageProvider;
     int childCount;
 
     public FileBrowserFragment() {
@@ -59,6 +62,7 @@ public class FileBrowserFragment extends Fragment {
         if (getArguments() != null) // Use the current directory as title
             path = getArguments().getString("path");
         if (getActivity() != null && isAdded()) {
+
             getActivity().setTitle(path);
             childCount = 0;
             //getActivity().invalidateOptionsMenu();
@@ -122,7 +126,10 @@ public class FileBrowserFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
             Log.e(TAG, "got intent reciever");
-            onListItemClick(intent.getStringExtra("filename"));
+
+            if (getUserVisibleHint()) {
+                onListItemClick(intent.getStringExtra("filename"));
+            }
         }
     };
 
@@ -161,23 +168,7 @@ public class FileBrowserFragment extends Fragment {
                     ((TextView) getView().findViewById(R.id.path_text)).setText(path);
                 childCount++;
                 initView(path);
-            /*
-            FileBrowserFragment mFileBrowserFragment = new FileBrowserFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("path", filename);
-            mFileBrowserFragment.setArguments(bundle);
 
-
-            FragmentManager mFragmentManager = getFragmentManager();
-            FragmentTransaction mFragmentTransaction;
-            if (mFragmentManager != null) {
-                mFragmentTransaction = mFragmentManager.beginTransaction().remove(mFileBrowserFragment);
-
-                mFragmentTransaction = mFragmentManager.beginTransaction();
-                mFragmentTransaction.addToBackStack(null);
-                mFragmentTransaction.replace(R.id.pager, mFileBrowserFragment).commit();
-
-            }*/
                 if (getActivity() != null && isAdded())
                     getActivity().overridePendingTransition(0, 0);
             } else {
@@ -207,7 +198,8 @@ public class FileBrowserFragment extends Fragment {
         shareIntent.setType("application/pdf");
         shareIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
+        shareIntent.putExtra(Intent.EXTRA_CC, new String[]{"Itsik.Benatar@diamed.co.il"});
+        //shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mailSubject) + " - " + pathBreak[location - 2] + ", " + pathBreak[location - 1]);
         StringBuilder stringBuilder = new StringBuilder();
         ArrayList<Uri> files = new ArrayList<>();
@@ -290,6 +282,7 @@ public class FileBrowserFragment extends Fragment {
                 filename = path + File.separator + filename;
             }
 
+
             uploadFile(new File(filename));
             //   Toast.makeText(getContext(), path.substring(path.lastIndexOf("MediForms/")) + "/" +
             //   ((TextView) recyclerView.getChildAt(0).findViewById(R.id.file_name)).getText().toString(), Toast.LENGTH_SHORT).show();
@@ -300,14 +293,13 @@ public class FileBrowserFragment extends Fragment {
 
     private void uploadFile(File file) {
         if (getActivity() != null) {
-            ClassApplication application = (ClassApplication) getActivity().getApplication();
             if (file.isDirectory()) {
                 String[] children = file.list();
                 for (String aChildren : children) {
                     uploadFile(new File(file, aChildren));
                 }
             } else {
-                application.uploadFile(file, "MediForms/");
+                storageProvider.uploadFile(file, "MediForms/");
             }
         }
     }
@@ -354,10 +346,13 @@ public class FileBrowserFragment extends Fragment {
                             arrayList[i] = list.get(i);
                         }
                         deleteItem(arrayList);
-
+                        ((FileBrowserAdapter) adapter).clearMarked();
+                        adapter.notifyDataSetChanged();
                     });
-                    alertBuilder.setNegativeButton("בטל", (dialog, which) -> {
 
+                    alertBuilder.setNegativeButton("בטל", (dialog, which) -> {
+                        ((FileBrowserAdapter) adapter).clearMarked();
+                        adapter.notifyDataSetChanged();
                     });
                     alertBuilder.setCancelable(false);
                     alertBuilder.create().show();
@@ -380,7 +375,8 @@ public class FileBrowserFragment extends Fragment {
                         arrayList[i] = list.get(i);
                     }
                     shareItem(arrayList);
-
+                    ((FileBrowserAdapter) adapter).clearMarked();
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "בחר קבצים לשיתוף", Toast.LENGTH_SHORT).show();
                 }
@@ -392,12 +388,18 @@ public class FileBrowserFragment extends Fragment {
                 list.addAll(((FileBrowserAdapter) adapter).getMarkedItems());
 
                 if (!list.isEmpty()) {
+                    if(getActivity()!=null) {
+                        ClassApplication application = (ClassApplication) getActivity().getApplication();
+                        storageProvider = application.getStorageProvider(getContext());
+                    }
+
                     String[] arrayList = new String[list.size()];
                     for (int i = 0; i < list.size(); i++) {
                         arrayList[i] = list.get(i);
                     }
                     uploadItem(arrayList);
-
+                    ((FileBrowserAdapter) adapter).clearMarked();
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "בחר קבצים להעלאה", Toast.LENGTH_SHORT).show();
                 }

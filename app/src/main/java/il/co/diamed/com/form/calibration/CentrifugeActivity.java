@@ -135,13 +135,15 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
     }
     @Override
     public void restart() {
-        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
+        super.restart();
+
         ((RadioGroup) findViewById(R.id.rgModelSelect)).check(R.id.c12SII);
         ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         ((EditText) findViewById(R.id.centTime)).setText(String.valueOf(EXPECTED_TIME));
     }
 
     private void init() {
+
         setListener(((EditText) findViewById(R.id.formMainLocation)));
         setListener(((EditText) findViewById(R.id.formRoomLocation)));
         setListener(((EditText) findViewById(R.id.etDeviceSerial)));

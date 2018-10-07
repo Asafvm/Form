@@ -51,6 +51,7 @@ public class FirebaseBrowserFragment extends Fragment {
     RecyclerView.Adapter adapter;
     HashMap<String, String> file_list;
     List<FileBrowserItem> values;
+    File localFile;
     int childCount;
 
     public FirebaseBrowserFragment() {
@@ -159,6 +160,8 @@ public class FirebaseBrowserFragment extends Fragment {
             if (getActivity() != null) {
                 childCount--;
                 path = path.substring(0, path.lastIndexOf("/"));
+                if(getView()!=null)
+                    ((TextView) getView().findViewById(R.id.path_text)).setText(path);
                 application = (ClassApplication) getActivity().getApplication();
                 application.getDatabaseProvider(getContext()).getFirebaseDir(path);
             }
@@ -199,7 +202,7 @@ public class FirebaseBrowserFragment extends Fragment {
                 //open item
                 if (getContext() != null) {
                     StorageReference islandRef = FirebaseStorage.getInstance().getReference().child(file_list.get(filename));
-                    File localFile = File.createTempFile("preview", ".pdf", new File(Environment.getExternalStorageDirectory() + "/Documents/MediForms/"));
+                    localFile = File.createTempFile("preview", ".pdf", new File(Environment.getExternalStorageDirectory() + "/Documents/MediForms/"));
                     islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -240,6 +243,21 @@ public class FirebaseBrowserFragment extends Fragment {
         */
 }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(localFile!=null && localFile.exists())
+            localFile.delete();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(localFile!=null && localFile.exists())
+            localFile.delete();
+
+    }
 
     private void refresh() {
         refreshView(file_list);

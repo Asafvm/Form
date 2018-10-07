@@ -62,9 +62,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
     private DevicesFragment mDevicesFragment;
     private InventoryFragment mInventoryFragment;
     private MapFragment mMapFragment;
-    FileBrowserFragment mFileBrowserFragment;
     BrowserFragment mBrowserFragment;
-    FirebaseBrowserFragment mFirebaseBrowserFragment;
     ClassApplication application;
     DatabaseProvider provider;
 
@@ -341,33 +339,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
 
     private void launchFileBrowser() {
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-/*
-        if (mFileBrowserFragment == null) {
-            mFileBrowserFragment = new FileBrowserFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("path", Environment.getExternalStorageDirectory() + "/Documents/MediForms/");
-            mFileBrowserFragment.setArguments(bundle);
-        }
-        Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.END);
-        slide.setDuration(500);
-        mFileBrowserFragment.setEnterTransition(slide);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, mFileBrowserFragment).commit();
 
-        if (mFirebaseBrowserFragment == null) {
-            mFirebaseBrowserFragment= new FirebaseBrowserFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("path", "Files/MediForms");
-            mFirebaseBrowserFragment.setArguments(bundle);
-        }
-        Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.END);
-        slide.setDuration(500);
-        mFirebaseBrowserFragment.setEnterTransition(slide);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, mFirebaseBrowserFragment).commit();
-*/
         if (mBrowserFragment == null) {
             mBrowserFragment = new BrowserFragment();
 
@@ -420,16 +392,6 @@ public class MainMenuAcitivity extends AppCompatActivity {
     }
 
 
-/*
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "MainMenu got intent reciever");
-
-        }
-    };
-*/
     @Override
     protected void onPause() {
         super.onPause();

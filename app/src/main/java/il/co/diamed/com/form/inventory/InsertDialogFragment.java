@@ -34,7 +34,6 @@ public class InsertDialogFragment extends DialogFragment {
     AutoCompleteTextView textView;
 
     static InsertDialogFragment newInstance() {
-
         return new InsertDialogFragment();
     }
 
@@ -44,21 +43,16 @@ public class InsertDialogFragment extends DialogFragment {
         Window window = getDialog().getWindow();
         if (window != null) {
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         }
         if (getContext() != null) {
             View v = inflater.inflate(R.layout.fragment_inventory_insert, container, false);
 
             this.setCancelable(false);
-
-
             //get parts serial list
             application = (ClassApplication) getActivity().getApplication();
             provider = application.getDatabaseProvider(getContext());
 
             textView = v.findViewById(R.id.etItem_serial);
-
-
             getPartsDB();
 
             v.findViewById(R.id.insertSubmit).setOnClickListener(v1 -> {

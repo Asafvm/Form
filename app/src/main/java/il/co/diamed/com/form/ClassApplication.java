@@ -32,7 +32,6 @@ public class ClassApplication extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
-        storageProvider = new StorageProvider();
         mAuthenticationProvider = new AuthenticationProvider();
 
         logUser();
@@ -63,16 +62,16 @@ public class ClassApplication extends Application {
         analyticsProvider.logAnalyticsScreen(analyticsScreenItem);
     }
 
-    public void uploadFile(File dest, String destArray){
-        storageProvider.uploadFile(dest,destArray);
-    }
-
-    public void getDir(String path){
-        storageProvider.getDir(path);
-    }
 
     public void signin(String email, String password){
         mAuthenticationProvider.signin(email,password);
+    }
+
+
+    public StorageProvider getStorageProvider(Context context)
+    {
+        storageProvider = new StorageProvider(this);
+        return storageProvider;
     }
 
     public DatabaseProvider getDatabaseProvider(Context context)

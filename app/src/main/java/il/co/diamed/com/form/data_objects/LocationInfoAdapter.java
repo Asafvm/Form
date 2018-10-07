@@ -1,5 +1,10 @@
 package il.co.diamed.com.form.data_objects;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,12 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import il.co.diamed.com.form.R;
+import il.co.diamed.com.form.calibration.res.DeviceDialogFragment;
+import il.co.diamed.com.form.menu.MainMenuAcitivity;
 
 class LocationInfoAdapter extends BaseExpandableListAdapter {
 
@@ -21,15 +33,20 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private ArrayList<SubLocation> mGroupList;
     private ArrayList<ArrayList<Device>> mChildList;
-    private String CAL_LATE = "#aa0000";
-    private String CAL_OK = "#00aa00";
-    private String CAL_NOW = "#aaaa00";
-
+    private android.support.v4.app.FragmentManager manager;
+    private DeviceEditorFragment newFragment;
 
     LocationInfoAdapter(ArrayList<SubLocation> list, ArrayList<ArrayList<Device>> childValues, Context context) {
         this.mContext = context;
         this.mGroupList = list;
         this.mChildList = childValues;
+    }
+
+
+    public void updateData(ArrayList<SubLocation> groupValues, ArrayList<ArrayList<Device>> childValues) {
+        this.mGroupList = groupValues;
+        this.mChildList = childValues;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -54,17 +71,17 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        return childPosition;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
@@ -92,40 +109,69 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
 
         int next_month = cal.get(Calendar.MONTH);
         int next_year = cal.get(Calendar.YEAR);
-        next_m.setText(String.format("כיול הבא: "+(next_month+1)+"/"+next_year));
+        next_m.setText("כיול הבא: " + (next_month + 1) + "/" + next_year);
 
         //today
         Date d = new Date();
         cal.setTime(d);
-        int cur_month = cal.get(Calendar.MONTH);
-        int cur_year = cal.get(Calendar.YEAR);
+
+        Date date1 = new java.util.Date();
+        Date date2 = target.getDev_next_maintenance();
+        long diff = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; //next - today in days
 
 
-        //check date diff
-        if (next_year - cur_year < 0) {
-            next_m.setTextColor(Color.parseColor(CAL_LATE));
-        } else if (next_year - cur_year == 0) {
-            if (next_month - cur_month < 0) { //late cal
-                next_m.setTextColor(Color.parseColor(CAL_LATE));
-            } else if (next_month - cur_month == 0) {//cal is this month
-                next_m.setTextColor(Color.parseColor(CAL_NOW));
-            } else { //no cal needed
-                next_m.setTextColor(Color.parseColor(CAL_OK));
-            }
-        } else {
+        if (diff > 60) { //sometime
+            String CAL_OK = "#00cc00";
             next_m.setTextColor(Color.parseColor(CAL_OK));
         }
+        if (diff > 30 && diff < 60) { //next month
+            String NEXT_MONTH = "#cccc00";
+            next_m.setTextColor(Color.parseColor(NEXT_MONTH));
+        }
+        if (diff > 0 && diff < 30) { //this month
+            String CAL_NOW = "#ffa500";
+            next_m.setTextColor(Color.parseColor(CAL_NOW));
+        }
+        if (diff <= 0) {    //due
+            String CAL_LATE = "#cc0000";
+            next_m.setTextColor(Color.parseColor(CAL_LATE));
+        }
 
-        ((TextView) convertView.findViewById(R.id.device_warrenty)).setText(String.format("באחריות: %s", target.getDev_under_warranty() ? "כן" : "לא"));
+        if (target.getDev_under_warranty()) {  //check under lifetime warranty
+            ((TextView) convertView.findViewById(R.id.device_warrenty)).setText("באחריות"); //set text
+            ((TextView) convertView.findViewById(R.id.device_warrenty)).setTextColor(Color.parseColor("#00cc00")); //set color
+        } else { //check by install and end of warranty dates
+            ((TextView) convertView.findViewById(R.id.device_warrenty)).setText(target.getEnd_of_warranty().getTime() - date1.getTime() > 0 ? "באחריות עד "+new SimpleDateFormat("MM/YYYY").format(target.getEnd_of_warranty()) : "לא באחריות"); //set text
+            ((TextView) convertView.findViewById(R.id.device_warrenty)).setTextColor(Color.parseColor(target.getEnd_of_warranty().getTime() - date1.getTime() > 0 ? "#00cc00" : "#cc0000")); //set color
+        }
         if (!target.getDev_comments().isEmpty())
             ((TextView) convertView.findViewById(R.id.device_comments)).setText(target.getDev_comments());
+        else{
+            ((TextView) convertView.findViewById(R.id.device_comments)).setText("");
+        }
+
+
         convertView.setOnClickListener(v -> {
-            Intent intent = new Intent(BROADCAST_TARGET_DEVICE_SELECTED);
-            intent.putExtra("target", target.getDev_serial());
-            mContext.sendBroadcast(intent);
+            manager = ((MainMenuAcitivity) mContext).getSupportFragmentManager();
+            if (manager != null) {
+
+                newFragment = new DeviceEditorFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("serial", target.getDev_serial());
+                bundle.putString("type", target.getDev_codename());
+                bundle.putLong("ins_date", target.getDev_install_date().getTime());
+                bundle.putLong("eow_date", target.getEnd_of_warranty().getTime());
+                bundle.putBoolean("under_warranty",target.getDev_under_warranty());
+                bundle.putString("comments",target.getDev_comments());
+                newFragment.setArguments(bundle);
+                newFragment.show(manager, "dialog");
+                //Intent intent = new Intent(BROADCAST_TARGET_DEVICE_SELECTED);
+                //intent.putExtra("target", target.getDev_serial());
+                //mContext.sendBroadcast(intent);
+            }
         });
 
-        return convertView;
+    return convertView;
     }
 
     @Override
@@ -149,6 +195,5 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
     public void onGroupCollapsed(int groupPosition) {
         super.onGroupCollapsed(groupPosition);
     }
-
 
 }

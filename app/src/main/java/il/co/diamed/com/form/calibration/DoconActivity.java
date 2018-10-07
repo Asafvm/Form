@@ -123,6 +123,9 @@ public class DoconActivity extends DevicePrototypeActivity {
         ((EditText) findViewById(R.id.etDoconComment_cleaning)).setText("");
         ((EditText) findViewById(R.id.etDoconComment_sensor)).setText("");
         ((EditText) findViewById(R.id.etDoconComment_battery)).setText("");
+        ((EditText) findViewById(R.id.etDoconW200)).setText("");
+        ((EditText) findViewById(R.id.etDoconW500)).setText("");
+        ((EditText) findViewById(R.id.etDoconW700)).setText("");
     }
 
     private void init() {

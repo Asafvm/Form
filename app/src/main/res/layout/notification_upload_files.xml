@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/uploadLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Uploading: "
+        android:layout_toLeftOf="@id/uploadFile"
+        style="@style/TextAppearance.Compat.Notification.Title"/>
+
+    <TextView
+        android:id="@+id/uploadFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/uploadLabel"
+        style="@style/TextAppearance.Compat.Notification.Title"/>
+
+    <TextView
+        android:id="@+id/uploadStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uploadLabel"
+        style="@style/TextAppearance.Compat.Notification.Title"/>
+
+
+    <ProgressBar
+    android:id="@+id/progress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_below="@id/uploadStatus"
+    android:indeterminate="true"/>
+
+
+</RelativeLayout>

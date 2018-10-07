@@ -14,7 +14,7 @@ public class Device implements Comparable<Device> {
     private Date dev_install_date = new Date();
     private Date dev_next_maintenance = new Date();
     private Date end_of_warranty = new Date();
-    private boolean dev_under_warranty = false;
+    private boolean dev_under_warranty = true;
     private String dev_comments = "";
     private double dev_price = 0;
     private ArrayList<Report> reports = new ArrayList<>();
@@ -130,7 +130,10 @@ public class Device implements Comparable<Device> {
 
     @Override
     public int compareTo(@NonNull Device o) {
-        return (this.dev_next_maintenance.compareTo(o.getDev_next_maintenance())) == 0 ? this.getDev_codename().compareTo(o.dev_codename) : this.dev_next_maintenance.compareTo(o.getDev_next_maintenance());
+        return this.dev_under_warranty && !o.getDev_under_warranty() ? -1 :  //else
+                !this.dev_under_warranty && o.getDev_under_warranty() ? 1 : //else
+                this.dev_next_maintenance.compareTo(o.getDev_next_maintenance()) == 0 ? this.dev_codename.compareTo(o.getDev_codename()) : //else
+                        this.dev_next_maintenance.compareTo(o.getDev_next_maintenance());
     }
 
     public Date getEnd_of_warranty() {

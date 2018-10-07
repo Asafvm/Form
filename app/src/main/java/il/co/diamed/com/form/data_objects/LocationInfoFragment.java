@@ -1,6 +1,10 @@
 package il.co.diamed.com.form.data_objects;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -27,6 +31,7 @@ public class LocationInfoFragment extends Fragment {
     DatabaseProvider provider = null;
     ExpandableListView expendableView = null;
     String targetLocation = "";
+    LocationInfoAdapter adapter;
 
     public LocationInfoFragment() {
         // Required empty public constructor
@@ -62,31 +67,58 @@ public class LocationInfoFragment extends Fragment {
 
             if (locations != null) {
                 ArrayList<ArrayList<Device>> childValues = new ArrayList<>();
-                for (Location location: locations) {
-                    if(location.getName().equals(targetLocation)){
+                for (Location location : locations) {
+                    if (location.getName().equals(targetLocation)) {
                         ArrayList<SubLocation> groupValues = location.getSubLocation();
                         Collections.sort(groupValues);
-                        for (SubLocation subLocation: groupValues) {
+                        for (SubLocation subLocation : groupValues) {
                             ArrayList<Device> child = new ArrayList<>(subLocation.getDevices().values());
                             Collections.sort(child);
                             childValues.add(child);
-
-
                         }
-
-                        ExpandableListAdapter adapter = new LocationInfoAdapter(groupValues, childValues, getContext());
-                        expendableView.setAdapter(adapter);
+                        if(adapter == null) {
+                            adapter = new LocationInfoAdapter(groupValues, childValues, getContext());
+                            expendableView.setAdapter(adapter);
+                        }else{
+                            adapter.updateData(groupValues, childValues);
+                        }
                         break;
                     }
 
                 }
-
-
-
-
-
             }
         }
     }
 
+    private BroadcastReceiver refreshAdapterReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (adapter != null) {
+                initView();
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getContext() != null)
+            getContext().registerReceiver(refreshAdapterReceiver, new IntentFilter(DatabaseProvider.BROADCAST_REFRESH_ADAPTER));
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (getContext() != null) {
+            getContext().unregisterReceiver(refreshAdapterReceiver);
+        }
+    }
 }

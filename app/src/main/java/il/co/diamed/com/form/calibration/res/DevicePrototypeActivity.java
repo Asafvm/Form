@@ -45,7 +45,6 @@ public class DevicePrototypeActivity extends AppCompatActivity {
     protected static String dev_name;
     protected static String dev_model;
     protected static String dev_serial;
-    protected static Date install_date;
     protected static String comments;
     protected static Date next_maintenance;
     protected static boolean under_warranty;
@@ -88,6 +87,8 @@ public class DevicePrototypeActivity extends AppCompatActivity {
         }
         if (intent.hasExtra("model")) {
             dev_model = intent.getExtras().getString("model");
+        }else{
+            dev_model = "";
         }
 
         dev_serial = ((EditText) findViewById(R.id.etDeviceSerial)).getText().toString();
@@ -142,6 +143,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
     }
 
     public void restart() { //meant to be overridden
+        ((EditText) findViewById(R.id.etDeviceSerial)).setText("");
     }
 
     @Override
