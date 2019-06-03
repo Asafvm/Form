@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -238,6 +239,7 @@ public class CaptureSignature extends AppCompatActivity {
             paint.setStrokeWidth(STROKE_WIDTH);
         }
 
+        @SuppressLint("WrongThread")
         public void save(View v) {
             Log.v("log_tag", "Width: " + v.getWidth());
             Log.v("log_tag", "Height: " + v.getHeight());

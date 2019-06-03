@@ -10,9 +10,11 @@
 
 
     <ListView
+
         android:id="@android:id/list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/path_text"
@@ -25,6 +27,15 @@
         app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="0.1" />
 
+    <EditText
+        android:id="@+id/et_searchtext"
+        app:layout_constraintTop_toBottomOf="@id/path_text"
+        app:layout_constraintBottom_toTopOf="@id/viewScroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search"
+        />
+
     <ScrollView
         android:id="@+id/viewScroller"
         android:layout_width="match_parent"
@@ -32,7 +43,7 @@
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/path_text"
+        app:layout_constraintTop_toBottomOf="@id/et_searchtext"
         app:layout_constraintVertical_weight="0.9">
 
         <android.support.v7.widget.RecyclerView

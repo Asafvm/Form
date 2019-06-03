@@ -58,8 +58,6 @@ public class DatabaseProvider {
     private String holderLoc = "";
     private String holderSubloc = "";
     private Device holderDevice = null;
-    private static String appVer = "";
-
 
 
     public DatabaseProvider(Context context) {
@@ -67,21 +65,15 @@ public class DatabaseProvider {
 
     }
 
-    public String getAppVer() {
-        if (appVer.equals("")) {
-            FirebaseDatabase.getInstance().getReference().child("AppVer").addListenerForSingleValueEvent(verListener);
-            return "";
-        } else {
-            return appVer;
-        }
+    public void getAppVer() {
+        FirebaseDatabase.getInstance().getReference().child("AppVer").addListenerForSingleValueEvent(verListener);
     }
 
     private ValueEventListener verListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Intent intent = new Intent(BROADCAST_APPVER);
-            appVer = (String) dataSnapshot.getValue();
-            intent.putExtra("AppVer", appVer);
+            intent.putExtra("AppVer", (String) dataSnapshot.getValue());
             context.sendBroadcast(intent);
         }
 
@@ -208,12 +200,15 @@ public class DatabaseProvider {
     }
 
 
-    private FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null)        //if user logged
-            downloadMyDB();
-        else
-            myDB = null;
+    private FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null)        //if user logged
+                DatabaseProvider.this.downloadMyDB();
+            else
+                myDB = null;
 
+        }
     };
 
     private ValueEventListener targetListener = new ValueEventListener() {
@@ -329,7 +324,12 @@ public class DatabaseProvider {
             if (currentList != null) {
                 for (Part item : currentList) {
                     if (item.getInStock().equals("0") && (item.getMinimum_car().equals("0") || item.getMinimum_car().equals("00")))
-                        mDatabase.child(item.getId()).removeValue().addOnSuccessListener(aVoid -> Log.d(TAG, "Unused part " + item.getDescription() + " removed from list"));
+                        mDatabase.child(item.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Unused part " + item.getDescription() + " removed from list");
+                            }
+                        });
                     else
                         mDatabase.child(item.getId()).setValue(item);
                 }
@@ -355,10 +355,16 @@ public class DatabaseProvider {
     }
 
 
-    public String getPartInfo(String serial) {
-        for (Part item : labDB.values())
-            if (item.getSerial().equals(serial))
-                return item.getDescription();
+    public String getPartInfo(String serial, String desc) {
+        if(desc.equals("")) {
+            for (Part item : labDB.values())
+                if (item.getSerial().equals(serial))
+                    return item.getDescription();
+        }else if(serial.equals("")){
+            for (Part item : labDB.values())
+                if (item.getDescription().equals(desc))
+                    return item.getSerial();
+        }
         return "";
     }
 
@@ -530,7 +536,7 @@ public class DatabaseProvider {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
             DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
 
-
+            //searching location and sublocation exists
             for (Location location : locDB) {
                 if (location.getName().equals(loc)) {
                     targetLoc = location;
@@ -707,7 +713,7 @@ public class DatabaseProvider {
                             int index = location.getSubLocation().indexOf(subLocation); //problem with index
 
                             databaseReference.child(location.getName()).setValue(location);
-                                    //child("subLocation").child(String.valueOf(index)).child("devices").child(labDevice.getDev_serial()).setValue(labDevice).addOnSuccessListener(refreshListener);
+                            //child("subLocation").child(String.valueOf(index)).child("devices").child(labDevice.getDev_serial()).setValue(labDevice).addOnSuccessListener(refreshListener);
 
                             Intent intent = new Intent(BROADCAST_REFRESH_ADAPTER);
                             context.sendBroadcast(intent);

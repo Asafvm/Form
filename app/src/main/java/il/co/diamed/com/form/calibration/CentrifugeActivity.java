@@ -131,6 +131,7 @@ public class CentrifugeActivity extends DevicePrototypeActivity {
             }
             //setSpeedListener(findViewById(R.id.centSpeed), EXPECTED_SPEED);
             ((EditText) findViewById(R.id.centExpectedSpeed)).setText(String.valueOf(EXPECTED_SPEED));
+            ((EditText) findViewById(R.id.centSpeed)).setText(String.valueOf(EXPECTED_SPEED));
         });
     }
     @Override

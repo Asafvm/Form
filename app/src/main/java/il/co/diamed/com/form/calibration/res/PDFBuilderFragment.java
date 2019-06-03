@@ -3,6 +3,7 @@ package il.co.diamed.com.form.calibration.res;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -132,20 +133,26 @@ public class PDFBuilderFragment extends Fragment {
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setMessage("שמור קובץ?");
-        alertBuilder.setPositiveButton("שמור", (dialog, which) -> {
-            //Upload to firebase
-            ClassApplication application = (ClassApplication) getActivity().getApplication();
-            application.getStorageProvider(getContext()).uploadFile(new File(dest), "MediForms/");
-            application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-            if (application.getAuthProvider().getCurrentUser() != null)
-                application.logAnalyticsEvent(new AnalyticsEventItem("Create Report", application.getAuthProvider().getCurrentUser().getEmail(),
-                        Objects.requireNonNull(bundle).getString("report"), true, ""));
-            closeFragment();
+        alertBuilder.setPositiveButton("שמור", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Upload to firebase
+                ClassApplication application = (ClassApplication) PDFBuilderFragment.this.getActivity().getApplication();
+                application.getStorageProvider(PDFBuilderFragment.this.getContext()).uploadFile(new File(dest), "MediForms/");
+                application.logAnalyticsScreen(new AnalyticsScreenItem(PDFBuilderFragment.this.getClass().getName()));
+                if (application.getAuthProvider().getUser() != null)
+                    application.logAnalyticsEvent(new AnalyticsEventItem("Create Report", application.getAuthProvider().getUser().getEmail(),
+                            Objects.requireNonNull(bundle).getString("report"), true, ""));
+                PDFBuilderFragment.this.closeFragment();
+            }
         });
-        alertBuilder.setNegativeButton("בטל", (dialog, which) -> {
-            file.delete();
+        alertBuilder.setNegativeButton("בטל", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                file.delete();
 
-            closeFragment();
+                PDFBuilderFragment.this.closeFragment();
+            }
         });
         alertBuilder.setCancelable(false);
         alertBuilder.create().show();

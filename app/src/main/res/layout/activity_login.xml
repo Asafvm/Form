@@ -12,7 +12,9 @@
         android:id="@+id/loginLogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash"/>
+        android:src="@drawable/splash2"
+        android:background="@android:color/transparent"
+        />
 
     <TextView
         android:id="@+id/tvProgress"
@@ -30,6 +32,70 @@
         android:layout_marginBottom="25dp"
         android:paddingHorizontal="25dp"
         />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="10dp"
+        android:visibility="visible"
+        android:background="@drawable/shape_background_white_border_black"
+        >
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            android:textAlignment="center"
+
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="1"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/login_id"
+            />
+
+
+        <TextView
+            android:id="@+id/login_id"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+
+            android:text="User Name:"
+
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/login_title"
+            app:layout_constraintBottom_toTopOf="@id/login_pass"
+            />
+        <TextView
+            android:id="@+id/login_pass"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+
+            android:text="Password:"
+
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/login_id"
+            app:layout_constraintBottom_toTopOf="@id/login_button"
+
+            />
+<Button
+    android:id="@+id/login_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Log"
+
+
+    app:layout_constraintVertical_weight="1"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <FrameLayout
         android:id="@+id/fragment_container"

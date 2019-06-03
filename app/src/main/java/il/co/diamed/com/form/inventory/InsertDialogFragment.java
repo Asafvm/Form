@@ -31,7 +31,8 @@ public class InsertDialogFragment extends DialogFragment {
     private final String TAG = "InsertDialogFragment";
     ClassApplication application;
     DatabaseProvider provider;
-    AutoCompleteTextView textView;
+    AutoCompleteTextView idTextView;
+    AutoCompleteTextView descTextView;
 
     static InsertDialogFragment newInstance() {
         return new InsertDialogFragment();
@@ -52,18 +53,19 @@ public class InsertDialogFragment extends DialogFragment {
             application = (ClassApplication) getActivity().getApplication();
             provider = application.getDatabaseProvider(getContext());
 
-            textView = v.findViewById(R.id.etItem_serial);
+            idTextView = v.findViewById(R.id.etItem_serial);
+            descTextView = v.findViewById(R.id.etItem_description);
             getPartsDB();
 
             v.findViewById(R.id.insertSubmit).setOnClickListener(v1 -> {
-                String desc = provider.getPartInfo(textView.getText().toString());
-                if (verifyPart(desc)) {
+                String desc = provider.getPartInfo(idTextView.getText().toString(),"");
+                if (verifyPart(idTextView.getText().toString(),desc)) {
 
                     String inStock = ((EditText) v.findViewById(R.id.etItem_inStock)).getText().toString();
                     if (validInStock(inStock)) {
                         ((EditText) v.findViewById(R.id.etItem_inStock)).setError(null);
                         //add part from lab
-                        if (!provider.addMyDB(textView.getText().toString(), Integer.valueOf(inStock))) {
+                        if (!provider.addMyDB(idTextView.getText().toString(), Integer.valueOf(inStock))) {
                             Log.e(TAG, "Error on updating inStock");
                         }
                         dismiss();
@@ -100,7 +102,7 @@ public class InsertDialogFragment extends DialogFragment {
         }
     }
 
-    private boolean verifyPart(String description) {
+    private boolean verifyPart(String serial, String description) {
         if (getView() != null) {
             if (description.equals("")) {
                 ((EditText) getView().findViewById(R.id.etItem_serial)).setError("חלק לא קיים במערכת", getActivity().getDrawable(R.drawable.ic_warning_black_24dp));
@@ -110,6 +112,7 @@ public class InsertDialogFragment extends DialogFragment {
             } else {
                 ((EditText) getView().findViewById(R.id.etItem_serial)).setError(null);
                 ((TextView) getView().findViewById(R.id.etItem_description)).setText(description);
+                ((TextView) getView().findViewById(R.id.etItem_serial)).setText(serial);
                 getView().findViewById(R.id.etItem_inStock).setVisibility(View.VISIBLE);
                 return true;
             }
@@ -118,7 +121,6 @@ public class InsertDialogFragment extends DialogFragment {
     }
 
     private boolean validInStock(String inStock) {
-
         if (inStock.equals(""))
             return false;
         else {
@@ -147,16 +149,25 @@ public class InsertDialogFragment extends DialogFragment {
                         getContext().unregisterReceiver(databaseReceiver);
                     } catch (Exception ignored) {}
                     ArrayList<String> ids = new ArrayList<>();
+                    ArrayList<String> desc = new ArrayList<>();
                     for (Part item : labParts) {
                         ids.add(item.getSerial());
+                        desc.add(item.getDescription());
                     }
                     String[] PARTS = ids.toArray(new String[ids.size()]);
+                    String[] DESC = desc.toArray(new String[ids.size()]);
 
                     ArrayAdapter<String> arrayadapter = new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_spinner_dropdown_item, PARTS);
-                    textView.setAdapter(arrayadapter);
-                    textView.setOnItemClickListener((parent, view, position, id) ->
-                            verifyPart(provider.getPartInfo(arrayadapter.getItem(position))));
+                    idTextView.setAdapter(arrayadapter);
+                    idTextView.setOnItemClickListener((parent, view, position, id) ->
+                            verifyPart(arrayadapter.getItem(position), provider.getPartInfo(arrayadapter.getItem(position),"")));
+
+                    ArrayAdapter<String> arrayadapter2 = new ArrayAdapter<>(getContext(),
+                            android.R.layout.simple_spinner_dropdown_item, DESC);
+                    descTextView.setAdapter(arrayadapter2);
+                    descTextView.setOnItemClickListener((parent, view, position, id) ->
+                            verifyPart(provider.getPartInfo("",arrayadapter2.getItem(position)),arrayadapter2.getItem(position)));
                 } catch (Exception ignored) {
                 }
             } else {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +36,7 @@ public class TargetInventoryFragment extends Fragment {
     List<Part> values;
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
+    String userName = "";
     public TargetInventoryFragment() {
         // Required empty public constructor
     }
@@ -43,10 +50,41 @@ public class TargetInventoryFragment extends Fragment {
 
         refreshLayout = view.findViewById(R.id.viewSwipe);
         refreshLayout.setOnRefreshListener(this::refresh);
+
         if (getActivity() != null && isAdded()) {
             application = (ClassApplication) getActivity().getApplication();
             provider = application.getDatabaseProvider(getContext());
             recyclerView = view.findViewById(R.id.recycler_inventory_view);
+
+
+            view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> getActivity().onBackPressed());
+
+
+            view.findViewById(R.id.btnDownloadList).setOnClickListener(v -> {
+                // Create a csv file from the list at download folder
+                if (values != null && !values.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Serial,Description,Amount\n");
+                    for (Part p : values)
+                        sb.append(p.getSerial()).append(",").append(p.getDescription()).append(",").append(p.getInStock()).append("\n");
+
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MediApp");
+                    if (!dir.exists())
+                        dir.mkdir();
+
+                    try {
+                        File csv = new File(dir, "PartList - "+ userName + ".csv");
+                        FileWriter fw = new FileWriter(csv);
+                        fw.append(sb.toString());
+                        fw.flush();
+                        fw.close();
+                        Toast.makeText(getContext(),"Saved to Downloads\\MediApp folder",Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
 
         }
         return view;
@@ -72,6 +110,8 @@ public class TargetInventoryFragment extends Fragment {
         if (getContext() != null && getActivity() != null && isAdded()) {
             //insert data from firebase
             String targetName = getArguments().getString("target");
+            userName = getArguments().getString("name");
+            ((TextView)getView().findViewById(R.id.tvTitle)).setText("מלאי ברכב של " + userName);
             values = provider.getTargetInv(targetName);
             if (values == null) {
                 Log.e(TAG, "My database does not exists, waiting for broadcast");

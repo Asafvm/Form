@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +20,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
@@ -37,6 +44,8 @@ public class InventoryFragment extends Fragment {
     ClassApplication application;
     SwipeRefreshLayout refreshLayout;
     SharedInventoryFragment mUsersInventoryFragment;
+    String userName = "";
+
     public InventoryFragment() {
         // Required empty public constructor
     }
@@ -52,20 +61,43 @@ public class InventoryFragment extends Fragment {
         refreshLayout.setOnRefreshListener(this::refresh);
         if (getActivity() != null && isAdded()) {
             application = (ClassApplication) getActivity().getApplication();
+            userName = application.getAuthProvider().getUser().getDisplayName();
+            ((TextView)view.findViewById(R.id.tvTitle)).setText("מלאי ברכב של " + userName);
             provider = application.getDatabaseProvider(getContext());
             recyclerView = view.findViewById(R.id.recycler_inventory_view);
             recyclerView.setItemAnimator(new SlideInUpAnimator());
 
-            view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> {
-                showUsersInventory();
-
-            });
+            view.findViewById(R.id.btnUpdateInventory).setOnClickListener(v -> showUsersInventory());
 
             view.findViewById(R.id.btnInsertInventory).setOnClickListener(v -> {
                 // Create the fragment and show it as a dialog.
                 InsertDialogFragment newFragment = InsertDialogFragment.newInstance();
                 newFragment.show(getActivity().getFragmentManager(), "dialog");
+            });
 
+            view.findViewById(R.id.btnDownloadList).setOnClickListener(v -> {
+                // Create a csv file from the list at download folder
+                if (values != null && !values.isEmpty()) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Serial,Description,Amount\n");
+                    for (Part p : values)
+                        sb.append(p.getSerial()).append(",").append(p.getDescription()).append(",").append(p.getInStock()).append("\n");
+
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MediApp");
+                    if (!dir.exists())
+                        dir.mkdir();
+
+                    try {
+                        File csv = new File(dir, "PartList - " + userName + ".csv");
+                        FileWriter fw = new FileWriter(csv);
+                        fw.append(sb.toString());
+                        fw.flush();
+                        fw.close();
+                        Toast.makeText(getContext(),"Saved to Downloads\\MediApp folder",Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             });
         }
@@ -73,9 +105,9 @@ public class InventoryFragment extends Fragment {
     }
 
     private void showUsersInventory() {
-        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager mFragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        if(mUsersInventoryFragment==null)
+        if (mUsersInventoryFragment == null)
             mUsersInventoryFragment = new SharedInventoryFragment();
 
         Slide slide = new Slide();
@@ -91,8 +123,8 @@ public class InventoryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e(TAG, "resume");
-        if(getContext()!=null)
-            getContext().registerReceiver(databaseReceiver,new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
+        if (getContext() != null)
+            getContext().registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
         initView();
     }
 
@@ -129,12 +161,13 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(values!=null)
+        if (values != null)
             provider.uploadMyInv(values);
         try {
-            if(getContext()!=null)
+            if (getContext() != null)
                 getContext().unregisterReceiver(databaseReceiver);
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
 

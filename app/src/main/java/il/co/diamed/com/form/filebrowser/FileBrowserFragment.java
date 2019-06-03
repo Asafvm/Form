@@ -5,16 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,11 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,19 +37,16 @@ import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.StorageProvider;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
-import static il.co.diamed.com.form.filebrowser.FileBrowserAdapter.colorMarked;
-import static il.co.diamed.com.form.filebrowser.FileBrowserAdapter.colorUnmarked;
-
 
 public class FileBrowserFragment extends Fragment {
     private static final String TAG = "FileBrowserFragment";
     private String path;
-
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     List<FileBrowserItem> values;
     StorageProvider storageProvider;
     int childCount;
+    private String filterText = "";
 
     public FileBrowserFragment() {
         // Required empty public constructor
@@ -87,13 +84,18 @@ public class FileBrowserFragment extends Fragment {
         recyclerView.setItemAnimator(new LandingAnimator());
         ((TextView) view.findViewById(R.id.path_text)).setText(path);
 
+        ((EditText) view.findViewById(R.id.et_searchtext)).setText("");
+        ((EditText) view.findViewById(R.id.et_searchtext)).addTextChangedListener(filter);
         initView(path);
-
 
         return view;
     }
 
     private void initView(String path) {
+        //update title
+        if (getView() != null)
+            ((TextView) getView().findViewById(R.id.path_text)).setText(path);
+
         // Read all files sorted into the values-array
         values = new ArrayList<>();
 
@@ -107,10 +109,17 @@ public class FileBrowserFragment extends Fragment {
         if (list != null) {
             for (String file : list) {
                 if (!file.startsWith(".")) {
-                    values.add(new FileBrowserItem(file, !file.endsWith("pdf")));
+                    if(!filterText.equals("") && filterText.length()>2){
+                        if(file.toLowerCase().contains(filterText))
+                            values.add(new FileBrowserItem(file, !file.endsWith("pdf")));
+                    }else{
+                        values.add(new FileBrowserItem(file, !file.endsWith("pdf")));
+                    }
+
                 }
             }
         }
+
         Collections.sort(values);
         if (childCount > 0) {
             values.add(0, new FileBrowserItem("..", true));
@@ -119,6 +128,7 @@ public class FileBrowserFragment extends Fragment {
         ((FileBrowserAdapter) adapter).clearMarked();
         recyclerView.setAdapter(adapter);
     }
+
 
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -137,6 +147,7 @@ public class FileBrowserFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
         //getActivity().registerReceiver(mReceiver, new IntentFilter(FileBrowserAdapter.BROADCAST_FILTER));
     }
 
@@ -164,8 +175,7 @@ public class FileBrowserFragment extends Fragment {
             File file = new File(filename);
             if (file.isDirectory()) {
                 path = filename;
-                if (getView() != null)
-                    ((TextView) getView().findViewById(R.id.path_text)).setText(path);
+
                 childCount++;
                 initView(path);
 
@@ -434,7 +444,26 @@ public class FileBrowserFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.my_toolbar, menu);
+        inflater.inflate(R.menu.toolbar_filebrowser, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    TextWatcher filter = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            filterText = s.toString().toLowerCase();
+
+                initView(path);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

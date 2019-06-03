@@ -15,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "551164260723-n3liv11mcnosa0fne0j60vbcsas0bevk.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "551164260723-cf57dknionio0fhe8be5uj8hh3lf1lau.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "il.co.diamed.com.form",
+            "certificate_hash": "85df2c35943d515481680e8a66cb24747ce42b61"
+          }
         }
       ],
       "api_key": [
@@ -25,15 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551164260723-n3liv11mcnosa0fne0j60vbcsas0bevk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

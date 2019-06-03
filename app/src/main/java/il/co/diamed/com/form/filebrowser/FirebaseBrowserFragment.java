@@ -10,17 +10,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,9 +33,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,17 +44,20 @@ import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
+import il.co.diamed.com.form.res.providers.StorageProvider;
 
 
 public class FirebaseBrowserFragment extends Fragment {
     private static final String TAG = "FirebaseBrowserFragment";
     private String path;
+    private HashMap<String, String> files;
     ClassApplication application;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     HashMap<String, String> file_list;
     List<FileBrowserItem> values;
-    File localFile;
+    StorageProvider storageProvider;
+
     int childCount;
 
     public FirebaseBrowserFragment() {
@@ -66,6 +72,8 @@ public class FirebaseBrowserFragment extends Fragment {
         if (getActivity() != null && isAdded())
             getActivity().setTitle(path);
         int childCount = 0;
+
+
     }
 
     @Override
@@ -80,16 +88,21 @@ public class FirebaseBrowserFragment extends Fragment {
             getContext().registerReceiver(mFirebaseReceiver,
                     new IntentFilter(DatabaseProvider.BROADCAST_FIREBASE_DIR));
         }
+        setHasOptionsMenu(true);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_file_browser, container, false);
         recyclerView = view.findViewById(R.id.recycler_file_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        ((EditText) view.findViewById(R.id.et_searchtext)).setText("");
+        ((EditText) view.findViewById(R.id.et_searchtext)).addTextChangedListener(filter);
         ((TextView) view.findViewById(R.id.path_text)).setText(path);
         if (getActivity() != null) {
             application = (ClassApplication) getActivity().getApplication();
             application.getDatabaseProvider(getContext()).getFirebaseDir(path);
         }
+
+
         return view;
     }
 
@@ -107,9 +120,9 @@ public class FirebaseBrowserFragment extends Fragment {
             }
         }
         Collections.sort(values);
-        if (childCount > 0) {
+        //if (childCount > 0) {
             values.add(0, new FileBrowserItem("..", true));
-        }
+        //}
         adapter = new FileBrowserAdapter(values, getContext());
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -117,6 +130,31 @@ public class FirebaseBrowserFragment extends Fragment {
 
     }
 
+    private void refreshView(HashMap<String, String> files, String filter) {
+        file_list = files;
+        // Read all files sorted into the values-array
+        //List values = new ArrayList();
+        values = new ArrayList<>();
+
+        for (String s : files.keySet()) {
+            if(s.toLowerCase().contains(filter.toLowerCase())) {
+                if (files.get(s).equals("")) {
+                    values.add(new FileBrowserItem(s, files.get(s).equals("")));
+                } else {
+                    values.add(new FileBrowserItem(s, files.get(s).equals("")));
+                }
+            }
+        }
+        Collections.sort(values);
+        //if (childCount > 0) {
+        values.add(0, new FileBrowserItem("..", true));
+        //}
+        adapter = new FileBrowserAdapter(values, getContext());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
+    }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -139,7 +177,7 @@ public class FirebaseBrowserFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
             Log.e(TAG, "got intent reciever");
-            HashMap<String, String> files = (HashMap<String, String>) intent.getSerializableExtra("filenameArray");
+            files = (HashMap<String, String>) intent.getSerializableExtra("filenameArray");
             refreshView(files);
 
 
@@ -160,7 +198,7 @@ public class FirebaseBrowserFragment extends Fragment {
             if (getActivity() != null) {
                 childCount--;
                 path = path.substring(0, path.lastIndexOf("/"));
-                if(getView()!=null)
+                if (getView() != null)
                     ((TextView) getView().findViewById(R.id.path_text)).setText(path);
                 application = (ClassApplication) getActivity().getApplication();
                 application.getDatabaseProvider(getContext()).getFirebaseDir(path);
@@ -173,7 +211,7 @@ public class FirebaseBrowserFragment extends Fragment {
                     filename = path + File.separator + filename;
                 }
                 path = filename;
-                if(getView()!=null)
+                if (getView() != null)
                     ((TextView) getView().findViewById(R.id.path_text)).setText(path);
                 if (getActivity() != null) {
                     application = (ClassApplication) getActivity().getApplication();
@@ -181,97 +219,87 @@ public class FirebaseBrowserFragment extends Fragment {
                     childCount++;
                 }
 
-/*
-            FirebaseBrowserFragment mFileBrowserFragment = new FirebaseBrowserFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("path", filename);
-            mFileBrowserFragment.setArguments(bundle);
 
-            FragmentManager mFragmentManager = getFragmentManager();
-            FragmentTransaction mFragmentTransaction;
-            if (mFragmentManager != null) {
-                mFragmentTransaction = mFragmentManager.beginTransaction();
-
-                //ft.setCustomAnimations(R.animator, R.animator.fade_in);
-                mFragmentTransaction.addToBackStack(null);
-                mFragmentTransaction.replace(R.id.pager, mFileBrowserFragment).commit();
-            }
-            if (getActivity() != null && isAdded())
-                getActivity().overridePendingTransition(0, 0);*/
             } else {
                 //open item
-                if (getContext() != null) {
-                    StorageReference islandRef = FirebaseStorage.getInstance().getReference().child(file_list.get(filename));
-                    localFile = File.createTempFile("preview", ".pdf", new File(Environment.getExternalStorageDirectory() + "/Documents/MediForms/"));
-                    islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Intent target = new Intent(Intent.ACTION_VIEW);
-                            target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
-                                    Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, localFile);
-                            target.setDataAndType(uri, "application/pdf");
-                            try {
-                                startActivity(target);
-                            } catch (ActivityNotFoundException e) {
-                                // Instruct the user to install a PDF reader here, or something
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
-                        }
-                    });
-                }
+                application.getStorageProvider(getContext()).downloadFile(path,filename);
             }
         }
 
-        /*} else {
-            if (getContext() != null) {
-                Intent target = new Intent(Intent.ACTION_VIEW);
-                target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
-                        Intent.FLAG_ACTIVITY_NO_HISTORY);
-                Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, file);
-                target.setDataAndType(uri, "application/pdf");
-                try {
-                    startActivity(target);
-                } catch (ActivityNotFoundException e) {
-                    // Instruct the user to install a PDF reader here, or something
-                }
-            }
-        */
-}
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(localFile!=null && localFile.exists())
-            localFile.delete();
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(localFile!=null && localFile.exists())
-            localFile.delete();
 
     }
 
-    private void refresh() {
-        refreshView(file_list);
-        /*
-        if (getActivity() != null) {
-            Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.module_container);
-            if (currentFragment instanceof FirebaseBrowserFragment) {
-                FragmentTransaction fragTransaction = (getActivity()).getSupportFragmentManager().beginTransaction();
-                fragTransaction.detach(currentFragment);
-                fragTransaction.attach(currentFragment);
-                fragTransaction.commit();
-            }
-        }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        List<String> list = new ArrayList<>();
+        switch (item.getItemId()) {
+
+            case R.id.action_download:
+                list.addAll(((FileBrowserAdapter) adapter).getMarkedItems());
+
+                if (!list.isEmpty()) {
+                    if(getActivity()!=null) {
+                        ClassApplication application = (ClassApplication) getActivity().getApplication();
+                        storageProvider = application.getStorageProvider(getContext());
+                    }
+
+                    String[] arrayList = new String[list.size()];
+                    for (int i = 0; i < list.size(); i++) {
+                        arrayList[i] = list.get(i);
+                    }
+                    //uploadItem(arrayList);
+                    ((FileBrowserAdapter) adapter).clearMarked();
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "בחר קבצים להעלאה", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+
+            case R.id.action_select_all:
+                if (recyclerView.getChildCount() > 1) {
+                    boolean mark = recyclerView.getChildAt(recyclerView.getChildCount() - 1).isActivated();
+
+                    if (!mark)
+                        ((FileBrowserAdapter) adapter).selectAll();//.addToMarked(recyclerView.getChildAt(i));
+                    else
+                        ((FileBrowserAdapter) adapter).clearMarked();//.removeFromMarked(recyclerView.getChildAt(i));
+                    adapter.notifyDataSetChanged();
+
+
+                    return true;
+                }
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.toolbar_firebasebrowser, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 
 
     @Override
@@ -289,4 +317,24 @@ public class FirebaseBrowserFragment extends Fragment {
 
     }
 
+
+    TextWatcher filter = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (count > 2)
+                refreshView(files, s.toString());
+            else
+                refreshView(files);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

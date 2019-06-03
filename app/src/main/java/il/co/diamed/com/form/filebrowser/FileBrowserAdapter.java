@@ -1,11 +1,10 @@
 package il.co.diamed.com.form.filebrowser;
 
-import android.content.Context;
+        import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import il.co.diamed.com.form.R;
 
 public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.ViewHolder> {
-    public static final String BROADCAST_FILTER = "FileBrowserAdapter_broadcast_receiver_intent_filter";
+    static final String BROADCAST_FILTER = "FileBrowserAdapter_broadcast_receiver_intent_filter";
     private List<FileBrowserItem> list;
     private List<String> markedList;
     private Context context;
+    //private List<FileBrowserItem> contactListFiltered;
 
     static String colorMarked ="#11ccff";
     static String colorUnmarked = "#ffffff";
-    private int selectedPos = RecyclerView.NO_POSITION;
+    //private int selectedPos = RecyclerView.NO_POSITION;
 
     FileBrowserAdapter(List<FileBrowserItem> list, Context context) {
         this.list = list;
@@ -34,12 +33,12 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         this.markedList = new ArrayList<>();
     }
 
+
     @NonNull
     @Override
     public FileBrowserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_file_browser_item, parent, false);
         v.setClickable(true);
-
 
         return new FileBrowserAdapter.ViewHolder(v);
     }
@@ -70,14 +69,14 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         return list.size();
     }
 
-    public void addToMarked(View childAt) {
+    private void addToMarked(View childAt) {
 
         if(markedList.add(((TextView)childAt.findViewById(R.id.file_name)).getText().toString())){
             childAt.setBackgroundColor(Color.parseColor(colorMarked));
             childAt.setActivated(true);
         }
     }
-    public void removeFromMarked(View childAt) {
+    private void removeFromMarked(View childAt) {
 
         if(markedList.remove(((TextView)childAt.findViewById(R.id.file_name)).getText().toString())){
             childAt.setActivated(false);
@@ -86,22 +85,18 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
 
     }
 
-    public void clearMarked() {
+    void clearMarked() {
         markedList.clear();
     }
 
 
-    public void selectAll() {
+    void selectAll() {
         for(FileBrowserItem item : list)
             markedList.add(item.getText());
         markedList.remove(".."); //if exists
     }
 
-    public void removeAll() {
-
-    }
-
-    public List<String> getMarkedItems() {
+    List<String> getMarkedItems() {
         return markedList;
     }
 
@@ -125,7 +120,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
 
         @Override
         public void onClick(View v) {
-            if(!((TextView)v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
+            if (!((TextView) v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
                 if (v.isActivated()) {
 
                     removeFromMarked(v);
@@ -136,7 +131,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
                     i.putExtra("filename", this.textView.getText().toString());
                     context.sendBroadcast(i);
                 }
-            }else if(markedList.isEmpty()){
+            } else if (markedList.isEmpty()) {
                 Intent i = new Intent(BROADCAST_FILTER);
                 i.putExtra("filename", this.textView.getText().toString());
                 context.sendBroadcast(i);
@@ -146,7 +141,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
         @Override
         public boolean onLongClick(View v) {
 
-            if(!((TextView)v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
+            if (!((TextView) v.findViewById(R.id.file_name)).getText().toString().equals("..")) {
                 if (v.isActivated()) {
                     removeFromMarked(v);
 
@@ -160,6 +155,44 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
             return false;
 
         }
+
+
+       /* @Override
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence charSequence) {
+                    String charString = charSequence.toString();
+                    if (charString.isEmpty()) {
+                        contactListFiltered = list;
+                    } else {
+                        List<FileBrowserItem> filteredList = new ArrayList<>();
+                        for (FileBrowserItem row : list) {
+
+                            // name match condition. this might differ depending on your requirement
+                            // here we are looking for name or phone number match
+                            if (row.getText().toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(row);
+                            }
+                        }
+
+                        contactListFiltered = filteredList;
+                    }
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = contactListFiltered;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    contactListFiltered = (ArrayList<Contact>) filterResults.values;
+
+                    // refresh the list with filtered data
+                    notifyDataSetChanged();
+                }
+            };
+        }*/
     }
 }
 

@@ -22,10 +22,12 @@ private boolean directory;
 
     @Override
     public int compareTo(@NonNull FileBrowserItem o) {
-        if (!directory)
-            return -1;
-        else
+        if (directory && !o.directory)
+            return 1;
+        else if(directory && o.directory || !(directory && o.directory))
             return(this.text.compareTo(o.getText()));
+        else
+            return -1;
 
     }
 }

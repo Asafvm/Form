@@ -25,21 +25,24 @@ public class ClassApplication extends Application {
     private static final String TAG = "ClassApplication";
     AnalyticsProvider analyticsProvider;
     StorageProvider storageProvider;
-    AuthenticationProvider mAuthenticationProvider;
+    static AuthenticationProvider mAuthenticationProvider;
     DatabaseProvider mDatabaseProvider;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
-        mAuthenticationProvider = new AuthenticationProvider();
+        mAuthenticationProvider = AuthenticationProvider.GetAuthenticationProvider();
 
-        logUser();
-    }
-    public FirebaseAuth getAuthProvider(){
-        return mAuthenticationProvider.getAuth();
+        //logUser();
     }
 
+    public AuthenticationProvider getAuthProvider(){
+        return mAuthenticationProvider;
+    }
+    /*
     private void logUser() {
         // You can call any combination of these three methods
         if(mAuthenticationProvider.getUser()!=null) {
@@ -49,7 +52,7 @@ public class ClassApplication extends Application {
             Crashlytics.setUserName(user.getDisplayName());
         }
     }
-
+*/
     public void logAnalyticsEvent(AnalyticsEventItem eventItem) {
         try {
             analyticsProvider.logAnalyticsEvent(eventItem);

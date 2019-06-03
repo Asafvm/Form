@@ -544,5 +544,8 @@
     <string name="delete_device">מחק מכשיר</string>
     <string name="move_device">העבר מכשיר</string>
     <string name="edit">ערוך</string>
+    <string name="search">חפש</string>
 
+
+    <!-- PREMISSIONS -->
 </resources>

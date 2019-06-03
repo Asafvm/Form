@@ -6,13 +6,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <meta-data
         android:name="firebase_crashlytics_collection_enabled"
@@ -30,16 +30,7 @@
         <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
         <!-- Nav Menu -->
 
-        <activity
-            android:name=".menu.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <!-- Intent filter to capture System Browser calling back to our app after Sign In -->
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -47,11 +38,24 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Add in your scheme/host from registered redirect URI -->
-                <data android:scheme="msalb3131887-d338-4d8d-a0fb-89c5db805612"
-                    android:host="auth" />
+                <!--Add in your scheme/host from registered redirect URI-->
+                <data
+                    android:host="auth"
+                    android:scheme="msale4768b21-a07f-4d35-be0d-8aac21757356" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".menu.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Intent filter to capture System Browser calling back to our app after Sign In -->
+
+
         <activity android:name=".calibration.IncubatorActivity" />
         <activity
             android:name=".menu.SettingsActivity"
@@ -100,15 +104,15 @@
         <activity
             android:name=".menu.MainMenuAcitivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".calibration.FridgeActivity" />
         <activity android:name=".calibration.SepaxActivity" />
-        <activity android:name=".calibration.res.DevicePrototypeActivity"/>
+        <activity android:name=".calibration.res.DevicePrototypeActivity" />
+        <activity android:name=".menu.MicrosoftLoginActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_map_key"/>
+            android:value="@string/google_map_key" />
     </application>
 
 </manifest>

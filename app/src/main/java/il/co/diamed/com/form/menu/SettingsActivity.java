@@ -2,7 +2,6 @@ package il.co.diamed.com.form.menu;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,15 +11,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.RecoverySystem;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -316,7 +314,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     ClassApplication application = (ClassApplication) getActivity().getApplication();
-                    application.getAuthProvider().addAuthStateListener(listener);
+                    //application.getAuthProvider().addAuthStateListener(listener);
                     user = FirebaseAuth.getInstance().getCurrentUser();
                     if(user!=null) {
                         //pplication.signout();
@@ -353,7 +351,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
 
             private void unregisterListener() {
-                application.getAuthProvider().removeAuthStateListener(listener);
+                //application.getAuthProvider().removeAuthStateListener(listener);
 
             }
         };

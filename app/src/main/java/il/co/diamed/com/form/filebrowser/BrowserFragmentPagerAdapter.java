@@ -15,11 +15,9 @@ public class BrowserFragmentPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private FirebaseBrowserFragment mFirebaseBrowserFragment;
     private FileBrowserFragment mFileBrowserFragment;
-    private FragmentManager mFragmentManager;
 
     BrowserFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
-        mFragmentManager = fragmentManager;
         mContext = context;
 
     }

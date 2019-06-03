@@ -2,6 +2,7 @@ package il.co.diamed.com.form.calibration.res;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -135,8 +136,19 @@ public class DevicePrototypeActivity extends AppCompatActivity {
     public void doAnother() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, (dialog, which) -> restart());
-        alertBuilder.setNegativeButton(R.string.cancelButton, (dialog, which) -> finish());
+        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DevicePrototypeActivity.this.restart();
+            }
+        });
+
+        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DevicePrototypeActivity.this.finish();
+            }
+        });
 
         alertBuilder.setCancelable(false);
         alertBuilder.create().show();

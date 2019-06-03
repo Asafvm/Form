@@ -123,12 +123,17 @@ public class MainMenuAcitivity extends AppCompatActivity {
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
                     switch (menuItem.getItemId()) {
+
                         case R.id.nav_forms: {
+                            checkFragmentSwitching();
+
                             showForms();
 
                             break;
                         }
                         case R.id.nav_settings: {
+                            checkFragmentSwitching();
+
                             Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
                             startActivity(intent);
                             break;
@@ -136,6 +141,8 @@ public class MainMenuAcitivity extends AppCompatActivity {
                         case R.id.nav_files: {
                             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                                     == PackageManager.PERMISSION_GRANTED) {
+                                checkFragmentSwitching();
+
                                 launchFileBrowser();
                             } else {
                                 // Permission is not granted
@@ -145,11 +152,15 @@ public class MainMenuAcitivity extends AppCompatActivity {
                             break;
                         }
                         case R.id.nav_stock: {
+                            checkFragmentSwitching();
+
                             //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
                             showInventory();
                             break;
                         }
                         case R.id.nav_map: {
+                            checkFragmentSwitching();
+
                             //Toast.makeText(getApplicationContext(), getText(R.string.soon), Toast.LENGTH_SHORT).show();
                             showMap();
                             break;
@@ -376,6 +387,11 @@ public class MainMenuAcitivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
+    }
+
+    public void checkFragmentSwitching(){
+        if (mFragmentManager.getBackStackEntryCount() > 0)
+            mFragmentManager.popBackStackImmediate();
     }
 
     @Override

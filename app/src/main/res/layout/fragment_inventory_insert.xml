@@ -35,10 +35,16 @@
         android:hint="@string/itemSerial"
         />
 
-    <TextView
+    <AutoCompleteTextView
         android:id="@+id/etItem_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:completionThreshold="3"
+        android:maxLines="2"
+        android:autoSizeTextType="uniform"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/insertSubmit"
         app:layout_constraintEnd_toStartOf="@id/etItem_inStock"
         app:layout_constraintHorizontal_weight="0.6"

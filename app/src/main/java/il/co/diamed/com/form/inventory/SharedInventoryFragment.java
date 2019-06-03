@@ -9,15 +9,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -83,7 +88,7 @@ public class SharedInventoryFragment extends Fragment {
             // insert data from firebase
 
             if (groupValues != null && users != null) {
-                HashMap<String,String> values = new HashMap<>();
+                //HashMap<String,String> values = new HashMap<>();
                 childValues = new ArrayList<>();
                 //for (Part item : groupValues) {
 
@@ -135,7 +140,7 @@ public class SharedInventoryFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.e(TAG, "User selected alert!");
-            FirebaseUser firebaseUser = application.getAuthProvider().getCurrentUser();
+            FirebaseUser firebaseUser = application.getAuthProvider().getUser();
             String target = null;
             Bundle bundle = intent.getExtras();
             if(bundle!=null)
@@ -146,18 +151,19 @@ public class SharedInventoryFragment extends Fragment {
                         if (user.getId().equals(firebaseUser.getUid()))
                             getActivity().onBackPressed();
                         else
-                            showTargetInventory(user.getId());
+                            showTargetInventory(user.getId(),user.getName());
                     }
         }
     };
 
-    private void showTargetInventory(String target) {
+    private void showTargetInventory(String target, String name) {
         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         if(mTargetInventoryFragment==null)
             mTargetInventoryFragment = new TargetInventoryFragment();
         Bundle bundle = new Bundle();
         bundle.putString("target",target);
+        bundle.putString("name",name);
         mTargetInventoryFragment.setArguments(bundle);
         Slide slide = new Slide();
         slide.setSlideEdge(Gravity.END);
@@ -166,6 +172,7 @@ public class SharedInventoryFragment extends Fragment {
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.replace(R.id.module_container, mTargetInventoryFragment).commit();
     }
+
 
 
 }
