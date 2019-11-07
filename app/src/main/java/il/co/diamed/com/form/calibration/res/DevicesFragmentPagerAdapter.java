@@ -1,9 +1,9 @@
 package il.co.diamed.com.form.calibration.res;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import il.co.diamed.com.form.R;
@@ -23,11 +23,15 @@ public class DevicesFragmentPagerAdapter extends FragmentPagerAdapter{
     // This determines the fragment for each tab
     @Override
     public Fragment getItem(int position) {
+        //return new DiamedFragment();
+
         if (position == 0) {
             Log.e("Adapter","0");
             return new DiamedFragment();
 
-        } else if (position == 1){
+        }
+
+        else if (position == 1){
             Log.e("Adapter","1");
             return new MedigalFragment();
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="il.co.diamed.com.form">
 
     <supports-screens android:anyDensity="true" />
@@ -14,9 +15,10 @@
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <meta-data
+
+    <!--meta-data
         android:name="firebase_crashlytics_collection_enabled"
-        android:value="false" />
+        android:value="false" /-->
 
     <application
         android:name=".ClassApplication"
@@ -25,7 +27,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme">
+        android:theme="@style/MyTheme"
+        android:fullBackupContent="true">
 
         <!-- android:theme="@style/Theme.AppCompat.Light.NoActionBar" -->
         <!-- Nav Menu -->
@@ -83,7 +86,7 @@
             android:value="c4043ae952ed1761e2fc155a83232f8911663d8d" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -108,7 +111,6 @@
         <activity android:name=".calibration.FridgeActivity" />
         <activity android:name=".calibration.SepaxActivity" />
         <activity android:name=".calibration.res.DevicePrototypeActivity" />
-        <activity android:name=".menu.MicrosoftLoginActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

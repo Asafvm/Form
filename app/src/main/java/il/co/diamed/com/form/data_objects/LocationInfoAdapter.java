@@ -1,30 +1,23 @@
 package il.co.diamed.com.form.data_objects;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.app.FragmentManager;
+
+import androidx.fragment.app.FragmentManager;
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.calibration.res.DeviceDialogFragment;
 import il.co.diamed.com.form.menu.MainMenuAcitivity;
 
 class LocationInfoAdapter extends BaseExpandableListAdapter {
@@ -33,7 +26,7 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
     private Context mContext;
     private ArrayList<SubLocation> mGroupList;
     private ArrayList<ArrayList<Device>> mChildList;
-    private android.support.v4.app.FragmentManager manager;
+    private FragmentManager manager;
     private DeviceEditorFragment newFragment;
 
     LocationInfoAdapter(ArrayList<SubLocation> list, ArrayList<ArrayList<Device>> childValues, Context context) {

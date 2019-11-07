@@ -1,41 +1,19 @@
 package il.co.diamed.com.form.filebrowser;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.NonNull;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ToxicBakery.viewpager.transforms.CubeInTransformer;
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
-import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.calibration.CentrifugeActivity;
-import il.co.diamed.com.form.calibration.Diacent12Activity;
-import il.co.diamed.com.form.calibration.DiacentCWActivity;
-import il.co.diamed.com.form.calibration.DiacentUltraCWActivity;
-import il.co.diamed.com.form.calibration.DoconActivity;
-import il.co.diamed.com.form.calibration.FridgeActivity;
-import il.co.diamed.com.form.calibration.GelstationActivity;
-import il.co.diamed.com.form.calibration.GeneralUseActivity;
-import il.co.diamed.com.form.calibration.HC10Activity;
-import il.co.diamed.com.form.calibration.IH1000Activity;
-import il.co.diamed.com.form.calibration.IH500Activity;
-import il.co.diamed.com.form.calibration.IncubatorActivity;
-import il.co.diamed.com.form.calibration.PlasmaThawerActivity;
-import il.co.diamed.com.form.calibration.SepaxActivity;
-import il.co.diamed.com.form.calibration.res.DeviceDialogFragment;
-import il.co.diamed.com.form.res.MultiLayoutActivity;
 
 
 public class BrowserFragment extends Fragment {

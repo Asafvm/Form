@@ -11,7 +11,7 @@
     app:layout_constraintVertical_weight="5"
     tools:context=".calibration.IH500Activity">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/innerLayout"
         android:layout_width="match_parent"
@@ -266,12 +266,12 @@
             app:layout_constraintStart_toEndOf="@id/tvIH500IncubatorRear" />
         <!-- ***************************************************************************** -->
         <!-- Parts -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ih500PartsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/divider1"
             app:layout_constraintTop_toBottomOf="@id/tvIH500IncubatorRear" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

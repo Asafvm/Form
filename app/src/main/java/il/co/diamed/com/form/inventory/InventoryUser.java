@@ -1,6 +1,6 @@
 package il.co.diamed.com.form.inventory;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 public class InventoryUser implements Comparable<InventoryUser> {

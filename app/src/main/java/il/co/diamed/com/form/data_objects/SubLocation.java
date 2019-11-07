@@ -1,10 +1,9 @@
 package il.co.diamed.com.form.data_objects;
 
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-import android.provider.ContactsContract;
+
 import java.util.HashMap;
 
 @IgnoreExtraProperties

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout android:id="@+id/samsungDevices"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/samsungDevices"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_samsung"
@@ -63,5 +63,5 @@
         app:layout_constraintTop_toBottomOf="@id/pt10" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,6 @@
 package il.co.diamed.com.form.filebrowser;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class FileBrowserItem implements Comparable<FileBrowserItem>{
     private String text;

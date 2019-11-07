@@ -1,18 +1,14 @@
 package il.co.diamed.com.form.res.providers;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -28,14 +24,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
-import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.menu.SettingsActivity;
 
 public class StorageProvider {
     private static final String STORAGE_BUCKET = "gs://mediforms-04052018.appspot.com";

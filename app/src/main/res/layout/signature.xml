@@ -9,7 +9,7 @@
     android:layout_gravity="center"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonsLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/signturebackground"
@@ -44,9 +44,9 @@
             app:layout_constraintEnd_toStartOf="@id/clear"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/save" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signturebackground"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -55,12 +55,12 @@
         app:layout_constraintTop_toBottomOf="@id/buttonsLayout">
 
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/signatureLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:background="@android:color/white"
             android:orientation="vertical"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

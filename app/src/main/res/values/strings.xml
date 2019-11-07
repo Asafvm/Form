@@ -545,6 +545,14 @@
     <string name="move_device">העבר מכשיר</string>
     <string name="edit">ערוך</string>
     <string name="search">חפש</string>
+    <string name="login_username">משתמש</string>
+    <string name="login_password">סיסמה</string>
+    <string name="login_userhint">Example@domain.com</string>
+    <string name="login_passhint">Password</string>
+    <string name="login_btn">התחבר</string>
+    <string name="login_Domain">דומיין</string>
+    <string name="login_DomainHint">Company Name</string>
+    <string name="login_remember">זכור אותי</string>
 
 
     <!-- PREMISSIONS -->

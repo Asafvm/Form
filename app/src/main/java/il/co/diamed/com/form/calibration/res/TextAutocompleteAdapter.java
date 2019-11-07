@@ -1,20 +1,17 @@
 package il.co.diamed.com.form.calibration.res;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.TextView;
 
-import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

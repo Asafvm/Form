@@ -1,19 +1,16 @@
 package il.co.diamed.com.form.filebrowser;
 
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,12 +24,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +31,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import il.co.diamed.com.form.BuildConfig;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
@@ -247,6 +237,7 @@ public class FirebaseBrowserFragment extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_download:
+
                 list.addAll(((FileBrowserAdapter) adapter).getMarkedItems());
 
                 if (!list.isEmpty()) {
@@ -255,15 +246,14 @@ public class FirebaseBrowserFragment extends Fragment {
                         storageProvider = application.getStorageProvider(getContext());
                     }
 
-                    String[] arrayList = new String[list.size()];
                     for (int i = 0; i < list.size(); i++) {
-                        arrayList[i] = list.get(i);
+                        storageProvider.downloadFile(path,list.get(i));
                     }
                     //uploadItem(arrayList);
                     ((FileBrowserAdapter) adapter).clearMarked();
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "בחר קבצים להעלאה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "בחר קבצים להורדה", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;

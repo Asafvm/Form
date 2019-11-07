@@ -2,8 +2,8 @@ package il.co.diamed.com.form.res.providers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,9 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
 import il.co.diamed.com.form.data_objects.Device;
 import il.co.diamed.com.form.data_objects.Location;

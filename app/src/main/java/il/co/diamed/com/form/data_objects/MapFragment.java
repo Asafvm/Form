@@ -8,13 +8,13 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,15 +32,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import il.co.diamed.com.form.ClassApplication;
-import il.co.diamed.com.form.inventory.InventoryAdapter;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 import il.co.diamed.com.form.R;
 
@@ -49,11 +46,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         GoogleMap.OnMarkerDragListener {
     private GoogleMap mMap;
     private DatabaseProvider provider = null;
-    ArrayList<Location> locations = null;
     private boolean redMarker = true, orgMarker = true, yelMarker = true, grnMarker = true;
     private ArrayList<Location> display_locations = null;
-    RecyclerView recyclerView;
-    RecyclerView.Adapter<SideLocationsAdapter.ViewHolder> adapter;
     double originLat = -1, originLong = -1;
     private Location targetLocation = null;
 
@@ -180,7 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void populateMap() {
         mMap.clear();
 
-        locations = provider.getLocDB();
+        ArrayList<Location> locations = provider.getLocDB();
         display_locations = new ArrayList<>();
         if (locations != null) {
             Collections.sort(locations);
@@ -301,9 +295,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                update side list here
              */
             if (getView() != null && !display_locations.isEmpty()) {
-                recyclerView = getView().findViewById(R.id.recycler_locationList);
+                RecyclerView recyclerView = getView().findViewById(R.id.recycler_locationList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new SideLocationsAdapter(display_locations, getContext());
+                RecyclerView.Adapter<SideLocationsAdapter.ViewHolder> adapter = new SideLocationsAdapter(display_locations, getContext());
                 recyclerView.setAdapter(adapter);
             }
 
