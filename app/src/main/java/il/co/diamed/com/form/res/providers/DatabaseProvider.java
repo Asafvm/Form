@@ -13,9 +13,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,14 +45,15 @@ public class DatabaseProvider {
     private static HashMap<String, Part> targetDB;
     private List<ArrayList<InventoryUser>> allUsers;
     private final String USER_DB = "Users/";
+    private String DB = "Parts/";
+    private String LOCATION_DB = "Location";
+
     private Context context;
     private boolean lab_busy = false;
     private boolean my_busy = false;
-    private String DB = "Parts/";
     private boolean target_busy = false;
     private String last_target = "";
     private boolean loc_busy;
-    private String LOCATION_DB = "Location";
     private static ArrayList<Location> locDB;
     private boolean waitingToUploadDeviceFlag = false;
     private String holderLoc = "";
@@ -434,18 +437,60 @@ public class DatabaseProvider {
     public void initialize() {
         getLabInv();
         getMyInv();
+        getLocDB();
+        getUserInfo();
     }
 
 
     /***************************** My Database *************************************/
 
 
-    public void uploadUserData(HashMap<String, String> userInfo) {
+    public void getUserInfo(){
+        ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child(USER_DB).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot d : dataSnapshot.getChildren()) {
+                        GenericTypeIndicator<HashMap<String,Object>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
+                        HashMap<String,Object> hm = d.getValue(genericTypeIndicator);
+                            list.add(hm);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
+    }
+
+    public void uploadUserData(HashMap<String, String> userInfo, String folder) {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child("Info");
+            DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child(folder);
+            for (String key : userInfo.keySet()) {
+                databaseReference.child(key).setValue(userInfo.get(key));
+            }
+        } else {
+            FirebaseAuth.getInstance().addAuthStateListener(authStateListener); //wait for user to log in
+        }
+    }
+
+    public void downloadUserData(HashMap<String, String> userInfo, String folder) {
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && !user.getUid().equals("")) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child(folder);
             for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
             }
