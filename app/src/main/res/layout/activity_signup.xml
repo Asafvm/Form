@@ -1,121 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_window_menu"
-    android:layout_margin="40dp"
-    android:padding="20dp"
     android:layout_gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_margin="40dp"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/shape_window_menu"
+    android:padding="20dp">
 
-    <TextView
-        android:id="@+id/textDomainName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_Domain"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/editDomainName"
-        app:layout_constraintTop_toTopOf="@id/editDomainName"
-        app:layout_constraintBottom_toBottomOf="@id/editDomainName"
-        app:layout_constraintHorizontal_weight="1"
-        />
-
-    <TextView
-        android:id="@+id/textUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_username"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/editUserName"
-        app:layout_constraintTop_toTopOf="@id/editUserName"
-        app:layout_constraintBottom_toBottomOf="@id/editUserName"
-        app:layout_constraintHorizontal_weight="1"
-        />
-
-    <TextView
-        android:id="@+id/textPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_password"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/editPassword"
-        app:layout_constraintTop_toTopOf="@id/editPassword"
-        app:layout_constraintBottom_toBottomOf="@id/editPassword"
-        />
-    <EditText
-        android:id="@+id/editDomainName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login_DomainHint"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textDomainName"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@id/editUserName"
-        />
-
-    <EditText
-        android:id="@+id/editUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login_userhint"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/editDomainName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textUserName"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@id/editPassword"/>
-
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login_passhint"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/editUserName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textPassword"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@id/cbRememberme"
-        />
-
-
-    <CheckBox
-        android:id="@+id/cbRememberme"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_phase1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="@string/login_remember"
-        app:layout_constraintTop_toBottomOf="@id/editPassword"
-        app:layout_constraintBottom_toTopOf="@id/btn_signup"
-        app:layout_constraintVertical_weight="1"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        >
 
-        />
-    <Button
-        android:id="@+id/btn_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_btn"
-        android:background="@drawable/shape_button_submit"
-        app:layout_constraintTop_toBottomOf="@id/cbRememberme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_weight="1"/>
+        <TextView
+            android:id="@+id/textDomainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_Domain"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/editDomainName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/editDomainName"
+            app:layout_constraintTop_toTopOf="@id/editDomainName" />
+
+        <TextView
+            android:id="@+id/textUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_username"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/editUserName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/editUserName"
+            app:layout_constraintTop_toTopOf="@id/editUserName" />
+
+        <TextView
+            android:id="@+id/textPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_password"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/editPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/editPassword"
+            app:layout_constraintTop_toTopOf="@id/editPassword" />
+
+        <EditText
+            android:id="@+id/editDomainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_DomainHint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@id/editUserName"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/textDomainName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/editUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_userhint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@id/editPassword"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/textUserName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editDomainName"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/login_passhint"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toTopOf="@id/cbRememberme"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editUserName"
+            app:layout_constraintVertical_weight="1" />
+
+
+        <CheckBox
+            android:id="@+id/cbRememberme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_remember"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/textMessage"
+            app:layout_constraintEnd_toEndOf="@id/textPassword"
+            app:layout_constraintStart_toStartOf="@id/editPassword"
+            app:layout_constraintTop_toBottomOf="@id/editPassword"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/textMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/btn_signup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cbRememberme"
+            app:layout_constraintVertical_weight="1"
+
+            />
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button_submit"
+            android:text="@string/login_btn"
+            app:layout_constraintBottom_toTopOf="@id/btn_forgetpwd"
+            app:layout_constraintEnd_toStartOf="@id/btn_register"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textMessage"
+            app:layout_constraintVertical_weight="1" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button_submit_clicked_ok"
+            android:text="@string/register_btn"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_forgetpwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/btn_signup"
+            app:layout_constraintTop_toBottomOf="@id/textMessage"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_weight="1" />
+
+        <Button
+            android:id="@+id/btn_forgetpwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_button_submit_clicked_error"
+            android:text="@string/forgotpwd_btn"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_signup"
+            app:layout_constraintVertical_weight="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_phase2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/login_phase2_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/login_retrieving_data"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/loading1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/loading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/loading"
+            android:padding="15dp"
+            android:scaleType="fitXY"
+            android:maxHeight="@android:dimen/app_icon_size"
+            android:maxWidth="@android:dimen/app_icon_size"
+            app:layout_constraintBottom_toTopOf="@id/loading2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_phase2_title"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
+
+        <ImageView
+            android:id="@+id/loading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/loading"
+            android:padding="15dp"
+            android:scaleType="fitXY"
+            android:maxHeight="@android:dimen/app_icon_size"
+            android:maxWidth="@android:dimen/app_icon_size"
+            app:layout_constraintBottom_toTopOf="@id/loading3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loading1"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
+
+        <ImageView
+            android:id="@+id/loading3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/loading"
+            android:padding="15dp"
+            android:scaleType="fitXY"
+            android:maxHeight="@android:dimen/app_icon_size"
+            android:maxWidth="@android:dimen/app_icon_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loading2"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/login_phase2_db1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Getting User Info"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="@id/loading1"
+            app:layout_constraintBottom_toBottomOf="@id/loading1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/loading1"
+             />
+
+        <TextView
+            android:id="@+id/login_phase2_db2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Getting Database"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="@id/loading2"
+            app:layout_constraintBottom_toBottomOf="@id/loading2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/loading2" />
+
+        <TextView
+            android:id="@+id/login_phase2_db3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Getting Locations"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="@id/loading3"
+            app:layout_constraintBottom_toBottomOf="@id/loading3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/loading3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -402,6 +402,10 @@
     <string name="login_Domain">דומיין</string>
     <string name="login_DomainHint">Company Name</string>
     <string name="login_remember">זכור אותי</string>
+    <string name="register_btn">הרשם</string>
+    <string name="forgotpwd_btn">שכחתי סיסמה</string>
+    <string name="verify_email_message">Please verify your eMail address</string>
+    <string name="login_retrieving_data">Retrieving Data</string>
 
 
     <!-- PREMISSIONS -->

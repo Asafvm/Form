@@ -1,10 +1,14 @@
 package il.co.diamed.com.form.res.providers;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +31,7 @@ import java.util.List;
 public class AuthenticationProvider {
     private final String TAG = "AuthenticationProvider";
     final static String CLIENT_ID = "074d69f8-eed5-46ed-b577-13a834d0a716";
-
+    public static final String BROADCAST_MESSAGE = "login_message";
     private static AuthenticationProvider _firebase;
     private static PublicClientApplication sampleApp;
     private FirebaseAuth firebaseAuth;
@@ -55,7 +59,7 @@ public class AuthenticationProvider {
     }
 
 
-    public void signin(final String email, final String password) {
+    public void signin(final String email, final String password, Context currentContext) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
 
                 .addOnCompleteListener(task -> {
@@ -65,9 +69,19 @@ public class AuthenticationProvider {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         updateUI(user);
                     } else {
-                        Log.e(TAG, "signinUserWithEmail:failure", task.getException());
-                        Log.w(TAG, "signinUserWithEmail:trying to create");
-                        createUser(email, password); //create user if failed to sign in
+                        if(task.getException() != null) {
+                            Log.e(TAG, "signinUserWithEmail:failure");
+                            Log.e(TAG, "Message: " + task.getException().getMessage());
+                            Intent i = new Intent(BROADCAST_MESSAGE);
+                            i.putExtra("message", task.getException().getMessage());
+                            currentContext.sendBroadcast(i);
+
+                        }
+                        else
+                            Log.e(TAG, "signinUserWithEmail:failure" + task.getException());
+
+                        //Log.w(TAG, "signinUserWithEmail:trying to create");
+                        //createUser(email, password); //create user if failed to sign in
                         // If sign in fails, display a message to the user.
 
                         //updateUI(null);
@@ -78,7 +92,7 @@ public class AuthenticationProvider {
 
     }
 
-    private void createUser(final String email, final String password) {
+    public void createUser(final String email, final String password, Context currentContext) {
         Date date = new Date();
         Log.d(TAG, "createUserWithEmail:starting " + date.getTime());
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -87,16 +101,49 @@ public class AuthenticationProvider {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success ");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        updateUI(user);
+                        if(user != null) {
+                            updateUI(user);
+                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d(TAG, "Confimation Email sent.");
+                                }
+                            });
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.e(TAG, "createUserWithEmail:failure", task.getException());
+                        if(task.getException() != null) {
+                            Log.e(TAG, "createUserWithEmail:failure");
+                            Log.e(TAG, "Message: " + task.getException().getMessage());
+                            Intent i = new Intent(BROADCAST_MESSAGE);
+                            i.putExtra("message", task.getException().getMessage());
+                            currentContext.sendBroadcast(i);
+
+                        }
                         //updateUI(null);
                     }
 
                 });
     }
 
+    public void forgotPassword(String email, Context currentContext){
+
+      FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Reset Email sent.");
+                        if(task.getException() != null) {
+                            Intent i = new Intent(BROADCAST_MESSAGE);
+                            i.putExtra("message", task.getException().getMessage());
+                            currentContext.sendBroadcast(i);
+                        }
+
+
+                    }
+                });
+
+
+    }
 
     public FirebaseAuth getAuth() {
         return FirebaseAuth.getInstance();

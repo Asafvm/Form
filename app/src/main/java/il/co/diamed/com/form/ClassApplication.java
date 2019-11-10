@@ -6,10 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.File;
 
 import il.co.diamed.com.form.res.providers.AnalyticsEventItem;
@@ -18,16 +14,38 @@ import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
 import il.co.diamed.com.form.res.providers.AuthenticationProvider;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 import il.co.diamed.com.form.res.providers.StorageProvider;
-import io.fabric.sdk.android.Fabric;
 
 
 public class ClassApplication extends Application {
     private static final String TAG = "ClassApplication";
+    static AuthenticationProvider mAuthenticationProvider;
     AnalyticsProvider analyticsProvider;
     StorageProvider storageProvider;
-    static AuthenticationProvider mAuthenticationProvider;
     DatabaseProvider mDatabaseProvider;
+    private Context currentContext;
 
+    public static void deleteCache(Context context) {
+        try {
+            Log.e(TAG, "Deleting cache");
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else
+            return dir != null && dir.isFile() && dir.delete();
+    }
 
     @Override
     public void onCreate() {
@@ -35,13 +53,15 @@ public class ClassApplication extends Application {
 //        Fabric.with(this, new Crashlytics());
         analyticsProvider = new AnalyticsProvider(this);
         mAuthenticationProvider = AuthenticationProvider.GetAuthenticationProvider();
+        currentContext = getApplicationContext();
 
         //logUser();
     }
 
-    public AuthenticationProvider getAuthProvider(){
+    public AuthenticationProvider getAuthProvider() {
         return mAuthenticationProvider;
     }
+
     /*
     private void logUser() {
         // You can call any combination of these three methods
@@ -65,46 +85,24 @@ public class ClassApplication extends Application {
         analyticsProvider.logAnalyticsScreen(analyticsScreenItem);
     }
 
-
-    public void signin(String email, String password){
-        mAuthenticationProvider.signin(email,password);
+    public void signin(String email, String password) {
+        mAuthenticationProvider.signin(email, password, currentContext);
+    }
+    public void createUser(String email, String password) {
+        mAuthenticationProvider.createUser(email, password, currentContext);
+    }
+    public void forgotPassword(String email) {
+        mAuthenticationProvider.forgotPassword(email, currentContext);
     }
 
-
-    public StorageProvider getStorageProvider(Context context)
-    {
+    public StorageProvider getStorageProvider(Context context) {
         storageProvider = new StorageProvider(this);
         return storageProvider;
     }
 
-    public DatabaseProvider getDatabaseProvider(Context context)
-    {
+    public DatabaseProvider getDatabaseProvider(Context context) {
         mDatabaseProvider = new DatabaseProvider(context);
         return mDatabaseProvider;
-    }
-
-
-
-    public static void deleteCache(Context context) {
-        try {
-            Log.e(TAG, "Deleting cache");
-            File dir = context.getCacheDir();
-            deleteDir(dir);
-        } catch (Exception ignored) {}
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (String aChildren : children) {
-                boolean success = deleteDir(new File(dir, aChildren));
-                if (!success) {
-                    return false;
-                }
-            }
-            return dir.delete();
-        } else
-            return dir != null && dir.isFile() && dir.delete();
     }
 
     public String getAppVer() {

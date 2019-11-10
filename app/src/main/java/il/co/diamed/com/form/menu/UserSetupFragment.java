@@ -117,15 +117,17 @@ public class UserSetupFragment extends Fragment {
                     spedit.putString("timer", timer);
                     spedit.apply();
 
-                    HashMap<String,String> userInfo = new HashMap<>();
-                    userInfo.put("techName", name);
-                    userInfo.put("speedometer", speedometer);
-                    userInfo.put("thermometer", thermometer);
-                    userInfo.put("barometer", barometer);
-                    userInfo.put("timer", timer);
+                    HashMap<String, String> userInfo = new HashMap<>();
+                    HashMap<String, String> userTools = new HashMap<>();
 
+                    userInfo.put("techName", name);
+                    userTools.put("speedometer", speedometer);
+                    userTools.put("thermometer", thermometer);
+                    userTools.put("barometer", barometer);
+                    userTools.put("timer", timer);
                     ClassApplication application = (ClassApplication)getActivity().getApplication();
-                    application.getDatabaseProvider(getContext()).uploadUserData(userInfo);
+                    application.getDatabaseProvider(getContext()).uploadUserData(userInfo,"Info");
+                    application.getDatabaseProvider(getContext()).uploadUserData(userTools, "Tools");
 
                     LoginActivity activity = (LoginActivity)getActivity();
                     activity.updateTechTools();

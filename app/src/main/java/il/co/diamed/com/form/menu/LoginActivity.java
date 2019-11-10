@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -24,7 +25,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -46,6 +50,7 @@ import java.util.Objects;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.AnalyticsScreenItem;
+import il.co.diamed.com.form.res.providers.AuthenticationProvider;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class LoginActivity extends AppCompatActivity implements
@@ -55,8 +60,8 @@ public class LoginActivity extends AppCompatActivity implements
     private ClassApplication application;
     private FirebaseUser user;
     boolean verChecked = false;
-
-
+    Dialog loginDialog = null;
+    private boolean labReady = false, locReady = false, userdbReady = false;
 
 
     @Override
@@ -64,89 +69,8 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         init();
         setProgressInfo("Checking Latest Version", 0);
-        signinUser();
+        signUser();
         //application.getDatabaseProvider(this).getAppVer();
-    }
-
-
-    private void moveLogo(float distance, int duration) {
-        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.loginLogo), "translationY", distance);
-        animation.setDuration(duration);
-        animation.start();
-
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(duration);
-        findViewById(R.id.loginLogo).startAnimation(anim);
-    }
-
-    public void signinUser() {
-        setProgressInfo("Starting app", 10);
-
-        //FirebaseAuth.getInstance().getCurrentUser();
-        user = null;    //testing forced log in
-        if (user == null) {
-            Log.e(TAG, "No active user");
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                setProgressInfo("Waiting for user and password", 30);
-                //signinToMicrosoft();
-
-                //OPEN LOG IN SCREEN HERE
-                final Dialog loginDialog = new Dialog(LoginActivity.this, android.R.style.Theme_Black_NoTitleBar);
-                Window win = loginDialog.getWindow();
-                if(win!=null)
-                    win.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-                //loginDialog.getWindow().setEnterTransition();
-
-                loginDialog.setContentView(R.layout.activity_signup);
-                loginDialog.setCancelable(true);
-
-                Button submit = loginDialog.findViewById(R.id.btn_signup);
-                submit.setOnClickListener(view -> {
-                    //Login with user and pass
-                    String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
-                    String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
-                    Log.e(TAG, "Logging with " + username + " : " + password);
-                    setProgressInfo("Attempting to login", 50);
-                    application.signin(username, username);
-                    application.getAuthProvider().getAuth().addAuthStateListener(listener);
-
-                    loginDialog.dismiss();
-
-                });
-
-                loginDialog.show();
-                //application.getAuthProvider().signinToMicrosoftFirebase(this);
-            } else {
-                // Permission is not granted
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        MY_PERMISSIONS_REQUEST_CONTACTS);
-            }
-
-        } else {
-            Log.d(TAG, "Logged: " + user.getEmail());
-            updateTechTools();
-        }
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                    signinUser();
-
-                } else {
-                    // permission denied, boo!
-                    quitApp(getString(R.string.noContactsPermission));
-                }
-            }
-        }
     }
 
     private void init() {
@@ -169,7 +93,139 @@ public class LoginActivity extends AppCompatActivity implements
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
         moveLogo(400, 0);
-        moveLogo(-650 , 1400);
+        moveLogo(-650, 1400);
+    }
+
+
+    private void moveLogo(float distance, int duration) {
+        ObjectAnimator animation = ObjectAnimator.ofFloat(findViewById(R.id.loginLogo), "translationY", distance);
+        animation.setDuration(duration);
+        animation.start();
+
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(duration);
+        findViewById(R.id.loginLogo).startAnimation(anim);
+    }
+
+    public void signUser() {
+        setProgressInfo("Starting app", 10);
+
+        //FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseAuth.getInstance().signOut();    //testing forced log in
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        application.getAuthProvider().getAuth().addAuthStateListener(listener);
+
+        if (user == null) {
+            Log.e(TAG, "No active user");
+            setProgressInfo("Waiting for user and password", 30);
+            //OPEN LOG IN SCREEN HERE
+            loginDialog = new Dialog(LoginActivity.this, android.R.style.Theme_Black_NoTitleBar);
+            Window win = loginDialog.getWindow();
+            if (win != null)
+                win.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+            loginDialog.setContentView(R.layout.activity_signup);
+            loginDialog.setCancelable(true);
+
+            //load saved user
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor spedit = sharedPref.edit();
+            String savedUser = sharedPref.getString("username", "");
+            String savedDomain = sharedPref.getString("domain", "");
+            boolean remember = sharedPref.getBoolean("remember", false);
+            if (remember) {
+                ((CheckBox) loginDialog.findViewById(R.id.cbRememberme)).setChecked(true);
+                if (savedUser != null && !savedUser.isEmpty()) {
+                    ((EditText) loginDialog.findViewById(R.id.editUserName)).setText(savedUser);
+                }
+                if (savedDomain != null && !savedDomain.isEmpty()) {
+                    ((EditText) loginDialog.findViewById(R.id.editDomainName)).setText(savedDomain.toUpperCase());
+                }
+            }
+
+
+            //set buttons
+            Button submit = loginDialog.findViewById(R.id.btn_signup);
+            Button register = loginDialog.findViewById(R.id.btn_register);
+            Button forgot = loginDialog.findViewById(R.id.btn_forgetpwd);
+
+
+            submit.setOnClickListener(view -> {
+                //Login with user and pass
+                String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
+                String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
+                String domain = ((EditText) loginDialog.findViewById(R.id.editDomainName)).getText().toString().toUpperCase();
+
+                Log.e(TAG, "Logging with " + username + " : " + password);
+                setProgressInfo("Attempting to login", 50);
+                if (username.isEmpty() || password.isEmpty())
+                    ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
+                else {
+                    if (((CheckBox) loginDialog.findViewById(R.id.cbRememberme)).isChecked()) {
+                        spedit.putBoolean("remember", true);
+                        if (savedUser != null && (savedUser.isEmpty() || (!savedUser.equals(username)))) {
+                            spedit.putString("username", username);
+                        }
+                        if (savedDomain != null && (savedDomain.isEmpty() || (!savedDomain.equals(domain)))) {
+                            spedit.putString("domain", domain.toUpperCase());
+                        }
+                    } else {
+                        spedit.putBoolean("remember", false);
+                        spedit.putString("username", "");
+                        spedit.putString("domain", "");
+                    }
+                    spedit.apply();
+
+                    application.signin(username, password);
+
+                }
+            });
+
+            register.setOnClickListener(view -> {
+                //Login with user and pass
+                String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
+                String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
+                Log.e(TAG, "Creating with " + username + " : " + password);
+                setProgressInfo("Attempting to login", 50);
+                if (username.isEmpty() || password.isEmpty())
+                    ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
+                else
+                    application.createUser(username, password);
+            });
+
+
+            forgot.setOnClickListener(view -> {
+                //Login with user and pass
+                String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
+                setProgressInfo("Attempting to login", 50);
+                if (username.isEmpty())
+                    ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
+                else
+                    application.forgotPassword(username);
+            });
+
+            loginDialog.show();
+
+        } else {
+            Log.d(TAG, "Logged: " + user.getEmail());
+            updateTechTools();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_CONTACTS) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay!
+                signUser();
+
+            } else {
+                // permission denied, boo!
+                quitApp(getString(R.string.noContactsPermission));
+            }
+        }
     }
 
 
@@ -180,15 +236,24 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
 
+    private void getData() {
+        Log.d(TAG,"Getting databases");
+        application.getDatabaseProvider(this).initialize();
+    }
+
+
     public void updateUserDetails() {
+        if (loginDialog != null && loginDialog.isShowing())
+            loginDialog.dismiss();
+
         setProgressInfo("Updating info", 70);
 
-            Log.d(TAG, "Setting User Info");
+        Log.d(TAG, "Setting User Info");
 
-            UserProfileChangeRequest profileUpdates = null;
-                profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(Objects.equals(user.getDisplayName(), "") ? user.getEmail() : user.getDisplayName()) //display user name or email
-                        .build();
+        UserProfileChangeRequest profileUpdates = null;
+        profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(Objects.equals(user.getDisplayName(), "") ? user.getEmail() : user.getDisplayName()) //display user name or email
+                .build();
 
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(task -> {
@@ -220,11 +285,12 @@ public class LoginActivity extends AppCompatActivity implements
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String fontsize = sharedPref.getString("sync_fontsize", "");
-        if (fontsize.equals("")) {
+        if (fontsize != null && fontsize.equals("")) {
             SharedPreferences.Editor spedit = sharedPref.edit();
             spedit.putString("sync_fontsize", "12");
             spedit.apply();
         }
+        
         final String name = sharedPref.getString("techName", "");
         final String signature = sharedPref.getString("signature", "");
         final String thermometer = sharedPref.getString("thermometer", "");
@@ -244,22 +310,26 @@ public class LoginActivity extends AppCompatActivity implements
 
         } else {
             HashMap<String, String> userInfo = new HashMap<>();
+            HashMap<String, String> userTools = new HashMap<>();
+
             userInfo.put("techName", name);
-            userInfo.put("speedometer", speedometer);
-            userInfo.put("thermometer", thermometer);
-            userInfo.put("barometer", barometer);
-            userInfo.put("timer", timer);
+            userTools.put("speedometer", speedometer);
+            userTools.put("thermometer", thermometer);
+            userTools.put("barometer", barometer);
+            userTools.put("timer", timer);
             userInfo.put("AppVer", application.getAppVer());
 
             ClassApplication application = (ClassApplication) getApplication();
-            application.getDatabaseProvider(this).uploadUserData(userInfo);
+            application.getDatabaseProvider(this).uploadUserData(userInfo,"Info");
+            application.getDatabaseProvider(this).uploadUserData(userTools, "Tools");
 
             moveToMainMenu();
         }
     }
 
     private void moveToMainMenu() {
-        application.getDatabaseProvider(this).initialize();
+
+
 
         setProgressInfo("Ready... Set.... GO!", 100);
         Handler handler = new Handler();
@@ -287,6 +357,10 @@ public class LoginActivity extends AppCompatActivity implements
     public void onResume() {
         super.onResume();
         registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
+        registerReceiver(loginMessageReciever, new IntentFilter(AuthenticationProvider.BROADCAST_MESSAGE));
+        registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LABDB_READY));
+        registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
+        registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
         //checkVersion();
 
     }
@@ -295,23 +369,77 @@ public class LoginActivity extends AppCompatActivity implements
     public void onPause() {
         super.onPause();
         unregisterReceiver(databaseLocDBReceiver);
+        unregisterReceiver(loginMessageReciever);
+        unregisterReceiver(loginLoadingReciever);
     }
+
+    private BroadcastReceiver loginLoadingReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction() != null)
+                switch (intent.getAction()) {
+                    case DatabaseProvider.BROADCAST_LABDB_READY:
+                        if(loginDialog!=null && loginDialog.isShowing())
+                            ((ImageView)loginDialog.findViewById(R.id.loading2)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                        labReady = true;
+                        break;
+                    case DatabaseProvider.BROADCAST_LOCDB_READY:
+                        if(loginDialog!=null && loginDialog.isShowing())
+                            ((ImageView)loginDialog.findViewById(R.id.loading3)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                        locReady = true;
+                        break;
+                    case DatabaseProvider.BROADCAST_DB_READY:
+                        if(loginDialog!=null && loginDialog.isShowing())
+                            ((ImageView)loginDialog.findViewById(R.id.loading1)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                        userdbReady = true;
+                        break;
+
+                }
+            if (labReady && locReady && userdbReady) {
+                updateUserDetails();
+            }
+
+        }
+    };
 
     private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String appVer = application.getAppVer();
-            String fireBaseAppVer = intent.getExtras().getString("AppVer");
-            if (!appVer.equals("") && appVer.compareTo(fireBaseAppVer) >= 0)
-                if (!verChecked) {
-                    verChecked = true;
-                    signinUser();
-                } else {
-                    displayAlert(fireBaseAppVer);
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String fireBaseAppVer = bundle.getString("AppVer");
+                if (fireBaseAppVer != null && !appVer.equals("") && appVer.compareTo(fireBaseAppVer) >= 0)
+                    if (!verChecked) {
+                        verChecked = true;
+                        signUser();
+                    } else {
+                        displayAlert(fireBaseAppVer);
 
-                    Log.e(TAG, "Current ver: " + fireBaseAppVer);
-                    Log.e(TAG, "App ver: " + appVer);
+                        Log.e(TAG, "Current ver: " + fireBaseAppVer);
+                        Log.e(TAG, "App ver: " + appVer);
+                    }
+            }
+
+        }
+    };
+
+    private BroadcastReceiver loginMessageReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String message = bundle.getString("message");
+                if (message != null) {
+                    if (loginDialog != null && loginDialog.isShowing()) {
+                        ((TextView) loginDialog.findViewById(R.id.textMessage)).setText(message);
+                        loginDialog.findViewById(R.id.btn_register).setVisibility(View.VISIBLE);
+                        loginDialog.findViewById(R.id.btn_forgetpwd).setVisibility(View.VISIBLE);
+                    }
                 }
+
+            }
+
         }
     };
 
@@ -334,14 +462,30 @@ public class LoginActivity extends AppCompatActivity implements
 
             if (user != null) {
                 Log.e(TAG, "User logged in");
-                application.getAuthProvider().getAuth().removeAuthStateListener(listener);
-                updateUserDetails();
+                if (loginDialog != null) {
+                    if (user.isEmailVerified()) {
+                        application.getAuthProvider().getAuth().removeAuthStateListener(listener);
+                        loginDialog.findViewById(R.id.login_phase1).setVisibility(View.GONE);
+                        loginDialog.findViewById(R.id.login_phase2).setVisibility(View.VISIBLE);
+                        //loginDialog.dismiss();
+                        //updateUserDetails();
+
+
+                        getData();
+                    } else {
+                        ((TextView) loginDialog.findViewById(R.id.textMessage)).setText(getString(R.string.verify_email_message));
+                        user.sendEmailVerification();
+                    }
+
+                }
+
             } else {
                 Log.e(TAG, "User logged out");
             }
 
         }
     };
+
 
 }
 

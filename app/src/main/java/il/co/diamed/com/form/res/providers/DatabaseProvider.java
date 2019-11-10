@@ -429,6 +429,7 @@ public class DatabaseProvider {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
