@@ -142,7 +142,7 @@ public class InsertDialogFragment extends DialogFragment {
     public void getPartsDB() {
 
         if (getContext() != null) {
-            List<Part> labParts = provider.getLabInv();
+            List<Part> labParts = provider.getGlobalInv();
             if (labParts != null) {
                 try {
                     try {

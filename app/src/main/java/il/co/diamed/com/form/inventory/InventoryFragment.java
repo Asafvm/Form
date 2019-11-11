@@ -36,14 +36,12 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class InventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
-    RecyclerView recyclerView;
-    RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter;
-    DatabaseProvider provider;
-    List<Part> values;
-    ClassApplication application;
-    SwipeRefreshLayout refreshLayout;
-    SharedInventoryFragment mUsersInventoryFragment;
-    String userName = "";
+    private RecyclerView recyclerView;
+    private DatabaseProvider provider;
+    private List<Part> values;
+    private SwipeRefreshLayout refreshLayout;
+    private SharedInventoryFragment mUsersInventoryFragment;
+    private String userName = "";
 
     public InventoryFragment() {
         // Required empty public constructor
@@ -59,9 +57,9 @@ public class InventoryFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.viewSwipe);
         refreshLayout.setOnRefreshListener(this::refresh);
         if (getActivity() != null && isAdded()) {
-            application = (ClassApplication) getActivity().getApplication();
+            ClassApplication application = (ClassApplication) getActivity().getApplication();
             userName = application.getAuthProvider().getUser().getDisplayName();
-            ((TextView)view.findViewById(R.id.tvTitle)).setText("מלאי ברכב של " + userName);
+            ((TextView)view.findViewById(R.id.tvTitle)).setText(String.format("מלאי ברכב של %s", userName));
             provider = application.getDatabaseProvider(getContext());
             recyclerView = view.findViewById(R.id.recycler_inventory_view);
             recyclerView.setItemAnimator(new SlideInUpAnimator());
@@ -135,20 +133,20 @@ public class InventoryFragment extends Fragment {
     private void initView() {
         if (getContext() != null && getActivity() != null && isAdded()) {
             // insert data from firebase
-            values = provider.getMyInv();
+            values = provider.getPersonalInv();
             if (values == null) {
                 Log.e(TAG, "My database does not exists, waiting for broadcast");
             } else {
                 refreshLayout.setRefreshing(false);
                 Collections.sort(values);
-                adapter = new InventoryAdapter(values, getContext());
+                RecyclerView.Adapter<InventoryAdapter.ViewHolder> adapter = new InventoryAdapter(values, getContext());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
             }
         }
     }
 
-    protected void refresh() {
+    private void refresh() {
         if (getFragmentManager() != null) {
             initView();
 

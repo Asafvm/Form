@@ -1,6 +1,5 @@
 package il.co.diamed.com.form.menu;
 
-import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,8 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,15 +33,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -69,8 +65,7 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         init();
         setProgressInfo("Checking Latest Version", 0);
-        signUser();
-        //application.getDatabaseProvider(this).getAppVer();
+        application.getDatabaseProvider(this).getAppVer();
     }
 
     private void init() {
@@ -89,11 +84,10 @@ public class LoginActivity extends AppCompatActivity implements
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
-
         application = (ClassApplication) getApplication();
         application.logAnalyticsScreen(new AnalyticsScreenItem(this.getClass().getName()));
-        moveLogo(400, 0);
-        moveLogo(-650, 1400);
+        //moveLogo(400, 0);
+
     }
 
 
@@ -102,9 +96,9 @@ public class LoginActivity extends AppCompatActivity implements
         animation.setDuration(duration);
         animation.start();
 
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(duration);
-        findViewById(R.id.loginLogo).startAnimation(anim);
+        //AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        //anim.setDuration(duration);
+        //findViewById(R.id.loginLogo).startAnimation(anim);
     }
 
     public void signUser() {
@@ -157,8 +151,11 @@ public class LoginActivity extends AppCompatActivity implements
 
                 Log.e(TAG, "Logging with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
-                if (username.isEmpty() || password.isEmpty())
+                if (username.isEmpty() || password.isEmpty()){
+                    if(username.isEmpty()) ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
+                    if(password.isEmpty())((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
+                }
                 else {
                     if (((CheckBox) loginDialog.findViewById(R.id.cbRememberme)).isChecked()) {
                         spedit.putBoolean("remember", true);
@@ -186,9 +183,11 @@ public class LoginActivity extends AppCompatActivity implements
                 String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
                 Log.e(TAG, "Creating with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
-                if (username.isEmpty() || password.isEmpty())
+                if (username.isEmpty() || password.isEmpty()) {
+                    if(username.isEmpty()) ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
+                    if(password.isEmpty())((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
-                else
+                }else
                     application.createUser(username, password);
             });
 
@@ -197,9 +196,10 @@ public class LoginActivity extends AppCompatActivity implements
                 //Login with user and pass
                 String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
                 setProgressInfo("Attempting to login", 50);
-                if (username.isEmpty())
+                if (username.isEmpty()) {
+                    ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
-                else
+                }else
                     application.forgotPassword(username);
             });
 
@@ -245,13 +245,14 @@ public class LoginActivity extends AppCompatActivity implements
     public void updateUserDetails() {
         if (loginDialog != null && loginDialog.isShowing())
             loginDialog.dismiss();
+        moveLogo(0,1000);
+
 
         setProgressInfo("Updating info", 70);
 
         Log.d(TAG, "Setting User Info");
 
-        UserProfileChangeRequest profileUpdates = null;
-        profileUpdates = new UserProfileChangeRequest.Builder()
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(Objects.equals(user.getDisplayName(), "") ? user.getEmail() : user.getDisplayName()) //display user name or email
                 .build();
 
@@ -330,7 +331,6 @@ public class LoginActivity extends AppCompatActivity implements
     private void moveToMainMenu() {
 
 
-
         setProgressInfo("Ready... Set.... GO!", 100);
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -356,7 +356,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(databaseLocDBReceiver, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
+        registerReceiver(appVerReciever, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
         registerReceiver(loginMessageReciever, new IntentFilter(AuthenticationProvider.BROADCAST_MESSAGE));
         registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LABDB_READY));
         registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
@@ -368,7 +368,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(databaseLocDBReceiver);
+        unregisterReceiver(appVerReciever);
         unregisterReceiver(loginMessageReciever);
         unregisterReceiver(loginLoadingReciever);
     }
@@ -402,7 +402,7 @@ public class LoginActivity extends AppCompatActivity implements
         }
     };
 
-    private BroadcastReceiver databaseLocDBReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver appVerReciever = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String appVer = application.getAppVer();
@@ -411,8 +411,16 @@ public class LoginActivity extends AppCompatActivity implements
                 String fireBaseAppVer = bundle.getString("AppVer");
                 if (fireBaseAppVer != null && !appVer.equals("") && appVer.compareTo(fireBaseAppVer) >= 0)
                     if (!verChecked) {
-                        verChecked = true;
-                        signUser();
+                        Point scrSize = new Point();
+                        getWindow().getWindowManager().getDefaultDisplay().getSize(scrSize);
+                        moveLogo(-scrSize.y/2 + 350, 1500);
+
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> {
+                            verChecked = true;
+                            signUser();
+                        }, 1400);
+
                     } else {
                         displayAlert(fireBaseAppVer);
 
@@ -469,7 +477,6 @@ public class LoginActivity extends AppCompatActivity implements
                         loginDialog.findViewById(R.id.login_phase2).setVisibility(View.VISIBLE);
                         //loginDialog.dismiss();
                         //updateUserDetails();
-
 
                         getData();
                     } else {

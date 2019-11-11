@@ -30,15 +30,12 @@ import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class SharedInventoryFragment extends Fragment {
     private final String TAG = "InventoryFragment";
-    ExpandableListView expendableView;
-    ExpandableListAdapter adapter;
-    DatabaseProvider provider;
-    List<Part> groupValues;
-    List<ArrayList<String>> childValues;
-    ClassApplication application;
-    SwipeRefreshLayout refreshLayout;
-    TargetInventoryFragment mTargetInventoryFragment;
-    List<ArrayList<InventoryUser>> users;
+    private ExpandableListView expendableView;
+    private DatabaseProvider provider;
+    private ClassApplication application;
+    private SwipeRefreshLayout refreshLayout;
+    private TargetInventoryFragment mTargetInventoryFragment;
+    private List<ArrayList<InventoryUser>> users;
 
     public SharedInventoryFragment() {
         // Required empty public constructor
@@ -77,13 +74,13 @@ public class SharedInventoryFragment extends Fragment {
 
     private void initView() {
         if (getContext() != null && getActivity() != null && isAdded()) {
-            users = provider.getUsersInv();
-            groupValues = provider.getLabInv();
+            users = provider.getAllUsersInv();
+            List<Part> groupValues = provider.getGlobalInv();
             // insert data from firebase
 
             if (groupValues != null && users != null) {
                 //HashMap<String,String> values = new HashMap<>();
-                childValues = new ArrayList<>();
+                List<ArrayList<String>> childValues = new ArrayList<>();
                 //for (Part item : groupValues) {
 
                 for (ArrayList<InventoryUser> group : users) {
@@ -95,13 +92,13 @@ public class SharedInventoryFragment extends Fragment {
                     childValues.add(child);
                 }
 
-                adapter = new SharedInventoryAdapter(groupValues, childValues, getContext());
+                ExpandableListAdapter adapter = new SharedInventoryAdapter(groupValues, childValues, getContext());
                 expendableView.setAdapter(adapter);
             }
         }
     }
 
-    protected void refresh() {
+    private void refresh() {
         if (getFragmentManager() != null) {
             initView();
             refreshLayout.setRefreshing(false);
@@ -151,20 +148,22 @@ public class SharedInventoryFragment extends Fragment {
     };
 
     private void showTargetInventory(String target, String name) {
-        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        if(mTargetInventoryFragment==null)
-            mTargetInventoryFragment = new TargetInventoryFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("target",target);
-        bundle.putString("name",name);
-        mTargetInventoryFragment.setArguments(bundle);
-        Slide slide = new Slide();
-        slide.setSlideEdge(Gravity.END);
-        slide.setDuration(500);
-        mTargetInventoryFragment.setEnterTransition(slide);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, mTargetInventoryFragment).commit();
+        if(getActivity()!=null) {
+            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+            if (mTargetInventoryFragment == null)
+                mTargetInventoryFragment = new TargetInventoryFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("target", target);
+            bundle.putString("name", name);
+            mTargetInventoryFragment.setArguments(bundle);
+            Slide slide = new Slide();
+            slide.setSlideEdge(Gravity.END);
+            slide.setDuration(500);
+            mTargetInventoryFragment.setEnterTransition(slide);
+            mFragmentTransaction.addToBackStack(null);
+            mFragmentTransaction.replace(R.id.module_container, mTargetInventoryFragment).commit();
+        }
     }
 
 

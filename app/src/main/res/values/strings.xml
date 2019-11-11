@@ -406,6 +406,10 @@
     <string name="forgotpwd_btn">שכחתי סיסמה</string>
     <string name="verify_email_message">Please verify your eMail address</string>
     <string name="login_retrieving_data">Retrieving Data</string>
+    <string name="loading">Loading</string>
+    <string name="getting_user_info">Getting User Info</string>
+    <string name="getting_database">Getting Database</string>
+    <string name="getting_locations">Getting Locations</string>
 
 
     <!-- PREMISSIONS -->

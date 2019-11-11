@@ -3,7 +3,7 @@ package il.co.diamed.com.form.res.providers;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,7 +17,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,21 +39,23 @@ public class DatabaseProvider {
     public static final String BROADCAST_FIREBASE_DIR = "database_provider_firebase_dir_ready";
     public static final String BROADCAST_REFRESH_ADAPTER = "refresh_adapter";
     private final String TAG = "Database";
-    private static HashMap<String, Part> labDB;
-    private static HashMap<String, Part> myDB;
+    private static HashMap<String, Part> globalDB;
+    private static HashMap<String, Part> personalDB;
     private static HashMap<String, Part> targetDB;
+    private static ArrayList<Location> locDB;
+    private final DatabaseReference rootReference;
+
     private List<ArrayList<InventoryUser>> allUsers;
     private final String USER_DB = "Users/";
     private String DB = "Parts/";
     private String LOCATION_DB = "Location";
 
     private Context context;
-    private boolean lab_busy = false;
-    private boolean my_busy = false;
+    private boolean global_busy = false;
+    private boolean personal_busy = false;
     private boolean target_busy = false;
     private String last_target = "";
     private boolean loc_busy;
-    private static ArrayList<Location> locDB;
     private boolean waitingToUploadDeviceFlag = false;
     private String holderLoc = "";
     private String holderSubloc = "";
@@ -63,11 +64,11 @@ public class DatabaseProvider {
 
     public DatabaseProvider(Context context) {
         this.context = context;
-
+        rootReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public void getAppVer() {
-        FirebaseDatabase.getInstance().getReference().child("AppVer").addListenerForSingleValueEvent(verListener);
+        rootReference.child("AppVer").addListenerForSingleValueEvent(verListener);
     }
 
     private ValueEventListener verListener = new ValueEventListener() {
@@ -87,9 +88,9 @@ public class DatabaseProvider {
 
     public void getFirebaseDir(String path) {
         if (path.equals(""))
-            FirebaseDatabase.getInstance().getReference().child("Files").addListenerForSingleValueEvent(pathListener);
+            rootReference.child("Files").addListenerForSingleValueEvent(pathListener);
         else
-            FirebaseDatabase.getInstance().getReference().child(path).addListenerForSingleValueEvent(pathListener);
+            rootReference.child(path).addListenerForSingleValueEvent(pathListener);
     }
 
     private ValueEventListener pathListener = new ValueEventListener() {
@@ -118,37 +119,37 @@ public class DatabaseProvider {
     };
 
 
-    public List<Part> getLabInv() {
-        if (labDB != null && !lab_busy) {
-            List<Part> labDBsorted = new ArrayList<>(labDB.values());
-            Collections.sort(labDBsorted);
-            return labDBsorted;
+    public List<Part> getGlobalInv() {
+        if (globalDB != null && !global_busy) {
+            List<Part> globalDBsorted = new ArrayList<>(globalDB.values());
+            Collections.sort(globalDBsorted);
+            return globalDBsorted;
         } else {
-            if (!lab_busy) {
+            if (!global_busy) {
                 downloadLabDB();
             }
         }
         return null;
     }
 
-    public List<ArrayList<InventoryUser>> getUsersInv() {
+    public List<ArrayList<InventoryUser>> getAllUsersInv() {
         if (allUsers != null) {
             return allUsers;
         } else {
-            if (labDB != null) {
+            if (globalDB != null) {
                 orginizeUsersData();
             } else
-                getLabInv();
+                getGlobalInv();
         }
         return null;
     }
 
-    public List<Part> getMyInv() {
-        if (myDB != null && !my_busy) {
-            return new ArrayList<>(myDB.values());
+    public List<Part> getPersonalInv() {
+        if (personalDB != null && !personal_busy) {
+            return new ArrayList<>(personalDB.values());
         } else {
-            if (!my_busy) {
-                downloadMyDB();
+            if (!personal_busy) {
+                downloadPersonalDB();
             }
         }
         return null;
@@ -159,7 +160,6 @@ public class DatabaseProvider {
             last_target = target;
             targetDB = null;
         }
-
         if (targetDB != null && !target_busy) {
             return new ArrayList<>(targetDB.values());
         } else {
@@ -170,13 +170,13 @@ public class DatabaseProvider {
         return null;
     }
 
-    private void downloadMyDB() {
+    private void downloadPersonalDB() {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
-            myDB = null;
-            my_busy = true;
-            FirebaseDatabase.getInstance().getReference()
+            personalDB = null;
+            personal_busy = true;
+            rootReference
                     .child(USER_DB).child(user.getUid()).child(DB).addValueEventListener(myListener);
 
         } else {
@@ -186,16 +186,16 @@ public class DatabaseProvider {
 
     private void downloadTargetDB(String target) {
         target_busy = true;
-        myDB = null;
-        my_busy = true;
-        FirebaseDatabase.getInstance().getReference()
+        personalDB = null;
+        personal_busy = true;
+        rootReference
                 .child(USER_DB).child(target).child(DB).addValueEventListener(targetListener);
     }
 
 
     private void downloadLabDB() {
-        lab_busy = true;
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(DB);
+        global_busy = true;
+        DatabaseReference mDatabase = rootReference.child(DB);
         mDatabase.addValueEventListener(labListener);
 
     }
@@ -205,9 +205,9 @@ public class DatabaseProvider {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             if (FirebaseAuth.getInstance().getCurrentUser() != null)        //if user logged
-                DatabaseProvider.this.downloadMyDB();
+                DatabaseProvider.this.downloadPersonalDB();
             else
-                myDB = null;
+                personalDB = null;
 
         }
     };
@@ -224,7 +224,7 @@ public class DatabaseProvider {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            my_busy = false;
+            personal_busy = false;
         }
     };
 
@@ -234,9 +234,9 @@ public class DatabaseProvider {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-            labDB = getInv(dataSnapshot);
+            globalDB = getInv(dataSnapshot);
 
-            lab_busy = false;
+            global_busy = false;
             Intent intent = new Intent(BROADCAST_LABDB_READY);
             context.sendBroadcast(intent);
             refreshDatabase();
@@ -245,7 +245,7 @@ public class DatabaseProvider {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            my_busy = false;
+            personal_busy = false;
         }
     };
 
@@ -253,29 +253,29 @@ public class DatabaseProvider {
     private ValueEventListener myListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            myDB = getInv(dataSnapshot);
-            my_busy = false;
+            personalDB = getInv(dataSnapshot);
+            personal_busy = false;
             refreshDatabase();
 
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            my_busy = false;
+            personal_busy = false;
         }
     };
 
 
     private void refreshDatabase() {
-        if (labDB != null & myDB != null) {
-            for (Part labItem : labDB.values()) {    //for every part in the lab
-                if (myDB.containsKey(labItem.getId())) {        // if it exists already
-                    myDB.get(labItem.getId()).setMinimum_car(labItem.getMinimum_car()); //update minimum (just in case)
+        if (globalDB != null & personalDB != null) {
+            for (Part labItem : globalDB.values()) {    //for every part in the lab
+                if (personalDB.containsKey(labItem.getId())) {        // if it exists already
+                    personalDB.get(labItem.getId()).setMinimum_car(labItem.getMinimum_car()); //update minimum (just in case)
                 } else {
                     try {
                         if (Integer.valueOf(labItem.getMinimum_car()) > 0) { //check if it's mandatory part
                             labItem.setinStock("0");                       //update to 0 in stock
-                            myDB.put(labItem.getId(), labItem);
+                            personalDB.put(labItem.getId(), labItem);
                         }
                     } catch (NumberFormatException e) {
                         Log.e(TAG, labItem.getDescription() + " has invalid minimum of: " + labItem.getMinimum_car());
@@ -285,10 +285,10 @@ public class DatabaseProvider {
             Intent intent = new Intent(BROADCAST_DB_READY);
             context.sendBroadcast(intent);
         } else {
-            if (labDB == null && !lab_busy)
+            if (globalDB == null && !global_busy)
                 downloadLabDB();
-            if (myDB == null && !my_busy)
-                downloadMyDB();
+            if (personalDB == null && !personal_busy)
+                downloadPersonalDB();
         }
     }
 
@@ -321,7 +321,7 @@ public class DatabaseProvider {
     public void uploadMyInv(List<Part> currentList) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(USER_DB).child(user.getUid()).child(DB);
+            DatabaseReference mDatabase = rootReference.child(USER_DB).child(user.getUid()).child(DB);
             if (currentList != null) {
                 for (Part item : currentList) {
                     if (item.getInStock().equals("0") && (item.getMinimum_car().equals("0") || item.getMinimum_car().equals("00")))
@@ -336,21 +336,21 @@ public class DatabaseProvider {
                 }
                 Log.d(TAG, "Finished updating inventory");
 
-                downloadMyDB();
+                downloadPersonalDB();
             }
         }
     }
 
     public List<Part> getMissingInv() {
-        if (myDB != null) {
+        if (personalDB != null) {
             List<Part> missingInv = new ArrayList<>();
-            for (Part item : myDB.values()) {
+            for (Part item : personalDB.values()) {
                 if (item.getInStock().compareTo(item.getMinimum_car()) <= 0)
-                    missingInv.add(myDB.get(item.getId()));
+                    missingInv.add(personalDB.get(item.getId()));
             }
             return missingInv;
-        } else if (!my_busy) {
-            downloadMyDB();
+        } else if (!personal_busy) {
+            downloadPersonalDB();
         }
         return null;
     }
@@ -358,11 +358,11 @@ public class DatabaseProvider {
 
     public String getPartInfo(String serial, String desc) {
         if(desc.equals("")) {
-            for (Part item : labDB.values())
+            for (Part item : globalDB.values())
                 if (item.getSerial().equals(serial))
                     return item.getDescription();
         }else if(serial.equals("")){
-            for (Part item : labDB.values())
+            for (Part item : globalDB.values())
                 if (item.getDescription().equals(desc))
                     return item.getSerial();
         }
@@ -371,8 +371,8 @@ public class DatabaseProvider {
 
     public boolean addMyDB(String serial, Integer inStock) {
         Part target = null;
-        if (myDB != null) {
-            for (Part myItem : myDB.values()) {    //search local
+        if (personalDB != null) {
+            for (Part myItem : personalDB.values()) {    //search local
                 if (myItem.getSerial().equals(serial)) {
                     target = myItem;
                 }
@@ -380,37 +380,36 @@ public class DatabaseProvider {
             if (target != null) {
                 int current = Integer.valueOf(target.getInStock());
                 target.setinStock(String.valueOf(inStock + current));
-                myDB.put(target.getId(), target);
-                uploadMyInv(new ArrayList<>(myDB.values()));
+                personalDB.put(target.getId(), target);
+                uploadMyInv(new ArrayList<>(personalDB.values()));
                 return true;
             } else {
-                for (Part item : labDB.values())   //serach remote
+                for (Part item : globalDB.values())   //serach remote
                     if (item.getSerial().equals(serial))
                         target = item;
                 if (target != null) {
                     target.setinStock(String.valueOf(inStock));
-                    myDB.put(target.getId(), target);
-                    uploadMyInv(new ArrayList<>(myDB.values()));
+                    personalDB.put(target.getId(), target);
+                    uploadMyInv(new ArrayList<>(personalDB.values()));
                     return true;
                 }
             }
             return false;
         } else {
-            downloadMyDB();
+            downloadPersonalDB();
             return false;
         }
     }
 
     private void orginizeUsersData() {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference databaseReference = mDatabase.child(USER_DB);
+        DatabaseReference databaseReference = rootReference.child(USER_DB);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 allUsers = new ArrayList<>();
-                ArrayList<Part> labDBsorted = new ArrayList<>(labDB.values());
+                ArrayList<Part> labDBsorted = new ArrayList<>(globalDB.values());
                 Collections.sort(labDBsorted);
-                for (Part item : labDBsorted) {//labDB.values()){
+                for (Part item : labDBsorted) {//globalDB.values()){
                     //HashMap<String,String> holders = new HashMap<>();
                     ArrayList<InventoryUser> holders = new ArrayList<>();
                     for (DataSnapshot users : dataSnapshot.getChildren()) {    //gor every user, get data base1
@@ -436,8 +435,8 @@ public class DatabaseProvider {
 
 
     public void initialize() {
-        getLabInv();
-        getMyInv();
+        getGlobalInv();
+        getPersonalInv();
         getLocDB();
         getUserInfo();
     }
@@ -446,12 +445,11 @@ public class DatabaseProvider {
     /***************************** My Database *************************************/
 
 
-    public void getUserInfo(){
+    private void getUserInfo(){
         ArrayList<HashMap<String,Object>> list = new ArrayList<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            mDatabase.child(USER_DB).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            rootReference.child(USER_DB).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot d : dataSnapshot.getChildren()) {
@@ -476,8 +474,7 @@ public class DatabaseProvider {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child(folder);
+            DatabaseReference databaseReference = rootReference.child(USER_DB).child(user.getUid()).child(folder);
             for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
             }
@@ -490,8 +487,7 @@ public class DatabaseProvider {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && !user.getUid().equals("")) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference databaseReference = mDatabase.child(USER_DB).child(user.getUid()).child(folder);
+            DatabaseReference databaseReference = rootReference.child(USER_DB).child(user.getUid()).child(folder);
             for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
             }
@@ -521,7 +517,7 @@ public class DatabaseProvider {
 
     private void downloadLocDB() {
         loc_busy = true;
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(LOCATION_DB);
+        DatabaseReference mDatabase = rootReference.child(LOCATION_DB);
         mDatabase.addValueEventListener(locListener);
 
 
@@ -554,7 +550,7 @@ public class DatabaseProvider {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            my_busy = false;
+            personal_busy = false;
         }
     };
 
@@ -577,8 +573,7 @@ public class DatabaseProvider {
             SubLocation targetSubloc = null;
             Device foundDev = null;
 
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+            DatabaseReference databaseReference = rootReference.child(LOCATION_DB);
 
             //searching location and sublocation exists
             for (Location location : locDB) {
@@ -732,8 +727,7 @@ public class DatabaseProvider {
 
     public boolean updateLocation(Location location) {
         if (locDB != null && !loc_busy) {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+            DatabaseReference databaseReference = rootReference.child(LOCATION_DB);
             databaseReference.child(location.getName()).setValue(location);
             return true;
         } else {
@@ -743,8 +737,7 @@ public class DatabaseProvider {
 
 
     public void updateDevice(String serial, String codeName, long ins, long eow, boolean under_warranty, String comments) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+        DatabaseReference databaseReference = rootReference.child(LOCATION_DB);
         for (Location location : locDB) {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
@@ -769,8 +762,7 @@ public class DatabaseProvider {
     }
 
     public void deleteDevice(String serial, String codeName) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference databaseReference = mDatabase.child(LOCATION_DB);
+        DatabaseReference databaseReference = rootReference.child(LOCATION_DB);
         for (Location location : locDB) {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
