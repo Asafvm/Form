@@ -22,7 +22,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -41,7 +40,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
@@ -151,12 +152,13 @@ public class LoginActivity extends AppCompatActivity implements
 
                 Log.e(TAG, "Logging with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
-                if (username.isEmpty() || password.isEmpty()){
-                    if(username.isEmpty()) ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
-                    if(password.isEmpty())((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
+                if (username.isEmpty() || password.isEmpty()) {
+                    if (username.isEmpty())
+                        ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
+                    if (password.isEmpty())
+                        ((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
-                }
-                else {
+                } else {
                     if (((CheckBox) loginDialog.findViewById(R.id.cbRememberme)).isChecked()) {
                         spedit.putBoolean("remember", true);
                         if (savedUser != null && (savedUser.isEmpty() || (!savedUser.equals(username)))) {
@@ -184,10 +186,12 @@ public class LoginActivity extends AppCompatActivity implements
                 Log.e(TAG, "Creating with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
                 if (username.isEmpty() || password.isEmpty()) {
-                    if(username.isEmpty()) ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
-                    if(password.isEmpty())((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
+                    if (username.isEmpty())
+                        ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
+                    if (password.isEmpty())
+                        ((TextView) loginDialog.findViewById(R.id.editPassword)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
-                }else
+                } else
                     application.createUser(username, password);
             });
 
@@ -199,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements
                 if (username.isEmpty()) {
                     ((TextView) loginDialog.findViewById(R.id.editUserName)).setError("שדה חובה!");
                     ((TextView) loginDialog.findViewById(R.id.textMessage)).setText("נא למלא שדות חובה");
-                }else
+                } else
                     application.forgotPassword(username);
             });
 
@@ -237,7 +241,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     private void getData() {
-        Log.d(TAG,"Getting databases");
+        Log.d(TAG, "Getting databases");
         application.getDatabaseProvider(this).initialize();
     }
 
@@ -245,34 +249,44 @@ public class LoginActivity extends AppCompatActivity implements
     public void updateUserDetails() {
         if (loginDialog != null && loginDialog.isShowing())
             loginDialog.dismiss();
-        moveLogo(0,1000);
-
+        moveLogo(0, 1000);
 
         setProgressInfo("Updating info", 70);
-
         Log.d(TAG, "Setting User Info");
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(Objects.equals(user.getDisplayName(), "") ? user.getEmail() : user.getDisplayName()) //display user name or email
-                .build();
+        String userEmail = user.getEmail();
+        //UserProfileChangeRequest profileUpdates;
+        if (userEmail != null && !userEmail.isEmpty()) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(Objects.equals(user.getDisplayName(), "") ? userEmail.substring(0, userEmail.indexOf('@')) : user.getDisplayName()) //display user name or email
+                    .build();
 
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "User profile updated.");
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor spedit = sharedPref.edit();
-                        if (Objects.equals(sharedPref.getString("techName", ""), ""))
-                            spedit.putString("techName", user.getDisplayName());
-                        if (Objects.equals(sharedPref.getString("techeMail", ""), ""))
-                            spedit.putString("techeMail", user.getEmail());
-                        if (Objects.equals(sharedPref.getString("techePhone", ""), ""))
-                            spedit.putString("techePhone", user.getPhoneNumber());
-                        spedit.apply();
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
 
-                        updateTechTools();
-                    }
-                });
+                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor spedit = sharedPref.edit();
+
+
+                            String data = sharedPref.getString("techName", "");
+                            if (data == null || data.equals(""))
+                                spedit.putString("techName", user.getDisplayName());
+
+                            data = sharedPref.getString("techeMail", "");
+                            if (data == null || data.equals(""))
+                                spedit.putString("techeMail", user.getEmail());
+
+                            data = sharedPref.getString("techePhone", "");
+                            if (data == null || data.equals(""))
+                                spedit.putString("techePhone", user.getPhoneNumber());
+                            spedit.apply();
+
+                            updateTechTools();
+                        }
+                    });
+        }
     }
 
 
@@ -280,52 +294,76 @@ public class LoginActivity extends AppCompatActivity implements
         setProgressInfo("Updating Prefernces", 90);
 
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
 
         String fontsize = sharedPref.getString("sync_fontsize", "");
         if (fontsize != null && fontsize.equals("")) {
-            SharedPreferences.Editor spedit = sharedPref.edit();
-            spedit.putString("sync_fontsize", "12");
-            spedit.apply();
+            editor.putString("sync_fontsize", "12");
+            editor.apply();
         }
-        
-        final String name = sharedPref.getString("techName", "");
-        final String signature = sharedPref.getString("signature", "");
-        final String thermometer = sharedPref.getString("thermometer", "");
-        final String barometer = sharedPref.getString("barometer", "");
-        final String timer = sharedPref.getString("timer", "");
-        final String speedometer = sharedPref.getString("speedometer", "");
 
-        if (name.equals("") || signature.equals("") || thermometer.equals("") ||
-                barometer.equals("") || timer.equals("") || speedometer.equals("")) {
 
-            UserSetupFragment mUserSetupFragment = new UserSetupFragment();
-            Slide slide = new Slide();
-            slide.setSlideEdge(Gravity.END);
-            slide.setDuration(600);
-            mUserSetupFragment.setEnterTransition(slide);
-            fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
+        HashMap<String, String> pInfo = application.getDatabaseProvider(this).getPersonalInfo();
+        HashMap<String, String> pEquip = application.getDatabaseProvider(this).getPersonalEquipment();
 
+        if (pInfo == null || pEquip == null) {
+            displayUserUpdagePage();
         } else {
-            HashMap<String, String> userInfo = new HashMap<>();
-            HashMap<String, String> userTools = new HashMap<>();
+            for (String key : pInfo.keySet()) {
+                String data = pInfo.get(key);
+                if (data != null && !data.equals("")) {
+                    editor.putString(key, data);
+                    editor.apply();
+                }
+            }
+            for (String key : pEquip.keySet()) {
+                String data = pEquip.get(key);
+                if (data != null && !data.equals("")) {
+                    editor.putString(key, data);
+                    editor.apply();
+                }
+            }
+            final String name = sharedPref.getString("techName", "");
+            final String signature = sharedPref.getString("signature", "");
+            final String thermometer = sharedPref.getString("thermometer", "");
+            final String barometer = sharedPref.getString("barometer", "");
+            final String timer = sharedPref.getString("timer", "");
+            final String speedometer = sharedPref.getString("speedometer", "");
+            if (name == null || signature == null || thermometer == null ||
+                    barometer == null || timer == null || speedometer == null ||
+                    name.equals("") || signature.equals("") || thermometer.equals("") ||
+                    barometer.equals("") || timer.equals("") || speedometer.equals("")) {
+                displayUserUpdagePage();
 
-            userInfo.put("techName", name);
-            userTools.put("speedometer", speedometer);
-            userTools.put("thermometer", thermometer);
-            userTools.put("barometer", barometer);
-            userTools.put("timer", timer);
-            userInfo.put("AppVer", application.getAppVer());
+            } else{
+                HashMap<String, String> userInfo = new HashMap<>();
+                HashMap<String, String> userTools = new HashMap<>();
 
-            ClassApplication application = (ClassApplication) getApplication();
-            application.getDatabaseProvider(this).uploadUserData(userInfo,"Info");
-            application.getDatabaseProvider(this).uploadUserData(userTools, "Tools");
+                userInfo.put("techName", name);
+                userTools.put("speedometer", speedometer);
+                userTools.put("thermometer", thermometer);
+                userTools.put("barometer", barometer);
+                userTools.put("timer", timer);
+                ClassApplication application = (ClassApplication)getApplication();
+                application.getDatabaseProvider(this).uploadUserData(userInfo,"Info");
+                application.getDatabaseProvider(this).uploadUserData(userTools, "Tools");
+                moveToMainMenu();
 
-            moveToMainMenu();
+            }
         }
+    }
+
+    private void displayUserUpdagePage() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        UserSetupFragment mUserSetupFragment = new UserSetupFragment();
+        Slide slide = new Slide();
+        slide.setSlideEdge(Gravity.END);
+        slide.setDuration(600);
+        mUserSetupFragment.setEnterTransition(slide);
+        fragmentTransaction.replace(R.id.fragment_container, mUserSetupFragment).commit();
     }
 
     private void moveToMainMenu() {
@@ -358,7 +396,7 @@ public class LoginActivity extends AppCompatActivity implements
         super.onResume();
         registerReceiver(appVerReciever, new IntentFilter(DatabaseProvider.BROADCAST_APPVER));
         registerReceiver(loginMessageReciever, new IntentFilter(AuthenticationProvider.BROADCAST_MESSAGE));
-        registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LABDB_READY));
+        registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_GLOBAL_PART_DB_READY));
         registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_LOCDB_READY));
         registerReceiver(loginLoadingReciever, new IntentFilter(DatabaseProvider.BROADCAST_DB_READY));
         //checkVersion();
@@ -378,19 +416,19 @@ public class LoginActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction() != null)
                 switch (intent.getAction()) {
-                    case DatabaseProvider.BROADCAST_LABDB_READY:
-                        if(loginDialog!=null && loginDialog.isShowing())
-                            ((ImageView)loginDialog.findViewById(R.id.loading2)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                    case DatabaseProvider.BROADCAST_GLOBAL_PART_DB_READY:
+                        if (loginDialog != null && loginDialog.isShowing())
+                            ((ImageView) loginDialog.findViewById(R.id.loading2)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
                         labReady = true;
                         break;
                     case DatabaseProvider.BROADCAST_LOCDB_READY:
-                        if(loginDialog!=null && loginDialog.isShowing())
-                            ((ImageView)loginDialog.findViewById(R.id.loading3)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                        if (loginDialog != null && loginDialog.isShowing())
+                            ((ImageView) loginDialog.findViewById(R.id.loading3)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
                         locReady = true;
                         break;
                     case DatabaseProvider.BROADCAST_DB_READY:
-                        if(loginDialog!=null && loginDialog.isShowing())
-                            ((ImageView)loginDialog.findViewById(R.id.loading1)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
+                        if (loginDialog != null && loginDialog.isShowing())
+                            ((ImageView) loginDialog.findViewById(R.id.loading1)).setImageDrawable(getResources().getDrawable(R.drawable.check, getApplicationContext().getTheme()));
                         userdbReady = true;
                         break;
 
@@ -413,7 +451,7 @@ public class LoginActivity extends AppCompatActivity implements
                     if (!verChecked) {
                         Point scrSize = new Point();
                         getWindow().getWindowManager().getDefaultDisplay().getSize(scrSize);
-                        moveLogo(-scrSize.y/2 + 350, 1500);
+                        moveLogo(-scrSize.y / 2 + 350, 1500);
 
                         Handler handler = new Handler();
                         handler.postDelayed(() -> {

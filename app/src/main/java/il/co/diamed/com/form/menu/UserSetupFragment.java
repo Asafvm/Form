@@ -85,12 +85,9 @@ public class UserSetupFragment extends Fragment {
         if(!signature.equals("")){
             view.findViewById(R.id.signButton).setVisibility(View.INVISIBLE);
         }
-        view.findViewById(R.id.signButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(),CaptureSignature.class);
-                startActivity(intent);
-            }
+        view.findViewById(R.id.signButton).setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(),CaptureSignature.class);
+            startActivity(intent);
         });
 
         view.findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {

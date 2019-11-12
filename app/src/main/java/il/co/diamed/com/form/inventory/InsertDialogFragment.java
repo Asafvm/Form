@@ -171,7 +171,7 @@ public class InsertDialogFragment extends DialogFragment {
                 } catch (Exception ignored) {
                 }
             } else {
-                getContext().registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_LABDB_READY));
+                getContext().registerReceiver(databaseReceiver, new IntentFilter(DatabaseProvider.BROADCAST_GLOBAL_PART_DB_READY));
             }
 
         }

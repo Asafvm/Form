@@ -410,6 +410,7 @@
     <string name="getting_user_info">Getting User Info</string>
     <string name="getting_database">Getting Database</string>
     <string name="getting_locations">Getting Locations</string>
+    <string name="formName">שם מלא</string>
 
 
     <!-- PREMISSIONS -->

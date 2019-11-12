@@ -2,6 +2,7 @@ package il.co.diamed.com.form.res.providers;
 
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import android.util.Log;
@@ -32,15 +33,17 @@ import il.co.diamed.com.form.inventory.InventoryUser;
 public class DatabaseProvider {
     public static final String BROADCAST_USER_DB_READY = "database_provider_users_data_ready";
     public static final String BROADCAST_DB_READY = "database_provider_data_ready";
-    public static final String BROADCAST_LABDB_READY = "database_provider_lab_data_ready";
+    public static final String BROADCAST_GLOBAL_PART_DB_READY = "database_provider_lab_data_ready";
     public static final String BROADCAST_TARGET_DB_READY = "database_provider_target_data_ready";
     public static final String BROADCAST_LOCDB_READY = "database_provider_location_data_ready";
     public static final String BROADCAST_APPVER = "database_app_ver";
     public static final String BROADCAST_FIREBASE_DIR = "database_provider_firebase_dir_ready";
     public static final String BROADCAST_REFRESH_ADAPTER = "refresh_adapter";
     private final String TAG = "Database";
-    private static HashMap<String, Part> globalDB;
+    private static HashMap<String, Part> globalPartDB;
     private static HashMap<String, Part> personalDB;
+    private static HashMap<String, String> personalInfo;   //contains personal info
+    private static HashMap<String, String> personalEquipment;  //containg mesuring devices and possible lab devices
     private static HashMap<String, Part> targetDB;
     private static ArrayList<Location> locDB;
     private final DatabaseReference rootReference;
@@ -51,7 +54,7 @@ public class DatabaseProvider {
     private String LOCATION_DB = "Location";
 
     private Context context;
-    private boolean global_busy = false;
+    private boolean globalPart_busy = false;
     private boolean personal_busy = false;
     private boolean target_busy = false;
     private String last_target = "";
@@ -120,13 +123,13 @@ public class DatabaseProvider {
 
 
     public List<Part> getGlobalInv() {
-        if (globalDB != null && !global_busy) {
-            List<Part> globalDBsorted = new ArrayList<>(globalDB.values());
+        if (globalPartDB != null && !globalPart_busy) {
+            List<Part> globalDBsorted = new ArrayList<>(globalPartDB.values());
             Collections.sort(globalDBsorted);
             return globalDBsorted;
         } else {
-            if (!global_busy) {
-                downloadLabDB();
+            if (!globalPart_busy) {
+                downloadGlobalPartDB();
             }
         }
         return null;
@@ -136,7 +139,7 @@ public class DatabaseProvider {
         if (allUsers != null) {
             return allUsers;
         } else {
-            if (globalDB != null) {
+            if (globalPartDB != null) {
                 orginizeUsersData();
             } else
                 getGlobalInv();
@@ -193,10 +196,10 @@ public class DatabaseProvider {
     }
 
 
-    private void downloadLabDB() {
-        global_busy = true;
+    private void downloadGlobalPartDB() {
+        globalPart_busy = true;
         DatabaseReference mDatabase = rootReference.child(DB);
-        mDatabase.addValueEventListener(labListener);
+        mDatabase.addValueEventListener(globalPartDBListener);
 
     }
 
@@ -229,15 +232,15 @@ public class DatabaseProvider {
     };
 
 
-    private ValueEventListener labListener = new ValueEventListener() {
+    private ValueEventListener globalPartDBListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-            globalDB = getInv(dataSnapshot);
+            globalPartDB = getInv(dataSnapshot);
 
-            global_busy = false;
-            Intent intent = new Intent(BROADCAST_LABDB_READY);
+            globalPart_busy = false;
+            Intent intent = new Intent(BROADCAST_GLOBAL_PART_DB_READY);
             context.sendBroadcast(intent);
             refreshDatabase();
 
@@ -267,26 +270,26 @@ public class DatabaseProvider {
 
 
     private void refreshDatabase() {
-        if (globalDB != null & personalDB != null) {
-            for (Part labItem : globalDB.values()) {    //for every part in the lab
-                if (personalDB.containsKey(labItem.getId())) {        // if it exists already
-                    personalDB.get(labItem.getId()).setMinimum_car(labItem.getMinimum_car()); //update minimum (just in case)
+        if (globalPartDB != null & personalDB != null) {
+            for (Part item : globalPartDB.values()) {    //for every part in the main part db
+                if (personalDB.containsKey(item.getId())) {        // if it exists already
+                    personalDB.get(item.getId()).setMinimum_car(item.getMinimum_car()); //update minimum (just in case)
                 } else {
                     try {
-                        if (Integer.valueOf(labItem.getMinimum_car()) > 0) { //check if it's mandatory part
-                            labItem.setinStock("0");                       //update to 0 in stock
-                            personalDB.put(labItem.getId(), labItem);
+                        if (Integer.valueOf(item.getMinimum_car()) > 0) { //check if it's mandatory part
+                            item.setinStock("0");                       //update to 0 in stock
+                            personalDB.put(item.getId(), item);
                         }
                     } catch (NumberFormatException e) {
-                        Log.e(TAG, labItem.getDescription() + " has invalid minimum of: " + labItem.getMinimum_car());
+                        Log.e(TAG, item.getDescription() + " has invalid minimum of: " + item.getMinimum_car());
                     }
                 }
             }
             Intent intent = new Intent(BROADCAST_DB_READY);
             context.sendBroadcast(intent);
         } else {
-            if (globalDB == null && !global_busy)
-                downloadLabDB();
+            if (globalPartDB == null && !globalPart_busy)
+                downloadGlobalPartDB();
             if (personalDB == null && !personal_busy)
                 downloadPersonalDB();
         }
@@ -357,12 +360,12 @@ public class DatabaseProvider {
 
 
     public String getPartInfo(String serial, String desc) {
-        if(desc.equals("")) {
-            for (Part item : globalDB.values())
+        if (desc.equals("")) {
+            for (Part item : globalPartDB.values())
                 if (item.getSerial().equals(serial))
                     return item.getDescription();
-        }else if(serial.equals("")){
-            for (Part item : globalDB.values())
+        } else if (serial.equals("")) {
+            for (Part item : globalPartDB.values())
                 if (item.getDescription().equals(desc))
                     return item.getSerial();
         }
@@ -384,7 +387,7 @@ public class DatabaseProvider {
                 uploadMyInv(new ArrayList<>(personalDB.values()));
                 return true;
             } else {
-                for (Part item : globalDB.values())   //serach remote
+                for (Part item : globalPartDB.values())   //serach remote
                     if (item.getSerial().equals(serial))
                         target = item;
                 if (target != null) {
@@ -407,9 +410,9 @@ public class DatabaseProvider {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 allUsers = new ArrayList<>();
-                ArrayList<Part> labDBsorted = new ArrayList<>(globalDB.values());
+                ArrayList<Part> labDBsorted = new ArrayList<>(globalPartDB.values());
                 Collections.sort(labDBsorted);
-                for (Part item : labDBsorted) {//globalDB.values()){
+                for (Part item : labDBsorted) {//globalPartDB.values()){
                     //HashMap<String,String> holders = new HashMap<>();
                     ArrayList<InventoryUser> holders = new ArrayList<>();
                     for (DataSnapshot users : dataSnapshot.getChildren()) {    //gor every user, get data base1
@@ -445,19 +448,36 @@ public class DatabaseProvider {
     /***************************** My Database *************************************/
 
 
-    private void getUserInfo(){
-        ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+    private void getUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null) {
+        if (user != null) {
             rootReference.child(USER_DB).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot d : dataSnapshot.getChildren()) {
-                        GenericTypeIndicator<HashMap<String,Object>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
-                        HashMap<String,Object> hm = d.getValue(genericTypeIndicator);
-                            list.add(hm);
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        if (d.getKey() != null) {
+                            switch (d.getKey()) {
+                                case "Info": {
+                                    GenericTypeIndicator<HashMap<String, String>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
+                                    };
+                                    personalInfo = d.getValue(genericTypeIndicator);
+                                    break;
+                                }
+                                case "Parts": {
+                                    GenericTypeIndicator<HashMap<String, Part>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, Part>>() {
+                                    };
+                                    personalDB = d.getValue(genericTypeIndicator);
+                                    break;
+                                }
+                                case "Tools": {
+                                    GenericTypeIndicator<HashMap<String, String>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
+                                    };
+                                    personalEquipment = d.getValue(genericTypeIndicator);
+                                    break;
+                                }
+                            }
+                        }
                     }
-
                 }
 
                 @Override
@@ -789,4 +809,11 @@ public class DatabaseProvider {
         }
     };
 
+    public HashMap<String, String> getPersonalInfo() {
+        return personalInfo;
+    }
+
+    public HashMap<String, String> getPersonalEquipment() {
+        return personalEquipment;
+    }
 }

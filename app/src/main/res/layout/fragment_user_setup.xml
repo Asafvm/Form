@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     tools:context=".menu.UserSetupFragment">
 
@@ -11,10 +11,11 @@
         android:id="@+id/userDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="30dp"
         android:layout_gravity="center"
-        android:scrollbars="vertical"
         android:background="@drawable/main_background_faded"
+        android:padding="50dp"
+        android:scrollbars="vertical"
+
 
         >
 
@@ -22,231 +23,191 @@
             android:id="@+id/userDetailsTitle"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:textSize="30sp"
             android:gravity="center"
             android:text="@string/userDetailsTitle"
-            app:layout_constraintVertical_chainStyle="spread"
-            android:autoSizeMaxTextSize="30sp"
-            app:layout_constraintVertical_weight="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="30sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/personalDetalis"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="0.5"
 
             />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/personalDetalis"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight="0.25"
             app:layout_constraintTop_toBottomOf="@id/userDetailsTitle"
-            >
-        <TextView
-            android:id="@+id/tvName"
-            android:labelFor="@id/etName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/formTechName"
-            app:layout_constraintVertical_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintStart_toEndOf="@id/etName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/signButton"
-            />
+            app:layout_constraintBottom_toTopOf="@id/calibrationDetalis"
+            app:layout_constraintVertical_weight="1">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etName"
+                android:text="@string/formName"
+                app:layout_constraintBaseline_toBaselineOf="@id/etName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/etName"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1" />
 
 
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/spacer4"
-            app:layout_constraintEnd_toStartOf="@id/tvName"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/tvName"
-            android:inputType="text"/>
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@id/signButton"
+                app:layout_constraintEnd_toStartOf="@id/tvName"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-
-        <Space
-            android:id="@+id/spacer4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/etName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"/>
 
             <Button
                 android:id="@+id/signButton"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="@string/defaultSignature"
+                android:layout_height="wrap_content"
                 android:background="@drawable/shape_button_submit"
-                app:layout_constraintVertical_weight="1"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
-                app:layout_constraintHorizontal_weight="0.4"
+                android:text="@string/defaultSignature"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/etName"
+                app:layout_constraintVertical_weight="1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/calibrationDetalis"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight="0.5"
-            app:layout_constraintTop_toBottomOf="@id/personalDetalis">
-        <TextView
-            android:id="@+id/tvThemometer"
-            android:labelFor="@id/etThermometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/pref_title_thermometer"
-            app:layout_constraintVertical_chainStyle="spread_inside"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etThermometer"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvBarometer"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/personalDetalis"
+            app:layout_constraintVertical_weight="2">
 
-        <EditText
-            android:id="@+id/etThermometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/spacer"
-            app:layout_constraintEnd_toStartOf="@id/tvThemometer"
-            app:layout_constraintHorizontal_weight="0.3"
+            <TextView
+                android:id="@+id/tvThemometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etThermometer"
+                android:text="@string/pref_title_thermometer"
+                app:layout_constraintBaseline_toBaselineOf="@id/etThermometer"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/etThermometer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            app:layout_constraintTop_toTopOf="@id/tvThemometer"
-            app:layout_constraintBottom_toBottomOf="@id/tvThemometer"
-            android:inputType="text"/>
+            <EditText
+                android:id="@+id/etThermometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@id/etBarometer"
+                app:layout_constraintEnd_toStartOf="@id/tvThemometer"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toStartOf="parent"
 
-
-
-        <Space
-            android:id="@+id/spacer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/etThermometer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1" />
 
 
-
-        <TextView
-            android:id="@+id/tvBarometer"
-            android:labelFor="@id/etBarometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/pref_title_barometer"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etBarometer"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintTop_toBottomOf="@id/tvThemometer"
-            app:layout_constraintBottom_toTopOf="@id/tvSpeedometer"/>
+            <TextView
+                android:id="@+id/tvBarometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etBarometer"
+                android:text="@string/pref_title_barometer"
+                app:layout_constraintBaseline_toBaselineOf="@id/etBarometer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/etBarometer" />
 
 
-        <EditText
-            android:id="@+id/etBarometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/tvBarometer"
-            app:layout_constraintStart_toEndOf="@id/spacer1"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintTop_toTopOf="@id/tvBarometer"
-            app:layout_constraintBottom_toBottomOf="@id/tvBarometer"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/etBarometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
 
-        <Space
-            android:id="@+id/spacer1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/etBarometer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"/>
+                app:layout_constraintTop_toBottomOf="@id/etThermometer"
+                app:layout_constraintEnd_toStartOf="@id/tvBarometer"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/etSpeedometer"
+                app:layout_constraintVertical_weight="1" />
 
-        <TextView
-            android:id="@+id/tvSpeedometer"
-            android:labelFor="@id/etSpeedometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/pref_title_speedometer"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etSpeedometer"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintTop_toBottomOf="@id/tvBarometer"
-            app:layout_constraintBottom_toTopOf="@id/tvTimer"/>
 
-        <EditText
-            android:id="@+id/etSpeedometer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/spacer2"
-            app:layout_constraintEnd_toStartOf="@id/tvSpeedometer"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintTop_toTopOf="@id/tvSpeedometer"
-            app:layout_constraintBottom_toBottomOf="@id/tvSpeedometer"
-            android:inputType="text"/>
+            <TextView
+                android:id="@+id/tvSpeedometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etSpeedometer"
+                android:text="@string/pref_title_speedometer"
+                app:layout_constraintBaseline_toBaselineOf="@id/etSpeedometer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/etSpeedometer"
+                 />
 
-        <Space
-            android:id="@+id/spacer2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/etSpeedometer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"/>
+            <EditText
+                android:id="@+id/etSpeedometer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@id/etBarometer"
+                app:layout_constraintEnd_toStartOf="@id/tvSpeedometer"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/etTimer" />
 
-        <TextView
-            android:id="@+id/tvTimer"
-            android:labelFor="@id/etTimer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/pref_title_timer"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etTimer"
-            app:layout_constraintHorizontal_weight="0.4"
-            app:layout_constraintTop_toBottomOf="@id/tvSpeedometer"
-            app:layout_constraintBottom_toTopOf="@id/submitButton"/>
 
-        <EditText
-            android:id="@+id/etTimer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/tvTimer"
-            app:layout_constraintStart_toEndOf="@id/spacer3"
-            app:layout_constraintHorizontal_weight="0.3"
-            app:layout_constraintTop_toTopOf="@id/tvTimer"
-            app:layout_constraintBottom_toBottomOf="@id/tvTimer"
-            android:inputType="text"/>
+            <TextView
+                android:id="@+id/tvTimer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etTimer"
+                android:text="@string/pref_title_timer"
+                app:layout_constraintBaseline_toBaselineOf="@id/etTimer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/etTimer"
+                />
 
-        <Space
-            android:id="@+id/spacer3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@id/etTimer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="0.4"/>
+            <EditText
+                android:id="@+id/etTimer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@id/submitButton"
+                app:layout_constraintEnd_toStartOf="@id/tvTimer"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etSpeedometer"/>
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/updateDetails"
-            android:background="@drawable/shape_button_submit"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintTop_toBottomOf="@id/tvTimer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_submit"
+                android:text="@string/updateDetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTimer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_weight="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
