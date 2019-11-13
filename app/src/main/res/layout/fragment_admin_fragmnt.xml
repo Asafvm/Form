@@ -1,14 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menu.AdminFragmnt">
+    android:layout_margin="20dp"
+    android:animateLayoutChanges="true"
+    tools:context=".menu.AdminFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/admin_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:text="@string/admin_menuTitle"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/adminMainMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/admin_title"
+            app:layout_constraintVertical_weight="3">
+
+
+            <Button
+                android:id="@+id/admin_btnLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_addLocation"
+                app:layout_constraintBottom_toTopOf="@id/admin_btnDevice"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/admin_btnDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_addDevice"
+                app:layout_constraintBottom_toTopOf="@id/admin_btnPart"
+                app:layout_constraintTop_toBottomOf="@id/admin_btnLocation" />
+
+            <Button
+                android:id="@+id/admin_btnPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_addPart"
+                app:layout_constraintTop_toBottomOf="@id/admin_btnDevice" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/adminDeviceMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/admin_title"
+            app:layout_constraintVertical_weight="3">
+
+            <TextView
+                android:id="@+id/admin_tvDeviceCodeNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/admin_etDeviceCodeNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/admin_"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/adminPartMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/admin_title"
+                app:layout_constraintVertical_weight="3">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/adminLocationMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/admin_title"
+                app:layout_constraintVertical_weight="3">
+
+
+                <TextView
+                    android:id="@+id/admin_tvLocationName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="שם"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/admin_etLocationName" />
+
+                <EditText
+                    android:id="@+id/admin_etLocationName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/admin_tvLocationAddress"
+                    app:layout_constraintEnd_toStartOf="@id/admin_tvLocationName"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/admin_tvLocationAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="כתובת"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressCity"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressNumber" />
+
+                <EditText
+                    android:id="@+id/admin_etLocationAddressNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="מספר"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressCity"
+                    app:layout_constraintEnd_toStartOf="@id/admin_tvLocationAddress"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressStreet" />
+
+                <EditText
+                    android:id="@+id/admin_etLocationAddressStreet"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="רחוב"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressCity"
+                    app:layout_constraintEnd_toStartOf="@id/admin_etLocationAddressNumber"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressCity" />
+
+                <EditText
+                    android:id="@+id/admin_etLocationAddressCity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="עיר"
+                    app:layout_constraintBottom_toTopOf="@id/admin_etCoordinatesLat"
+                    app:layout_constraintEnd_toStartOf="@id/admin_etLocationAddressStreet"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toBottomOf="@id/admin_etLocationName" />
+
+                <TextView
+                    android:id="@+id/admin_tvCoordinates"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="קואורדינטות"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLong" />
+
+                <EditText
+                    android:id="@+id/admin_etCoordinatesLong"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="אורך"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
+                    app:layout_constraintEnd_toStartOf="@id/admin_tvCoordinates"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLat" />
+
+                <EditText
+                    android:id="@+id/admin_etCoordinatesLat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="רוחב"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintBottom_toTopOf="@id/admin_etLocationComments"
+                    app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLong"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
+
+                <TextView
+                    android:id="@+id/admin_tvLocationComments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="הערות"
+                    app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationComments"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/admin_etLocationComments" />
+
+                <EditText
+                    android:id="@+id/admin_etLocationComments"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/admin_tvLocationComments"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

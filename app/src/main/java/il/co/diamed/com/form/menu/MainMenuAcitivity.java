@@ -60,6 +60,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
     BrowserFragment mBrowserFragment;
     ClassApplication application;
     DatabaseProvider provider;
+    private AdminFragment mAdminFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,13 @@ public class MainMenuAcitivity extends AppCompatActivity {
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
                     switch (menuItem.getItemId()) {
+                        case R.id.nav_admin: {
+                            checkFragmentSwitching();
+
+                            showAdmin();
+
+                            break;
+                        }
 
                         case R.id.nav_forms: {
                             checkFragmentSwitching();
@@ -207,7 +215,6 @@ public class MainMenuAcitivity extends AppCompatActivity {
         // Drawer Code END
 
     }
-
     private void showForms() {
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
@@ -219,6 +226,20 @@ public class MainMenuAcitivity extends AppCompatActivity {
         mDevicesFragment.setEnterTransition(fade);
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.replace(R.id.module_container, mDevicesFragment).commit();
+
+    }
+
+    private void showAdmin() {
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        if (mAdminFragment == null) {
+            mAdminFragment = new AdminFragment();
+        }
+        Fade fade = new Fade();
+        fade.setDuration(400);
+        mAdminFragment.setEnterTransition(fade);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.replace(R.id.module_container, mAdminFragment).commit();
 
     }
 

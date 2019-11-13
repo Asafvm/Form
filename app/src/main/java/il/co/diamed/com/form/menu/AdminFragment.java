@@ -12,10 +12,10 @@ import il.co.diamed.com.form.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdminFragmnt extends Fragment {
+public class AdminFragment extends Fragment {
 
 
-    public AdminFragmnt() {
+    public AdminFragment() {
         // Required empty public constructor
     }
 

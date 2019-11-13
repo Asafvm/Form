@@ -411,6 +411,11 @@
     <string name="getting_database">Getting Database</string>
     <string name="getting_locations">Getting Locations</string>
     <string name="formName">שם מלא</string>
+    <string name="navAdmin">אדמין</string>
+    <string name="admin_addLocation">הוסף מיקום</string>
+    <string name="admin_addDevice">הוסף מכשיר</string>
+    <string name="admin_addPart">הוסף חלק</string>
+    <string name="admin_menuTitle">תפריט אדמין</string>
 
 
     <!-- PREMISSIONS -->

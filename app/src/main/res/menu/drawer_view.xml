@@ -5,6 +5,10 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_account_circle_24px"
+            android:title="@string/navAdmin"/>
+        <item
             android:id="@+id/nav_forms"
             android:icon="@drawable/ic_content_copy_white_24dp"
             android:title="@string/navForms"/>

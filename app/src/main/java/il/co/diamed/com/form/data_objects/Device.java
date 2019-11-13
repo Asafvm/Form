@@ -17,6 +17,7 @@ public class Device implements Comparable<Device> {
     private boolean dev_under_warranty = true;
     private String dev_comments = "";
     private double dev_price = 0;
+    private int dev_calValid = 12;  //months
     private ArrayList<Report> reports = new ArrayList<>();
 
 

@@ -67,11 +67,11 @@ public class DatabaseProvider {
 
     public DatabaseProvider(Context context) {
         this.context = context;
-        rootReference = FirebaseDatabase.getInstance().getReference();
+        rootReference = FirebaseDatabase.getInstance().getReference().child("test");
     }
 
     public void getAppVer() {
-        rootReference.child("AppVer").addListenerForSingleValueEvent(verListener);
+        FirebaseDatabase.getInstance().getReference().child("AppVer").addListenerForSingleValueEvent(verListener);
     }
 
     private ValueEventListener verListener = new ValueEventListener() {
