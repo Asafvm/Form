@@ -26,7 +26,7 @@ public class Part implements Comparable<Part> {
     public Part() {
 
     }
-/*
+
     public Part(String serial, String description, String inStock) {
         this.serial = serial;
         this.description = description;
@@ -49,7 +49,7 @@ public class Part implements Comparable<Part> {
         this.minimum_car = item.minimum_car;
         this.supplier = item.supplier;
     }
-*/
+
 
     @Override
     public int compareTo(@NonNull Part o) {

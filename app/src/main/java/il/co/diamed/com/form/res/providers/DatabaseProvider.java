@@ -816,4 +816,14 @@ public class DatabaseProvider {
     public HashMap<String, String> getPersonalEquipment() {
         return personalEquipment;
     }
+
+    public void uploadNewLocation(Location l) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && !user.getUid().equals("")) {
+            DatabaseReference mDatabase = rootReference.child(LOCATION_DB).child(l.getName());
+
+            mDatabase.setValue(l).addOnSuccessListener(aVoid ->
+                    Log.d(TAG, "Uploaded: " + l.getName()));
+        }
+    }
 }

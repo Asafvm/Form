@@ -107,6 +107,7 @@
         <activity
             android:name=".menu.MainMenuAcitivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".calibration.FridgeActivity" />
         <activity android:name=".calibration.SepaxActivity" />
