@@ -26,17 +26,10 @@ public class DevicesFragmentPagerAdapter extends FragmentPagerAdapter{
         //return new DiamedFragment();
 
         if (position == 0) {
-            Log.e("Adapter","0");
             return new DiamedFragment();
-
-        }
-
-        else if (position == 1){
-            Log.e("Adapter","1");
+        }else if (position == 1){
             return new MedigalFragment();
-
         } else{// (position == 2){
-            Log.e("Adapter","2");
             return new POCFragment();
         }
     }

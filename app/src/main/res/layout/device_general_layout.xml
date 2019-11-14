@@ -114,12 +114,13 @@
 
     <Space
         android:id="@id/spacer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="1.5"
-        app:layout_constraintEnd_toStartOf="@id/etNewVer"/>
+        app:layout_constraintTop_toBottomOf="@id/etNewVer"
+        app:layout_constraintBottom_toTopOf="@id/generalCleaningSwitch"
+        />
     <Switch
         android:id="@+id/generalCleaningSwitch"
         android:layout_width="0dp"

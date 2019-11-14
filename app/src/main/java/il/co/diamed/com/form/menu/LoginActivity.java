@@ -247,9 +247,13 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void updateUserDetails() {
-        if (loginDialog != null && loginDialog.isShowing())
-            loginDialog.dismiss();
-        moveLogo(0, 1000);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            if (loginDialog != null && loginDialog.isShowing())
+                loginDialog.dismiss();
+            moveLogo(0, 1000);
+        }, 1000);
+
 
         setProgressInfo("Updating info", 70);
         Log.d(TAG, "Setting User Info");

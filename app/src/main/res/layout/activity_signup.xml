@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/editDomainName"
-            android:visibility="gone"
+            android:visibility="visible"
              />
 
         <TextView
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <EditText
             android:id="@+id/editUserName"
