@@ -34,6 +34,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
             ((TextView)v.findViewById(R.id.admin_title)).setText("מיקום");
         });
 
@@ -41,6 +42,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
             ((TextView)v.findViewById(R.id.admin_title)).setText("מכשירים");
         });
 
@@ -48,6 +50,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminPartMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
             ((TextView)v.findViewById(R.id.admin_title)).setText("חלקים");
         });
 
@@ -60,6 +63,7 @@ public class AdminFragment extends Fragment {
             if(v.findViewById(R.id.adminLocationMenu).isShown())
                 v.findViewById(R.id.adminLocationMenu).setVisibility(View.GONE);
             ((TextView)v.findViewById(R.id.admin_title)).setText("תפריט אדמין");
+            v.findViewById(R.id.admin_btnAdd).setVisibility(View.GONE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.GONE);
         });
 
