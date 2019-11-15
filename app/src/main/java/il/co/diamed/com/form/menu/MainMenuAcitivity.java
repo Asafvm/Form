@@ -20,6 +20,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.transition.Fade;
@@ -47,6 +48,7 @@ import il.co.diamed.com.form.inventory.InventoryFragment;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryViewerAdapter;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
+import il.co.diamed.com.form.res.providers.PermissionManager;
 
 public class MainMenuAcitivity extends AppCompatActivity {
 
@@ -142,8 +144,7 @@ public class MainMenuAcitivity extends AppCompatActivity {
                             break;
                         }
                         case R.id.nav_files: {
-                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                                    == PackageManager.PERMISSION_GRANTED) {
+                            if (PermissionManager.getInstance().checkPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                 checkFragmentSwitching();
 
                                 launchFileBrowser();
@@ -342,26 +343,15 @@ public class MainMenuAcitivity extends AppCompatActivity {
 
     }
 
-    @Override
+    public void getPermission() {
+        PermissionManager.getInstance().requestPermission(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                PermissionManager.MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
+
+    }
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-
-                    launchFileBrowser();
-
-                    // permission denied, boo!
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.noReadPermission), Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        }
+        PermissionManager.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 
     private void launchFileBrowser() {
@@ -376,7 +366,9 @@ public class MainMenuAcitivity extends AppCompatActivity {
         slide.setDuration(500);
         mBrowserFragment.setEnterTransition(slide);
         mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.replace(R.id.module_container, mBrowserFragment).commit();
+        mFragmentTransaction.replace(R.id.module_container, mBrowserFragment)
+                .setMaxLifecycle(mBrowserFragment, Lifecycle.State.STARTED)
+                .commit();
     }
 
 
@@ -399,11 +391,6 @@ public class MainMenuAcitivity extends AppCompatActivity {
     }
 
 
-    public void getPermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_READ_EXTERNAL);
-    }
 
     public void checkFragmentSwitching(){
         if (mFragmentManager.getBackStackEntryCount() > 0)

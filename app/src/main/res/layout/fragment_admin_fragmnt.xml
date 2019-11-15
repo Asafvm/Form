@@ -11,7 +11,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        >
 
         <TextView
             android:id="@+id/admin_title"
@@ -30,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/admin_title"
-
+            android:animateLayoutChanges="true"
             android:fillViewport="true"
             >
 
@@ -39,17 +41,20 @@
                 android:id="@+id/admin_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
 
                 >
 
-
+                <!-- BUTTONS -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/adminMainMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3">
+                    app:layout_constraintVertical_weight="3"
+                    android:animateLayoutChanges="true"
+                    >
 
                     <Button
                         android:id="@+id/admin_btnLocation"
@@ -80,12 +85,13 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <!-- DEVICES -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/adminDeviceMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:animateLayoutChanges="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_weight="3">
 
@@ -256,14 +262,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/admin_swDeviceUnderWarranty" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <!-- PARTS -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/adminPartMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3">
+                    app:layout_constraintVertical_weight="3"
+                    android:animateLayoutChanges="true"
+                    >
 
 
                     <Switch
@@ -488,14 +496,16 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <!-- LOCATIONS -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/adminLocationMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3">
+                    app:layout_constraintVertical_weight="3"
+                    android:animateLayoutChanges="true"
+                    >
 
 
                     <TextView
@@ -591,6 +601,16 @@
                         app:layout_constraintBottom_toTopOf="@id/admin_etLocationComments"
                         app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLong"
                         app:layout_constraintHorizontal_weight="3"
+                        app:layout_constraintStart_toEndOf="@id/admin_btnCoordinatesGet"
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
+
+                    <ImageButton
+                        android:id="@+id/admin_btnCoordinatesGet"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_location_on_white_24dp"
+                        app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLat"
+                        app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
 

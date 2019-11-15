@@ -5,12 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,6 +25,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
@@ -41,14 +39,11 @@ public class FirebaseBrowserFragment extends Fragment {
     private static final String TAG = "FirebaseBrowserFragment";
     private String path;
     private HashMap<String, String> files;
-    ClassApplication application;
-    RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
-    HashMap<String, String> file_list;
-    List<FileBrowserItem> values;
-    StorageProvider storageProvider;
-
-    int childCount;
+    private ClassApplication application;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private List<FileBrowserItem> values;
+    private StorageProvider storageProvider;
 
     public FirebaseBrowserFragment() {
         // Required empty public constructor
@@ -61,7 +56,6 @@ public class FirebaseBrowserFragment extends Fragment {
             path = getArguments().getString("path");
         if (getActivity() != null && isAdded())
             getActivity().setTitle(path);
-        int childCount = 0;
 
 
     }
@@ -97,7 +91,6 @@ public class FirebaseBrowserFragment extends Fragment {
     }
 
     private void refreshView(HashMap<String, String> files) {
-        file_list = files;
         // Read all files sorted into the values-array
         //List values = new ArrayList();
         values = new ArrayList<>();
@@ -111,7 +104,7 @@ public class FirebaseBrowserFragment extends Fragment {
         }
         Collections.sort(values);
         //if (childCount > 0) {
-            values.add(0, new FileBrowserItem("..", true));
+        values.add(0, new FileBrowserItem("..", true));
         //}
         adapter = new FileBrowserAdapter(values, getContext());
         recyclerView.setAdapter(adapter);
@@ -121,13 +114,12 @@ public class FirebaseBrowserFragment extends Fragment {
     }
 
     private void refreshView(HashMap<String, String> files, String filter) {
-        file_list = files;
         // Read all files sorted into the values-array
         //List values = new ArrayList();
         values = new ArrayList<>();
 
         for (String s : files.keySet()) {
-            if(s.toLowerCase().contains(filter.toLowerCase())) {
+            if (s.toLowerCase().contains(filter.toLowerCase())) {
                 if (files.get(s).equals("")) {
                     values.add(new FileBrowserItem(s, files.get(s).equals("")));
                 } else {
@@ -150,14 +142,14 @@ public class FirebaseBrowserFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             //Toast.makeText(context,intent.getStringExtra("path"),Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "got intent reciever");
-            if (getUserVisibleHint()) {
-                try {
-                    onListItemClick(intent.getStringExtra("filename"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                Log.e(TAG, "got intent reciever");
+                if (getUserVisibleHint()) {
+                    try {
+                        onListItemClick(intent.getStringExtra("filename"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
 
         }
@@ -186,7 +178,6 @@ public class FirebaseBrowserFragment extends Fragment {
         if (filename.equals("..")) {
 
             if (getActivity() != null) {
-                childCount--;
                 path = path.substring(0, path.lastIndexOf("/"));
                 if (getView() != null)
                     ((TextView) getView().findViewById(R.id.path_text)).setText(path);
@@ -206,13 +197,12 @@ public class FirebaseBrowserFragment extends Fragment {
                 if (getActivity() != null) {
                     application = (ClassApplication) getActivity().getApplication();
                     application.getDatabaseProvider(getContext()).getFirebaseDir(path);
-                    childCount++;
                 }
 
 
             } else {
                 //open item
-                application.getStorageProvider(getContext()).downloadFile(path,filename);
+                application.getStorageProvider(getContext()).downloadFile(path, filename);
             }
         }
 
@@ -241,13 +231,13 @@ public class FirebaseBrowserFragment extends Fragment {
                 list.addAll(((FileBrowserAdapter) adapter).getMarkedItems());
 
                 if (!list.isEmpty()) {
-                    if(getActivity()!=null) {
+                    if (getActivity() != null) {
                         ClassApplication application = (ClassApplication) getActivity().getApplication();
                         storageProvider = application.getStorageProvider(getContext());
                     }
 
                     for (int i = 0; i < list.size(); i++) {
-                        storageProvider.downloadFile(path,list.get(i));
+                        storageProvider.downloadFile(path, list.get(i));
                     }
                     //uploadItem(arrayList);
                     ((FileBrowserAdapter) adapter).clearMarked();
@@ -291,7 +281,6 @@ public class FirebaseBrowserFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -308,7 +297,7 @@ public class FirebaseBrowserFragment extends Fragment {
     }
 
 
-    TextWatcher filter = new TextWatcher() {
+    private TextWatcher filter = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
