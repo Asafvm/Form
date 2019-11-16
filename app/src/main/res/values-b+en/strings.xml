@@ -1,0 +1,422 @@
+<resources>
+    <string name="app_name">MediApp</string>
+
+    <string name="external_dir">GetSignature</string>
+
+
+    <string name="incubator">ID-Incubator</string>
+    <string name="incTypeSI">SI</string>
+    <string name="incTypeSII">SII</string>
+    <string name="incTypeL">L</string>
+    <string name="formSerial">Serial Number</string>
+    <string name="incTemp">Temperatue</string>
+    <string name="formTime">Time</string>
+    <string name="formTechName">Full Name</string>
+
+
+    /navigation drawer
+    <string name="navbar_header">Hello</string>
+    <string name="navSettings">Settings</string>
+    <string name="navFiles">Files</string>
+    <string name="navStock">Inventory</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_calibraion">Calibration Tools</string>
+
+    <string name="pref_title_speedometer">Speedometer</string>
+    <string name="pref_title_thermometer">Thermometer</string>
+    <string name="pref_title_barometer">Barometer</string>
+    <string name="pref_title_timer">Timer</string>
+
+    <string name="pref_default_serial_number">Insert Serial Number</string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Other Settings</string>
+
+    <string-array name="pref_sync_font_size_titles">
+        <item>Very Small</item>
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Big</item>
+        <item>Very Big</item>
+    </string-array>
+    <string-array name="pref_sync_font_size_values">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+    </string-array>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_signture">פרטי משתמש</string>
+
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="signhere">חתימה</string>
+    <string name="pref_default_signnotfound">לא הוקלטה חתימה</string>
+    <string name="fullName">שם מלא</string>
+    <string name="submitForm">שלח טופס</string>
+
+    <string name="checkIncFan">בדוק\nמאוורר</string>
+    <string name="checkIncRubber">בדוק אטם\nגומי</string>
+    <string name="incType">ID-Incubator 37: </string>
+
+    <!-- Strings related to login -->
+    <string name="defaulteMail">הכנס דוא\"ל</string>
+    <string name="defaultTechName">הכנס שם מלא</string>
+    <string name="techeMail">דואר אלקטרוני</string>
+    <string name="defaultSignature">לחץ כדי להקליט חתימה</string>
+    <string name="helloHeader">שלום, </string>
+    <string name="centType6S">6S</string>
+    <string name="centType12S">12S</string>
+    <string name="centType12SII">12SII</string>
+    <string name="centType24S">24S</string>
+    <string name="centTypeL">L</string>
+    <string name="centType">ID-Centrifuge:</string>
+    <string name="centSpeed">מהירות סירכוז</string>
+    <string name="centrifuge">ID-Centrifuge</string>
+    <string name="plasma">Plasma Thawer</string>
+    <string name="formMainLocation">בית חולים / קופת חולים</string>
+    <string name="formRoomLocation">מעבדה / חדר</string>
+    <string name="checkDeviceFan">בדוק מאוורר</string>
+    <string name="tvDeviceSerial">מספר סידורי</string>
+    <string name="centExpectedTime">מהירות\nצפויה</string>
+    <string name="ih500">IH-500</string>
+    <string name="ih1000">IH-1000</string>
+    <string name="docon">Docon</string>
+    <string name="hc10">HC10</string>
+    <string name="docureader">DocuReader 2 Pro</string>
+    <string name="ib10">IB10</string>
+    <string name="pt10">PT10</string>
+    <string name="edan">Edan-i15</string>
+    <string name="idGeltation">Gelstation</string>
+    <string name="pt_dh4">DH4</string>
+    <string name="pt_dh8">DH8</string>
+    <string name="ptType">Helmer Plasma Thawer</string>
+    <string name="ptExpectedTemp">טמפרטורה\nצפויה</string>
+    <string name="ptWaterCheck">החלפת\nמים</string>
+    <string name="ptOilCheck">שימון וחיזוק צירים\nבסלי המנות</string>
+    <string name="ptAlarmCheck">בדיקת\nהתראות</string>
+    <string name="ptTime">10</string>
+    <string name="centSpeed1000">1000 סל\"ד</string>
+    <string name="centSpeed2000">2000 סל\"ד</string>
+    <string name="centSpeed3000">3000 סל\"ד</string>
+    <string name="centTime1">15</string>
+    <string name="centTime2">20</string>
+    <string name="centTime3">30</string>
+    <string name="checkHolders">בדוק תנועה חופשית\nשל מחזיקי מבחנות וקפיצים</string>
+    <string name="checkHoldersCW">בדיקת תנועה חופשית של מחזיקיה המבחנות והקפיצים</string>
+    <string name="checkRemaining">בדיקת כמות שנותרה לאחר שטיפה (כמות אחידה)</string>
+    <string name="checkFilling">בדיקת כמות מילוי המבחנות בזמן סירכוז</string>
+    <string name="centSpeed2500">2500 סל\"ד</string>
+    <string name="centCWtime">60</string>
+    <string name="noDevice">לא קיים עמוד עבור המכשיר הנבחר</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="diamed">Diamed</string>
+    <string name="medigal">Medigal</string>
+    <string name="chooseDevice">בחר סוג מכשיר</string>
+    <string name="etVer">גרסת תוכנה</string>
+    <string name="generalCleaning">נקיון כללי למכשיר</string>
+    <string name="verUpdate">עדכון גרסה</string>
+    <string name="selfText">ביצוע self test</string>
+    <string name="etNewVer">גרסה חדשה</string>
+    <string name="cancelButton">לא</string>
+    <string name="okButton">כן</string>
+    <string name="doAnother">צור דו\"ח נוסף?</string>
+
+
+    <!-- Gelstation -->
+    <string name="gsTextInit">Initial Checks</string>
+    <string name="gsExternalInspection">External\ninspection</string>
+    <string name="gsCableInspection"><![CDATA[Serial & Video\ncable inspection]]></string>
+    <string name="gsGeneralCleaning">General\nCleaning</string>
+    <string name="gsTextsoftware"><![CDATA[Software & Computer]]></string>
+    <string name="gsTextsoftware1">Software version</string>
+    <string name="gsTextsoftware2"><![CDATA[Operation System & Language environment]]></string>
+    <string name="gsTextsoftware3"><![CDATA[Hard disk available space (C:\\ & D:\\)]]></string>
+
+    <string name="rbGSxpsp2">Windows XP\nSP2</string>
+    <string name="rbGSxpsp3">Windows XP\nSP3</string>
+    <string name="etgsC">C:\\</string>
+    <string name="etgsD">D:\\</string>
+    <string name="gsGB">GB</string>
+    <string name="tvGSdelout"><![CDATA[DelOut file settings & execution]]></string>
+    <string name="gsTextCommon">Common Modules</string>
+    <string name="gsV">V</string>
+    <string name="etgs24">Power Supply Voltage 24V (24V ± 0.3V)</string>
+    <string name="etgs8">Conversion to 8V ( 8V ± 0.3V)</string>
+    <string name="etgs12">Conversion to 12V ( 12V ± 0.3V)</string>
+    <string name="tvGScommon1"><![CDATA[Main Door\nmovement & strengthening]]></string>
+    <string name="tvGScommon2">Status led,\ncentrifuge access led</string>
+    <string name="gsTextSamples">Samples and Reagents Module</string>
+    <string name="gsSamplesLubricate">Lubricate Samples carrousel crown inner side</string>
+    <string name="gsSamplesTension">Check Samples carrousel crown tension</string>
+    <string name="gsSamplesHome"><![CDATA[Clean carrousels & Home sensor]]></string>
+    <string name="gsSamplesSpin">Check Spinning system</string>
+    <string name="gsSamplesCycle">Home cycles (2 minutes)</string>
+    <string name="gsSamplesRandom">Random movements (2 minutes)</string>
+    <string name="gsSamplesTest">Test spinning system (3, 5, 10 ml vials)</string>
+    <string name="gsSamplesSReading">Samples reading -BC and diameter (10,12 and 15mm tubes)</string>
+    <string name="gsSamplesRReading">Reagents reading</string>
+    <string name="gsTextIncubator">Incubator Module</string>
+    <string name="etgs1_25">Verify 25ºC Block 1 (25 +2ºC)</string>
+    <string name="etgs2_25">Verify 25ºC Block 2 (25 +2ºC)</string>
+    <string name="etgs1_37">Verify 37ºC Block 1 (37 +2ºC)</string>
+    <string name="etgs2_37">Verify 37ºC Block 2 (37 +2ºC)</string>
+    <string name="gsTextCentrufuge">Centrifuge Module</string>
+    <string name="etgsCentrifugation">Centrifugation</string>
+    <string name="etgsRPM">RPM</string>
+    <string name="gsCentrifugeCleaning">General cleaning (Open and clean)</string>
+    <string name="gsCentrifugeHolders">Card holders status</string>
+    <string name="gsCentrifugeRandom">Random positioning (2 minutes)</string>
+    <string name="gsCentrifugeCycles">Home cycles (2 minutes)</string>
+    <string name="gsCentrifugeUnbalance">Unbalance sensor</string>
+    <string name="gsTextRobot">Robot Module</string>
+    <string name="gsRobotCleaning">Clean Robot head (Open and clean)</string>
+    <string name="gsRobotHLubricateZ"><![CDATA[Lubricate Z lead screw & wagon guide]]></string>
+    <string name="gsRobotHLubricateScrew">Lubricate lead screw ball bearings</string>
+    <string name="gsRobotHLubricateXY">Lubricate X and Y axis</string>
+    <string name="gsRobotPulleys">Check pulleys status</string>
+    <string name="gsRobotBelt">Check belts status</string>
+    <string name="gsRobotGripper1">Check Gripper pins status</string>
+    <string name="gsRobotGripper2">Check Gripper fingers movement</string>
+    <string name="gsRobotHome">Homes</string>
+    <string name="gsRobotRandom">Random movements ( 2 minutes)</string>
+    <string name="gsRobotCards">Cards transport ( 20 minutes )</string>
+    <string name="gsRobotLevel">Level detection test (100 detections )</string>
+    <string name="gsTextFluid">Fluid System</string>
+    <string name="etgsmBAR">mBar</string>
+    <string name="tvGSfluidVaccum"><![CDATA[Vacuum checking and adjustment\n305mbar < value < 600 mbar]]></string>
+    <string name="tvGSfluidPressure">Pressure checking and adjustment\n180mbar ± 20mbar</string>
+    <string name="gsFluidSyringe">Syringe test</string>
+    <string name="gsFluidBottles">Bottles level detection</string>
+    <string name="gsFluidPumps">Pumps (Performance and noise)</string>
+    <string name="gsFluidClot">Clot detector checking</string>
+    <string name="gsTextReader">Reader Module</string>
+    <string name="gsReaderDiffuser">Clean cards light diffuser</string>
+    <string name="gsReaderLeds">Check led’s performance</string>
+    <string name="gsReaderCamera">Check camera cables and connector</string>
+    <string name="gsReaderCards">Cards readings</string>
+    <string name="gsTextDecontamination">Decontamination</string>
+    <string name="gsDecontaminationPriming">Priming ( 5 times )</string>
+    <string name="gsDecontaminationWashing">Priming ( 5 times )</string>
+    <string name="gsTextWADDiagnostic">WADDiagnostic</string>
+    <string name="gsTextWADDiagnosticTest">WADDiagnostic test</string>
+    <string name="gsTextFunctional">Functional checking</string>
+    <string name="gsTextFunctionalBatch">Real batch ( QC or real Batch)</string>
+    <string name="gsTextFunctionalListing">Batch listing and patient listing</string>
+    <string name="gsTextParts">Parts replaced</string>
+    <string name="partDescription">תיאור</string>
+    <string name="partCount">כמות</string>
+    <string name="partSerial">מספר סידורי</string>
+    <string name="time10">10</string>
+    <string name="time15">15</string>
+    <string name="time20">20</string>
+    <string name="time30">30</string>
+    <string name="time60">60</string>
+    <string name="gsSoftwareVer">גרסת תוכנה</string>
+    <string name="diacentUltra">Diacent UltraCW</string>
+    <string name="diacent12">Diacent 12</string>
+    <string name="diacentCW">Diacent CW</string>
+    <string name="IH500Textsoftware2">OS (Operating System)</string>
+    <string name="IH500Textsoftware3">Software version IH-500</string>
+    <string name="rbIH5007sp1">Windows 7 SP1</string>
+    <string name="IH500SoftwareVer">Version</string>
+    <string name="IH500Textsoftware5">Hard disk available space on Main PC</string>
+    <string name="IH500GB">GB</string>
+    <string name="etIH500C">>100</string>
+    <string name="textRPM">RPM</string>
+    <string name="number1008">1008</string>
+    <string name="tvIH500Centrifuge1">Front centrifuge</string>
+    <string name="tvIH500Centrifuge2">Rear centrifuge</string>
+    <string name="IH500TextReagent1">Reagents: Front measuring point</string>
+    <string name="etIH500ReagentTemp">13 ± 1°C</string>
+    <string name="etIH500IncubatorTemp">38.5 ± 1</string>
+    <string name="IH500TextIncubator1">Incubator: Front measuring point</string>
+    <string name="IH500TextIncubator2">Incubator: Rear measuring point</string>
+    <string name="IH500TextReagent2">Reagents: Rear measuring point</string>
+    <string name="IH1000Textsoftware2">Windows Version</string>
+    <string name="rbIH10007sp1">7 SP1</string>
+    <string name="rbIH1000xpsp3">XP SP3</string>
+    <string name="IH1000Textsoftware3">IH1000 Version</string>
+    <string name="IH1000SoftwareVer">xx.xx.xx</string>
+    <string name="IH1000Textsoftware4">IHCOM Version</string>
+    <string name="IH1000Textsoftware5">Hard disk available space on Master</string>
+    <string name="IH1000Textsoftware6">Hard disk available space on Automate</string>
+    <string name="etIH1000C"><![CDATA[>100]]></string>
+    <string name="IH1000GB">GB</string>
+    <string name="tvIH1000Centrifuge1">Left centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="tvIH1000Centrifuge2">Middle centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="tvIH1000Centrifuge3">Right centrifuge speed (1008 rpm ±0.5%)</string>
+    <string name="IH1000TextIncubator1">Verify 37ºC in position 1</string>
+    <string name="etIH1000IncubatorTemp">38 +1ºC</string>
+    <string name="IH1000TextIncubator2">Verify 37ºC in position 14</string>
+    <string name="IH1000TextIncubator3">Verify 37ºC in position 28</string>
+    <string name="IH1000TextSensor">ID Cards presence sensor calibration</string>
+    <string name="etIH1000CardSensor">72+3mm</string>
+    <string name="doconWeight200">משקולת 200 גרם</string>
+    <string name="DoconWeight200">200</string>
+    <string name="textGR">גרם</string>
+    <string name="doconWeight500">משקולת 500 גרם</string>
+    <string name="DoconWeight500">500</string>
+    <string name="doconWeight700">משקולת 700 גרם</string>
+    <string name="DoconWeight700">700</string>
+    <string name="noUser">אין משתמש מחובר</string>
+    <string name="loggedin">מחובר</string>
+    <string name="loggedout">לא מחובר</string>
+    <string name="mailSubject">כיול ציוד</string>
+    <string name="navForms">Calibration Reports</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="save">Save</string>
+    <string name="noWritePermission">אין הרשאה ליצירת קבצים</string>
+    <string name="noReadPermission">אין הרשאת גישה לקבצים</string>
+    <string name="noContactsPermission">אין גישה לאנשי קשר</string>
+    <string name="DoconVer">מספר גרסה</string>
+    <string name="userDetailsTitle">עידכון פרטי משתמש</string>
+    <string name="updateDetails">עדכן פרטים</string>
+    <string name="fridgeModel">דגם מקרר / מקפיא</string>
+    <string name="fridgeSysTemp">טמפרטורה במערכת</string>
+    <string name="fridge">מקרר</string>
+    <string name="sepax">Sepax</string>
+    <string name="fridgeMesTemp">טמפרטורה נמדדת</string>
+    <string name="logUser">התחבר / התנתק</string>
+    <string name="pref_title_sync_fontsize">גודל טקסט</string>
+    <string name="freezer">מקפיא</string>
+    <string name="sensor">רגש</string>
+    <string name="tvSystemType">מערכת</string>
+    <string name="tvSepaxTitleAir">Air Tests</string>
+    <string name="tvSepaxTitleParam">Customer Parameters</string>
+    <string name="tvSepaxParam1">Piston position offset</string>
+    <string name="etSepaxAir1"><![CDATA[1000 < value < 1344]]></string>
+    <string name="tvSepaxAir1">+2ml of air</string>
+    <string name="tvSepaxAir2">-2ml of air</string>
+    <string name="etSepaxAir2"><![CDATA[440 < value < 660]]></string>
+    <string name="tvSepaxAir3">0 mbar</string>
+    <string name="tvSepaxAir3_1">chamber</string>
+    <string name="tvSepaxAir3_2">line</string>
+    <string name="tvSepaxAir4">-300 mbar</string>
+    <string name="tvSepaxAir5">+500 mbar</string>
+    <string name="tvSepaxAir6">Starting pressure</string>
+    <string name="tvSepaxAir6_1">Pressure after 1min</string>
+    <string name="tvSepaxAir7">Apply maximum pressure</string>
+    <string name="tvSepaxAir8">Apply maximum vacuum</string>
+    <string name="tvSepaxAir9">Apply vacuum or pressure</string>
+    <string name="switchSealSysExch">Sealing System Exchange?</string>
+    <string name="tvSepaxAir10">Starting pressure</string>
+    <string name="tvSepaxAir10_1">Pressure after 1 min</string>
+    <string name="tvSepaxAir11">Pressure at 2 min</string>
+    <string name="tvSepaxAir11_1">Pressure at 3rd min</string>
+    <string name="tvSepaxTitleVolume">Chamber volume detector tests</string>
+    <string name="tvSepaxVolume2">PNC Position 1</string>
+    <string name="tvSepaxVolume1">Empty centrifuge</string>
+    <string name="tvSepaxVolume3_2">∆ of position 1-2</string>
+    <string name="tvSepaxVolume3">PNC Position 2</string>
+    <string name="tvSepaxVolume4">PNC Position 3</string>
+    <string name="tvSepaxVolume4_3">∆ of position 2-3</string>
+    <string name="tvSepaxTitleSensor">Optical line sensor tests</string>
+    <string name="tvSepaxSensor1">Red LED</string>
+    <string name="tvSepaxSensor1_2">Green LED</string>
+    <string name="tvSepaxSensornofilter">Without filter</string>
+    <string name="tvSepaxSensorwithfilter">Black filter</string>
+    <string name="tvSepaxTitleSecurity">Security tests</string>
+    <string name="tvSepaxSecurity1">Check the two temperature sensors</string>
+    <string name="tvSepaxSecurityTemp1"><![CDATA[0.4< C <0.7]]></string>
+    <string name="tvSepaxSecurityTemp2"><![CDATA[18°C< I <40°C]]></string>
+    <string name="tvSepaxTitleElectric">Electrical power adjust</string>
+    <string name="tvSepaxElectric1">+ 5.1V Fuse 1</string>
+    <string name="tvSepaxElectricTemp1"><![CDATA[5.0 < value < 5.2]]></string>
+    <string name="tvSepaxElectric2">+ 15.1V Fuse 2</string>
+    <string name="tvSepaxElectricTemp2"><![CDATA[14.8 < value < 15.3]]></string>
+    <string name="tvSepaxElectric3">- 15.1V</string>
+    <string name="tvSepaxElectricTemp3"><![CDATA[-15.3 < value < -14.8]]></string>
+    <string name="tvSepaxElectric4">- 12.1V Fuse 3</string>
+    <string name="tvSepaxElectricTemp4"><![CDATA[-12.3 < value < -11.8]]></string>
+    <string name="tvSepaxElectric5">+ 26.1V Fuse 4</string>
+    <string name="tvSepaxElectricTemp5"><![CDATA[25.5 < value < 26.3]]></string>
+    <string name="tvSepaxElectric6">+ 48.1V Fuse 5</string>
+    <string name="tvSepaxElectricTemp6"><![CDATA[47.5 < value < 48.3]]></string>
+    <string name="tvSepaxTitleUser">User function tests</string>
+    <string name="tvSepaxUser1">Software Version</string>
+    <string name="switchSepaxSW2">SW2</string>
+    <string name="switchSepaxSW3">SW3</string>
+    <string name="switchSepaxSW4">SW4</string>
+    <string name="etSepaxAir7_1"><![CDATA[1500 < value < 1800 mbar]]></string>
+    <string name="etSepaxAir8_1"><![CDATA[value < -700 mbar]]></string>
+    <string name="etSepaxAir9_1"><![CDATA[50< value < 150 mbar]]></string>
+    <string name="etSepaxVolume1">=1</string>
+    <string name="etSepaxVolume2"><![CDATA[69<value<76]]></string>
+    <string name="etSepaxVolume3"><![CDATA[390<value<410]]></string>
+    <string name="etSepaxVolume4"><![CDATA[390<value<410]]></string>
+    <string name="tvSepaxeSensornfhint"><![CDATA[5.5 < value < 6.0V]]></string>
+    <string name="tvSepaxeSensorwfhint"><![CDATA[0.0 < value < 0.2V]]></string>
+    <string name="inStock">כמות</string>
+    <string name="itemDescription">שם החלק</string>
+    <string name="itemSerial">מספר סידורי</string>
+    <string name="confirm">OK</string>
+    <string name="insertTitle">הוסף חלק</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="google_map_key">AIzaSyAsk4L2GHkqpD7GWgka4MhDVIR4KoP_7vk</string>
+    <string name="pref_header_location">Map</string>
+    <string name="poc">P.O.C.</string>
+    <string name="chooseLocation">בחר מקום</string>
+    <string name="btnChangeLocation">שנה מיקום</string>
+    <string name="titleLoctionLabel">מכין דוחו\"ת עבור:</string>
+    <string name="docon1">1</string>
+    <string name="tvVer">MDA Version:</string>
+    <string name="tvDoconComment_alert">בדיקת התראות</string>
+    <string name="comments">הערות</string>
+    <string name="tvDoconComment_barcode">בדיקת סורק ברקוד</string>
+    <string name="tvDoconComment_display">בדיקת תצוגה</string>
+    <string name="tvDoconComment_cleaning">נקיון מכשיר</string>
+    <string name="tvDoconComment_sensor">בדיקת חיישני קלאמפים</string>
+    <string name="tvDoconComment_battery">בדיקת סוללות</string>
+    <string name="doconType">Docon Model</string>
+    <string name="doconWeight700_code">מס\"ד 200</string>
+    <string name="doconWeight500_code">מס\"ד 500</string>
+    <string name="localBrowser">קבצים מקומיים</string>
+    <string name="remoteBrowser">שרת</string>
+    <string name="docon7">7</string>
+    <string name="devUnderWarranty">אחריות ללא הגבלת זמן</string>
+    <string name="editor_installdate">תאריך התקנה</string>
+    <string name="editor_eowdate">תאריך גמר אחריות</string>
+    <string name="editor_title">עריכת פרטי מכשיר</string>
+    <string name="change">שנה</string>
+    <string name="delete_device">מחק מכשיר</string>
+    <string name="move_device">העבר מכשיר</string>
+    <string name="edit">ערוך</string>
+    <string name="search">חפש</string>
+    <string name="login_username">User</string>
+    <string name="login_password">Password</string>
+    <string name="login_userhint">Example@domain.com</string>
+    <string name="login_passhint">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="login_Domain">Domain</string>
+    <string name="login_DomainHint">Company Name</string>
+    <string name="login_remember">Remember Me</string>
+    <string name="register_btn">Register</string>
+    <string name="forgotpwd_btn">Forget Password</string>
+    <string name="verify_email_message">Please verify your eMail address</string>
+    <string name="login_retrieving_data">Retrieving Data</string>
+    <string name="loading">Loading</string>
+    <string name="getting_user_info">Getting User Info</string>
+    <string name="getting_database">Getting Database</string>
+    <string name="getting_locations">Getting Locations</string>
+    <string name="formName">Full Name</string>
+    <string name="navAdmin">Admin</string>
+    <string name="admin_addLocation">Add Location</string>
+    <string name="admin_addDevice">Add Device</string>
+    <string name="admin_addPart">Add Part</string>
+    <string name="admin_menuTitle">Admin Menu</string>
+
+
+    <!-- PREMISSIONS -->
+</resources>
