@@ -576,33 +576,36 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="קואורדינטות"
-                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
+                        app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLong" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/admin_etCoordinatesLong"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:hint="אורך"
-                        android:inputType="numberDecimal"
-                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toStartOf="@id/admin_tvCoordinates"
-                        app:layout_constraintHorizontal_weight="3"
+                        app:layout_constraintHorizontal_weight="1.2"
                         app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLat" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/admin_etCoordinatesLat"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:hint="רוחב"
-                        android:inputType="numberDecimal"
-                        app:layout_constraintBottom_toTopOf="@id/admin_etLocationComments"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLong"
-                        app:layout_constraintHorizontal_weight="3"
+                        app:layout_constraintHorizontal_weight="1.2"
                         app:layout_constraintStart_toEndOf="@id/admin_btnCoordinatesGet"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
+                         />
 
                     <ImageButton
                         android:id="@+id/admin_btnCoordinatesGet"
@@ -610,9 +613,10 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_location_on_white_24dp"
                         app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLat"
-                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintHorizontal_weight="0.6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity"
+                        />
 
                     <TextView
                         android:id="@+id/admin_tvLocationComments"
@@ -628,8 +632,10 @@
                         android:id="@+id/admin_etLocationComments"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:gravity="start|top"
+                        android:inputType="textMultiLine"
                         app:layout_constraintEnd_toStartOf="@id/admin_tvLocationComments"
-                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintHorizontal_weight="3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
 
@@ -658,4 +664,5 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

@@ -351,7 +351,13 @@ public class MainMenuAcitivity extends AppCompatActivity {
     }
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
-        PermissionManager.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
+        Log.d(TAG, "Got answer");
+        if(requestCode == PermissionManager.MY_PERMISSIONS_REQUEST_READ_EXTERNAL) {
+            PermissionManager.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (PermissionManager.getInstance().checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                showInventory();
+            }
+        }
     }
 
     private void launchFileBrowser() {

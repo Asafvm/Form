@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,31 +50,10 @@ import static android.content.Context.LOCATION_SERVICE;
  */
 public class AdminFragment extends Fragment {
 
-    private static final int MY_LOCATION_REQUEST_CODE = 0;
     private static final String TAG = "AdminPage ";
 
     public AdminFragment() {
         // Required empty public constructor
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Persmission Granted");
-
-                // permission was granted, yay!
-                if (getActivity() != null)
-                    getLocation(getActivity(), getContext(), getView());
-            } else {
-                // permission denied, boo!
-                Log.d(TAG, "Persmission Denied");
-
-                Toast.makeText(getContext(), "GPS Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-
     }
 
 
@@ -163,8 +144,10 @@ public class AdminFragment extends Fragment {
             @Override
             public void onLocationChanged(android.location.Location location) {
                 Log.d(TAG, "Location Updated");
-                ((EditText) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(location.getLatitude()));
-                ((EditText) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(location.getLongitude()));
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(location.getLatitude()).substring(0,5));
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(location.getLongitude()).substring(0,5));
+                if (location.getAccuracy() != 0)
+                    locationManager.removeUpdates(this);
             }
 
             @Override
@@ -185,14 +168,14 @@ public class AdminFragment extends Fragment {
 
         if (PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ||
                 PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            locationManager.requestLocationUpdates("gps", 5000, 0, listener);
+            v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(true);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, listener);
 
 
         } else {
             Log.d(TAG, "Requesting Persmission");
-
             // Permission is not granted
-
+            v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(false);
             PermissionManager.getInstance().requestPermission(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PermissionManager.MY_LOCATION_REQUEST_CODE);
@@ -211,11 +194,12 @@ public class AdminFragment extends Fragment {
                 String loc_addStreet = ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).getText().toString().trim();
                 String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressNumber)).getText().toString().trim();
 
-                Double loc_lat = Double.valueOf(((EditText) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim());
-                Double loc_long = Double.valueOf(((EditText) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim());
 
+                double loc_lat = Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim());
+                double loc_long = Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim());
 
                 String loc_comments = ((EditText) v.findViewById(R.id.admin_etLocationComments)).getText().toString().trim();
+
                 Location l = new Location(loc_name, new Address(loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
                 l.setLatitude(loc_lat);
                 l.setLongtitude(loc_long);

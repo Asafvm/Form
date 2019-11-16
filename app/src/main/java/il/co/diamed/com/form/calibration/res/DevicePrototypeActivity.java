@@ -135,19 +135,9 @@ public class DevicePrototypeActivity extends AppCompatActivity {
     public void doAnother() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage(R.string.doAnother);
-        alertBuilder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                DevicePrototypeActivity.this.restart();
-            }
-        });
+        alertBuilder.setPositiveButton(R.string.okButton, (dialog, which) -> DevicePrototypeActivity.this.restart());
 
-        alertBuilder.setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                DevicePrototypeActivity.this.finish();
-            }
-        });
+        alertBuilder.setNegativeButton(R.string.cancelButton, (dialog, which) -> DevicePrototypeActivity.this.finish());
 
         alertBuilder.setCancelable(false);
         alertBuilder.create().show();
@@ -260,7 +250,7 @@ public class DevicePrototypeActivity extends AppCompatActivity {
             }
 
             private boolean isAllowd(char c) {
-                return !(c == '.' || c == '#' || c == '$' || c == '[' || c == ']');
+                return !(c == '#' || c == '$' || c == '[' || c == ']');
             }
 
         };

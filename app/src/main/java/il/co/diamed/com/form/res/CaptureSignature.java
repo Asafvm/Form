@@ -21,10 +21,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,10 +39,11 @@ import android.widget.Toast;
 
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.menu.SettingsActivity;
+import il.co.diamed.com.form.res.providers.PermissionManager;
 
 public class CaptureSignature extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
+    private static final String TAG = "Capture Sign: ";
     ConstraintLayout mContent;
     signature mSignature;
     Button mClear, mGetSign, mCancel;
@@ -58,38 +61,42 @@ public class CaptureSignature extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
+        setContentView(R.layout.signature);
+
+        if (PermissionManager.getInstance().checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             getSignature();
         } else {
             // Permission is not granted
-            ActivityCompat.requestPermissions(this,
+
+            PermissionManager.getInstance().requestPermission(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+                    PermissionManager.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+
+
         }
+
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        switch (requestCode) {
-
-            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                    getSignature();
-                } else {
-                    // permission denied, boo!
-                    Toast.makeText(getApplicationContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_CANCELED, intent);
-                    finish();
-                }
+        Log.d(TAG, "Got answer");
+        if (requestCode == PermissionManager.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL) {
+            PermissionManager.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (PermissionManager.getInstance().checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // permission was granted, yay!
+                getSignature();
+            } else {
+                // permission denied, boo!
+                Toast.makeText(getApplicationContext(), getString(R.string.noWritePermission), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -152,7 +159,6 @@ public class CaptureSignature extends AppCompatActivity {
     }
 
     public void getSignature() {
-        setContentView(R.layout.signature);
 
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
