@@ -4,32 +4,24 @@ package il.co.diamed.com.form.menu;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +34,6 @@ import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.res.providers.PermissionManager;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
@@ -63,28 +54,29 @@ public class AdminFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
 
-        v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-            v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
-            v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
-            ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
-            if (getContext() != null)
-                v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
-                    Log.d(TAG, "Checking Location");
+        //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
+        v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
+        v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
+        ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
+        if (getContext() != null) {
+            v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
+                Log.d(TAG, "Checking Location");
 
-                    Activity activity = getActivity();
-                    Context context = getContext();
-                    if (activity != null && container != null) {
-                        //get location
-                        getLocation(activity, context, v);
+                Activity activity = getActivity();
+                Context context = getContext();
+                if (activity != null && container != null) {
+                    //get location
+                    getLocation(activity, context, v);
+                }
+            });
 
+            //addSubLocation(v);
+        }
+        //});
 
-                    }
-                });
-
-
-        });
 
         v.findViewById(R.id.admin_btnDevice).setOnClickListener(view -> {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
@@ -138,49 +130,153 @@ public class AdminFragment extends Fragment {
         return v;
     }
 
+    private void addSubLocation(View v) {
+        //get root layout
+        ConstraintLayout root = v.findViewById(R.id.adminLocationMenu);
+        //create new layout
+        ConstraintLayout layout = new ConstraintLayout(getContext());
+
+        //create elements
+        EditText subLocName = new EditText(getContext());
+        subLocName.setId(View.generateViewId());
+        subLocName.setHint("שם");
+        subLocName.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        EditText subLocPhone = new EditText(getContext());
+        subLocPhone.setHint("טלפון");
+        subLocPhone.setId(View.generateViewId());
+        subLocPhone.setInputType(InputType.TYPE_TEXT_VARIATION_PHONETIC);
+
+        ImageButton btn_addSubLoc = new ImageButton(getContext());
+        btn_addSubLoc.setId(View.generateViewId());
+        btn_addSubLoc.setImageResource(R.drawable.ic_plus_one_black_24dp);
+
+
+        //add elements to layout
+        ConstraintLayout.LayoutParams clpcontactUs = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        subLocName.setLayoutParams(clpcontactUs);
+        subLocPhone.setLayoutParams(clpcontactUs);
+        btn_addSubLoc.setLayoutParams(clpcontactUs);
+
+        layout.addView(subLocName);
+        layout.addView(subLocPhone);
+        layout.addView(btn_addSubLoc);
+
+        //add constraints to elements
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(layout);
+
+        constraintSet.connect(subLocName.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP);
+        constraintSet.connect(subLocName.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
+        constraintSet.connect(subLocName.getId(), ConstraintSet.END, subLocPhone.getId(), ConstraintSet.START);
+        constraintSet.connect(subLocPhone.getId(), ConstraintSet.END, btn_addSubLoc.getId(), ConstraintSet.START);
+        constraintSet.connect(btn_addSubLoc.getId(), ConstraintSet.END, layout.getId(), ConstraintSet.END);
+        constraintSet.applyTo(layout);
+
+        layout.setLayoutParams(clpcontactUs);
+
+        constraintSet = new ConstraintSet();
+        constraintSet.connect(layout.getId(), ConstraintSet.TOP, root.getId(), ConstraintSet.TOP, 0);
+        constraintSet.applyTo(layout);
+        root.addView(layout);
+    }
+
+
     private void getLocation(Activity activity, Context context, View v) {
         LocationManager locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
         LocationListener listener = new LocationListener() {
             @Override
             public void onLocationChanged(android.location.Location location) {
                 Log.d(TAG, "Location Updated");
-                ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(location.getLatitude()).substring(0,5));
-                ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(location.getLongitude()).substring(0,5));
-                if (location.getAccuracy() != 0)
+                double l_lat = location.getLatitude();
+                double l_long = location.getLongitude();
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(l_lat));
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(l_long));
+                if (location.getAccuracy() != 0) {
                     locationManager.removeUpdates(this);
+
+                    Geocoder geocoder;
+                    List<android.location.Address> addresses;
+                    geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+                    try {
+                        addresses = geocoder.getFromLocation(l_lat, l_long, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressCity)).setText(addresses.get(0).getLocality());
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).setText(addresses.get(0).getThoroughfare());
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).setText(addresses.get(0).getSubThoroughfare());
+                    } catch (IOException e) {
+                        Log.e(TAG, "Failed getting lat and long from lat and long");
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressCity)).setText("");
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).setText("");
+                        ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).setText("");
+                    }
+
+                }
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
+                Log.d(TAG, "Status changed?");
 
             }
 
             @Override
             public void onProviderEnabled(String s) {
+                Log.d(TAG, "Provider enabled");
 
             }
 
             @Override
             public void onProviderDisabled(String s) {
+                Log.d(TAG, "Provider disabled");
 
             }
         };
 
-        if (PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(true);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, listener);
 
+        boolean gotAddress = false;
+        String loc_addCity = ((EditText) v.findViewById(R.id.admin_etLocationAddressCity)).getText().toString().trim();
+        String loc_addStreet = ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).getText().toString().trim();
+        String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).getText().toString().trim();
+        if (!loc_addCity.equals("") && !loc_addStreet.equals("") && !loc_addNumber.equals("")) {
+            // get lat and long from written location full addresss
+            Geocoder geocoder;
+            List<android.location.Address> addresses;
+            geocoder = new Geocoder(getContext(), Locale.getDefault());
 
-        } else {
-            Log.d(TAG, "Requesting Persmission");
-            // Permission is not granted
-            v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(false);
-            PermissionManager.getInstance().requestPermission(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PermissionManager.MY_LOCATION_REQUEST_CODE);
-
+            try {
+                addresses = geocoder.getFromLocationName(loc_addStreet + " " + loc_addNumber + ", " + loc_addCity, 1);
+                double l_lat = addresses.get(0).getLatitude();
+                double l_long = addresses.get(0).getLongitude();
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(l_lat));
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(l_long));
+                gotAddress = true;
+            } catch (IOException e) {
+                Log.e(TAG, "Failed getting lat and long from address");
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText("");
+                ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText("");
+                gotAddress = false;
+            }
         }
+
+
+        if (!gotAddress)
+            if (PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ||
+                    PermissionManager.getInstance().checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(true);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, listener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, listener);
+
+            } else {
+                Log.d(TAG, "Requesting Persmission");
+                // Permission is not granted
+                v.findViewById(R.id.admin_btnCoordinatesGet).setActivated(false);
+                PermissionManager.getInstance().requestPermission(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PermissionManager.MY_LOCATION_REQUEST_CODE);
+
+            }
 
     }
 
@@ -189,20 +285,15 @@ public class AdminFragment extends Fragment {
         Activity a = getActivity();
         if (v != null && a != null) {
             try {
+
                 String loc_name = ((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim();
                 String loc_addCity = ((EditText) v.findViewById(R.id.admin_etLocationAddressCity)).getText().toString().trim();
                 String loc_addStreet = ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).getText().toString().trim();
-                String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressNumber)).getText().toString().trim();
-
-
-                double loc_lat = Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim());
-                double loc_long = Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim());
-
+                String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).getText().toString().trim();
                 String loc_comments = ((EditText) v.findViewById(R.id.admin_etLocationComments)).getText().toString().trim();
-
                 Location l = new Location(loc_name, new Address(loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
-                l.setLatitude(loc_lat);
-                l.setLongtitude(loc_long);
+                l.setLatitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim()));
+                l.setLongtitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim()));
 
                 ClassApplication application = (ClassApplication) a.getApplication();
                 application.getDatabaseProvider(getContext()).uploadNewLocation(l);
@@ -212,6 +303,7 @@ public class AdminFragment extends Fragment {
             }
         }
     }
+
 
     private void addDevice() {
         View v = getView();
@@ -230,53 +322,7 @@ public class AdminFragment extends Fragment {
     }
 
 
-    //Location
+//Location
 
 
-    /*---------- Listener class to get coordinates ------------- */
-    private class MyLocationListener implements LocationListener {
-
-
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-
-        @Override
-        public void onLocationChanged(android.location.Location loc) {
-            Toast.makeText(
-                    getContext(),
-                    "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-                            + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-            String longitude = "Longitude: " + loc.getLongitude();
-            String latitude = "Latitude: " + loc.getLatitude();
-
-            /*------- To get city name from coordinates -------- */
-            String cityName = null;
-            Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
-            List<android.location.Address> addresses;
-            try {
-                addresses = gcd.getFromLocation(loc.getLatitude(),
-                        loc.getLongitude(), 1);
-                if (addresses.size() > 0) {
-                    System.out.println(addresses.get(0).getLocality());
-                    cityName = addresses.get(0).getLocality();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
-                    + cityName;
-            Toast.makeText(
-                    getContext(), s, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    }
 }

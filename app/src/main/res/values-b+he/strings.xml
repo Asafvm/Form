@@ -8,41 +8,41 @@
     <string name="incTypeSI">SI</string>
     <string name="incTypeSII">SII</string>
     <string name="incTypeL">L</string>
-    <string name="formSerial">Serial Number</string>
-    <string name="incTemp">Temperatue</string>
-    <string name="formTime">Time</string>
-    <string name="formTechName">Full Name</string>
+    <string name="formSerial">מספר סידורי</string>
+    <string name="incTemp">טמפרטורה</string>
+    <string name="formTime">זמן</string>
+    <string name="formTechName">טכנאי</string>
 
 
     /navigation drawer
-    <string name="navbar_header">Hello</string>
-    <string name="navSettings">Settings</string>
-    <string name="navFiles">Files</string>
-    <string name="navStock">Inventory</string>
+    <string name="navbar_header">שלום</string>
+    <string name="navSettings">הגדרות</string>
+    <string name="navFiles">קבצים</string>
+    <string name="navStock">מלאי</string>
 
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_calibraion">Calibration Tools</string>
+    <string name="pref_header_calibraion">כלי כיול</string>
 
-    <string name="pref_title_speedometer">Speedometer</string>
-    <string name="pref_title_thermometer">Thermometer</string>
-    <string name="pref_title_barometer">Barometer</string>
-    <string name="pref_title_timer">Timer</string>
+    <string name="pref_title_speedometer">מד מהירות</string>
+    <string name="pref_title_thermometer">מד טמפרטורה</string>
+    <string name="pref_title_barometer">מד לחץ</string>
+    <string name="pref_title_timer">טיימר</string>
 
-    <string name="pref_default_serial_number">Insert Serial Number</string>
+    <string name="pref_default_serial_number">הכנס מספר סידורי</string>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Other Settings</string>
+    <string name="pref_header_data_sync">הגדרות נוספות</string>
 
     <string-array name="pref_sync_font_size_titles">
-        <item>Very Small</item>
-        <item>Small</item>
-        <item>Normal</item>
-        <item>Big</item>
-        <item>Very Big</item>
+        <item>קטן מאוד</item>
+        <item>קטן</item>
+        <item>רגיל</item>
+        <item>גדול</item>
+        <item>גדול מאוד</item>
     </string-array>
     <string-array name="pref_sync_font_size_values">
         <item>10</item>
@@ -229,7 +229,7 @@
     <string name="rbIH5007sp1">Windows 7 SP1</string>
     <string name="IH500SoftwareVer">Version</string>
     <string name="IH500Textsoftware5">Hard disk available space on Main PC</string>
-    <string name="IH500GB">GB</string>
+    <string name="IH500GB">ג\"ב</string>
     <string name="etIH500C">>100</string>
     <string name="textRPM">RPM</string>
     <string name="number1008">1008</string>
@@ -250,7 +250,7 @@
     <string name="IH1000Textsoftware5">Hard disk available space on Master</string>
     <string name="IH1000Textsoftware6">Hard disk available space on Automate</string>
     <string name="etIH1000C"><![CDATA[>100]]></string>
-    <string name="IH1000GB">GB</string>
+    <string name="IH1000GB">ג\"ב</string>
     <string name="tvIH1000Centrifuge1">Left centrifuge speed (1008 rpm ±0.5%)</string>
     <string name="tvIH1000Centrifuge2">Middle centrifuge speed (1008 rpm ±0.5%)</string>
     <string name="tvIH1000Centrifuge3">Right centrifuge speed (1008 rpm ±0.5%)</string>
@@ -271,10 +271,10 @@
     <string name="loggedin">מחובר</string>
     <string name="loggedout">לא מחובר</string>
     <string name="mailSubject">כיול ציוד</string>
-    <string name="navForms">Calibration Reports</string>
-    <string name="cancel">Cancel</string>
-    <string name="clear">Clear</string>
-    <string name="save">Save</string>
+    <string name="navForms">דוח\"ות כיול</string>
+    <string name="cancel">ביטול</string>
+    <string name="clear">נקה</string>
+    <string name="save">שמור</string>
     <string name="noWritePermission">אין הרשאה ליצירת קבצים</string>
     <string name="noReadPermission">אין הרשאת גישה לקבצים</string>
     <string name="noContactsPermission">אין גישה לאנשי קשר</string>
@@ -359,13 +359,13 @@
     <string name="inStock">כמות</string>
     <string name="itemDescription">שם החלק</string>
     <string name="itemSerial">מספר סידורי</string>
-    <string name="confirm">OK</string>
+    <string name="confirm">אישור</string>
     <string name="insertTitle">הוסף חלק</string>
 
     <!-- Strings related to Settings -->
 
     <string name="google_map_key">AIzaSyAsk4L2GHkqpD7GWgka4MhDVIR4KoP_7vk</string>
-    <string name="pref_header_location">Map</string>
+    <string name="pref_header_location">מפה</string>
     <string name="poc">P.O.C.</string>
     <string name="chooseLocation">בחר מקום</string>
     <string name="btnChangeLocation">שנה מיקום</string>
@@ -393,29 +393,29 @@
     <string name="delete_device">מחק מכשיר</string>
     <string name="move_device">העבר מכשיר</string>
     <string name="edit">ערוך</string>
-    <string name="search">חפש</string>
-    <string name="login_username">User</string>
-    <string name="login_password">Password</string>
+    <string name="filter">סנן</string>
+    <string name="login_username">משתמש</string>
+    <string name="login_password">סיסמה</string>
     <string name="login_userhint">Example@domain.com</string>
     <string name="login_passhint">Password</string>
-    <string name="login_btn">Login</string>
-    <string name="login_Domain">Domain</string>
+    <string name="login_btn">התחבר</string>
+    <string name="login_Domain">דומיין</string>
     <string name="login_DomainHint">Company Name</string>
-    <string name="login_remember">Remember Me</string>
-    <string name="register_btn">Register</string>
-    <string name="forgotpwd_btn">Forget Password</string>
+    <string name="login_remember">זכור אותי</string>
+    <string name="register_btn">הרשם</string>
+    <string name="forgotpwd_btn">שכחתי סיסמה</string>
     <string name="verify_email_message">Please verify your eMail address</string>
     <string name="login_retrieving_data">Retrieving Data</string>
     <string name="loading">Loading</string>
     <string name="getting_user_info">Getting User Info</string>
     <string name="getting_database">Getting Database</string>
     <string name="getting_locations">Getting Locations</string>
-    <string name="formName">Full Name</string>
-    <string name="navAdmin">Admin</string>
-    <string name="admin_addLocation">Add Location</string>
-    <string name="admin_addDevice">Add Device</string>
-    <string name="admin_addPart">Add Part</string>
-    <string name="admin_menuTitle">Admin Menu</string>
+    <string name="formName">שם מלא</string>
+    <string name="navAdmin">אדמין</string>
+    <string name="admin_addLocation">הוסף מיקום</string>
+    <string name="admin_addDevice">הוסף מכשיר</string>
+    <string name="admin_addPart">הוסף חלק</string>
+    <string name="admin_menuTitle">תפריט אדמין</string>
 
 
     <!-- PREMISSIONS -->

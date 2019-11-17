@@ -33,9 +33,9 @@
             android:text="@string/login_Domain"
             android:textColor="@android:color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/editDomainName"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/editDomainName"
+            app:layout_constraintEnd_toStartOf="@id/editDomainName"
             android:visibility="visible"
              />
 
@@ -46,9 +46,9 @@
             android:text="@string/login_username"
             android:textColor="@android:color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/editUserName"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/editUserName"
+            app:layout_constraintEnd_toStartOf="@id/editUserName"
              />
 
         <TextView
@@ -58,9 +58,9 @@
             android:text="@string/login_password"
             android:textColor="@android:color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/editPassword"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/editPassword"
+            app:layout_constraintEnd_toStartOf="@id/editPassword"
              />
 
         <EditText
@@ -74,8 +74,8 @@
             app:layout_constraintBottom_toTopOf="@id/editUserName"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintEnd_toStartOf="@id/textDomainName"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textDomainName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"
@@ -92,8 +92,8 @@
             app:layout_constraintBottom_toTopOf="@id/editPassword"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintEnd_toStartOf="@id/textUserName"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textUserName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editDomainName"
             app:layout_constraintVertical_weight="1" />
 
@@ -108,8 +108,8 @@
             app:layout_constraintBottom_toTopOf="@id/cbRememberme"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintEnd_toStartOf="@id/textPassword"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editUserName"
             app:layout_constraintVertical_weight="1" />
 
@@ -132,9 +132,9 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_dark"
             app:layout_constraintBottom_toTopOf="@id/btn_signup"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbRememberme"
             app:layout_constraintVertical_weight="0.5"
 
@@ -207,8 +207,8 @@
             android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/loading1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintVertical_weight="1"

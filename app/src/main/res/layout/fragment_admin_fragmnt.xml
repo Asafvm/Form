@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        >
+        android:animateLayoutChanges="true">
 
         <TextView
             android:id="@+id/admin_title"
@@ -31,10 +30,9 @@
             android:id="@+id/svAdminMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/admin_title"
             android:animateLayoutChanges="true"
             android:fillViewport="true"
-            >
+            app:layout_constraintTop_toBottomOf="@id/admin_title">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,11 +48,10 @@
                     android:id="@+id/adminMainMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3"
                     android:animateLayoutChanges="true"
-                    >
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3">
 
                     <Button
                         android:id="@+id/admin_btnLocation"
@@ -90,8 +87,8 @@
                     android:id="@+id/adminDeviceMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:animateLayoutChanges="true"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_weight="3">
 
@@ -267,11 +264,10 @@
                     android:id="@+id/adminPartMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3"
-                    android:animateLayoutChanges="true"
-                    >
+                    app:layout_constraintVertical_weight="3">
 
 
                     <Switch
@@ -501,12 +497,21 @@
                     android:id="@+id/adminLocationMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3"
                     android:animateLayoutChanges="true"
-                    >
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3">
 
+                    <TextView
+                        android:id="@+id/admin_tvLocationTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="מיקום"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/admin_tvLocationName"
@@ -522,27 +527,31 @@
                         android:id="@+id/admin_etLocationName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/admin_etLocationAddressNumber"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        app:layout_constraintBottom_toTopOf="@id/admin_etLocationAddressSubThoroughfare"
                         app:layout_constraintEnd_toStartOf="@id/admin_tvLocationName"
                         app:layout_constraintHorizontal_weight="3"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/admin_tvLocationTitle" />
 
                     <TextView
-                        android:id="@+id/admin_tvLocationAddress"
+                        android:id="@+id/admin_tvLocationThoroughfare"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="כתובת"
-                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressNumber"
+                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressSubThoroughfare"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressCity" />
 
                     <EditText
-                        android:id="@+id/admin_etLocationAddressNumber"
+                        android:id="@+id/admin_etLocationAddressSubThoroughfare"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="מספר"
+                        android:inputType="text"
+                        android:maxLines="1"
                         app:layout_constraintBottom_toTopOf="@id/admin_etCoordinatesLat"
                         app:layout_constraintEnd_toStartOf="@id/admin_etLocationAddressStreet"
                         app:layout_constraintHorizontal_chainStyle="spread"
@@ -555,19 +564,21 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="רחוב"
-                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressNumber"
+                        android:inputType="text"
+                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressSubThoroughfare"
                         app:layout_constraintEnd_toStartOf="@id/admin_etLocationAddressCity"
                         app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressNumber" />
+                        app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressSubThoroughfare" />
 
                     <EditText
                         android:id="@+id/admin_etLocationAddressCity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="עיר"
-
-                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressNumber"
-                        app:layout_constraintEnd_toStartOf="@id/admin_tvLocationAddress"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationAddressSubThoroughfare"
+                        app:layout_constraintEnd_toStartOf="@id/admin_tvLocationThoroughfare"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@id/admin_etLocationAddressStreet" />
 
@@ -577,35 +588,34 @@
                         android:layout_height="wrap_content"
                         android:text="קואורדינטות"
                         app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
-                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLong" />
+                        app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLong"
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
 
                     <TextView
                         android:id="@+id/admin_etCoordinatesLong"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:hint="אורך"
                         android:gravity="center"
+                        android:hint="אורך"
                         app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
-                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toStartOf="@id/admin_tvCoordinates"
                         app:layout_constraintHorizontal_weight="1.2"
-                        app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLat" />
+                        app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLat"
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
 
                     <TextView
                         android:id="@+id/admin_etCoordinatesLat"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:hint="רוחב"
                         android:gravity="center"
+                        android:hint="רוחב"
                         app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
-                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet"
                         app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLong"
                         app:layout_constraintHorizontal_weight="1.2"
                         app:layout_constraintStart_toEndOf="@id/admin_btnCoordinatesGet"
-                         />
+                        app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
 
                     <ImageButton
                         android:id="@+id/admin_btnCoordinatesGet"
@@ -615,8 +625,7 @@
                         app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLat"
                         app:layout_constraintHorizontal_weight="0.6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity"
-                        />
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCity" />
 
                     <TextView
                         android:id="@+id/admin_tvLocationComments"
@@ -639,6 +648,75 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/admin_subLocationMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationComments">
+
+                        <TextView
+                            android:id="@+id/admin_tvSubLocationTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="תת מיקום"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/admin_subLocationName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/admin_subLocationPhone"
+                            app:layout_constraintTop_toBottomOf="@id/admin_tvSubLocationTitle"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            app:layout_constraintHorizontal_weight="2"
+                            />
+
+                        <EditText
+                            android:id="@+id/admin_subLocationPhone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@id/admin_subLocationName"
+                            app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
+                            app:layout_constraintBaseline_toBaselineOf="@id/admin_subLocationName"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            app:layout_constraintHorizontal_weight="2"
+                            />
+
+                        <EditText
+                            android:id="@+id/admin_subLocationComments"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
+                            app:layout_constraintTop_toBottomOf="@id/admin_subLocationName"
+                            android:inputType="textMultiLine"
+                            android:maxLines="1"
+                            app:layout_constraintHorizontal_weight="2"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/admin_btn_subLocationAdd"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:src="@drawable/ic_plus_one_black_24dp"
+                            android:layout_marginTop="5dp"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/admin_subLocationPhone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/admin_subLocationName"
+                            app:layout_constraintBottom_toBottomOf="@id/admin_subLocationComments"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -652,8 +730,7 @@
             android:background="@drawable/shape_button_submit"
             android:text="הוסף"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/admin_btnBack"
-            />
+            app:layout_constraintBottom_toTopOf="@id/admin_btnBack" />
 
         <Button
             android:id="@+id/admin_btnBack"

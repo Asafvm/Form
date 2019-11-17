@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toTopOf="@id/viewScroller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search"
+        android:hint="@string/filter"
         />
 
     <ScrollView
