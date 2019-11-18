@@ -517,11 +517,11 @@
                         android:id="@+id/admin_tvLocationName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="שם"
+                        android:text="Name"
                         app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationName"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@id/admin_etLocationName" />
+                        app:layout_constraintEnd_toStartOf="@id/admin_etLocationName" />
 
                     <EditText
                         android:id="@+id/admin_etLocationName"
@@ -529,12 +529,30 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLines="1"
-                        app:layout_constraintBottom_toTopOf="@id/admin_etLocationAddressSubThoroughfare"
-                        app:layout_constraintEnd_toStartOf="@id/admin_tvLocationName"
-                        app:layout_constraintHorizontal_weight="3"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/admin_tvLocationName"
+                        app:layout_constraintHorizontal_weight="4"
+                        app:layout_constraintEnd_toStartOf="@id/admin_btn_confirmNewLocation"
                         app:layout_constraintTop_toBottomOf="@id/admin_tvLocationTitle" />
 
+                    <Button
+                        android:id="@+id/admin_btn_confirmNewLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/admin_etLocationName"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationName"
+                        app:layout_constraintHorizontal_weight="1"
+                        android:text="+"
+
+                        />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/admin_locationnDetailsMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationName"
+                        android:visibility="gone"
+                        >
                     <TextView
                         android:id="@+id/admin_tvLocationThoroughfare"
                         android:layout_width="0dp"
@@ -557,7 +575,7 @@
                         app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationName" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/admin_etLocationAddressStreet"
@@ -648,12 +666,23 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
 
+                        <Button
+                            android:id="@+id/admin_btn_locationAdd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/admin_etLocationComments"
+                            android:text="הוסף מיקום"
+                            android:background="@android:color/holo_blue_light"
+
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/admin_subLocationMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationComments">
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/admin_locationnDetailsMenu">
 
                         <TextView
                             android:id="@+id/admin_tvSubLocationTitle"
@@ -674,6 +703,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/admin_subLocationPhone"
                             app:layout_constraintTop_toBottomOf="@id/admin_tvSubLocationTitle"
+                            android:hint="שם"
                             android:inputType="text"
                             android:maxLines="1"
                             app:layout_constraintHorizontal_weight="2"
@@ -683,6 +713,7 @@
                             android:id="@+id/admin_subLocationPhone"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:hint="מספר טלפון"
                             app:layout_constraintStart_toEndOf="@id/admin_subLocationName"
                             app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
                             app:layout_constraintBaseline_toBaselineOf="@id/admin_subLocationName"
@@ -696,6 +727,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
+                            android:hint="הערות"
                             app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
                             app:layout_constraintTop_toBottomOf="@id/admin_subLocationName"
                             android:inputType="textMultiLine"

@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements
             if (win != null)
                 win.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
             loginDialog.setContentView(R.layout.activity_signup);
-            loginDialog.setCancelable(true);
+            loginDialog.setCancelable(false);
 
             //load saved user
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

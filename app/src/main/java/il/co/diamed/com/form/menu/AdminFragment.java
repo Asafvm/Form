@@ -3,7 +3,12 @@ package il.co.diamed.com.form.menu;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,7 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,14 +61,80 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
+        ClassApplication application;
 
-        //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-        v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
-        v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
-        v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
-        ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
+        if(getActivity()!=null) {
+            application = (ClassApplication) getActivity().getApplication();
+            final ArrayList<Location> locations = application.getDatabaseProvider(getContext()).getLocDB();
+
+            //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
+            v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+            v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
+            ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
+
+
+            ((EditText) v.findViewById(R.id.admin_etLocationName)).addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (locations != null) {
+                        String locName = ((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim();
+                        for (Location l : locations){
+                            if(l.getName().equals(locName)){
+                                //location found
+                                v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+                                ((EditText) v.findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
+                                break;
+
+                            }else{
+                                v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
+                                ((EditText) v.findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                        .setTitle("New Location Alert")
+                        .setMessage("Create New Location?")
+                        .setPositiveButton("Yes", (dialogInterface, i) ->{
+                            v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.VISIBLE);
+                            ((EditText)v.findViewById(R.id.admin_etLocationName)).setInputType(InputType.TYPE_NULL);
+                            v.findViewById(R.id.admin_etLocationName).setFocusable(false);
+                            v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
+                        })
+                        .setNegativeButton("No", (dialogInterface, i) -> {
+
+                        })
+                        .setOnCancelListener(dialogInterface -> {
+
+                        })
+                        .setCancelable(true);
+
+                AlertDialog dialog = alertDialogBuilder.show();
+
+
+            });
+        }
+
+
+
         if (getContext() != null) {
             v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
                 Log.d(TAG, "Checking Location");
