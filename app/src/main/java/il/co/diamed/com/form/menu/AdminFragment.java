@@ -35,13 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
 import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.data_objects.SubLocation;
+import il.co.diamed.com.form.data_objects.SubLocationAdapter;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.res.providers.PermissionManager;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -54,6 +58,7 @@ public class AdminFragment extends Fragment {
     private Location location;
     private ArrayList<Location> locations;
     private ClassApplication application = null;
+    private RecyclerView recyclerView;
 
     public AdminFragment() {
         // Required empty public constructor
@@ -69,6 +74,12 @@ public class AdminFragment extends Fragment {
             application = (ClassApplication) getActivity().getApplication();
             locations = application.getDatabaseProvider(getContext()).getLocDB();
         }
+
+        recyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
+        recyclerView.setItemAnimator(new SlideInUpAnimator());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
         v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
         v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
@@ -100,18 +111,13 @@ public class AdminFragment extends Fragment {
                     })
                     .setCancelable(true);
 
-            AlertDialog dialog = alertDialogBuilder.show();
+            alertDialogBuilder.show();
 
 
         });
 
 
-        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addLocation();
-            }
-        });
+        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(view -> addLocation());
 
         if (getContext() != null) {
             v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
@@ -179,9 +185,17 @@ public class AdminFragment extends Fragment {
         v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
             String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
             String comments = ((EditText) v.findViewById(R.id.admin_subLocationComments)).getText().toString();
-            if (!name.isEmpty() && !comments.isEmpty()) {
+            if (!name.isEmpty()) {
                 //create sublocation in location
                 location.addSublocation(new SubLocation(name, comments));
+
+                RecyclerView.Adapter<SubLocationAdapter.ViewHolder> adapter = new SubLocationAdapter(location.getSubLocation(), getContext());
+                if (recyclerView.getAdapter() == null)
+                    recyclerView.setAdapter(adapter);
+                else
+                    adapter.notifyDataSetChanged();
+
+
             }
             ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
             ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
@@ -321,7 +335,7 @@ public class AdminFragment extends Fragment {
                 v.findViewById(R.id.admin_etLocationComments).setFocusable(false);
 
                 v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.VISIBLE);
-                v.findViewById(R.id.admin_btn_locationAdd).setVisibility(View.GONE);
+                v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
             } catch (Exception e) {
                 //redo form
                 Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show();
@@ -357,18 +371,18 @@ public class AdminFragment extends Fragment {
             if (locations != null) {
                 if (getView() != null) {
                     String locName = ((EditText) getView().findViewById(R.id.admin_etLocationName)).getText().toString().trim();
-                    for (Location l : locations) {
-                        if (l.getName().equals(locName)) {
-                            //location found
-                            getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
-                            ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
-                            break;
+                        for (Location l : locations) {
+                            if (l.getName().equals(locName)) {
+                                //location found
+                                getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+                                ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
+                                break;
 
-                        } else {
-                            getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
-                            ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                            } else {
+                                getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
+                                ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                            }
                         }
-                    }
                 }
             }
         }

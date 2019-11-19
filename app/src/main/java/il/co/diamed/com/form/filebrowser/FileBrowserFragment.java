@@ -41,11 +41,10 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 public class FileBrowserFragment extends Fragment {
     private static final String TAG = "FileBrowserFragment";
     private String path;
-    RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
-    List<FileBrowserItem> values;
-    StorageProvider storageProvider;
-    int childCount;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private StorageProvider storageProvider;
+    private int childCount;
     private String filterText = "";
 
     public FileBrowserFragment() {
@@ -97,7 +96,7 @@ public class FileBrowserFragment extends Fragment {
             ((TextView) getView().findViewById(R.id.path_text)).setText(path);
 
         // Read all files sorted into the values-array
-        values = new ArrayList<>();
+        List<FileBrowserItem> values = new ArrayList<>();
 
 
         File dir = new File(path);
@@ -448,7 +447,7 @@ public class FileBrowserFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    TextWatcher filter = new TextWatcher() {
+    private TextWatcher filter = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

@@ -747,6 +747,14 @@
                             app:layout_constraintTop_toTopOf="@id/admin_subLocationName"
                             app:layout_constraintBottom_toBottomOf="@id/admin_subLocationComments"
                             />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/admin_subLocationRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true"
+                            app:layout_constraintTop_toBottomOf="@id/admin_subLocationComments"
+                            />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
