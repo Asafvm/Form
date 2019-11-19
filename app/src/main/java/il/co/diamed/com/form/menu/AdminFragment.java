@@ -39,6 +39,7 @@ import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
 import il.co.diamed.com.form.data_objects.Location;
+import il.co.diamed.com.form.data_objects.SubLocation;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.res.providers.PermissionManager;
 
@@ -50,6 +51,9 @@ import static android.content.Context.LOCATION_SERVICE;
 public class AdminFragment extends Fragment {
 
     private static final String TAG = "AdminPage ";
+    private Location location;
+    private ArrayList<Location> locations;
+    private ClassApplication application = null;
 
     public AdminFragment() {
         // Required empty public constructor
@@ -61,79 +65,53 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
-        ClassApplication application;
-
-        if(getActivity()!=null) {
+        if (getActivity() != null) {
             application = (ClassApplication) getActivity().getApplication();
-            final ArrayList<Location> locations = application.getDatabaseProvider(getContext()).getLocDB();
-
-            //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-            v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
-            v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
-            v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
-            v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
-            v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
-            ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
-
-
-            ((EditText) v.findViewById(R.id.admin_etLocationName)).addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (locations != null) {
-                        String locName = ((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim();
-                        for (Location l : locations){
-                            if(l.getName().equals(locName)){
-                                //location found
-                                v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
-                                ((EditText) v.findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
-                                break;
-
-                            }else{
-                                v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
-                                ((EditText) v.findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
-
-            v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
-                        .setTitle("New Location Alert")
-                        .setMessage("Create New Location?")
-                        .setPositiveButton("Yes", (dialogInterface, i) ->{
-                            v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.VISIBLE);
-                            ((EditText)v.findViewById(R.id.admin_etLocationName)).setInputType(InputType.TYPE_NULL);
-                            v.findViewById(R.id.admin_etLocationName).setFocusable(false);
-                            v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
-                        })
-                        .setNegativeButton("No", (dialogInterface, i) -> {
-
-                        })
-                        .setOnCancelListener(dialogInterface -> {
-
-                        })
-                        .setCancelable(true);
-
-                AlertDialog dialog = alertDialogBuilder.show();
-
-
-            });
+            locations = application.getDatabaseProvider(getContext()).getLocDB();
         }
+        //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
+        v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+        v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
+        ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
 
 
+        ((EditText) v.findViewById(R.id.admin_etLocationName)).addTextChangedListener(nameWatcher);
+
+        v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                    .setTitle("New Location Alert")
+                    .setMessage("Create New Location?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.VISIBLE);
+                        ((EditText) v.findViewById(R.id.admin_etLocationName)).setInputType(InputType.TYPE_NULL);
+                        v.findViewById(R.id.admin_etLocationName).setFocusable(false);
+                        v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> {
+
+                    })
+                    .setOnCancelListener(dialogInterface -> {
+
+                    })
+                    .setCancelable(true);
+
+            AlertDialog dialog = alertDialogBuilder.show();
+
+
+        });
+
+
+        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addLocation();
+            }
+        });
 
         if (getContext() != null) {
             v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
@@ -190,9 +168,23 @@ public class AdminFragment extends Fragment {
                 addPart();
             else if (v.findViewById(R.id.adminDeviceMenu).isShown())
                 addDevice();
-            else if (v.findViewById(R.id.adminLocationMenu).isShown())
-                addLocation();
+            else if (v.findViewById(R.id.adminLocationMenu).isShown()) {
+                uploadLocation();
 
+            }
+
+
+        });
+
+        v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
+            String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
+            String comments = ((EditText) v.findViewById(R.id.admin_subLocationComments)).getText().toString();
+            if (!name.isEmpty() && !comments.isEmpty()) {
+                //create sublocation in location
+                location.addSublocation(new SubLocation(name, comments));
+            }
+            ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
+            ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
 
         });
 
@@ -204,56 +196,8 @@ public class AdminFragment extends Fragment {
         return v;
     }
 
-    private void addSubLocation(View v) {
-        //get root layout
-        ConstraintLayout root = v.findViewById(R.id.adminLocationMenu);
-        //create new layout
-        ConstraintLayout layout = new ConstraintLayout(getContext());
-
-        //create elements
-        EditText subLocName = new EditText(getContext());
-        subLocName.setId(View.generateViewId());
-        subLocName.setHint("שם");
-        subLocName.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        EditText subLocPhone = new EditText(getContext());
-        subLocPhone.setHint("טלפון");
-        subLocPhone.setId(View.generateViewId());
-        subLocPhone.setInputType(InputType.TYPE_TEXT_VARIATION_PHONETIC);
-
-        ImageButton btn_addSubLoc = new ImageButton(getContext());
-        btn_addSubLoc.setId(View.generateViewId());
-        btn_addSubLoc.setImageResource(R.drawable.ic_plus_one_black_24dp);
-
-
-        //add elements to layout
-        ConstraintLayout.LayoutParams clpcontactUs = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-        subLocName.setLayoutParams(clpcontactUs);
-        subLocPhone.setLayoutParams(clpcontactUs);
-        btn_addSubLoc.setLayoutParams(clpcontactUs);
-
-        layout.addView(subLocName);
-        layout.addView(subLocPhone);
-        layout.addView(btn_addSubLoc);
-
-        //add constraints to elements
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(layout);
-
-        constraintSet.connect(subLocName.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP);
-        constraintSet.connect(subLocName.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
-        constraintSet.connect(subLocName.getId(), ConstraintSet.END, subLocPhone.getId(), ConstraintSet.START);
-        constraintSet.connect(subLocPhone.getId(), ConstraintSet.END, btn_addSubLoc.getId(), ConstraintSet.START);
-        constraintSet.connect(btn_addSubLoc.getId(), ConstraintSet.END, layout.getId(), ConstraintSet.END);
-        constraintSet.applyTo(layout);
-
-        layout.setLayoutParams(clpcontactUs);
-
-        constraintSet = new ConstraintSet();
-        constraintSet.connect(layout.getId(), ConstraintSet.TOP, root.getId(), ConstraintSet.TOP, 0);
-        constraintSet.applyTo(layout);
-        root.addView(layout);
+    private void uploadLocation() {
+        application.getDatabaseProvider(getContext()).uploadNewLocation(location);
     }
 
 
@@ -365,12 +309,19 @@ public class AdminFragment extends Fragment {
                 String loc_addStreet = ((EditText) v.findViewById(R.id.admin_etLocationAddressStreet)).getText().toString().trim();
                 String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).getText().toString().trim();
                 String loc_comments = ((EditText) v.findViewById(R.id.admin_etLocationComments)).getText().toString().trim();
-                Location l = new Location(loc_name, new Address(loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
-                l.setLatitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim()));
-                l.setLongtitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim()));
+                location = new Location(loc_name, new Address(loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
+                location.setLatitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim()));
+                location.setLongtitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim()));
 
-                ClassApplication application = (ClassApplication) a.getApplication();
-                application.getDatabaseProvider(getContext()).uploadNewLocation(l);
+
+                v.findViewById(R.id.admin_etLocationName).setFocusable(false);
+                v.findViewById(R.id.admin_etLocationAddressCity).setFocusable(false);
+                v.findViewById(R.id.admin_etLocationAddressStreet).setFocusable(false);
+                v.findViewById(R.id.admin_etLocationAddressSubThoroughfare).setFocusable(false);
+                v.findViewById(R.id.admin_etLocationComments).setFocusable(false);
+
+                v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.admin_btn_locationAdd).setVisibility(View.GONE);
             } catch (Exception e) {
                 //redo form
                 Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show();
@@ -395,6 +346,38 @@ public class AdminFragment extends Fragment {
         }
     }
 
+    private TextWatcher nameWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (locations != null) {
+                if (getView() != null) {
+                    String locName = ((EditText) getView().findViewById(R.id.admin_etLocationName)).getText().toString().trim();
+                    for (Location l : locations) {
+                        if (l.getName().equals(locName)) {
+                            //location found
+                            getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+                            ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
+                            break;
+
+                        } else {
+                            getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
+                            ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 
 //Location
 
