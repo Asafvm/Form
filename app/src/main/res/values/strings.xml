@@ -416,6 +416,8 @@
     <string name="admin_addDevice">Add Device</string>
     <string name="admin_addPart">Add Part</string>
     <string name="admin_menuTitle">Admin Menu</string>
+    <string name="q_mark">\?</string>
+    <string name="create">Create</string>
 
 
     <!-- PREMISSIONS -->

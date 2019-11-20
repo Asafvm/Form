@@ -4,10 +4,7 @@ package il.co.diamed.com.form.menu;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationListener;
@@ -15,18 +12,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,52 +66,22 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
-        if (getActivity() != null) {
-            application = (ClassApplication) getActivity().getApplication();
-            locations = application.getDatabaseProvider(getContext()).getLocDB();
-        }
 
         recyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
         recyclerView.setItemAnimator(new SlideInUpAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
+        ViewGroup viewGroup = v.findViewById(R.id.admin_menu);
+        for (View view : viewGroup.getTouchables()) {
+            if (view instanceof EditText) {
+                ((EditText) view).setText("");
+                view.setFocusable(true);
+            }
+        }
+
         //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-        v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
-        v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.GONE);
-        v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
-        v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
-        v.findViewById(R.id.adminLocationMenu).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
-        ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
-
-
-        ((EditText) v.findViewById(R.id.admin_etLocationName)).addTextChangedListener(nameWatcher);
-
-        v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
-                    .setTitle("New Location Alert")
-                    .setMessage("Create New Location?")
-                    .setPositiveButton("Yes", (dialogInterface, i) -> {
-                        v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.VISIBLE);
-                        ((EditText) v.findViewById(R.id.admin_etLocationName)).setInputType(InputType.TYPE_NULL);
-                        v.findViewById(R.id.admin_etLocationName).setFocusable(false);
-                        v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
-                    })
-                    .setNegativeButton("No", (dialogInterface, i) -> {
-
-                    })
-                    .setOnCancelListener(dialogInterface -> {
-
-                    })
-                    .setCancelable(true);
-
-            alertDialogBuilder.show();
-
-
-        });
-
+        initLocationView(v);
 
         v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(view -> addLocation());
 
@@ -140,7 +106,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("מכשירים");
         });
 
@@ -148,7 +114,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminPartMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnAdd).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("חלקים");
         });
 
@@ -160,21 +126,21 @@ public class AdminFragment extends Fragment {
             if (v.findViewById(R.id.adminDeviceMenu).isShown()) {
                 v.findViewById(R.id.adminDeviceMenu).setVisibility(View.GONE);
             }
-            if (v.findViewById(R.id.adminLocationMenu).isShown()) {
-                v.findViewById(R.id.adminLocationMenu).setVisibility(View.GONE);
+            if (v.findViewById(R.id.admin_location_phase1).isShown()) {
+                v.findViewById(R.id.admin_location_phase1).setVisibility(View.GONE);
             }
             ((TextView) v.findViewById(R.id.admin_title)).setText("תפריט אדמין");
-            v.findViewById(R.id.admin_btnAdd).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_btnFinish).setVisibility(View.GONE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.GONE);
         });
 
 
-        v.findViewById(R.id.admin_btnAdd).setOnClickListener(view -> {
+        v.findViewById(R.id.admin_btnFinish).setOnClickListener(view -> {
             if (v.findViewById(R.id.adminPartMenu).isShown())
                 addPart();
             else if (v.findViewById(R.id.adminDeviceMenu).isShown())
                 addDevice();
-            else if (v.findViewById(R.id.adminLocationMenu).isShown()) {
+            else if (v.findViewById(R.id.admin_location_phase1).isShown()) {
                 uploadLocation();
 
             }
@@ -210,8 +176,87 @@ public class AdminFragment extends Fragment {
         return v;
     }
 
+    private void initLocationView(View v) {
+        if (v != null) {
+            if (getActivity() != null) {
+                application = (ClassApplication) getActivity().getApplication();
+                locations = application.getDatabaseProvider(getContext()).getLocDB();
+            }
+
+
+            v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_location_phase1).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
+
+
+            v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(false);
+
+
+            v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_etLocationName).setFocusable(true);
+            ((EditText) v.findViewById(R.id.admin_etLocationName)).setText("");
+            ((EditText) v.findViewById(R.id.admin_etLocationName)).setTextIsSelectable(true);
+            ((TextView) v.findViewById(R.id.admin_title)).setText("מיקום");
+            ((EditText) v.findViewById(R.id.admin_etLocationName)).addTextChangedListener(nameWatcher);
+
+            v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                        .setTitle("New Location Alert")
+                        .setMessage("Create New Location?")
+                        .setPositiveButton("Yes", (dialogInterface, i) -> {
+                            if (((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().equals("")) {
+                                Toast.makeText(getContext(),"Name cannot be empty",Toast.LENGTH_SHORT).show();
+                            }else{
+                                v.findViewById(R.id.admin_location_phase2).setVisibility(View.VISIBLE);
+                                v.findViewById(R.id.admin_etLocationName).setFocusable(false);
+                                v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
+                            }
+                        })
+                        .setNegativeButton("No", (dialogInterface, i) -> {
+
+                        })
+                        .setOnCancelListener(dialogInterface -> {
+
+                        })
+                        .setCancelable(true);
+
+                alertDialogBuilder.show();
+
+            });
+        }
+    }
+
     private void uploadLocation() {
-        application.getDatabaseProvider(getContext()).uploadNewLocation(location);
+        String title = getString(R.string.create) + location.getName() + getString(R.string.q_mark);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(location.getName());
+        stringBuilder.append(" contains the following:\n");
+        for (SubLocation s : location.getSubLocation()) {
+            stringBuilder.append(s.getName());
+            stringBuilder.append('\n');
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                .setCancelable(true)
+                .setTitle(title)
+                .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                    application.getDatabaseProvider(getContext()).uploadNewLocation(location);
+                    View v = getView();
+                    if (v != null) {
+                        ViewGroup viewGroup = ((ConstraintLayout) v.findViewById(R.id.admin_location_phase3));
+                        TransitionManager.beginDelayedTransition(viewGroup);
+
+                        initLocationView(v);
+                    }
+                })
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                })
+                .setMessage(stringBuilder);
+
+        builder.show();
     }
 
 
@@ -334,8 +379,8 @@ public class AdminFragment extends Fragment {
                 v.findViewById(R.id.admin_etLocationAddressSubThoroughfare).setFocusable(false);
                 v.findViewById(R.id.admin_etLocationComments).setFocusable(false);
 
-                v.findViewById(R.id.admin_subLocationMenu).setVisibility(View.VISIBLE);
-                v.findViewById(R.id.admin_locationnDetailsMenu).setVisibility(View.GONE);
+                v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
             } catch (Exception e) {
                 //redo form
                 Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show();
@@ -371,6 +416,10 @@ public class AdminFragment extends Fragment {
             if (locations != null) {
                 if (getView() != null) {
                     String locName = ((EditText) getView().findViewById(R.id.admin_etLocationName)).getText().toString().trim();
+                    if(locations.isEmpty()){
+                        getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
+                        ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                    }else {
                         for (Location l : locations) {
                             if (l.getName().equals(locName)) {
                                 //location found
@@ -383,6 +432,7 @@ public class AdminFragment extends Fragment {
                                 ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
                             }
                         }
+                    }
                 }
             }
         }
