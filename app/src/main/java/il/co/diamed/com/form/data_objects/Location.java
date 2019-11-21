@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @IgnoreExtraProperties
 public class Location implements Comparable<Location>{
     private String name = "";
-    private Address address = new Address("","","");
+    private Address address = new Address("","","","","");
     private String comments = "";
     private double latitude = -1;
     private double longtitude = -1;

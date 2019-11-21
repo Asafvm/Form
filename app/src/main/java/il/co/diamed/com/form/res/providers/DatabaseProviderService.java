@@ -519,7 +519,7 @@ public class DatabaseProviderService extends Service {
 
             //device not found, create new device
             if (targetLoc == null) {
-                Location location = new Location(loc, new Address("", "", ""), "");
+                Location location = new Location(loc, new Address("","","", "", ""), "");
                 SubLocation subLocation = new SubLocation(subLoc, "");
                 subLocation.addDevice(device);
                 location.addSublocation(subLocation);

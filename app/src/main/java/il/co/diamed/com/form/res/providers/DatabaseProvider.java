@@ -658,7 +658,7 @@ public class DatabaseProvider {
                     foundDev.setDev_under_warranty(device.getDev_under_warranty());
                     if (targetLoc == null) {
                         //new location
-                        targetLoc = new Location(loc, new Address("", "", ""), "");
+                        targetLoc = new Location(loc, new Address("","","", "", ""), "");
                         targetSubloc = new SubLocation(subLoc, "");
                         targetSubloc.addDevice(foundDev);
                         targetLoc.addSublocation(targetSubloc);
@@ -693,7 +693,7 @@ public class DatabaseProvider {
             } else {    //new device
                 if (targetLoc == null) {
                     //new location
-                    targetLoc = new Location(loc, new Address("", "", ""), "");
+                    targetLoc = new Location(loc, new Address("","","", "", ""), "");
                     targetSubloc = new SubLocation(subLoc, "");
                     targetSubloc.addDevice(device);
                     targetLoc.addSublocation(targetSubloc);
