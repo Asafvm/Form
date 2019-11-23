@@ -62,13 +62,10 @@ public class DevicesFragment extends Fragment implements DeviceDialogFragment.On
 
         tabLayout.setupWithViewPager(viewPager);
 
-        view.findViewById(R.id.titleButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getFragmentManager()!=null) {
-                    newFragment.show(getFragmentManager(), "dialog");
+        view.findViewById(R.id.titleButton).setOnClickListener(v -> {
+            if(getFragmentManager()!=null) {
+                newFragment.show(getFragmentManager(), "dialog");
 
-                }
             }
         });
 

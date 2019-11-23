@@ -14,7 +14,7 @@ public class DevicesFragmentPagerAdapter extends FragmentPagerAdapter{
 
 
     public DevicesFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
-        super(fragmentManager);
+        super(fragmentManager,FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
 
     }
@@ -44,7 +44,6 @@ public class DevicesFragmentPagerAdapter extends FragmentPagerAdapter{
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
-        Log.e("adapter",String.valueOf(position));
 
         switch (position) {
             case 0:

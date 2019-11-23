@@ -150,7 +150,6 @@ public class LoginActivity extends AppCompatActivity implements
                 String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
                 String domain = ((EditText) loginDialog.findViewById(R.id.editDomainName)).getText().toString().toUpperCase();
 
-                Log.e(TAG, "Logging with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
                 if (username.isEmpty() || password.isEmpty()) {
                     if (username.isEmpty())
@@ -183,7 +182,6 @@ public class LoginActivity extends AppCompatActivity implements
                 //Login with user and pass
                 String username = ((EditText) loginDialog.findViewById(R.id.editUserName)).getText().toString();
                 String password = ((EditText) loginDialog.findViewById(R.id.editPassword)).getText().toString();
-                Log.e(TAG, "Creating with " + username + " : " + password);
                 setProgressInfo("Attempting to login", 50);
                 if (username.isEmpty() || password.isEmpty()) {
                     if (username.isEmpty())

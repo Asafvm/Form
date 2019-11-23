@@ -21,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,13 +52,17 @@ import static android.content.Context.LOCATION_SERVICE;
 public class AdminFragment extends Fragment {
 
     private static final String TAG = "AdminPage ";
-    private Location location;
+    private Location location = null;
     private ArrayList<Location> locations;
     private ClassApplication application = null;
-    private RecyclerView recyclerView;
     private LocationManager locationManager;
     private boolean newLoc = true;
     private Location targetLoc = null;
+
+
+    private RecyclerView recyclerView;
+    private TabLayout tabLayout;
+
 
     public AdminFragment() {
         // Required empty public constructor
@@ -67,14 +74,12 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
-        if (getActivity() != null) {
-            application = (ClassApplication) getActivity().getApplication();
-            locations = application.getDatabaseProvider(getContext()).getLocDB();
-        }
+
 
         recyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
         recyclerView.setItemAnimator(new SlideInUpAnimator());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        tabLayout = v.findViewById(R.id.admin_location_tabs);
+        tabLayout.addOnTabSelectedListener(locationTabListener);
 
 
         /****************************** Location ***********************************/
@@ -88,11 +93,7 @@ public class AdminFragment extends Fragment {
                 //create sublocation in location
                 location.addSublocation(new SubLocation(name, comments));
 
-                RecyclerView.Adapter<SubLocationAdapter.ViewHolder> adapter = new SubLocationAdapter(location.getSubLocation(), getContext());
-                if (recyclerView.getAdapter() == null)
-                    recyclerView.setAdapter(adapter);
-                else
-                    adapter.notifyDataSetChanged();
+                updateSublocationRecycler();
 
 
             }
@@ -101,12 +102,15 @@ public class AdminFragment extends Fragment {
 
         });
 
-        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(view -> addLocation());
-        v.findViewById(R.id.admin_btn_locationContinue).setOnClickListener(view ->{
+/*        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(view -> {
+            v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+        });
+        v.findViewById(R.id.admin_btn_locationContinue).setOnClickListener(view -> {
             v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
             v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
 
-        });
+        });*/
 
         v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
             Log.d(TAG, "Checking Location");
@@ -168,7 +172,20 @@ public class AdminFragment extends Fragment {
 
         });
 
+        v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
+            String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
+            String comments = ((EditText) v.findViewById(R.id.admin_subLocationComments)).getText().toString();
+            if (!name.isEmpty()) {
+                //create sublocation in location
+                location.addSublocation(new SubLocation(name, comments));
+                //updateSublocationRecycler();
 
+
+            }
+            ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
+            ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
+
+        });
         //addSubLocation(v);
 
         //});
@@ -190,7 +207,18 @@ public class AdminFragment extends Fragment {
 
     private void initLocationView(View v) {
         if (v != null) {
+            if (getActivity() != null) {
+                application = (ClassApplication) getActivity().getApplication();
+                locations = application.getDatabaseProvider(getContext()).getLocDB();
+            }
 
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            if (tab != null)
+                tab.select();
+            tabLayout.setVisibility(View.GONE);
             initTextFields(v, R.id.admin_location_phase1);
             initTextFields(v, R.id.admin_location_phase2);
             initTextFields(v, R.id.admin_location_phase3);
@@ -213,13 +241,6 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.GONE);
 
-            //clear sublocations list
-            RecyclerView.Adapter<SubLocationAdapter.ViewHolder> adapter = new SubLocationAdapter(new ArrayList<>(), getContext());
-            if (recyclerView.getAdapter() == null)
-                recyclerView.setAdapter(adapter);
-            else
-                adapter.notifyDataSetChanged();
-
             v.findViewById(R.id.admin_btn_confirmNewLocation).setOnClickListener(view1 -> {
                 String message = "";
                 if (newLoc)
@@ -232,14 +253,7 @@ public class AdminFragment extends Fragment {
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
                             if (((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().equals("")) {
                                 Toast.makeText(getContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
-                            }else{
-                                if(newLoc){
-                                    v.findViewById(R.id.admin_btn_locationContinue).setVisibility(View.GONE);
-                                    v.findViewById(R.id.admin_btn_locationAdd).setVisibility(View.VISIBLE);
-                                }else{
-                                    v.findViewById(R.id.admin_btn_locationContinue).setVisibility(View.VISIBLE);
-                                    v.findViewById(R.id.admin_btn_locationAdd).setVisibility(View.GONE);
-                                }
+                            } else {
                                 v.findViewById(R.id.admin_etLocationName).setFocusable(false);
                                 v.findViewById(R.id.admin_location_phase2).setVisibility(View.VISIBLE);
                                 v.findViewById(R.id.admin_btn_confirmNewLocation).setVisibility(View.GONE);
@@ -247,8 +261,22 @@ public class AdminFragment extends Fragment {
 
                                 if (!newLoc && targetLoc != null) {
                                     location = targetLoc;
-                                    editLocation(v);
+                                    //import location settings
+                                    ((EditText) v.findViewById(R.id.admin_etLocationAddressCountry)).setText(location.getAddress().getLoc_Country());
+                                    ((EditText) v.findViewById(R.id.admin_etLocationAddressArea)).setText(location.getAddress().getLoc_Area());
+                                    ((EditText) v.findViewById(R.id.admin_etLocationAddressLocality)).setText(location.getAddress().getloc_Locality());
+                                    ((EditText) v.findViewById(R.id.admin_etLocationAddressThoroughfare)).setText(location.getAddress().getloc_Thoroughfare());
+                                    ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).setText(location.getAddress().getloc_SubThoroughfare());
+                                    ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(location.getLatitude()));
+                                    ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(location.getLongtitude()));
+                                } else {
+                                    //create new location
+                                    location = new Location();
+                                    location.setName(((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim());
+                                    recyclerView.setAdapter(null);
                                 }
+                                updateSublocationRecycler();
+                                v.findViewById(R.id.admin_location_tabs).setVisibility(View.VISIBLE);
                             }
                         })
                         .setNegativeButton("No", (dialogInterface, i) -> {
@@ -265,31 +293,14 @@ public class AdminFragment extends Fragment {
         }
     }
 
-    private void editLocation(View v) {
-        //setlocation
-        ((EditText) v.findViewById(R.id.admin_etLocationAddressCountry)).setText(location.getAddress().getLoc_Country());
-        ((EditText) v.findViewById(R.id.admin_etLocationAddressArea)).setText(location.getAddress().getLoc_Area());
-        ((EditText) v.findViewById(R.id.admin_etLocationAddressLocality)).setText(location.getAddress().getloc_Locality());
-        ((EditText) v.findViewById(R.id.admin_etLocationAddressThoroughfare)).setText(location.getAddress().getloc_Thoroughfare());
-        ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).setText(location.getAddress().getloc_SubThoroughfare());
-        ((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).setText(String.valueOf(location.getLatitude()));
-        ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(location.getLongtitude()));
-
-        //sublocations, if any
-        RecyclerView.Adapter<SubLocationAdapter.ViewHolder> adapter = new SubLocationAdapter(location.getSubLocation(), getContext());
-        if (recyclerView.getAdapter() == null)
-            recyclerView.setAdapter(adapter);
-        else
-            adapter.notifyDataSetChanged();
-
-    }
-
 
     private void uploadLocation() {
         if (location == null) {
             Toast.makeText(getContext(), "Operation Canceled", Toast.LENGTH_SHORT).show();
             initLocationView(getView());
         } else {
+            setLocationAddress();
+
             String title = getString(R.string.create) + location.getName() + getString(R.string.q_mark);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(location.getName());
@@ -303,10 +314,11 @@ public class AdminFragment extends Fragment {
                     stringBuilder.append('\n');
                 }
             }
+            String question = (newLoc) ? "Confirm" : "Save Changes?";
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                     .setCancelable(true)
                     .setTitle(title)
-                    .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                    .setPositiveButton(question, (dialogInterface, i) -> {
                         application.getDatabaseProvider(getContext()).uploadNewLocation(location);
                         initLocationView(getView());
 
@@ -321,8 +333,8 @@ public class AdminFragment extends Fragment {
 
 
     private void getLocation(Activity activity, Context context, View v) {
+        //get location from gps / network
         locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
-
 
         boolean gotAddress = false;
         String loc_addCountry = ((EditText) v.findViewById(R.id.admin_etLocationAddressCountry)).getText().toString().trim();
@@ -335,7 +347,6 @@ public class AdminFragment extends Fragment {
             Geocoder geocoder;
             List<android.location.Address> addresses;
             geocoder = new Geocoder(getContext(), Locale.getDefault());
-
             try {
                 addresses = geocoder.getFromLocationName(loc_addCountry + " " + loc_addArea + " " + loc_addStreet + " " + loc_addNumber + " " + loc_addCity, 1);
                 if (addresses.size() == 0) {
@@ -376,13 +387,11 @@ public class AdminFragment extends Fragment {
 
     }
 
-    private void addLocation() {
+    private void setLocationAddress() {
         View v = getView();
         Activity a = getActivity();
         if (v != null && a != null) {
             try {
-
-                String loc_name = ((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim();
 
                 String loc_addCountry = ((EditText) v.findViewById(R.id.admin_etLocationAddressCountry)).getText().toString().trim();
                 String loc_addArea = ((EditText) v.findViewById(R.id.admin_etLocationAddressArea)).getText().toString().trim();
@@ -390,38 +399,28 @@ public class AdminFragment extends Fragment {
                 String loc_addStreet = ((EditText) v.findViewById(R.id.admin_etLocationAddressThoroughfare)).getText().toString().trim();
                 String loc_addNumber = ((EditText) v.findViewById(R.id.admin_etLocationAddressSubThoroughfare)).getText().toString().trim();
                 String loc_comments = ((EditText) v.findViewById(R.id.admin_etLocationComments)).getText().toString().trim();
-                if (loc_addCountry.equals("") || loc_addArea.equals("") || loc_addCity.equals("") || loc_addStreet.equals("") || loc_addNumber.equals("")) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
-                            .setTitle("New Location Alert")
-                            .setMessage("Address is not complete, Continue?")
-                            .setPositiveButton("Yes", (dialogInterface, i) -> {
-                                location = new Location(loc_name, new Address(loc_addCountry, loc_addArea, loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
-                                location.setLatitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim()));
-                                location.setLongtitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim()));
-
-                                v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
-                                v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
-                            })
-                            .setNegativeButton("No", (dialogInterface, i) -> {
-                                Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show();
-
-                            })
-                            .setOnCancelListener(dialogInterface -> {
-                                Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show();
-
-                            })
-                            .setCancelable(true);
-
-                    alertDialogBuilder.show();
-
-                } else {
-                    location = new Location(loc_name, new Address(loc_addCountry, loc_addArea, loc_addCity, loc_addStreet, loc_addNumber), loc_comments);
+                location.setAddress(new Address(loc_addCountry, loc_addArea, loc_addCity, loc_addStreet, loc_addNumber));
+                location.setComments(loc_comments);
+                try {   //TODO: find a more elegant way to dead with this
                     location.setLatitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLat)).getText().toString().trim()));
                     location.setLongtitude(Double.parseDouble(((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).getText().toString().trim()));
+                } catch (Exception ignored) {
+                }
 
-
-                    v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
-                    v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+                //incomplete address warning
+                if (loc_addCountry.equals("") || loc_addArea.equals("") || loc_addCity.equals("") || loc_addStreet.equals("") || loc_addNumber.equals("")) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                            .setTitle("Address Alert")
+                            .setMessage("Address is not complete, Continue?")
+                            .setPositiveButton("Yes", (dialogInterface, i) -> {
+                            })
+                            .setNegativeButton("No", (dialogInterface, i) -> Toast.makeText(getContext(), "נא למלא שדות חסרים", Toast.LENGTH_SHORT).show())
+                            .setCancelable(true);
+                    alertDialogBuilder.show();
+                } else {
+                    //address is complete
+                    //v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
+                    //v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
                 }
             } catch (Exception e) {
                 //redo form
@@ -429,77 +428,6 @@ public class AdminFragment extends Fragment {
             }
         }
     }
-
-
-    private void addDevice() {
-        View v = getView();
-        if (v != null) {
-            Part p = new Part();
-
-        }
-    }
-
-    private void addPart() {
-        View v = getView();
-        if (v != null) {
-            Part p = new Part();
-
-        }
-    }
-
-    private TextWatcher nameWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            newLoc = true;
-            targetLoc = null;
-            if (getView() != null) {
-
-                if(charSequence.length()>0)
-                getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
-
-                if (locations != null) {
-                    String locName = charSequence.toString().trim();
-                    if (locations.isEmpty()) {
-                        newLoc = true;
-                        targetLoc = null;
-                    } else {
-                        for (Location l : locations) {
-                            if (l.getName().equals(locName)) {
-                                //location found
-                                newLoc = false;
-                                targetLoc = l;
-                                break;
-                            } else {
-                                newLoc = true;
-                                targetLoc = null;
-
-                            }
-                        }
-                    }
-                }
-
-                if (newLoc) {
-                    ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
-                    if (getContext() != null)
-                        ((ImageButton) getView().findViewById(R.id.admin_btn_confirmNewLocation)).setImageDrawable(getResources().getDrawable(R.drawable.ic_add_circle_white_36dp, getContext().getTheme()));
-                } else {
-                    ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
-                    if (getContext() != null)
-                        ((ImageButton) getView().findViewById(R.id.admin_btn_confirmNewLocation)).setImageDrawable(getResources().getDrawable(R.drawable.ic_content_copy_white_24dp, getContext().getTheme()));
-                }
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
 
     //Location
     private LocationListener listener = new LocationListener() {
@@ -514,7 +442,6 @@ public class AdminFragment extends Fragment {
                 ((TextView) v.findViewById(R.id.admin_etCoordinatesLong)).setText(String.valueOf(l_long));
                 if (location.getAccuracy() != 0) {
                     locationManager.removeUpdates(this);
-
                     Geocoder geocoder;
                     List<android.location.Address> addresses;
                     geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -561,4 +488,110 @@ public class AdminFragment extends Fragment {
     };
 
 
+    private void addDevice() {
+        View v = getView();
+        if (v != null) {
+            Part p = new Part();
+
+        }
+    }
+
+    private void addPart() {
+        View v = getView();
+        if (v != null) {
+            Part p = new Part();
+
+        }
+    }
+
+    private TextWatcher nameWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            newLoc = true;
+            targetLoc = null;
+            if (getView() != null) {
+
+                if (charSequence.length() > 0)
+                    getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
+
+                if (locations != null) {
+                    String locName = charSequence.toString().trim();
+                    if (locations.isEmpty()) {
+                        newLoc = true;
+                        targetLoc = null;
+                    } else {
+                        for (Location l : locations) {
+                            if (l.getName().equals(locName)) {
+                                //location found
+                                newLoc = false;
+                                targetLoc = l;
+                                break;
+                            } else {
+                                newLoc = true;
+                                targetLoc = null;
+
+                            }
+                        }
+                    }
+                }
+
+                if (newLoc) {
+                    ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.BLACK);
+                    if (getContext() != null)
+                        ((ImageButton) getView().findViewById(R.id.admin_btn_confirmNewLocation)).setImageDrawable(getResources().getDrawable(R.drawable.ic_add_circle_white_36dp, getContext().getTheme()));
+                } else {
+                    ((EditText) getView().findViewById(R.id.admin_etLocationName)).setTextColor(Color.RED);
+                    if (getContext() != null)
+                        ((ImageButton) getView().findViewById(R.id.admin_btn_confirmNewLocation)).setImageDrawable(getResources().getDrawable(R.drawable.ic_content_copy_white_24dp, getContext().getTheme()));
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+    private TabLayout.BaseOnTabSelectedListener locationTabListener = new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            View v = getView();
+            if (v != null)
+                switch (tab.getPosition()) {
+                    case 0:
+                        v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_location_phase2).setVisibility(View.VISIBLE);
+                        break;
+
+                    case 1:
+                        v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+                        break;
+                }
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
+
+    private void updateSublocationRecycler() {
+
+        SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation());
+        recyclerView.setAdapter(recyclerViewAdapter);
+        //recyclerViewAdapter.notifyDataSetChanged();
+    }
 }
+

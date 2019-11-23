@@ -19,13 +19,9 @@ import il.co.diamed.com.form.R;
 
 public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.ViewHolder> {
     private List<SubLocation> list;
-    private Context context;
 
-    //private int selectedPos = RecyclerView.NO_POSITION;
-
-    public SubLocationAdapter(List<SubLocation> list, Context context) {
+    public SubLocationAdapter(List<SubLocation> list) {
         this.list = list;
-        this.context = context;
     }
 
 
@@ -38,24 +34,30 @@ public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.
 
     @Override
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-
+        super.onViewAttachedToWindow(holder);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull final SubLocationAdapter.ViewHolder holder, int position) {
         final SubLocation item = list.get(position);
-
         holder.tvComments.setText(item.getComments());
-
         holder.tvName.setText(item.getName());
-
-
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void clear() {
+        int size = list.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                list.remove(0);
+                notifyItemRangeRemoved(0, size);
+            }
+        }
     }
 
 

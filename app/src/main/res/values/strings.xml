@@ -373,7 +373,7 @@
     <string name="docon1">1</string>
     <string name="tvVer">MDA Version:</string>
     <string name="tvDoconComment_alert">בדיקת התראות</string>
-    <string name="comments">הערות</string>
+    <string name="comments">Comments</string>
     <string name="tvDoconComment_barcode">בדיקת סורק ברקוד</string>
     <string name="tvDoconComment_display">בדיקת תצוגה</string>
     <string name="tvDoconComment_cleaning">נקיון מכשיר</string>
@@ -418,6 +418,10 @@
     <string name="admin_menuTitle">Admin Menu</string>
     <string name="q_mark">\?</string>
     <string name="create">Create</string>
+    <string name="location">Location</string>
+    <string name="sublocation">Sub Location</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
 
 
     <!-- PREMISSIONS -->
