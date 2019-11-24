@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!-- BUTTONS -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adminMainMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3"
+    tools:showIn="@layout/fragment_admin_fragmnt">
+
+    <Button
+        android:id="@+id/admin_btnLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_button_submit_normal"
+        android:text="@string/admin_addLocation"
+        app:layout_constraintBottom_toTopOf="@id/admin_btnDevice"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/admin_btnDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_button_submit_normal"
+        android:text="@string/admin_addDevice"
+        app:layout_constraintBottom_toTopOf="@id/admin_btnPart"
+        app:layout_constraintTop_toBottomOf="@id/admin_btnLocation" />
+
+    <Button
+        android:id="@+id/admin_btnPart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_button_submit_normal"
+        android:text="@string/admin_addPart"
+        app:layout_constraintTop_toBottomOf="@id/admin_btnDevice" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

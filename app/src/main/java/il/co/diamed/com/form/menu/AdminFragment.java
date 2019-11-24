@@ -4,7 +4,9 @@ package il.co.diamed.com.form.menu;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationListener;
@@ -92,10 +94,7 @@ public class AdminFragment extends Fragment {
             if (!name.isEmpty()) {
                 //create sublocation in location
                 location.addSublocation(new SubLocation(name, comments));
-
                 updateSublocationRecycler();
-
-
             }
             ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
             ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
@@ -589,9 +588,23 @@ public class AdminFragment extends Fragment {
 
     private void updateSublocationRecycler() {
 
-        SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation());
+        SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation(),getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
-        //recyclerViewAdapter.notifyDataSetChanged();
+        recyclerViewAdapter.notifyDataSetChanged();
     }
+
+    BroadcastReceiver subloctionReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action!=null && !action.isEmpty()){
+                if(action.equals("sublocation")) {
+                    //display sublocation handling screen
+
+                }
+            }
+        }
+    };
+
 }
 

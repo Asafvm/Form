@@ -19,9 +19,11 @@ import il.co.diamed.com.form.R;
 
 public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.ViewHolder> {
     private List<SubLocation> list;
+    Context context;
 
-    public SubLocationAdapter(List<SubLocation> list) {
+    public SubLocationAdapter(List<SubLocation> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
 
@@ -72,16 +74,12 @@ public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.
             tvName = itemView.findViewById(R.id.sublocation_item_name);
             tvPhone = itemView.findViewById(R.id.sublocation_item_phone);
             tvComments = itemView.findViewById(R.id.sublocation_item_desc);
-
         }
-
 
         @Override
         public void onClick(View v) {
-
+            context.sendBroadcast(new Intent("sublocation"),tvName.getText().toString());
         }
-
-
     }
 }
 

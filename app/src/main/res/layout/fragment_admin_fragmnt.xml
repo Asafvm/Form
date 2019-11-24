@@ -43,45 +43,7 @@
 
                 >
 
-                <!-- BUTTONS -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/adminMainMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="3">
-
-                    <Button
-                        android:id="@+id/admin_btnLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_button_submit_normal"
-                        android:text="@string/admin_addLocation"
-                        app:layout_constraintBottom_toTopOf="@id/admin_btnDevice"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <Button
-                        android:id="@+id/admin_btnDevice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_button_submit_normal"
-                        android:text="@string/admin_addDevice"
-                        app:layout_constraintBottom_toTopOf="@id/admin_btnPart"
-                        app:layout_constraintTop_toBottomOf="@id/admin_btnLocation" />
-
-                    <Button
-                        android:id="@+id/admin_btnPart"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_button_submit_normal"
-                        android:text="@string/admin_addPart"
-                        app:layout_constraintTop_toBottomOf="@id/admin_btnDevice" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <include layout="@layout/layout_admin_main_buttons" />
                 <!-- DEVICES -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/adminDeviceMenu"
@@ -400,7 +362,7 @@
                         android:id="@+id/admin_tvPartLocation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="מיקום"
+                        android:text="Location"
                         app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartLocCol"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
@@ -421,7 +383,7 @@
                         android:id="@+id/admin_tvPartMinGlobal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="מינימום גלובלי"
+                        android:text="Global Minimum"
                         app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartMinGlobal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
@@ -484,7 +446,7 @@
                         android:id="@+id/admin_tvPartSerial"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="מספר סידורי"
+                        android:text="Serial Number"
                         app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartSerial"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
@@ -502,16 +464,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_weight="3">
 
-                    <TextView
-                        android:id="@+id/admin_tvLocationTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="מיקום"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/admin_tvLocationName"
@@ -532,37 +484,39 @@
                         app:layout_constraintEnd_toStartOf="@id/admin_btn_confirmNewLocation"
                         app:layout_constraintHorizontal_weight="4"
                         app:layout_constraintStart_toEndOf="@id/admin_tvLocationName"
-                        app:layout_constraintTop_toBottomOf="@id/admin_tvLocationTitle" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
                         android:id="@+id/admin_btn_confirmNewLocation"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:src="@drawable/ic_add_circle_white_36dp"
+                        app:layout_constraintBottom_toBottomOf="@id/admin_etLocationName"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@id/admin_etLocationName"
                         app:layout_constraintTop_toTopOf="@id/admin_etLocationName"
-                        app:layout_constraintBottom_toBottomOf="@id/admin_etLocationName"
 
                         />
+
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/admin_location_tabs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationName"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        >
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/admin_etLocationName">
+
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Address"/>
+                            android:text="Address" />
+
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Sub Locations"/>
+                            android:text="Sub Locations" />
 
                     </com.google.android.material.tabs.TabLayout>
 
@@ -570,7 +524,7 @@
                         android:id="@+id/admin_location_phase2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@id/admin_location_tabs">
 
                         <TextView
@@ -592,8 +546,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="2"
                             app:layout_constraintStart_toEndOf="@id/admin_tvLocationThoroughfare"
-                            app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <EditText
@@ -604,8 +558,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="2"
                             app:layout_constraintStart_toEndOf="@id/admin_tvLocationThoroughfare"
-                            app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressCountry" />
 
                         <EditText
@@ -616,8 +570,8 @@
                             android:inputType="text"
                             android:maxLines="1"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="2"
                             app:layout_constraintStart_toEndOf="@id/admin_tvLocationThoroughfare"
-                            app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressArea" />
 
                         <EditText
@@ -629,7 +583,7 @@
                             android:maxLines="1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_chainStyle="spread"
-                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintHorizontal_weight="2"
                             app:layout_constraintStart_toEndOf="@id/admin_tvLocationThoroughfare"
                             app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressThoroughfare" />
 
@@ -640,9 +594,9 @@
                             android:hint="Street"
                             android:inputType="text"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintHorizontal_weight="2"
                             app:layout_constraintStart_toEndOf="@id/admin_tvLocationThoroughfare"
-                            app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressLocality"/>
+                            app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressLocality" />
 
 
                         <TextView
@@ -650,45 +604,42 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="Coordinates"
-                            app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
                             app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLong"
-                            app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <TextView
                             android:id="@+id/admin_etCoordinatesLong"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:gravity="center"
-                            android:hint="Longtitude"
-                            app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
-                            app:layout_constraintStart_toEndOf="@id/admin_tvCoordinates"
-                            app:layout_constraintHorizontal_weight="1.2"
+                            android:hint="Longitude"
+                            app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"
                             app:layout_constraintEnd_toStartOf="@id/admin_etCoordinatesLat"
-                            app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/admin_tvCoordinates" />
 
                         <TextView
                             android:id="@+id/admin_etCoordinatesLat"
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:hint="Latitude"
-                            app:layout_constraintBottom_toBottomOf="@id/admin_btnCoordinatesGet"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
                             app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLong"
-                            app:layout_constraintHorizontal_weight="1.2"
-                            app:layout_constraintEnd_toStartOf="@id/admin_btnCoordinatesGet"
-                            app:layout_constraintTop_toTopOf="@id/admin_btnCoordinatesGet" />
+                            app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressSubThoroughfare" />
 
                         <ImageButton
                             android:id="@+id/admin_btnCoordinatesGet"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_location_on_white_24dp"
-                            app:layout_constraintStart_toEndOf="@id/admin_etCoordinatesLat"
-                            app:layout_constraintHorizontal_weight="0.6"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/admin_etLocationAddressSubThoroughfare" />
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
 
                         <TextView
                             android:id="@+id/admin_tvLocationComments"
@@ -709,73 +660,13 @@
                             app:layout_constraintEnd_toStartOf="@id/admin_tvLocationComments"
                             app:layout_constraintHorizontal_weight="3"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/admin_etCoordinatesLat" />
+                            app:layout_constraintTop_toBottomOf="@id/admin_btnCoordinatesGet" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/admin_location_phase3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/admin_location_phase2">
 
-
-                        <EditText
-                            android:id="@+id/admin_subLocationName"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/name"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            app:layout_constraintEnd_toStartOf="@id/admin_subLocationPhone"
-                            app:layout_constraintHorizontal_weight="2"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/admin_subLocationPhone"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/phone"
-                            android:inputType="phone"
-                            android:maxLines="1"
-                            app:layout_constraintBaseline_toBaselineOf="@id/admin_subLocationName"
-                            app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
-                            app:layout_constraintHorizontal_weight="2"
-                            app:layout_constraintStart_toEndOf="@id/admin_subLocationName" />
-
-                        <EditText
-                            android:id="@+id/admin_subLocationComments"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/comments"
-                            android:inputType="textMultiLine"
-                            android:maxLines="1"
-                            app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
-                            app:layout_constraintHorizontal_weight="2"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/admin_subLocationName" />
-
-                        <ImageButton
-                            android:id="@+id/admin_btn_subLocationAdd"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="5dp"
-                            android:src="@drawable/ic_add_circle_white_36dp"
-                            app:layout_constraintBottom_toBottomOf="@id/admin_subLocationComments"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_weight="1"
-                            app:layout_constraintStart_toEndOf="@id/admin_subLocationPhone"
-                            app:layout_constraintTop_toTopOf="@id/admin_subLocationName" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/admin_subLocationRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/admin_subLocationComments" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <include layout="@layout/layout_admin_location_phase3" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
