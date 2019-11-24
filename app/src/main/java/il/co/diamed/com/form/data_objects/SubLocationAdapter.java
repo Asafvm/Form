@@ -81,5 +81,6 @@ public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.
             context.sendBroadcast(new Intent("sublocation"),tvName.getText().toString());
         }
     }
+
 }
 

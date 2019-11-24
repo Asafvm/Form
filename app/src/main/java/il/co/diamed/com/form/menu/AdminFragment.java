@@ -7,12 +7,14 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -599,7 +601,7 @@ public class AdminFragment extends Fragment {
             String action = intent.getAction();
             if(action!=null && !action.isEmpty()){
                 if(action.equals("sublocation")) {
-                    //display sublocation handling screen
+                    // TODO: display sublocation handling screen
 
                 }
             }

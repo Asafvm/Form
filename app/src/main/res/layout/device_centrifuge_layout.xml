@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:text="@string/centExpectedTime"
         android:textAlignment="center"
-        android:gravity="left"
+        android:gravity="start"
         app:layout_constraintTop_toBottomOf="@id/rgModelSelect"
         app:layout_constraintEnd_toStartOf="@id/spacer2"
         app:layout_constraintHorizontal_weight="1"

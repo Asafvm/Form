@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gsExternalInspection"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/cbGSinit2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cbGSinit2"
             app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
 
         <CheckBox
@@ -43,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gsCableInspection"
-            app:layout_constraintLeft_toRightOf="@id/cbGSinit1"
-            app:layout_constraintRight_toLeftOf="@id/cbGSinit3"
+            app:layout_constraintStart_toEndOf="@id/cbGSinit1"
+            app:layout_constraintEnd_toStartOf="@id/cbGSinit3"
             app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
 
         <CheckBox
@@ -52,8 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gsGeneralCleaning"
-            app:layout_constraintLeft_toRightOf="@id/cbGSinit2"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cbGSinit2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSinit" />
 
         <!-- Software -->
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextsoftware1"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
 
             app:layout_constraintTop_toBottomOf="@id/tvGSsoftware" />
 
@@ -83,8 +83,8 @@
             android:hint="@string/gsSoftwareVer"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware1"
-            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware1"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvGSsoftware1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware1" />
 
         <TextView
@@ -101,8 +101,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware2"
-            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware2"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvGSsoftware2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware2">
 
             <RadioButton
@@ -137,8 +137,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/etgsC"
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
-            app:layout_constraintLeft_toRightOf="@id/tvGSsoftware3"
-            app:layout_constraintRight_toLeftOf="@id/etGSsoftwareD"
+            app:layout_constraintStart_toEndOf="@id/tvGSsoftware3"
+            app:layout_constraintEnd_toStartOf="@id/etGSsoftwareD"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
 
 
@@ -151,7 +151,7 @@
 
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
 
-            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
+            app:layout_constraintStart_toEndOf="@id/etGSsoftwareC"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
 
 
@@ -162,8 +162,8 @@
             android:hint="@string/etgsD"
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
 
-            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareC"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etGSsoftwareC"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
 
 
@@ -176,7 +176,7 @@
 
             app:layout_constraintBottom_toBottomOf="@id/tvGSsoftware3"
 
-            app:layout_constraintLeft_toRightOf="@id/etGSsoftwareD"
+            app:layout_constraintStart_toEndOf="@id/etGSsoftwareD"
             app:layout_constraintTop_toTopOf="@id/tvGSsoftware3" />
 
 
@@ -185,8 +185,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tvGSdelout"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSsoftware3" />
 
         <!-- Common Modules -->
@@ -205,7 +205,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs24"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGScommon" />
 
 
@@ -216,8 +216,8 @@
             android:hint="24"
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
             android:inputType="numberDecimal"
-            app:layout_constraintLeft_toRightOf="@id/tvGScommon1"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvGScommon1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
 
 
@@ -230,7 +230,7 @@
 
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon1"
 
-            app:layout_constraintLeft_toRightOf="@id/etGScommon24"
+            app:layout_constraintStart_toEndOf="@id/etGScommon24"
             app:layout_constraintTop_toTopOf="@id/tvGScommon1" />
 
         <TextView
@@ -239,7 +239,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs8"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGScommon1" />
 
 
@@ -249,7 +249,7 @@
             android:layout_height="wrap_content"
             android:hint="8"
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon2"
-            app:layout_constraintLeft_toRightOf="@id/tvGScommon2"
+            app:layout_constraintStart_toEndOf="@id/tvGScommon2"
             app:layout_constraintStart_toStartOf="@id/etGScommon24"
 
             app:layout_constraintTop_toTopOf="@id/tvGScommon2" />
@@ -264,7 +264,7 @@
 
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon2"
 
-            app:layout_constraintLeft_toRightOf="@id/etGScommon8"
+            app:layout_constraintStart_toEndOf="@id/etGScommon8"
             app:layout_constraintTop_toTopOf="@id/tvGScommon2" />
 
         <TextView
@@ -273,7 +273,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs12"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGScommon2" />
 
 
@@ -285,7 +285,7 @@
 
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon3"
-            app:layout_constraintLeft_toRightOf="@id/tvGScommon3"
+            app:layout_constraintStart_toEndOf="@id/tvGScommon3"
 
             app:layout_constraintStart_toStartOf="@id/etGScommon24"
             app:layout_constraintTop_toTopOf="@id/tvGScommon3" />
@@ -300,7 +300,7 @@
 
             app:layout_constraintBottom_toBottomOf="@id/tvGScommon3"
 
-            app:layout_constraintLeft_toRightOf="@id/etGScommon12"
+            app:layout_constraintStart_toEndOf="@id/etGScommon12"
             app:layout_constraintTop_toTopOf="@id/tvGScommon3" />
 
 
@@ -310,8 +310,8 @@
             android:layout_height="wrap_content"
             android:text="@string/tvGScommon1"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/cbGScommon2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cbGScommon2"
             app:layout_constraintTop_toBottomOf="@id/etGScommon12" />
 
 
@@ -321,8 +321,8 @@
             android:layout_height="wrap_content"
             android:text="@string/tvGScommon2"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/cbGScommon1"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cbGScommon1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etGScommon12" />
 
         <!-- Samples and Reagents Module -->
@@ -342,7 +342,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesLubricate"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSsamples" />
 
         <CheckBox
@@ -351,7 +351,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesTension"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples1" />
 
         <CheckBox
@@ -360,7 +360,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesHome"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples2" />
 
         <CheckBox
@@ -369,7 +369,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesSpin"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples3" />
 
         <CheckBox
@@ -378,7 +378,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesCycle"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples4" />
 
         <CheckBox
@@ -387,7 +387,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesRandom"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples5" />
 
         <CheckBox
@@ -396,7 +396,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesTest"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples6" />
 
         <CheckBox
@@ -405,7 +405,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesSReading"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples7" />
 
         <CheckBox
@@ -414,7 +414,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsSamplesRReading"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSsamples8" />
 
         <!-- Page 2 -->
@@ -435,7 +435,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs1_25"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSincubator" />
 
 
@@ -446,7 +446,7 @@
             android:hint="25"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_25"
-            app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_25"
+            app:layout_constraintStart_toEndOf="@id/tvGSincubator1_25"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator1_25" />
 
         <TextView
@@ -455,7 +455,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs2_25"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSincubator1_25" />
 
 
@@ -466,7 +466,7 @@
             android:hint="25"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_25"
-            app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_25"
+            app:layout_constraintStart_toEndOf="@id/tvGSincubator2_25"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator2_25" />
 
         <TextView
@@ -475,7 +475,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs1_37"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSincubator2_25" />
 
 
@@ -486,7 +486,7 @@
             android:hint="37"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator1_37"
-            app:layout_constraintLeft_toRightOf="@id/tvGSincubator1_37"
+            app:layout_constraintStart_toEndOf="@id/tvGSincubator1_37"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator1_37" />
 
         <TextView
@@ -495,7 +495,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgs2_37"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSincubator1_37" />
 
 
@@ -506,7 +506,7 @@
             android:hint="37"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="@id/tvGSincubator2_37"
-            app:layout_constraintLeft_toRightOf="@id/tvGSincubator2_37"
+            app:layout_constraintStart_toEndOf="@id/tvGSincubator2_37"
             app:layout_constraintTop_toTopOf="@id/tvGSincubator2_37" />
 
 
@@ -527,7 +527,7 @@
             android:labelFor="@id/tvGScentrifugation"
             android:text="@string/etgsCentrifugation"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGScentrifuge" />
 
 
@@ -538,7 +538,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="@id/tvGScentrifugation"
-            app:layout_constraintLeft_toRightOf="@id/tvGScentrifugation"
+            app:layout_constraintStart_toEndOf="@id/tvGScentrifugation"
             app:layout_constraintTop_toTopOf="@id/tvGScentrifugation" />
 
         <TextView
@@ -547,7 +547,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsRPM"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGScentrifugation"
+            app:layout_constraintStart_toEndOf="@id/etGScentrifugation"
             app:layout_constraintTop_toBottomOf="@id/tvGScentrifuge" />
 
         <CheckBox
@@ -556,7 +556,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsCentrifugeCleaning"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGScentrifugation" />
 
         <CheckBox
@@ -565,7 +565,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsCentrifugeHolders"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge1" />
 
         <CheckBox
@@ -574,7 +574,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsCentrifugeCycles"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge2" />
 
         <CheckBox
@@ -583,7 +583,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsCentrifugeRandom"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge3" />
 
         <CheckBox
@@ -592,7 +592,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsCentrifugeUnbalance"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGScentrifuge4" />
 
 
@@ -613,7 +613,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotCleaning"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSrobot" />
 
         <CheckBox
@@ -622,7 +622,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotHLubricateZ"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot1" />
 
         <CheckBox
@@ -631,7 +631,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotHLubricateScrew"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot2" />
 
         <CheckBox
@@ -640,7 +640,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotHLubricateXY"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot3" />
 
         <CheckBox
@@ -649,7 +649,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotPulleys"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot4" />
 
         <CheckBox
@@ -658,7 +658,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotBelt"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot5" />
 
         <CheckBox
@@ -667,7 +667,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotGripper1"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot6" />
 
         <CheckBox
@@ -676,7 +676,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotGripper2"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot7" />
 
         <CheckBox
@@ -685,7 +685,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotHome"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot8" />
 
         <CheckBox
@@ -694,7 +694,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotRandom"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot9" />
 
 
@@ -704,7 +704,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotCards"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot10" />
 
         <CheckBox
@@ -713,7 +713,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsRobotLevel"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSrobot11" />
 
 
@@ -735,7 +735,7 @@
             android:labelFor="@id/etGSfluidVaccum"
             android:text="@string/tvGSfluidVaccum"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSfluid" />
 
 
@@ -747,7 +747,7 @@
             android:hint="600"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="@id/tvGSfluidVaccum"
-            app:layout_constraintLeft_toRightOf="@id/tvGSfluidVaccum"
+            app:layout_constraintStart_toEndOf="@id/tvGSfluidVaccum"
             app:layout_constraintTop_toTopOf="@id/tvGSfluidVaccum" />
 
         <TextView
@@ -756,7 +756,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsmBAR"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGSfluidVaccum"
+            app:layout_constraintStart_toEndOf="@id/etGSfluidVaccum"
             app:layout_constraintTop_toBottomOf="@id/tvGSfluid" />
 
         <TextView
@@ -766,7 +766,7 @@
             android:labelFor="@id/etGSfluidPressure"
             android:text="@string/tvGSfluidPressure"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etGSfluidVaccum" />
 
 
@@ -778,7 +778,7 @@
             android:hint="180"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="@id/tvGSfluidPressure"
-            app:layout_constraintLeft_toRightOf="@id/tvGSfluidPressure"
+            app:layout_constraintStart_toEndOf="@id/tvGSfluidPressure"
             app:layout_constraintTop_toTopOf="@id/tvGSfluidPressure" />
 
         <TextView
@@ -787,7 +787,7 @@
             android:layout_height="wrap_content"
             android:text="@string/etgsmBAR"
             android:textAlignment="center"
-            app:layout_constraintLeft_toRightOf="@id/etGSfluidPressure"
+            app:layout_constraintStart_toEndOf="@id/etGSfluidPressure"
             app:layout_constraintTop_toBottomOf="@id/etGSfluidVaccum" />
 
 
@@ -797,7 +797,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsFluidSyringe"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSfluidPressure" />
 
         <CheckBox
@@ -806,7 +806,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsFluidBottles"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSfluid1" />
 
 
@@ -816,7 +816,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsFluidPumps"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSfluid2" />
 
         <CheckBox
@@ -825,7 +825,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsFluidClot"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSfluid3" />
 
 
@@ -846,7 +846,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsReaderDiffuser"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSreader" />
 
         <CheckBox
@@ -855,7 +855,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsReaderLeds"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSreader1" />
 
 
@@ -865,7 +865,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsReaderCamera"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSreader2" />
 
         <CheckBox
@@ -874,7 +874,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsReaderCards"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSreader3" />
 
         <!-- Decontamination -->
@@ -893,7 +893,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextDecontamination"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSdecontamination" />
 
         <CheckBox
@@ -902,7 +902,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsDecontaminationPriming"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSdecontamination1" />
 
 
@@ -912,7 +912,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsDecontaminationWashing"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSdecontamination2" />
 
 
@@ -932,7 +932,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextWADDiagnosticTest"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSWADDiagnostic" />
 
 
@@ -952,7 +952,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextFunctionalBatch"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGSFunctional" />
 
 
@@ -962,7 +962,7 @@
             android:layout_height="wrap_content"
             android:text="@string/gsTextFunctionalListing"
             android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cbGSFunctional1" />
 
 

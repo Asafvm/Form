@@ -397,10 +397,10 @@
     <string name="login_username">משתמש</string>
     <string name="login_password">סיסמה</string>
     <string name="login_userhint">Example@domain.com</string>
-    <string name="login_passhint">Password</string>
+    <string name="login_passhint">סיסמה</string>
     <string name="login_btn">התחבר</string>
     <string name="login_Domain">דומיין</string>
-    <string name="login_DomainHint">Company Name</string>
+    <string name="login_DomainHint">שם חברה</string>
     <string name="login_remember">זכור אותי</string>
     <string name="register_btn">הרשם</string>
     <string name="forgotpwd_btn">שכחתי סיסמה</string>
@@ -416,6 +416,8 @@
     <string name="admin_addDevice">הוסף מכשיר</string>
     <string name="admin_addPart">הוסף חלק</string>
     <string name="admin_menuTitle">תפריט אדמין</string>
+    <string name="name">שם</string>
+    <string name="location">מיקום</string>
 
 
     <!-- PREMISSIONS -->

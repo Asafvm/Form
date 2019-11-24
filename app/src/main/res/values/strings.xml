@@ -393,7 +393,7 @@
     <string name="delete_device">Delete Device</string>
     <string name="move_device">Move Device</string>
     <string name="edit">Edit</string>
-    <string name="filter" translatable="false">Filter</string>
+    <string name="filter">Filter</string>
     <string name="login_username">User</string>
     <string name="login_password">Password</string>
     <string name="login_userhint">Example@domain.com</string>
