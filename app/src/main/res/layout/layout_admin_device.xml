@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?><!-- DEVICES -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adminDeviceMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3"
+    tools:showIn="@layout/fragment_admin_fragmnt">
+
+    <TextView
+        android:id="@+id/admin_tvDeviceCodeNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="קוד פריט"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceCodeNumber" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceCodeNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceCodeNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/admin_tvDeviceCodeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="שם פריט"
+
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceCodeName"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeName" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceCodeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceCodeName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeNumber" />
+
+    <TextView
+        android:id="@+id/admin_tvDeviceModel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="מודל פריט"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceModel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceModel" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceModel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceModel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeName" />
+
+    <TextView
+        android:id="@+id/admin_tvDevicePrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="מחיר"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDevicePrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDevicePrice" />
+
+    <EditText
+        android:id="@+id/admin_etDevicePrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDevicePrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceModel" />
+
+    <TextView
+        android:id="@+id/admin_tvDeviceCalValid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="תוקף כיול"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCalValid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceCalValid" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceCalValid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceCalValid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDevicePrice"
+
+        />
+
+
+    <TextView
+        android:id="@+id/admin_tvDeviceInstallDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="תאריך התקנה"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceInstallDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceInstallDate" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceInstallDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceInstallDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCalValid" />
+
+    <TextView
+        android:id="@+id/admin_tvDeviceMaintenanceDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="תאריך כיול הבא"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceMaintenanceDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceMaintenanceDate" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceMaintenanceDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceMaintenanceDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceInstallDate" />
+
+    <TextView
+        android:id="@+id/admin_tvDeviceWarrantyDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="תוקף אחריות"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceWarrantyDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceWarrantyDate" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceWarrantyDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceWarrantyDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceMaintenanceDate" />
+
+
+    <Switch
+        android:id="@+id/admin_swDeviceUnderWarranty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="תחת אחריות"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
+
+
+    <TextView
+        android:id="@+id/admin_tvDeviceComments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="הערות"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceComments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceComments" />
+
+    <EditText
+        android:id="@+id/admin_etDeviceComments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceComments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_swDeviceUnderWarranty" />
+</androidx.constraintlayout.widget.ConstraintLayout>

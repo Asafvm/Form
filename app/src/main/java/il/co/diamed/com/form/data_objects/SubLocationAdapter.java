@@ -78,7 +78,9 @@ public class SubLocationAdapter extends RecyclerView.Adapter<SubLocationAdapter.
 
         @Override
         public void onClick(View v) {
-            context.sendBroadcast(new Intent("sublocation"),tvName.getText().toString());
+            Intent intent = new Intent("sublocation");
+            intent.putExtra("sub", tvName.getText().toString());
+            context.sendBroadcast(intent);
         }
     }
 

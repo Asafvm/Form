@@ -9,7 +9,53 @@
     app:layout_constraintTop_toBottomOf="@id/admin_location_phase2"
     tools:showIn="@layout/fragment_admin_fragmnt">
 
-    <include layout="@layout/layout_admin_location_phase1" />
+    <EditText
+        android:id="@+id/admin_subLocationName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:inputType="text"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@id/admin_subLocationPhone"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/admin_subLocationPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:maxLines="1"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_subLocationName"
+        app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/admin_subLocationName" />
+
+    <EditText
+        android:id="@+id/admin_subLocationComments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/comments"
+        android:inputType="textMultiLine"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_subLocationName" />
+
+    <ImageButton
+        android:id="@+id/admin_btn_subLocationAdd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_add_circle_white_36dp"
+        app:layout_constraintBottom_toBottomOf="@id/admin_subLocationComments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_subLocationPhone"
+        app:layout_constraintTop_toTopOf="@id/admin_subLocationName" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/admin_subLocationRecyclerView"

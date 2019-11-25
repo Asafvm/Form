@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?><!-- PARTS -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adminPartMenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3"
+    tools:showIn="@layout/fragment_admin_fragmnt">
+
+
+    <Switch
+        android:id="@+id/admin_swPartActive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="חלק פעיל"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/admin_etPartRef"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartRef"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_swPartActive"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartRef"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="מספר פריט"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartRef"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartRef" />
+
+    <EditText
+        android:id="@+id/admin_etPartDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartRef"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartRef"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="תיאור פריט"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartDesc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartDesc" />
+
+
+    <EditText
+        android:id="@+id/admin_etPartPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartPrice"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartDesc"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="עלות חלק"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartPrice" />
+
+    <EditText
+        android:id="@+id/admin_etPartSupplier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartSupplier"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartPrice"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartSupplier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="ספק"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartSupplier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartSupplier" />
+
+    <EditText
+        android:id="@+id/admin_etPartLocCol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Column"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartLocation"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartLocRow"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartSupplier" />
+
+    <EditText
+        android:id="@+id/admin_etPartLocRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Row"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartLocCol"
+        app:layout_constraintEnd_toStartOf="@id/admin_etPartLocCol"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartLocBox"
+
+        />
+
+    <EditText
+        android:id="@+id/admin_etPartLocBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Box"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartLocCol"
+        app:layout_constraintEnd_toStartOf="@id/admin_etPartLocRow"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartLocCol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartLocCol" />
+
+    <EditText
+        android:id="@+id/admin_etPartMinGlobal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartMinGlobal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartLocCol"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartMinGlobal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Global Minimum"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartMinGlobal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartMinPersonal" />
+
+    <EditText
+        android:id="@+id/admin_etPartMinPersonal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartMinPersonal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartMinGlobal"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartMinPersonal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="מינימום אישי"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartMinPersonal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartMinPersonal" />
+
+    <EditText
+        android:id="@+id/admin_etPartDevice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartMinPersonal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartMinPersonal"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartDevice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="מכשיר"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartDevice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartDevice" />
+
+    <EditText
+        android:id="@+id/admin_etPartSerial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_tvPartSerial"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etPartDevice"
+
+        />
+
+    <TextView
+        android:id="@+id/admin_tvPartSerial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Serial Number"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etPartSerial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/admin_etPartSerial" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

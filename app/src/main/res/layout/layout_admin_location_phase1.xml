@@ -2,54 +2,60 @@
 <merge xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:showIn="@layout/layout_admin_location_phase3">
+    tools:showIn="@layout/layout_admin_location">
 
-
-    <EditText
-        android:id="@+id/admin_subLocationName"
+    <TextView
+        android:id="@+id/admin_tvLocationName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/name"
+        android:text="Name"
+        app:layout_constraintBaseline_toBaselineOf="@id/admin_etLocationName"
+        app:layout_constraintEnd_toStartOf="@id/admin_etLocationName"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/admin_etLocationName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:inputType="text"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@id/admin_subLocationPhone"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/admin_btn_confirmNewLocation"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toEndOf="@id/admin_tvLocationName"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/admin_subLocationPhone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/phone"
-        android:inputType="phone"
-        android:maxLines="1"
-        app:layout_constraintBaseline_toBaselineOf="@id/admin_subLocationName"
-        app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toEndOf="@id/admin_subLocationName" />
-
-    <EditText
-        android:id="@+id/admin_subLocationComments"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/comments"
-        android:inputType="textMultiLine"
-        android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@id/admin_btn_subLocationAdd"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/admin_subLocationName" />
-
     <ImageButton
-        android:id="@+id/admin_btn_subLocationAdd"
+        android:id="@+id/admin_btn_confirmNewLocation"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
         android:src="@drawable/ic_add_circle_white_36dp"
-        app:layout_constraintBottom_toBottomOf="@id/admin_subLocationComments"
+        app:layout_constraintBottom_toBottomOf="@id/admin_etLocationName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/admin_subLocationPhone"
-        app:layout_constraintTop_toTopOf="@id/admin_subLocationName" />
+        app:layout_constraintStart_toEndOf="@id/admin_etLocationName"
+        app:layout_constraintTop_toTopOf="@id/admin_etLocationName"
+
+        />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/admin_location_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_etLocationName">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sub Locations" />
+
+    </com.google.android.material.tabs.TabLayout>
 </merge>

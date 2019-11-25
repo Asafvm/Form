@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!-- LOCATIONS -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_location_phase1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:visibility="visible"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_weight="3"
+    tools:showIn="@layout/fragment_admin_fragmnt">
+
+
+    <include layout="@layout/layout_admin_location_phase1" />
+
+    <include layout="@layout/layout_admin_location_phase2" />
+
+    <include layout="@layout/layout_admin_location_phase3" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_location_sublocation_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/admin_location_phase1"
+        >
+
+        <TextView
+            android:id="@+id/admin_location_sublocation_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/admin_subLocationRecyclerView_addDevice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/admin_location_sublocation_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/admin_subLocationRecyclerView_addContact"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/admin_subLocationRecyclerView_addContact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/admin_location_sublocation_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_subLocationRecyclerView_addDevice"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

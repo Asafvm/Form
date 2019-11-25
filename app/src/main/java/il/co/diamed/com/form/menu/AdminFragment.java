@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Geocoder;
@@ -566,13 +567,20 @@ public class AdminFragment extends Fragment {
             if (v != null)
                 switch (tab.getPosition()) {
                     case 0:
+                        v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase2).setVisibility(View.VISIBLE);
                         break;
 
                     case 1:
+                        v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
                         v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.VISIBLE);
                         break;
                 }
         }
@@ -590,23 +598,44 @@ public class AdminFragment extends Fragment {
 
     private void updateSublocationRecycler() {
 
-        SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation(),getContext());
+        SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation(), getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
-    BroadcastReceiver subloctionReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver subloctionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(action!=null && !action.isEmpty()){
-                if(action.equals("sublocation")) {
+            if (action != null && !action.isEmpty()) {
+                if (action.equals("sublocation")) {
                     // TODO: display sublocation handling screen
+                    Bundle bundle = intent.getExtras();
+                    if(bundle!=null){
+                        if(tabLayout.getTabAt(2)!=null)
+                            tabLayout.removeTabAt(2);
+                        tabLayout.addTab(tabLayout.newTab().setText(bundle.getString("sub")), 2, true);
+                    }
+
+
 
                 }
             }
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getContext() != null)
+            getContext().registerReceiver(subloctionReceiver, new IntentFilter("sublocation"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getContext() != null)
+            getContext().unregisterReceiver(subloctionReceiver);
+    }
 }
 
