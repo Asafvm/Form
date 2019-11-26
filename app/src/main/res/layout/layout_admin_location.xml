@@ -22,31 +22,43 @@
         android:id="@+id/admin_location_sublocation_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/admin_location_phase1"
-        >
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/admin_location_tabs"
+        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/admin_location_sublocation_title"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/admin_sublocation_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Devices" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Contacts" />
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/admin_subLocationRecyclerView_addDevice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/admin_location_sublocation_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/admin_subLocationRecyclerView_addContact"/>
+            app:layout_constraintTop_toBottomOf="@id/admin_sublocation_tabs" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/admin_subLocationRecyclerView_addContact"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/admin_location_sublocation_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_subLocationRecyclerView_addDevice"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/admin_sublocation_tabs" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
