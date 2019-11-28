@@ -39,6 +39,7 @@ import java.util.Locale;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
@@ -88,8 +89,7 @@ public class AdminFragment extends Fragment {
 
 
         /****************************** Location ***********************************/
-        //v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-        initLocationView(v);
+
 
         v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
             String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
@@ -104,15 +104,6 @@ public class AdminFragment extends Fragment {
 
         });
 
-/*        v.findViewById(R.id.admin_btn_locationAdd).setOnClickListener(view -> {
-            v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
-        });
-        v.findViewById(R.id.admin_btn_locationContinue).setOnClickListener(view -> {
-            v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
-            v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
-
-        });*/
 
         v.findViewById(R.id.admin_btnCoordinatesGet).setOnClickListener(view1 -> {
             Log.d(TAG, "Checking Location");
@@ -124,9 +115,32 @@ public class AdminFragment extends Fragment {
                 getLocation(activity, context, v);
             }
         });
+        v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
+            String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
+            String comments = ((EditText) v.findViewById(R.id.admin_subLocationComments)).getText().toString();
+            if (!name.isEmpty()) {
+                //create sublocation in location
+                location.addSublocation(new SubLocation(name, comments));
+            }
+            ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
+            ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
+
+        });
+
         //Location END
 
         /****************************** DEVICE ***********************************/
+
+
+        /****************************** PART ***********************************/
+
+
+        /****************************** BUTTONS ***********************************/
+        //Location
+        v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
+            initLocationView(v);
+        });
+        //Device
         v.findViewById(R.id.admin_btnDevice).setOnClickListener(view -> {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
@@ -134,8 +148,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("מכשירים");
         });
-
-        /****************************** PART ***********************************/
+        //Part
         v.findViewById(R.id.admin_btnPart).setOnClickListener(view -> {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminPartMenu).setVisibility(View.VISIBLE);
@@ -143,7 +156,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("חלקים");
         });
-
+        //Back
         v.findViewById(R.id.admin_btnBack).setOnClickListener(view -> {
             v.findViewById(R.id.adminMainMenu).setVisibility(View.VISIBLE);
             if (v.findViewById(R.id.adminPartMenu).isShown()) {
@@ -159,8 +172,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.GONE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.GONE);
         });
-
-
+        //Finish
         v.findViewById(R.id.admin_btnFinish).setOnClickListener(view -> {
             if (v.findViewById(R.id.adminPartMenu).isShown())
                 addPart();
@@ -168,29 +180,8 @@ public class AdminFragment extends Fragment {
                 addDevice();
             else if (v.findViewById(R.id.admin_location_phase1).isShown()) {
                 uploadLocation();
-
             }
-
-
         });
-
-        v.findViewById(R.id.admin_btn_subLocationAdd).setOnClickListener(view -> {
-            String name = ((EditText) v.findViewById(R.id.admin_subLocationName)).getText().toString();
-            String comments = ((EditText) v.findViewById(R.id.admin_subLocationComments)).getText().toString();
-            if (!name.isEmpty()) {
-                //create sublocation in location
-                location.addSublocation(new SubLocation(name, comments));
-                //updateSublocationRecycler();
-
-
-            }
-            ((EditText) v.findViewById(R.id.admin_subLocationName)).setText("");
-            ((EditText) v.findViewById(R.id.admin_subLocationComments)).setText("");
-
-        });
-        //addSubLocation(v);
-
-        //});
 
         // Inflate the layout for this fragment
         return v;
@@ -611,12 +602,11 @@ public class AdminFragment extends Fragment {
                 if (action.equals("sublocation")) {
                     // TODO: display sublocation handling screen
                     Bundle bundle = intent.getExtras();
-                    if(bundle!=null){
-                        if(tabLayout.getTabAt(2)!=null)
+                    if (bundle != null) {
+                        if (tabLayout.getTabAt(2) != null)
                             tabLayout.removeTabAt(2);
                         tabLayout.addTab(tabLayout.newTab().setText(bundle.getString("sub")), 2, true);
                     }
-
 
 
                 }
