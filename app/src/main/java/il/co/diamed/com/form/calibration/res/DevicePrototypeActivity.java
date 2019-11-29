@@ -2,7 +2,6 @@ package il.co.diamed.com.form.calibration.res;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -31,7 +30,8 @@ import java.util.GregorianCalendar;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
-import il.co.diamed.com.form.data_objects.Device;
+import il.co.diamed.com.form.data_objects.FieldDevice;
+import il.co.diamed.com.form.data_objects.PrototypeDevice;
 import il.co.diamed.com.form.res.providers.DatabaseProvider;
 
 public class DevicePrototypeActivity extends AppCompatActivity {
@@ -100,7 +100,8 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
         setPDFprogress(this, "בונה טופס", true);
 
-        Device device = new Device(dev_name, dev_model, dev_serial, next_maintenance);
+        FieldDevice device = new FieldDevice("",dev_name, dev_model, dev_serial,0);
+        device.setDev_next_maintenance(next_maintenance);
         provider.updateLocation(((TextView) findViewById(R.id.formMainLocation)).getText().toString(),
                 ((TextView) findViewById(R.id.formRoomLocation)).getText().toString(), device);
 

@@ -39,7 +39,7 @@ public class IncubatorActivity extends DevicePrototypeActivity {
         setListener(findViewById(R.id.formTechName));
         ((EditText) findViewById(R.id.formTechName)).setText(techname);
 
-        //Device class
+        //PrototypeDevice class
 
 
         findViewById(R.id.formSubmitButton).setOnClickListener(new View.OnClickListener()

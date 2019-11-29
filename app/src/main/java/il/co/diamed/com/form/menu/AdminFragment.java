@@ -8,14 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +37,13 @@ import java.util.Locale;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.transition.Scene;
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
+import il.co.diamed.com.form.data_objects.FieldDevice;
 import il.co.diamed.com.form.data_objects.Location;
+import il.co.diamed.com.form.data_objects.PrototypeDevice;
 import il.co.diamed.com.form.data_objects.SubLocation;
 import il.co.diamed.com.form.data_objects.SubLocationAdapter;
 import il.co.diamed.com.form.inventory.Part;
@@ -59,6 +59,7 @@ public class AdminFragment extends Fragment {
 
     private static final String TAG = "AdminPage ";
     private Location location = null;
+    private FieldDevice device = null;
     private ArrayList<Location> locations;
     private ClassApplication application = null;
     private LocationManager locationManager;
@@ -66,8 +67,11 @@ public class AdminFragment extends Fragment {
     private Location targetLoc = null;
 
 
-    private RecyclerView recyclerView;
-    private TabLayout tabLayout;
+    private RecyclerView sublocationRecyclerView;
+    private TabLayout locationTabLayout;
+    private RecyclerView reportRecyclerView;
+    private RecyclerView deviceRecyclerView;
+    private TabLayout deviceTabLayout;
 
 
     public AdminFragment() {
@@ -80,14 +84,8 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
-
-
-        recyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
-        tabLayout = v.findViewById(R.id.admin_location_tabs);
-        tabLayout.addOnTabSelectedListener(locationTabListener);
-
-
+        if (getActivity() != null)
+            application = (ClassApplication) getActivity().getApplication();
         /****************************** Location ***********************************/
 
 
@@ -138,15 +136,29 @@ public class AdminFragment extends Fragment {
         /****************************** BUTTONS ***********************************/
         //Location
         v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
+
+            sublocationRecyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
+            sublocationRecyclerView.setItemAnimator(new SlideInUpAnimator());
+            locationTabLayout = v.findViewById(R.id.admin_location_tabs);
+            locationTabLayout.addOnTabSelectedListener(locationTabListener);
             initLocationView(v);
         });
-        //Device
+        //PrototypeDevice
         v.findViewById(R.id.admin_btnDevice).setOnClickListener(view -> {
+
+            reportRecyclerView = v.findViewById(R.id.admin_device_ReportRecyclerview);
+            reportRecyclerView.setItemAnimator(new SlideInUpAnimator());
+            deviceRecyclerView = v.findViewById(R.id.admin_device_DeviceListRecyclerview);
+            deviceRecyclerView.setItemAnimator(new SlideInUpAnimator());
+            deviceTabLayout = v.findViewById(R.id.admin_device_tablayout);
+            deviceTabLayout.addOnTabSelectedListener(locationTabListener);
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("מכשירים");
+            initDeviceView(v);
+
         });
         //Part
         v.findViewById(R.id.admin_btnPart).setOnClickListener(view -> {
@@ -187,6 +199,72 @@ public class AdminFragment extends Fragment {
         return v;
     }
 
+    private void initDeviceView(View v) {
+
+        Scene sceneNewDevice;
+        Scene sceneEditDevice;
+        // Create the scene root for the scenes in this app
+        ViewGroup sceneRoot = v.findViewById(R.id.admin_device_scenecontainer);
+        // Create the scenes
+        sceneNewDevice = Scene.getSceneForLayout(sceneRoot, R.layout.layout_admin_device_base_properties_before, getContext());
+        sceneEditDevice = Scene.getSceneForLayout(sceneRoot, R.layout.layout_admin_device_base_properties_after, getContext());
+
+        sceneNewDevice.enter();
+
+        TabLayout.Tab tab = deviceTabLayout.getTabAt(0);
+        if (tab != null)
+            tab.select();
+        deviceTabLayout.setVisibility(View.GONE);
+        v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
+
+        v.findViewById(R.id.admin_device_btnAddBaseDevice).setOnClickListener(view -> {
+
+            String message = "Create new device type?";
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext())
+                    .setTitle("New Prototype Alert")
+                    .setMessage(message)
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        String man = ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).getText().toString().trim();
+                        String code = ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).getText().toString().trim();
+                        String name = ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).getText().toString().trim();
+                        String mod = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim();
+                        double price = Double.valueOf(((EditText) v.findViewById(R.id.admin_etDevicePrice)).getText().toString());
+                        device = new FieldDevice(man, code, name, mod, price);
+                        application.getDatabaseProvider(getContext()).uploadPrototypeDevice(device);
+                        sceneEditDevice.enter();
+                        ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).setText(man);
+                        ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setText(code);
+                        ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).setText(name);
+                        ((EditText) v.findViewById(R.id.admin_etDeviceModel)).setText(mod);
+
+                        deviceTabLayout.addOnTabSelectedListener(deviceTabListener);
+
+                        //v.findViewById(R.id.admin_device_btnAddBaseDevice).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_tablayout).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> {
+
+                    })
+
+                    .setCancelable(true);
+
+            alertDialogBuilder.show();
+
+        });
+
+        v.findViewById(R.id.admin_device_btnAddInstanceDevice).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+    }
+
     private void initTextFields(View v, int layout) {
         ViewGroup viewGroup = v.findViewById(layout);
         for (View view : viewGroup.getTouchables()) {
@@ -200,18 +278,16 @@ public class AdminFragment extends Fragment {
 
     private void initLocationView(View v) {
         if (v != null) {
-            if (getActivity() != null) {
-                application = (ClassApplication) getActivity().getApplication();
-                locations = application.getDatabaseProvider(getContext()).getLocDB();
-            }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            locations = application.getDatabaseProvider(getContext()).getLocDB();
 
 
-            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            //sublocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            TabLayout.Tab tab = locationTabLayout.getTabAt(0);
             if (tab != null)
                 tab.select();
-            tabLayout.setVisibility(View.GONE);
+            locationTabLayout.setVisibility(View.GONE);
             initTextFields(v, R.id.admin_location_phase1);
             initTextFields(v, R.id.admin_location_phase2);
             initTextFields(v, R.id.admin_location_phase3);
@@ -266,7 +342,7 @@ public class AdminFragment extends Fragment {
                                     //create new location
                                     location = new Location();
                                     location.setName(((EditText) v.findViewById(R.id.admin_etLocationName)).getText().toString().trim());
-                                    recyclerView.setAdapter(null);
+                                    sublocationRecyclerView.setAdapter(null);
                                 }
                                 updateSublocationRecycler();
                                 v.findViewById(R.id.admin_location_tabs).setVisibility(View.VISIBLE);
@@ -285,7 +361,6 @@ public class AdminFragment extends Fragment {
             });
         }
     }
-
 
     private void uploadLocation() {
         if (location == null) {
@@ -323,7 +398,6 @@ public class AdminFragment extends Fragment {
             builder.show();
         }
     }
-
 
     private void getLocation(Activity activity, Context context, View v) {
         //get location from gps / network
@@ -508,27 +582,20 @@ public class AdminFragment extends Fragment {
             newLoc = true;
             targetLoc = null;
             if (getView() != null) {
-
                 if (charSequence.length() > 0)
                     getView().findViewById(R.id.admin_btn_confirmNewLocation).setEnabled(true);
 
                 if (locations != null) {
                     String locName = charSequence.toString().trim();
-                    if (locations.isEmpty()) {
-                        newLoc = true;
-                        targetLoc = null;
-                    } else {
-                        for (Location l : locations) {
-                            if (l.getName().equals(locName)) {
-                                //location found
-                                newLoc = false;
-                                targetLoc = l;
-                                break;
-                            } else {
-                                newLoc = true;
-                                targetLoc = null;
-
-                            }
+                    for (Location l : locations) {
+                        if (l.getName().equals(locName)) {
+                            //location found
+                            newLoc = false;
+                            targetLoc = l;
+                            break;
+                        } else {
+                            newLoc = true;
+                            targetLoc = null;
                         }
                     }
                 }
@@ -587,10 +654,40 @@ public class AdminFragment extends Fragment {
         }
     };
 
+    private TabLayout.BaseOnTabSelectedListener deviceTabListener = new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            View v = getView();
+            if (v != null)
+                switch (tab.getPosition()) {
+                    case 0:
+                        v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                        break;
+
+                    case 1:
+                        v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
+                        break;
+
+                }
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
+
     private void updateSublocationRecycler() {
 
         SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation(), getContext());
-        recyclerView.setAdapter(recyclerViewAdapter);
+        sublocationRecyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
@@ -603,9 +700,9 @@ public class AdminFragment extends Fragment {
                     // TODO: display sublocation handling screen
                     Bundle bundle = intent.getExtras();
                     if (bundle != null) {
-                        if (tabLayout.getTabAt(2) != null)
-                            tabLayout.removeTabAt(2);
-                        tabLayout.addTab(tabLayout.newTab().setText(bundle.getString("sub")), 2, true);
+                        if (locationTabLayout.getTabAt(2) != null)
+                            locationTabLayout.removeTabAt(2);
+                        locationTabLayout.addTab(locationTabLayout.newTab().setText(bundle.getString("sub")), 2, true);
                     }
 
 

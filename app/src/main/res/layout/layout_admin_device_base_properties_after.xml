@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_layout_device_base_properties"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:showIn="@layout/layout_admin_device"
+    android:visibility="visible">
+
+
+    <EditText
+        android:id="@+id/admin_etDeviceManufacturer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="false"/>
+
+
+
+    <EditText
+        android:id="@+id/admin_etDeviceCodeNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCodeName"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceManufacturer"
+        android:focusable="false"/>
+
+
+
+    <EditText
+        android:id="@+id/admin_etDeviceCodeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/admin_etDeviceModel"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceCodeNumber"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceManufacturer"
+        android:focusable="false"/>
+
+
+    <EditText
+        android:id="@+id/admin_etDeviceModel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_etDeviceCodeName"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceManufacturer"
+        android:focusable="false"/>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/admin_device_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeNumber">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Add Device" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Reports" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

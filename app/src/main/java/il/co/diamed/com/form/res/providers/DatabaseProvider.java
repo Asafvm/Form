@@ -24,8 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import il.co.diamed.com.form.data_objects.Address;
-import il.co.diamed.com.form.data_objects.Device;
+import il.co.diamed.com.form.data_objects.FieldDevice;
+import il.co.diamed.com.form.data_objects.FieldDevice;
 import il.co.diamed.com.form.data_objects.Location;
+import il.co.diamed.com.form.data_objects.PrototypeDevice;
 import il.co.diamed.com.form.data_objects.SubLocation;
 import il.co.diamed.com.form.inventory.Part;
 import il.co.diamed.com.form.inventory.InventoryUser;
@@ -52,6 +54,8 @@ public class DatabaseProvider {
     private final String USER_DB = "Users/";
     private String DB = "Parts/";
     private String LOCATION_DB = "Location";
+    private String DEVICEDB_PROTO = "Devices/Proto/";
+    private String DEVICEDB_FIELD = "Devices/Field/";
 
     private Context context;
     private boolean globalPart_busy = false;
@@ -62,7 +66,7 @@ public class DatabaseProvider {
     private boolean waitingToUploadDeviceFlag = false;
     private String holderLoc = "";
     private String holderSubloc = "";
-    private Device holderDevice = null;
+    private FieldDevice holderDevice = null;
 
 
     public DatabaseProvider(Context context) {
@@ -583,7 +587,7 @@ public class DatabaseProvider {
      * @param device
      * @return
      */
-    public boolean updateLocation(String loc, String subLoc, Device device) {
+    public boolean updateLocation(String loc, String subLoc, FieldDevice device) {
         if (locDB != null && !loc_busy) {
             waitingToUploadDeviceFlag = false;
             boolean deviceFound = false;
@@ -591,7 +595,7 @@ public class DatabaseProvider {
             SubLocation foundSubloc = null;
             Location targetLoc = null;
             SubLocation targetSubloc = null;
-            Device foundDev = null;
+            FieldDevice foundDev = null;
 
             DatabaseReference databaseReference = rootReference.child(LOCATION_DB);
 
@@ -605,7 +609,7 @@ public class DatabaseProvider {
                         targetSubloc = subLocation;
                     }
                     if (subLocation.getDevices() != null) {
-                        for (Device labDevice : subLocation.getDevices().values()) {
+                        for (FieldDevice labDevice : subLocation.getDevices().values()) {
                             if (device.getDev_codename().equals(labDevice.getDev_codename()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
                                 deviceFound = true;
                                 foundDev = labDevice;
@@ -655,10 +659,10 @@ public class DatabaseProvider {
                     //different location
                     foundDev.setDev_install_date(device.getDev_install_date());
                     foundDev.setEnd_of_warranty(device.getEnd_of_warranty());
-                    foundDev.setDev_under_warranty(device.getDev_under_warranty());
+                    foundDev.setDev_under_warranty(device.isDev_under_warranty());
                     if (targetLoc == null) {
                         //new location
-                        targetLoc = new Location(loc, new Address("","","", "", ""), "");
+                        targetLoc = new Location(loc, new Address("", "", "", "", ""), "");
                         targetSubloc = new SubLocation(subLoc, "");
                         targetSubloc.addDevice(foundDev);
                         targetLoc.addSublocation(targetSubloc);
@@ -693,7 +697,7 @@ public class DatabaseProvider {
             } else {    //new device
                 if (targetLoc == null) {
                     //new location
-                    targetLoc = new Location(loc, new Address("","","", "", ""), "");
+                    targetLoc = new Location(loc, new Address("", "", "", "", ""), "");
                     targetSubloc = new SubLocation(subLoc, "");
                     targetSubloc.addDevice(device);
                     targetLoc.addSublocation(targetSubloc);
@@ -729,11 +733,11 @@ public class DatabaseProvider {
 
     }
 
-    public Device getDevice(String serial, String codeName) {
+    public FieldDevice getDevice(String serial, String codeName) {
         for (Location location : locDB) {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
-                    for (Device labDevice : subLocation.getDevices().values()) {
+                    for (FieldDevice labDevice : subLocation.getDevices().values()) {
                         if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             return labDevice;
                         }
@@ -761,7 +765,7 @@ public class DatabaseProvider {
         for (Location location : locDB) {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
-                    for (Device labDevice : subLocation.getDevices().values()) {
+                    for (FieldDevice labDevice : subLocation.getDevices().values()) {
                         if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             labDevice.setDev_under_warranty(under_warranty);
                             labDevice.setDev_install_date(new Date(ins));
@@ -786,7 +790,7 @@ public class DatabaseProvider {
         for (Location location : locDB) {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
-                    for (Device labDevice : subLocation.getDevices().values()) {
+                    for (FieldDevice labDevice : subLocation.getDevices().values()) {
                         if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             int index = location.getSubLocation().indexOf(subLocation);
 
@@ -825,5 +829,19 @@ public class DatabaseProvider {
             mDatabase.setValue(l).addOnSuccessListener(aVoid ->
                     Log.d(TAG, "Uploaded: " + l.getName()));
         }
+    }
+
+    public void uploadPrototypeDevice(PrototypeDevice device) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && !user.getUid().equals("")) {
+            rootReference.child(DEVICEDB_PROTO)
+                    .child(device.getDev_manufacturer())
+                    .child(device.getDev_codename())
+                    .child(device.getDev_model())
+                    .setValue(new PrototypeDevice(device))
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Uploaded Proto: " + device.getDev_codename()));
+
+        }
+
     }
 }

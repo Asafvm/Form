@@ -65,13 +65,13 @@ public class LocationInfoFragment extends Fragment {
             // insert data from firebase
 
             if (locations != null) {
-                ArrayList<ArrayList<Device>> childValues = new ArrayList<>();
+                ArrayList<ArrayList<FieldDevice>> childValues = new ArrayList<>();
                 for (Location location : locations) {
                     if (location.getName().equals(targetLocation)) {
                         ArrayList<SubLocation> groupValues = location.getSubLocation();
                         Collections.sort(groupValues);
                         for (SubLocation subLocation : groupValues) {
-                            ArrayList<Device> child = new ArrayList<>(subLocation.getDevices().values());
+                            ArrayList<FieldDevice> child = new ArrayList<>(subLocation.getDevices().values());
                             Collections.sort(child);
                             childValues.add(child);
                         }

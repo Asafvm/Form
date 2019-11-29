@@ -6,150 +6,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:visibility="visible"
+    android:nestedScrollingEnabled="true"
+    android:visibility="gone"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_weight="3"
     tools:showIn="@layout/fragment_admin_fragmnt">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/admin_layout_device_base_properties"
+        android:id="@+id/admin_device_scenecontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/admin_tvDeviceCodeNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Code Number"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeNumber"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCodeNumber"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/layout_admin_device_base_properties_before" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <EditText
-            android:id="@+id/admin_etDeviceCodeNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCodeNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_device_layout_BaseDeviceReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/admin_device_scenecontainer">
 
         <TextView
-            android:id="@+id/admin_tvDeviceCodeName"
+            android:id="@+id/admin_tvDeviceCalValid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Code Name"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeName"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCodeName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeName" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceCodeName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCodeName"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeNumber" />
-
-        <TextView
-            android:id="@+id/admin_tvDeviceModel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Model"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceModel"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceModel"
+            android:text="Calibration Validity"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCalValid"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCalValid"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/admin_etDeviceModel"
+            android:id="@+id/admin_etDeviceCalValid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceModel"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeName" />
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceCalValidMonths"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCalValid"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/admin_tvDevicePrice"
+            android:id="@+id/admin_tvDeviceCalValidMonths"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Price"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDevicePrice"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDevicePrice"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDevicePrice"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:text="Months"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCalValid"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDevicePrice"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceModel" />
+            app:layout_constraintStart_toEndOf="@id/admin_etDeviceCalValid" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/admin_device_layout_BaseDeviceReport"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/admin_device_ReportRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDevicePrice">
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCalValid" />
 
-            <TextView
-                android:id="@+id/admin_tvDeviceCalValid"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Calibration Validity"
-                app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCalValid"
-                app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCalValid"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/admin_etDeviceCalValid"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                app:layout_constraintEnd_toStartOf="@id/admin_tvDeviceCalValidMonths"
-                app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCalValid"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/admin_tvDeviceCalValidMonths"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Months"
-                app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCalValid"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/admin_etDeviceCalValid" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/admin_device_ReportRecyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCalValid" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/admin_device_btnAddBaseDevice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create Device"
-            app:layout_constraintTop_toBottomOf="@id/admin_device_layout_BaseDeviceReport" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/admin_layout_device_details"
+        android:id="@+id/admin_device_layout_device_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/admin_layout_device_base_properties">
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/admin_device_scenecontainer">
 
         <TextView
             android:id="@+id/admin_tvDeviceSerialNumber"
@@ -170,14 +91,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextFields" />
 
-        <Switch
-            android:id="@+id/admin_swPermanentWarranty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Permanent Warranty"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceSerialNumber" />
-
-
         <TextView
             android:id="@+id/admin_tvDeviceInstallDate"
             android:layout_width="0dp"
@@ -194,31 +107,20 @@
             android:inputType="datetime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceInstallDate"
-            app:layout_constraintTop_toBottomOf="@id/admin_swPermanentWarranty" />
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceSerialNumber" />
 
-        <TextView
-            android:id="@+id/admin_tvDeviceMaintenanceDate"
-            android:layout_width="0dp"
+        <Switch
+            android:id="@+id/admin_swPermanentWarranty"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next Maintenance"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceMaintenanceDate"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceMaintenanceDate"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceMaintenanceDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceMaintenanceDate"
+            android:text="Permanent Warranty"
             app:layout_constraintTop_toBottomOf="@id/admin_etDeviceInstallDate" />
 
         <TextView
             android:id="@+id/admin_tvDeviceWarrantyDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Warranty Expiry"
+            android:text="Warranty Expire Date"
             app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceWarrantyDate"
             app:layout_constraintEnd_toStartOf="@id/admin_etDeviceWarrantyDate"
             app:layout_constraintStart_toStartOf="parent" />
@@ -230,8 +132,26 @@
             android:inputType="date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceWarrantyDate"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceMaintenanceDate" />
+            app:layout_constraintTop_toBottomOf="@id/admin_swPermanentWarranty" />
 
+
+        <TextView
+            android:id="@+id/admin_tvDeviceLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceLocation"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceLocation"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDeviceLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceLocation"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
 
         <TextView
             android:id="@+id/admin_tvDeviceComments"
@@ -249,7 +169,7 @@
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceComments"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceLocation" />
 
         <Button
             android:id="@+id/admin_device_btnAddInstanceDevice"
@@ -272,4 +192,5 @@
             app:layout_constraintTop_toBottomOf="@id/admin_device_btnAddInstanceDevice" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

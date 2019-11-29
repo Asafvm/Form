@@ -232,7 +232,7 @@ public class DeviceEditorFragment extends DialogFragment implements DeviceDialog
         if (!location.equals("") && !sublocation.equals("")) {
             String serial = bundle.getString("serial");
             String codeName = bundle.getString("type");
-            Device device = provider.getDevice(serial, codeName);
+            FieldDevice device = provider.getDevice(serial, codeName);
             if (device != null) {
                 provider.updateLocation(location, sublocation, device);
             }

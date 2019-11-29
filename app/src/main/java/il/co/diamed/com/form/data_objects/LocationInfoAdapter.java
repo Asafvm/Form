@@ -25,18 +25,18 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
     private static final String BROADCAST_TARGET_DEVICE_SELECTED = "LocationInfo_device_selected";
     private Context mContext;
     private ArrayList<SubLocation> mGroupList;
-    private ArrayList<ArrayList<Device>> mChildList;
+    private ArrayList<ArrayList<FieldDevice>> mChildList;
     private FragmentManager manager;
     private DeviceEditorFragment newFragment;
 
-    LocationInfoAdapter(ArrayList<SubLocation> list, ArrayList<ArrayList<Device>> childValues, Context context) {
+    LocationInfoAdapter(ArrayList<SubLocation> list, ArrayList<ArrayList<FieldDevice>> childValues, Context context) {
         this.mContext = context;
         this.mGroupList = list;
         this.mChildList = childValues;
     }
 
 
-    public void updateData(ArrayList<SubLocation> groupValues, ArrayList<ArrayList<Device>> childValues) {
+    public void updateData(ArrayList<SubLocation> groupValues, ArrayList<ArrayList<FieldDevice>> childValues) {
         this.mGroupList = groupValues;
         this.mChildList = childValues;
         notifyDataSetChanged();
@@ -92,7 +92,7 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
         if (convertView == null)
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_location_info_list_device, parent, false);
         convertView.setClickable(true);
-        Device target = mChildList.get(groupPosition).get(childPosition);
+        FieldDevice target = mChildList.get(groupPosition).get(childPosition);
         TextView next_m = convertView.findViewById(R.id.device_nextmaintenance);
         ((TextView) convertView.findViewById(R.id.device_name)).setText(String.format("%s %s", target.getDev_codename(), target.getDev_model()));
         ((TextView) convertView.findViewById(R.id.device_serial)).setText(target.getDev_serial());
@@ -130,7 +130,7 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
             next_m.setTextColor(Color.parseColor(CAL_LATE));
         }
 
-        if (target.getDev_under_warranty()) {  //check under lifetime warranty
+        if (target.isDev_under_warranty()) {  //check under lifetime warranty
             ((TextView) convertView.findViewById(R.id.device_warrenty)).setText("באחריות"); //set text
             ((TextView) convertView.findViewById(R.id.device_warrenty)).setTextColor(Color.parseColor("#00cc00")); //set color
         } else { //check by install and end of warranty dates
@@ -146,22 +146,20 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
 
         convertView.setOnClickListener(v -> {
             manager = ((MainMenuAcitivity) mContext).getSupportFragmentManager();
-            if (manager != null) {
 
-                newFragment = new DeviceEditorFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("serial", target.getDev_serial());
-                bundle.putString("type", target.getDev_codename());
-                bundle.putLong("ins_date", target.getDev_install_date().getTime());
-                bundle.putLong("eow_date", target.getEnd_of_warranty().getTime());
-                bundle.putBoolean("under_warranty",target.getDev_under_warranty());
-                bundle.putString("comments",target.getDev_comments());
-                newFragment.setArguments(bundle);
-                newFragment.show(manager, "dialog");
-                //Intent intent = new Intent(BROADCAST_TARGET_DEVICE_SELECTED);
-                //intent.putExtra("target", target.getDev_serial());
-                //mContext.sendBroadcast(intent);
-            }
+            newFragment = new DeviceEditorFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("serial", target.getDev_serial());
+            bundle.putString("type", target.getDev_codename());
+            bundle.putLong("ins_date", target.getDev_install_date().getTime());
+            bundle.putLong("eow_date", target.getEnd_of_warranty().getTime());
+            bundle.putBoolean("under_warranty",target.isDev_under_warranty());
+            bundle.putString("comments",target.getDev_comments());
+            newFragment.setArguments(bundle);
+            newFragment.show(manager, "dialog");
+            //Intent intent = new Intent(BROADCAST_TARGET_DEVICE_SELECTED);
+            //intent.putExtra("target", target.getDev_serial());
+            //mContext.sendBroadcast(intent);
         });
 
     return convertView;

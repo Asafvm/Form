@@ -214,8 +214,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                             if (subLocation.getDevices() != null) {
                                 Date date1 = new java.util.Date();
                                 min_diff = 100;
-                                for (Device device : subLocation.getDevices().values()) {
-                                    if (device.getDev_under_warranty()) {
+                                for (FieldDevice device : subLocation.getDevices().values()) {
+                                    if (device.isDev_under_warranty()) {
                                         Date date2 = device.getDev_next_maintenance();
                                         long diff = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; //next - today in days
                                         if (min_diff == -1) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:visibility="gone"
+    android:visibility="visible"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_weight="3"
     tools:showIn="@layout/fragment_admin_fragmnt">
