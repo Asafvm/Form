@@ -18,7 +18,7 @@ public class PrototypeDevice {
         this.setDev_codeName(dev_codeName);
         this.setDev_model(dev_model);
         this.setDev_price(dev_price);
-        this.setDev_identifier(dev_manufacturer + " " + dev_codeNumber + " " + dev_codeName);
+        this.setDev_identifier(dev_manufacturer + " " + dev_codeNumber);
     }
 
     public String getDev_manufacturer() {
@@ -80,8 +80,7 @@ public class PrototypeDevice {
 
     @Override
     public String toString() {
-        return getDev_manufacturer() + "\t" + getDev_codeNumber()
-                + "\t" + getDev_codeName();
+        return getDev_identifier();//getDev_manufacturer() + "\t" + getDev_codeName() + "\t" + getDev_model() ;
     }
 }
 

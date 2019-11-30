@@ -27,13 +27,18 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -217,6 +222,8 @@ public class AdminFragment extends Fragment {
         // Apply the adapter to the spinner
         deviceSpinner.setAdapter(adapter);
 
+        deviceSpinner.setOnItemSelectedListener(spinnerListener);
+
 
         v.findViewById(R.id.admin_device_spinner).setVisibility(View.GONE);
         v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.VISIBLE);
@@ -235,17 +242,20 @@ public class AdminFragment extends Fragment {
                         String code = ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).getText().toString().trim().toUpperCase();
                         String name = ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).getText().toString().trim().toUpperCase();
                         String mod = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim().toUpperCase();
-                        double price=0;
+                        double price = 0;
                         try {
                             price = Double.valueOf(((EditText) v.findViewById(R.id.admin_etDevicePrice)).getText().toString());
-                        }catch (Exception ignored){}
-                        if(name.equals("") || code.equals("")){
-                            Toast.makeText(getContext(),"Mandatory fields must not be empty",Toast.LENGTH_SHORT).show();
+                        } catch (Exception ignored) {
+                            price = 0;
+                        }
+                        if (name.equals("") || code.equals("")) {
+                            Toast.makeText(getContext(), "Mandatory fields must not be empty", Toast.LENGTH_SHORT).show();
                             ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).setError("Mandatory");
                             ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setError("Mandatory");
-                        }else {
+                        } else {
                             pDevice = new PrototypeDevice(man, code, name, mod, price);
-                            fDevice = new FieldDevice();
+                            if (fDevice == null)
+                                fDevice = new FieldDevice();
                             fDevice.setDev_identifier(pDevice.getDev_identifier());
                             application.getDatabaseProvider(getContext()).uploadPrototypeDevice(pDevice);
                             initTextFields(v, R.id.admin_layout_device_base_properties);
@@ -264,7 +274,29 @@ public class AdminFragment extends Fragment {
         v.findViewById(R.id.admin_device_btnAddInstanceDevice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: start working here
+                String serial = ((EditText) v.findViewById(R.id.admin_etDeviceSerialNumber)).getText().toString().trim().toUpperCase();
+                String ins_date = ((EditText) v.findViewById(R.id.admin_etDeviceInstallDate)).getText().toString().trim().toUpperCase();
+                String exp_date = ((EditText) v.findViewById(R.id.admin_etDeviceWarrantyDate)).getText().toString().trim().toUpperCase();
+                String comments = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim().toUpperCase();
+                boolean isPermanent =((Switch)v.findViewById(R.id.admin_swPermanentWarranty)).isChecked();
+
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault()); // Make sure user insert date into edittext in this format.
+                Date dateObject;
+                try{
+
+                    dateObject = formatter.parse(ins_date);
+                    ins_date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dateObject);
+                    if(!isPermanent){
+                        dateObject = formatter.parse(exp_date);
+                        exp_date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dateObject);
+                    }
+                    //time = new SimpleDateFormat("h:mmaa").format(dateObject);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //fDevice.setFieldDevice(serial,,,,,comments);
+
             }
         });
 
@@ -725,6 +757,21 @@ public class AdminFragment extends Fragment {
 
                 }
             }
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            String selected = adapterView.getItemAtPosition(i).toString();
+            if (fDevice == null)
+                fDevice = new FieldDevice();
+            fDevice.setDev_identifier(selected);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
         }
     };
 

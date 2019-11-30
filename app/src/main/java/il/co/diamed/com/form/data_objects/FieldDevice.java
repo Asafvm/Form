@@ -11,13 +11,20 @@ public class FieldDevice implements Comparable<FieldDevice> {
     private Date end_of_warranty = new Date();
     private boolean dev_under_warranty = true;
     private String dev_comments = "";
-    private int dev_calValid = 12;  //months
     private ArrayList<Report> reports = new ArrayList<>();
 
     public FieldDevice(){
 
     }
 
+    public void setFieldDevice(String dev_serial, Date dev_install_date, Date dev_next_maintenance, Date end_of_warranty, boolean dev_under_warranty, String dev_comments) {
+        this.dev_serial = dev_serial;
+        this.dev_install_date = dev_install_date;
+        this.dev_next_maintenance = dev_next_maintenance;
+        this.end_of_warranty = end_of_warranty;
+        this.dev_under_warranty = dev_under_warranty;
+        this.dev_comments = dev_comments;
+    }
 
     public Date getDev_install_date() {
         return dev_install_date;
@@ -64,16 +71,6 @@ public class FieldDevice implements Comparable<FieldDevice> {
     
     public void setDev_comments(String dev_comments) {
         this.dev_comments = dev_comments;
-    }
-
-    
-    public int getDev_calValid() {
-        return dev_calValid;
-    }
-
-    
-    public void setDev_calValid(int dev_calValid) {
-        this.dev_calValid = dev_calValid;
     }
 
     

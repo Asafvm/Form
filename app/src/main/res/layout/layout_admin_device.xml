@@ -35,11 +35,7 @@
             android:text="Reports" />
 
     </com.google.android.material.tabs.TabLayout>
-    <Spinner
-        android:id="@+id/admin_device_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/admin_device_tablayout"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/admin_layout_device_base_properties"
@@ -153,7 +149,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/admin_device_spinner">
+        app:layout_constraintTop_toBottomOf="@id/admin_device_tablayout">
+
 
         <TextView
             android:id="@+id/admin_tvDeviceCalValid"
@@ -196,7 +193,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/admin_device_spinner">
+        app:layout_constraintTop_toBottomOf="@id/admin_device_tablayout">
+
+        <Spinner
+            android:id="@+id/admin_device_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
         <TextView
             android:id="@+id/admin_tvDeviceSerialNumber"
@@ -214,7 +218,7 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceSerialNumber"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/admin_device_spinner"
             tools:ignore="TextFields" />
 
         <TextView
@@ -260,25 +264,6 @@
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceWarrantyDate"
             app:layout_constraintTop_toBottomOf="@id/admin_swPermanentWarranty" />
 
-
-        <TextView
-            android:id="@+id/admin_tvDeviceLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceLocation"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceLocation"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceLocation"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
-
         <TextView
             android:id="@+id/admin_tvDeviceComments"
             android:layout_width="0dp"
@@ -295,7 +280,7 @@
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/admin_tvDeviceComments"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceLocation" />
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
 
         <Button
             android:id="@+id/admin_device_btnAddInstanceDevice"
