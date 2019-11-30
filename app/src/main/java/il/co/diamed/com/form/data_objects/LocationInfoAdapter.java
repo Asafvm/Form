@@ -94,7 +94,7 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
         convertView.setClickable(true);
         FieldDevice target = mChildList.get(groupPosition).get(childPosition);
         TextView next_m = convertView.findViewById(R.id.device_nextmaintenance);
-        ((TextView) convertView.findViewById(R.id.device_name)).setText(String.format("%s %s", target.getDev_codename(), target.getDev_model()));
+        ((TextView) convertView.findViewById(R.id.device_name)).setText(String.format("%s", target.getDev_identifier()));
         ((TextView) convertView.findViewById(R.id.device_serial)).setText(target.getDev_serial());
         //SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
         Calendar cal = Calendar.getInstance();
@@ -150,7 +150,7 @@ class LocationInfoAdapter extends BaseExpandableListAdapter {
             newFragment = new DeviceEditorFragment();
             Bundle bundle = new Bundle();
             bundle.putString("serial", target.getDev_serial());
-            bundle.putString("type", target.getDev_codename());
+            bundle.putString("type", target.getDev_identifier());
             bundle.putLong("ins_date", target.getDev_install_date().getTime());
             bundle.putLong("eow_date", target.getEnd_of_warranty().getTime());
             bundle.putBoolean("under_warranty",target.isDev_under_warranty());

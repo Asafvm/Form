@@ -100,10 +100,12 @@ public class DevicePrototypeActivity extends AppCompatActivity {
 
         setPDFprogress(this, "בונה טופס", true);
 
-        FieldDevice device = new FieldDevice("",dev_name, dev_model, dev_serial,0);
-        device.setDev_next_maintenance(next_maintenance);
+        PrototypeDevice pDevice = new PrototypeDevice("","",dev_name, dev_model,0);
+        FieldDevice fDevice = new FieldDevice();
+        fDevice.setDev_next_maintenance(next_maintenance);
+        fDevice.setDev_serial(dev_serial);
         provider.updateLocation(((TextView) findViewById(R.id.formMainLocation)).getText().toString(),
-                ((TextView) findViewById(R.id.formRoomLocation)).getText().toString(), device);
+                ((TextView) findViewById(R.id.formRoomLocation)).getText().toString(), fDevice);
 
 
         FragmentTransaction mFragmentTransaction = getFragmentManager().beginTransaction();

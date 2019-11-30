@@ -610,7 +610,7 @@ public class DatabaseProvider {
                     }
                     if (subLocation.getDevices() != null) {
                         for (FieldDevice labDevice : subLocation.getDevices().values()) {
-                            if (device.getDev_codename().equals(labDevice.getDev_codename()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
+                            if (device.getDev_identifier().equals(labDevice.getDev_identifier()) && device.getDev_serial().equals(labDevice.getDev_serial())) {
                                 deviceFound = true;
                                 foundDev = labDevice;
                                 foundLoc = location;
@@ -738,7 +738,7 @@ public class DatabaseProvider {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
                     for (FieldDevice labDevice : subLocation.getDevices().values()) {
-                        if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
+                        if (labDevice.getDev_identifier().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             return labDevice;
                         }
                     }
@@ -766,7 +766,7 @@ public class DatabaseProvider {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
                     for (FieldDevice labDevice : subLocation.getDevices().values()) {
-                        if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
+                        if (labDevice.getDev_identifier().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             labDevice.setDev_under_warranty(under_warranty);
                             labDevice.setDev_install_date(new Date(ins));
                             labDevice.setEnd_of_warranty(new Date(eow));
@@ -791,7 +791,7 @@ public class DatabaseProvider {
             for (SubLocation subLocation : location.getSubLocation()) {
                 if (subLocation.getDevices() != null) {
                     for (FieldDevice labDevice : subLocation.getDevices().values()) {
-                        if (labDevice.getDev_codename().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
+                        if (labDevice.getDev_identifier().equals(codeName) && labDevice.getDev_serial().equals(serial)) {
                             int index = location.getSubLocation().indexOf(subLocation);
 
                             databaseReference.child(location.getName()).child("subLocation").child(String.valueOf(index))

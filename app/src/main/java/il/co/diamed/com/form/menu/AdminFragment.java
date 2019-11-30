@@ -59,7 +59,8 @@ public class AdminFragment extends Fragment {
 
     private static final String TAG = "AdminPage ";
     private Location location = null;
-    private FieldDevice device = null;
+    private PrototypeDevice pDevice = null;
+    private FieldDevice fDevice = null;
     private ArrayList<Location> locations;
     private ClassApplication application = null;
     private LocationManager locationManager;
@@ -231,8 +232,10 @@ public class AdminFragment extends Fragment {
                         String name = ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).getText().toString().trim();
                         String mod = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim();
                         double price = Double.valueOf(((EditText) v.findViewById(R.id.admin_etDevicePrice)).getText().toString());
-                        device = new FieldDevice(man, code, name, mod, price);
-                        application.getDatabaseProvider(getContext()).uploadPrototypeDevice(device);
+                        pDevice = new PrototypeDevice(man, code, name, mod, price);
+                        fDevice = new FieldDevice();
+                        fDevice.setDev_identifier(pDevice.getDev_identifier());
+                        application.getDatabaseProvider(getContext()).uploadPrototypeDevice(pDevice);
                         sceneEditDevice.enter();
                         ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).setText(man);
                         ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setText(code);

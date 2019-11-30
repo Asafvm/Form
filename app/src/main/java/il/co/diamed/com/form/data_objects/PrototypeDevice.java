@@ -4,6 +4,7 @@ package il.co.diamed.com.form.data_objects;
 import java.util.Date;
 
 public class PrototypeDevice {
+    private String dev_identifier="";
     private String dev_manufacturer = "Unknown";
     private String dev_codeNumber = "";
     private String dev_codename = "";
@@ -18,6 +19,7 @@ public class PrototypeDevice {
         this.dev_codename = dev_codename;
         this.dev_model = dev_model;
         this.dev_price = dev_price;
+        setDev_identifier(dev_manufacturer+" "+dev_codename+" "+dev_model);
     }
 
     public PrototypeDevice(PrototypeDevice device) {
@@ -66,6 +68,14 @@ public class PrototypeDevice {
 
     public void setDev_price(double dev_price) {
         this.dev_price = dev_price;
+    }
+
+    public String getDev_identifier() {
+        return dev_identifier;
+    }
+
+    public void setDev_identifier(String dev_identifier) {
+        this.dev_identifier = dev_identifier;
     }
 }
 
