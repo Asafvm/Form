@@ -12,22 +12,148 @@
     app:layout_constraintVertical_weight="3"
     tools:showIn="@layout/fragment_admin_fragmnt">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/admin_device_scenecontainer"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/admin_device_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/layout_admin_device_base_properties_before" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Create Device" />
 
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Add Device" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Reports" />
+
+    </com.google.android.material.tabs.TabLayout>
+    <Spinner
+        android:id="@+id/admin_device_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/admin_device_tablayout"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_layout_device_base_properties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/admin_device_tablayout"
+        >
+
+        <TextView
+            android:id="@+id/admin_tvDeviceManufacturer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Manufacturer"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceManufacturer"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceManufacturer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDeviceManufacturer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Default: Unknown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceManufacturer"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/admin_tvDeviceCodeNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Code Number"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeNumber"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCodeNumber"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDeviceCodeNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCodeNumber"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceManufacturer" />
+
+        <TextView
+            android:id="@+id/admin_tvDeviceCodeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Code Name"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceCodeName"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceCodeName"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDeviceCodeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceCodeName"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeNumber" />
+
+        <TextView
+            android:id="@+id/admin_tvDeviceModel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Model"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceModel"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceModel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDeviceModel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Default: 1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceModel"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceCodeName" />
+
+        <TextView
+            android:id="@+id/admin_tvDevicePrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDevicePrice"
+            app:layout_constraintEnd_toStartOf="@id/admin_etDevicePrice"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/admin_etDevicePrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/admin_tvDevicePrice"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceModel" />
+
+
+        <Button
+            android:id="@+id/admin_device_btnAddBaseDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Device"
+            app:layout_constraintTop_toBottomOf="@id/admin_etDevicePrice" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/admin_device_layout_BaseDeviceReport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/admin_device_scenecontainer">
+        app:layout_constraintTop_toBottomOf="@id/admin_device_spinner">
 
         <TextView
             android:id="@+id/admin_tvDeviceCalValid"
@@ -70,7 +196,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/admin_device_scenecontainer">
+        app:layout_constraintTop_toBottomOf="@id/admin_device_spinner">
 
         <TextView
             android:id="@+id/admin_tvDeviceSerialNumber"
@@ -177,13 +303,6 @@
             android:layout_height="wrap_content"
             android:text="Add Device"
             app:layout_constraintTop_toBottomOf="@id/admin_etDeviceComments" />
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintBottom_toTopOf="@id/admin_device_DeviceListRecyclerview" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/admin_device_DeviceListRecyclerview"

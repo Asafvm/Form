@@ -94,7 +94,7 @@
     <TextView
         android:id="@+id/admin_etCoordinatesLong"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="Longitude"
         app:layout_constraintBaseline_toBaselineOf="@id/admin_etCoordinatesLat"

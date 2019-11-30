@@ -22,8 +22,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.transition.Scene;
+
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
 import il.co.diamed.com.form.data_objects.Address;
@@ -62,6 +65,7 @@ public class AdminFragment extends Fragment {
     private PrototypeDevice pDevice = null;
     private FieldDevice fDevice = null;
     private ArrayList<Location> locations;
+    private ArrayList<PrototypeDevice> pDevices;
     private ClassApplication application = null;
     private LocationManager locationManager;
     private boolean newLoc = true;
@@ -137,26 +141,28 @@ public class AdminFragment extends Fragment {
         /****************************** BUTTONS ***********************************/
         //Location
         v.findViewById(R.id.admin_btnLocation).setOnClickListener(view -> {
-
             sublocationRecyclerView = v.findViewById(R.id.admin_subLocationRecyclerView);
             sublocationRecyclerView.setItemAnimator(new SlideInUpAnimator());
             locationTabLayout = v.findViewById(R.id.admin_location_tabs);
             locationTabLayout.addOnTabSelectedListener(locationTabListener);
             initLocationView(v);
         });
-        //PrototypeDevice
+        //Device
         v.findViewById(R.id.admin_btnDevice).setOnClickListener(view -> {
-
             reportRecyclerView = v.findViewById(R.id.admin_device_ReportRecyclerview);
             reportRecyclerView.setItemAnimator(new SlideInUpAnimator());
             deviceRecyclerView = v.findViewById(R.id.admin_device_DeviceListRecyclerview);
             deviceRecyclerView.setItemAnimator(new SlideInUpAnimator());
             deviceTabLayout = v.findViewById(R.id.admin_device_tablayout);
-            deviceTabLayout.addOnTabSelectedListener(locationTabListener);
+            deviceTabLayout.addOnTabSelectedListener(deviceTabListener);
+            TabLayout.Tab tab = deviceTabLayout.getTabAt(0);
+            if (tab != null)
+                tab.select();
+            deviceTabLayout.setVisibility(View.VISIBLE);
             v.findViewById(R.id.adminMainMenu).setVisibility(View.GONE);
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.admin_btnFinish).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.admin_btnFinish).setVisibility(View.GONE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("מכשירים");
             initDeviceView(v);
 
@@ -201,21 +207,19 @@ public class AdminFragment extends Fragment {
     }
 
     private void initDeviceView(View v) {
+        pDevices = application.getDatabaseProvider(getContext()).getPDeviceDB();
 
-        Scene sceneNewDevice;
-        Scene sceneEditDevice;
-        // Create the scene root for the scenes in this app
-        ViewGroup sceneRoot = v.findViewById(R.id.admin_device_scenecontainer);
-        // Create the scenes
-        sceneNewDevice = Scene.getSceneForLayout(sceneRoot, R.layout.layout_admin_device_base_properties_before, getContext());
-        sceneEditDevice = Scene.getSceneForLayout(sceneRoot, R.layout.layout_admin_device_base_properties_after, getContext());
+        Spinner deviceSpinner = v.findViewById(R.id.admin_device_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<PrototypeDevice> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, pDevices);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        deviceSpinner.setAdapter(adapter);
 
-        sceneNewDevice.enter();
 
-        TabLayout.Tab tab = deviceTabLayout.getTabAt(0);
-        if (tab != null)
-            tab.select();
-        deviceTabLayout.setVisibility(View.GONE);
+        v.findViewById(R.id.admin_device_spinner).setVisibility(View.GONE);
+        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.VISIBLE);
         v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
         v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
 
@@ -227,26 +231,25 @@ public class AdminFragment extends Fragment {
                     .setTitle("New Prototype Alert")
                     .setMessage(message)
                     .setPositiveButton("Yes", (dialogInterface, i) -> {
-                        String man = ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).getText().toString().trim();
-                        String code = ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).getText().toString().trim();
-                        String name = ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).getText().toString().trim();
-                        String mod = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim();
-                        double price = Double.valueOf(((EditText) v.findViewById(R.id.admin_etDevicePrice)).getText().toString());
-                        pDevice = new PrototypeDevice(man, code, name, mod, price);
-                        fDevice = new FieldDevice();
-                        fDevice.setDev_identifier(pDevice.getDev_identifier());
-                        application.getDatabaseProvider(getContext()).uploadPrototypeDevice(pDevice);
-                        sceneEditDevice.enter();
-                        ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).setText(man);
-                        ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setText(code);
-                        ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).setText(name);
-                        ((EditText) v.findViewById(R.id.admin_etDeviceModel)).setText(mod);
-
-                        deviceTabLayout.addOnTabSelectedListener(deviceTabListener);
-
-                        //v.findViewById(R.id.admin_device_btnAddBaseDevice).setVisibility(View.GONE);
-                        v.findViewById(R.id.admin_device_tablayout).setVisibility(View.VISIBLE);
-                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                        String man = ((EditText) v.findViewById(R.id.admin_etDeviceManufacturer)).getText().toString().trim().toUpperCase();
+                        String code = ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).getText().toString().trim().toUpperCase();
+                        String name = ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).getText().toString().trim().toUpperCase();
+                        String mod = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim().toUpperCase();
+                        double price=0;
+                        try {
+                            price = Double.valueOf(((EditText) v.findViewById(R.id.admin_etDevicePrice)).getText().toString());
+                        }catch (Exception ignored){}
+                        if(name.equals("") || code.equals("")){
+                            Toast.makeText(getContext(),"Mandatory fields must not be empty",Toast.LENGTH_SHORT).show();
+                            ((EditText) v.findViewById(R.id.admin_etDeviceCodeName)).setError("Mandatory");
+                            ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setError("Mandatory");
+                        }else {
+                            pDevice = new PrototypeDevice(man, code, name, mod, price);
+                            fDevice = new FieldDevice();
+                            fDevice.setDev_identifier(pDevice.getDev_identifier());
+                            application.getDatabaseProvider(getContext()).uploadPrototypeDevice(pDevice);
+                            initTextFields(v, R.id.admin_layout_device_base_properties);
+                        }
                     })
                     .setNegativeButton("No", (dialogInterface, i) -> {
 
@@ -261,7 +264,7 @@ public class AdminFragment extends Fragment {
         v.findViewById(R.id.admin_device_btnAddInstanceDevice).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //TODO: start working here
             }
         });
 
@@ -665,12 +668,23 @@ public class AdminFragment extends Fragment {
                 switch (tab.getPosition()) {
                     case 0:
                         v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
-                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_spinner).setVisibility(View.GONE);
                         break;
 
                     case 1:
+                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_device_spinner).setVisibility(View.VISIBLE);
+                        break;
+
+                    case 2:
                         v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
+                        v.findViewById(R.id.admin_device_spinner).setVisibility(View.VISIBLE);
                         break;
 
                 }

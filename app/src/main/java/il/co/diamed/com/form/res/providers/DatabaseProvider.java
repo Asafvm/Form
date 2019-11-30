@@ -25,7 +25,6 @@ import java.util.List;
 
 import il.co.diamed.com.form.data_objects.Address;
 import il.co.diamed.com.form.data_objects.FieldDevice;
-import il.co.diamed.com.form.data_objects.FieldDevice;
 import il.co.diamed.com.form.data_objects.Location;
 import il.co.diamed.com.form.data_objects.PrototypeDevice;
 import il.co.diamed.com.form.data_objects.SubLocation;
@@ -48,6 +47,8 @@ public class DatabaseProvider {
     private static HashMap<String, String> personalEquipment;  //containg mesuring devices and possible lab devices
     private static HashMap<String, Part> targetDB;
     private static ArrayList<Location> locDB;
+    private static ArrayList<PrototypeDevice> pDeviceDB;
+    private static ArrayList<FieldDevice> fDeviceDB;
     private final DatabaseReference rootReference;
 
     private List<ArrayList<InventoryUser>> allUsers;
@@ -67,6 +68,7 @@ public class DatabaseProvider {
     private String holderLoc = "";
     private String holderSubloc = "";
     private FieldDevice holderDevice = null;
+    private boolean pDevice_busy = false;
 
 
     public DatabaseProvider(Context context) {
@@ -445,6 +447,7 @@ public class DatabaseProvider {
         getGlobalInv();
         getPersonalInv();
         getLocDB();
+        getPDeviceDB();
         getUserInfo();
     }
 
@@ -836,12 +839,47 @@ public class DatabaseProvider {
         if (user != null && !user.getUid().equals("")) {
             rootReference.child(DEVICEDB_PROTO)
                     .child(device.getDev_manufacturer())
-                    .child(device.getDev_codename())
-                    .child(device.getDev_model())
-                    .setValue(new PrototypeDevice(device))
-                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Uploaded Proto: " + device.getDev_codename()));
+                    .child(device.getDev_codeNumber())
+                    .setValue(device)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Uploaded Proto: " + device.getDev_codeName()));
+
+        }
+    }
+
+    public ArrayList<PrototypeDevice> getPDeviceDB() {
+        if (pDeviceDB != null) {
+            return pDeviceDB;
+        } else if (!pDevice_busy) {
+            downloadPrototypeDevice();
+        }
+        return null;
+
+    }
+
+    public void downloadPrototypeDevice() {
+        pDevice_busy = true;
+        rootReference.child(DEVICEDB_PROTO).addValueEventListener(listener_prototypedevice);
+    }
+
+    private ValueEventListener listener_prototypedevice = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if(pDeviceDB!=null)
+                pDeviceDB.clear();
+            else
+                pDeviceDB = new ArrayList<>();
+            for(DataSnapshot d1 : dataSnapshot.getChildren())
+                for(DataSnapshot d2 : d1.getChildren())
+                        pDeviceDB.add(d2.getValue(PrototypeDevice.class));
+
+            pDevice_busy = false;
 
         }
 
-    }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
 }

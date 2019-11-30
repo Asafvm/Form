@@ -7,64 +7,67 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
-    android:padding="20dp"
     android:fillViewport="true"
+    android:padding="20dp"
     tools:context=".menu.AdminFragment">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        >
+
+        <TextView
+            android:id="@+id/admin_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true">
-
-            <TextView
-                android:id="@+id/admin_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/admin_menuTitle"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread"
-                app:layout_constraintVertical_weight="1" />
+            android:text="@string/admin_menuTitle"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_weight="1" />
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/admin_menu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:layout_constraintTop_toBottomOf="@id/admin_title"
-                app:layout_constraintBottom_toTopOf="@id/admin_btnFinish"
-                app:layout_constraintVertical_bias="0">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/admin_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toTopOf="@id/admin_btnFinish"
+            app:layout_constraintTop_toBottomOf="@id/admin_title"
+            app:layout_constraintVertical_bias="0">
 
-                <include layout="@layout/layout_admin_main_buttons" />
+            <include layout="@layout/layout_admin_main_buttons" />
 
-                <include layout="@layout/layout_admin_device" />
+            <include layout="@layout/layout_admin_device" />
 
-                <include layout="@layout/layout_admin_part" />
+            <include layout="@layout/layout_admin_part" />
 
-                <include layout="@layout/layout_admin_location" />
+            <include layout="@layout/layout_admin_location" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <Button
-                android:id="@+id/admin_btnFinish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_submit"
-                android:text="סיים"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/admin_btnBack" />
-
-            <Button
-                android:id="@+id/admin_btnBack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_button_submit_clicked_error"
-                android:text="חזרה"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <Button
+            android:id="@+id/admin_btnFinish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button_submit"
+            android:text="סיים"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/admin_btnBack" />
+
+        <Button
+            android:id="@+id/admin_btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button_submit_clicked_error"
+            android:text="חזרה"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
