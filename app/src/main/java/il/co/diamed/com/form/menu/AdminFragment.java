@@ -271,33 +271,10 @@ public class AdminFragment extends Fragment {
 
         });
 
-        v.findViewById(R.id.admin_device_btnAddInstanceDevice).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String serial = ((EditText) v.findViewById(R.id.admin_etDeviceSerialNumber)).getText().toString().trim().toUpperCase();
-                String ins_date = ((EditText) v.findViewById(R.id.admin_etDeviceInstallDate)).getText().toString().trim().toUpperCase();
-                String exp_date = ((EditText) v.findViewById(R.id.admin_etDeviceWarrantyDate)).getText().toString().trim().toUpperCase();
-                String comments = ((EditText) v.findViewById(R.id.admin_etDeviceModel)).getText().toString().trim().toUpperCase();
-                boolean isPermanent =((Switch)v.findViewById(R.id.admin_swPermanentWarranty)).isChecked();
+        v.findViewById(R.id.admin_device_btnAddInstanceDevice).setOnClickListener(view -> {
+            String serial = ((EditText) v.findViewById(R.id.admin_etDeviceSerialNumber)).getText().toString().trim().toUpperCase();
+            fDevice.setDev_serial(serial);
 
-                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault()); // Make sure user insert date into edittext in this format.
-                Date dateObject;
-                try{
-
-                    dateObject = formatter.parse(ins_date);
-                    ins_date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dateObject);
-                    if(!isPermanent){
-                        dateObject = formatter.parse(exp_date);
-                        exp_date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dateObject);
-                    }
-                    //time = new SimpleDateFormat("h:mmaa").format(dateObject);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                //fDevice.setFieldDevice(serial,,,,,comments);
-
-            }
         });
 
 

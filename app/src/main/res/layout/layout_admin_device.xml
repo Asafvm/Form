@@ -221,73 +221,12 @@
             app:layout_constraintTop_toBottomOf="@id/admin_device_spinner"
             tools:ignore="TextFields" />
 
-        <TextView
-            android:id="@+id/admin_tvDeviceInstallDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Installation Date"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceInstallDate"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceInstallDate"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceInstallDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="datetime"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceInstallDate"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceSerialNumber" />
-
-        <Switch
-            android:id="@+id/admin_swPermanentWarranty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Permanent Warranty"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceInstallDate" />
-
-        <TextView
-            android:id="@+id/admin_tvDeviceWarrantyDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Warranty Expire Date"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceWarrantyDate"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceWarrantyDate"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceWarrantyDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceWarrantyDate"
-            app:layout_constraintTop_toBottomOf="@id/admin_swPermanentWarranty" />
-
-        <TextView
-            android:id="@+id/admin_tvDeviceComments"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Comments"
-            app:layout_constraintBaseline_toBaselineOf="@id/admin_etDeviceComments"
-            app:layout_constraintEnd_toStartOf="@id/admin_etDeviceComments"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/admin_etDeviceComments"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/admin_tvDeviceComments"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceWarrantyDate" />
-
         <Button
             android:id="@+id/admin_device_btnAddInstanceDevice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Device"
-            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceComments" />
+            app:layout_constraintTop_toBottomOf="@id/admin_etDeviceSerialNumber" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/admin_device_DeviceListRecyclerview"
