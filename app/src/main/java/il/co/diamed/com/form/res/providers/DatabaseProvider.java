@@ -69,6 +69,7 @@ public class DatabaseProvider {
     private String holderSubloc = "";
     private FieldDevice holderDevice = null;
     private boolean pDevice_busy = false;
+    private boolean fDevice_busy = false;
 
 
     public DatabaseProvider(Context context) {
@@ -182,7 +183,7 @@ public class DatabaseProvider {
     private void downloadPersonalDB() {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             personalDB = null;
             personal_busy = true;
             rootReference
@@ -329,7 +330,7 @@ public class DatabaseProvider {
      */
     public void uploadMyInv(List<Part> currentList) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             DatabaseReference mDatabase = rootReference.child(USER_DB).child(user.getUid()).child(DB);
             if (currentList != null) {
                 for (Part item : currentList) {
@@ -448,6 +449,7 @@ public class DatabaseProvider {
         getPersonalInv();
         getLocDB();
         getPDeviceDB();
+        getFDeviceDB();
         getUserInfo();
     }
 
@@ -500,7 +502,7 @@ public class DatabaseProvider {
     public void uploadUserData(HashMap<String, String> userInfo, String folder) {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             DatabaseReference databaseReference = rootReference.child(USER_DB).child(user.getUid()).child(folder);
             for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
@@ -513,7 +515,7 @@ public class DatabaseProvider {
     public void downloadUserData(HashMap<String, String> userInfo, String folder) {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             DatabaseReference databaseReference = rootReference.child(USER_DB).child(user.getUid()).child(folder);
             for (String key : userInfo.keySet()) {
                 databaseReference.child(key).setValue(userInfo.get(key));
@@ -825,8 +827,7 @@ public class DatabaseProvider {
     }
 
     public void uploadNewLocation(Location l) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             DatabaseReference mDatabase = rootReference.child(LOCATION_DB).child(l.getName());
 
             mDatabase.setValue(l).addOnSuccessListener(aVoid ->
@@ -835,8 +836,7 @@ public class DatabaseProvider {
     }
 
     public void uploadPrototypeDevice(PrototypeDevice device) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && !user.getUid().equals("")) {
+        if (isUserLogged()) {
             rootReference.child(DEVICEDB_PROTO)
                     .child(device.getDev_manufacturer())
                     .child(device.getDev_codeNumber())
@@ -855,7 +855,15 @@ public class DatabaseProvider {
         return null;
 
     }
+    public ArrayList<FieldDevice> getFDeviceDB() {
+        if (fDeviceDB != null) {
+            return fDeviceDB;
+        } else if (!fDevice_busy) {
+            downloadFieldDevice();;
+        }
+        return null;
 
+    }
     public void downloadPrototypeDevice() {
         pDevice_busy = true;
         rootReference.child(DEVICEDB_PROTO).addValueEventListener(listener_prototypedevice);
@@ -864,15 +872,58 @@ public class DatabaseProvider {
     private ValueEventListener listener_prototypedevice = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if(pDeviceDB!=null)
+            if (pDeviceDB != null)
                 pDeviceDB.clear();
             else
                 pDeviceDB = new ArrayList<>();
-            for(DataSnapshot d1 : dataSnapshot.getChildren())
-                for(DataSnapshot d2 : d1.getChildren())
-                        pDeviceDB.add(d2.getValue(PrototypeDevice.class));
+            for (DataSnapshot d1 : dataSnapshot.getChildren())
+                for (DataSnapshot d2 : d1.getChildren())
+                    pDeviceDB.add(d2.getValue(PrototypeDevice.class));
 
             pDevice_busy = false;
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    public void uploadFieldDevice(FieldDevice fDevice) {
+        if (isUserLogged()) {
+            rootReference.child(DEVICEDB_FIELD)
+                    .child(fDevice.getDev_identifier())
+                    .child(fDevice.getDev_serial())
+                    .setValue(fDevice)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Uploaded Field: " + fDevice.getDev_identifier()+" - "+fDevice.getDev_serial()));
+
+        }
+    }
+
+    private boolean isUserLogged() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user!=null;
+    }
+
+
+    public void downloadFieldDevice() {
+        fDevice_busy = true;
+        rootReference.child(DEVICEDB_FIELD).addValueEventListener(listener_Fielddevice);
+    }
+
+    private ValueEventListener listener_Fielddevice = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if (fDeviceDB != null)
+                fDeviceDB.clear();
+            else
+                fDeviceDB = new ArrayList<>();
+            for (DataSnapshot d1 : dataSnapshot.getChildren())
+                for (DataSnapshot d2 : d1.getChildren())
+                    fDeviceDB.add(d2.getValue(FieldDevice.class));
+
+            fDevice_busy = false;
 
         }
 

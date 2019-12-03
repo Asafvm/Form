@@ -31,6 +31,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
@@ -42,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.transition.Scene;
@@ -207,6 +210,10 @@ public class AdminFragment extends Fragment {
             }
         });
 
+        FloatingActionButton fab = v.findViewById(R.id.admin_location_sublocation_btnAddDevice);
+        v.findViewById(R.id.admin_location_sublocation_btnAddDevice).setVisibility(View.GONE);
+        fab.setOnClickListener(view -> Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
         // Inflate the layout for this fragment
         return v;
     }
@@ -254,9 +261,6 @@ public class AdminFragment extends Fragment {
                             ((EditText) v.findViewById(R.id.admin_etDeviceCodeNumber)).setError("Mandatory");
                         } else {
                             pDevice = new PrototypeDevice(man, code, name, mod, price);
-                            if (fDevice == null)
-                                fDevice = new FieldDevice();
-                            fDevice.setDev_identifier(pDevice.getDev_identifier());
                             application.getDatabaseProvider(getContext()).uploadPrototypeDevice(pDevice);
                             initTextFields(v, R.id.admin_layout_device_base_properties);
                         }
@@ -275,10 +279,19 @@ public class AdminFragment extends Fragment {
             String serial = ((EditText) v.findViewById(R.id.admin_etDeviceSerialNumber)).getText().toString().trim().toUpperCase();
             fDevice.setDev_serial(serial);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                    .setCancelable(true)
+                    .setTitle("Create Field Device")
+                    .setPositiveButton("Confirm", (dialogInterface, i) -> {
+                        application.getDatabaseProvider(getContext()).uploadFieldDevice(fDevice);
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                    })
+                    .setMessage("Create "+serial+"?");
+            builder.show();
         });
-
-
     }
+
 
     private void initTextFields(View v, int layout) {
         ViewGroup viewGroup = v.findViewById(layout);
@@ -295,9 +308,6 @@ public class AdminFragment extends Fragment {
         if (v != null) {
 
             locations = application.getDatabaseProvider(getContext()).getLocDB();
-
-
-            //sublocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             TabLayout.Tab tab = locationTabLayout.getTabAt(0);
             if (tab != null)
@@ -643,17 +653,21 @@ public class AdminFragment extends Fragment {
                         v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase2).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_location_sublocation_btnAddDevice).setVisibility(View.GONE);
                         break;
 
                     case 1:
                         v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase3).setVisibility(View.VISIBLE);
                         v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
+                        sublocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        v.findViewById(R.id.admin_location_sublocation_btnAddDevice).setVisibility(View.GONE);
                         break;
                     case 2:
                         v.findViewById(R.id.admin_location_phase3).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_phase2).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_location_sublocation_tab).setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.admin_location_sublocation_btnAddDevice).setVisibility(View.VISIBLE);
                         break;
                 }
         }
@@ -714,7 +728,7 @@ public class AdminFragment extends Fragment {
 
         SubLocationAdapter recyclerViewAdapter = new SubLocationAdapter(location.getSubLocation(), getContext());
         sublocationRecyclerView.setAdapter(recyclerViewAdapter);
-        recyclerViewAdapter.notifyDataSetChanged();
+        //recyclerViewAdapter.notifyDataSetChanged();
     }
 
     private BroadcastReceiver subloctionReceiver = new BroadcastReceiver() {

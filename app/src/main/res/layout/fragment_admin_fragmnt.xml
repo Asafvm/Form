@@ -49,8 +49,20 @@
 
             <include layout="@layout/layout_admin_location" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/admin_location_sublocation_btnAddDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center|bottom"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/admin_btnFinish"
+            />
 
         <Button
             android:id="@+id/admin_btnFinish"
