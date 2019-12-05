@@ -52,17 +52,9 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/admin_location_sublocation_btnAddDevice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center|bottom"
-            android:layout_margin="16dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/admin_btnFinish"
-            />
+
+        <include layout="@layout/layout_admin_location_sublocation_fab" />
+        <include layout="@layout/layout_admin_device_fab" />
 
         <Button
             android:id="@+id/admin_btnFinish"
@@ -82,4 +74,5 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

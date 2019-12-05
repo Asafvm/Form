@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -86,6 +88,10 @@ public class AdminFragment extends Fragment {
     private RecyclerView deviceRecyclerView;
     private TabLayout deviceTabLayout;
 
+    private FloatingActionButton fab_main;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
+    Boolean isOpen = false;
+
 
     public AdminFragment() {
         // Required empty public constructor
@@ -99,6 +105,8 @@ public class AdminFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_admin_fragmnt, container, false);
         if (getActivity() != null)
             application = (ClassApplication) getActivity().getApplication();
+
+        initFab(v);
         /****************************** Location ***********************************/
 
 
@@ -171,6 +179,7 @@ public class AdminFragment extends Fragment {
             v.findViewById(R.id.adminDeviceMenu).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnBack).setVisibility(View.VISIBLE);
             v.findViewById(R.id.admin_btnFinish).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_device_fab).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.admin_title)).setText("מכשירים");
             initDeviceView(v);
 
@@ -216,6 +225,34 @@ public class AdminFragment extends Fragment {
                 .setAction("Action", null).show());
         // Inflate the layout for this fragment
         return v;
+    }
+
+    private void initFab(View v) {
+
+        fab_main = v.findViewById(R.id.admin_device_fab_main);
+        fab_close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        fab_open = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        fab_clock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
+        fab_anticlock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (isOpen) {
+                    fab_main.startAnimation(fab_anticlock);
+                    v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.VISIBLE);
+                    v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
+                    isOpen = false;
+                } else {
+                    v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.GONE);
+                    v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
+                    fab_main.startAnimation(fab_clock);
+                    isOpen = true;
+                }
+
+            }
+        });
     }
 
     private void initDeviceView(View v) {
@@ -287,7 +324,7 @@ public class AdminFragment extends Fragment {
                     })
                     .setNegativeButton("Cancel", (dialogInterface, i) -> {
                     })
-                    .setMessage("Create "+serial+"?");
+                    .setMessage("Create " + serial + "?");
             builder.show();
         });
     }
@@ -689,23 +726,15 @@ public class AdminFragment extends Fragment {
             View v = getView();
             if (v != null)
                 switch (tab.getPosition()) {
-                    case 0:
-                        v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
-                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.VISIBLE);
-                        v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
-                        v.findViewById(R.id.admin_device_spinner).setVisibility(View.GONE);
-                        break;
 
-                    case 1:
-                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.GONE);
+                    case 0:
                         v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.VISIBLE);
                         v.findViewById(R.id.admin_device_spinner).setVisibility(View.VISIBLE);
                         break;
 
-                    case 2:
+                    case 1:
                         v.findViewById(R.id.admin_device_layout_BaseDeviceReport).setVisibility(View.VISIBLE);
-                        v.findViewById(R.id.admin_layout_device_base_properties).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_device_layout_device_details).setVisibility(View.GONE);
                         v.findViewById(R.id.admin_device_spinner).setVisibility(View.VISIBLE);
                         break;
@@ -744,8 +773,6 @@ public class AdminFragment extends Fragment {
                             locationTabLayout.removeTabAt(2);
                         locationTabLayout.addTab(locationTabLayout.newTab().setText(bundle.getString("sub")), 2, true);
                     }
-
-
                 }
             }
         }
