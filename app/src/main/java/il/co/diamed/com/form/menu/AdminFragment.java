@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,18 +37,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import androidx.transition.Scene;
 
 import il.co.diamed.com.form.ClassApplication;
 import il.co.diamed.com.form.R;
@@ -230,10 +223,10 @@ public class AdminFragment extends Fragment {
     private void initFab(View v) {
 
         fab_main = v.findViewById(R.id.admin_device_fab_main);
-        fab_close = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
-        fab_open = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
-        fab_clock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
-        fab_anticlock = AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+        fab_close = AnimationUtils.loadAnimation(getContext(), R.anim.anim_fab_close);
+        fab_open = AnimationUtils.loadAnimation(getContext(), R.anim.anim_fab_open);
+        fab_clock = AnimationUtils.loadAnimation(getContext(), R.anim.anim_fab_rotate_clock);
+        fab_anticlock = AnimationUtils.loadAnimation(getContext(), R.anim.anim_fab_rotate_anticlock);
 
         fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
